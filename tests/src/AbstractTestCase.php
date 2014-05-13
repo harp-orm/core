@@ -5,6 +5,7 @@ namespace CL\LunaCore\Test;
 use PHPUnit_Framework_TestCase;
 use CL\EnvBackup\Env;
 use CL\EnvBackup\DirectoryParam;
+use CL\LunaCore\Test\Repo;
 
 abstract class AbstractTestCase extends PHPUnit_Framework_TestCase
 {
@@ -56,10 +57,13 @@ abstract class AbstractTestCase extends PHPUnit_Framework_TestCase
 
         $this->env->apply();
 
+        Repo\User::get()->getIdentityMap()->clear();
+        Repo\Address::get()->getIdentityMap()->clear();
+        Repo\Post::get()->getIdentityMap()->clear();
     }
 
     public function tearDown()
     {
-        // $this->env->restore();
+        $this->env->restore();
     }
 }
