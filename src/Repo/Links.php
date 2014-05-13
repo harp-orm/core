@@ -15,7 +15,7 @@ use CL\LunaCore\Model\AbstractModel;
 class Links
 {
     protected $model;
-    protected $items;
+    protected $items = array();
 
     function __construct(AbstractModel $model)
     {
@@ -34,14 +34,17 @@ class Links
         return $this;
     }
 
+    public function all()
+    {
+        return $this->items;
+    }
+
     public function getNodes()
     {
         $all = new SplObjectStorage();
 
-        if ($this->items) {
-            foreach ($this->items as $item) {
-                $all->addAll($item->getAll());
-            }
+        foreach ($this->items as $item) {
+            $all->addAll($item->getAll());
         }
 
         return $all;
