@@ -1,0 +1,34 @@
+<?php
+
+namespace CL\LunaCore\Rel;
+
+use CL\LunaCore\Model\AbstractModel;
+use CL\LunaCore\Repo\LinkOne;
+use CL\LunaCore\Util\Objects;
+
+/**
+ * @author     Ivan Kerin
+ * @copyright  (c) 2014 Clippings Ltd.
+ * @license    http://www.opensource.org/licenses/isc-license.txt
+ */
+abstract class AbstractRelOne extends AbstractRel
+{
+    public function newLink(AbstractModel $model)
+    {
+        $model = $model->getRepo()->getIdentityMap()->get($model);
+
+        return new LinkOne($this, $model);
+    }
+
+    public function newEmptyLink()
+    {
+        return new LinkOne($this, $this->getForeignRepo()->newVoidInstance());
+    }
+
+    public function linkToForeign(array $models, array $foreign)
+    {
+        return Objects::combineArrays($models, $foreign, function($model, $foreign) {
+            return $this->areLinked($model, $foreign);
+        });
+    }
+}
