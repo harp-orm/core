@@ -18,8 +18,8 @@ class DirtyTrackingTest extends AbstractTestCase
         $user->isBlocked = false;
 
         $this->assertTrue($user->isChanged());
-        $this->assertTrue($user->isPropertyChanged('name'));
-        $this->assertTrue($user->isPropertyChanged('isBlocked'));
+        $this->assertTrue($user->hasChange('name'));
+        $this->assertTrue($user->hasChange('isBlocked'));
         $this->assertEquals($name, $user->getOriginal('name'));
         $this->assertEquals(true, $user->getOriginal('isBlocked'));
         $this->assertEquals(['name' => 'changed', 'isBlocked' => false], $user->getChanges());
@@ -27,8 +27,8 @@ class DirtyTrackingTest extends AbstractTestCase
         $user->name = $name;
 
         $this->assertTrue($user->isChanged());
-        $this->assertFalse($user->isPropertyChanged('name'));
-        $this->assertTrue($user->isPropertyChanged('isBlocked'));
+        $this->assertFalse($user->hasChange('name'));
+        $this->assertTrue($user->hasChange('isBlocked'));
         $this->assertEquals(['isBlocked' => false], $user->getChanges());
 
         $user->isBlocked = true;
