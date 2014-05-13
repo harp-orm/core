@@ -8,6 +8,8 @@ use Closure;
 use CL\LunaCore\Rel\DeleteInterface;
 use CL\LunaCore\Rel\InsertInterface;
 use CL\LunaCore\Rel\UpdateInterface;
+use CL\LunaCore\Model\AbstractModel;
+use CL\LunaCore\Util\Objects;
 
 
 /**
@@ -15,7 +17,7 @@ use CL\LunaCore\Rel\UpdateInterface;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-class PersistQueue extends SplObjectStorage
+class Persist extends SplObjectStorage
 {
     public function getDeleted()
     {
@@ -38,21 +40,21 @@ class PersistQueue extends SplObjectStorage
         });
     }
 
-    public function add(AbstractModel $model)
+    public function addOnly(AbstractModel $model)
     {
         $this->attach($model);
 
         return $this;
     }
 
-    public function addWithLinked(AbstractModel $model)
+    public function add(AbstractModel $model)
     {
         if (! $this->contains($model)) {
-            $this->add($model);
+            $this->addOnly($model);
 
             $modelLinks = $model->getRepo()->getLinkMap()->get($model);
             foreach ($modelLinks->getNodes() as $linkedNode) {
-                $this->add($linkedNode);
+                $this->addOnly($linkedNode);
             }
         }
 
@@ -76,10 +78,8 @@ class PersistQueue extends SplObjectStorage
             if ($linkMap->has($model)) {
                 $links = $linkMap->get($model)->all();
 
-                if ($links) {
-                    foreach ($links as $link) {
-                        $yield($model, $link);
-                    }
+                foreach ($links as $link) {
+                    $yield($model, $link);
                 }
             }
         }

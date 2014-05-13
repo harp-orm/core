@@ -247,9 +247,9 @@ abstract class AbstractRepo
             throw new InvalidArgumentException(sprintf('Argument must be instance of %s', $this->modelClass));
         }
 
-        $queue = new PersistQueue();
+        $queue = new Persist();
         $queue
-            ->addWithLinked($model)
+            ->add($model)
             ->execute();
     }
 
