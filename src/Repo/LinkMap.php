@@ -15,6 +15,9 @@ use CL\LunaCore\Model\AbstractModel;
  */
 class LinkMap
 {
+    /**
+     * @var SplObjectStorage
+     */
     private $map;
 
     function __construct()
@@ -22,6 +25,13 @@ class LinkMap
         $this->map = new SplObjectStorage();
     }
 
+    /**
+     * Get Links object associated with this model.
+     * If there is none, an empty Links object is created.
+     *
+     * @param  AbstractModel $model
+     * @return Links
+     */
     public function get(AbstractModel $model)
     {
         if ($this->map->contains($model)) {
@@ -31,11 +41,19 @@ class LinkMap
         }
     }
 
+    /**
+     * @param  AbstractModel $model
+     * @return boolean
+     */
     public function isEmpty(AbstractModel $model)
     {
         return (! $this->map->contains($model) or $this->map[$model]->isEmpty());
     }
 
+    /**
+     * @param  AbstractModel $model
+     * @return boolean
+     */
     public function has(AbstractModel $model)
     {
         return $this->map->contains($model);

@@ -1,11 +1,17 @@
 <?php
 
-namespace CL\LunaCore\Test;
+namespace CL\LunaCore\Test\Integration;
 
+use CL\LunaCore\Test\Model;
 use CL\LunaCore\Test\Repo;
 use CL\LunaCore\Repo\Persist;
 
-class PersistTest extends AbstractTestCase
+/**
+ * @group integration
+ * @group integration.persist
+ * @coversNothing
+ */
+class PersistTest extends AbstractIntegrationTestCase
 {
     public function testTest()
     {

@@ -53,8 +53,8 @@ class Persist extends SplObjectStorage
             $this->addOnly($model);
 
             $modelLinks = $model->getRepo()->getLinkMap()->get($model);
-            foreach ($modelLinks->getNodes() as $linkedNode) {
-                $this->addOnly($linkedNode);
+            foreach ($modelLinks->getModels() as $linkedModel) {
+                $this->addOnly($linkedModel);
             }
         }
 
@@ -129,20 +129,20 @@ class Persist extends SplObjectStorage
     {
         $this->addDeletedLinks();
 
-        self::persist($this->getDeleted(), [NodeEvent::DELETE], function (AbstractRepo $repo, SplObjectStorage $models) {
+        self::persist($this->getDeleted(), [ModelEvent::DELETE], function (AbstractRepo $repo, SplObjectStorage $models) {
             $repo->delete($models);
         });
 
         $this->addInsertedLinks();
 
 
-        self::persist($this->getPending(), [NodeEvent::INSERT, NodeEvent::SAVE], function (AbstractRepo $repo, SplObjectStorage $models) {
+        self::persist($this->getPending(), [ModelEvent::INSERT, ModelEvent::SAVE], function (AbstractRepo $repo, SplObjectStorage $models) {
             $repo->insert($models);
         });
 
         $this->updateLinks();
 
-        self::persist($this->getChanged(), [NodeEvent::UPDATE, NodeEvent::SAVE], function (AbstractRepo $repo, SplObjectStorage $models) {
+        self::persist($this->getChanged(), [ModelEvent::UPDATE, ModelEvent::SAVE], function (AbstractRepo $repo, SplObjectStorage $models) {
             $repo->update($models);
         });
     }

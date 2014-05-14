@@ -1,13 +1,13 @@
 <?php
 
-namespace CL\LunaCore\Test;
+namespace CL\LunaCore\Test\Integration;
 
-use PHPUnit_Framework_TestCase;
 use CL\EnvBackup\Env;
 use CL\EnvBackup\DirectoryParam;
 use CL\LunaCore\Test\Repo;
+use CL\LunaCore\Test\AbstractTestCase;
 
-abstract class AbstractTestCase extends PHPUnit_Framework_TestCase
+abstract class AbstractIntegrationTestCase extends AbstractTestCase
 {
     private $env;
 
@@ -21,7 +21,7 @@ abstract class AbstractTestCase extends PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->env = new Env([
-            new DirectoryParam(__DIR__.'/../repos', [
+            new DirectoryParam(__DIR__.'/../../repos', [
                 'Address.json' => '{
                     "1": {
                         "id": 1,

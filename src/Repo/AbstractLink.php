@@ -23,5 +23,5 @@ abstract class AbstractLink
         return $this->rel;
     }
 
-    abstract public function getAll();
+    abstract public function getCurrentAndOriginal();
 }

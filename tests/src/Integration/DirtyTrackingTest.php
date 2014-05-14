@@ -1,10 +1,15 @@
 <?php
 
-namespace CL\LunaCore\Test;
+namespace CL\LunaCore\Test\Integration;
 
 use CL\LunaCore\Test\Repo;
 
-class DirtyTrackingTest extends AbstractTestCase
+/**
+ * @group integration
+ * @group integration.dirty_tracking
+ * @coversNothing
+ */
+class DirtyTrackingTest extends AbstractIntegrationTestCase
 {
     public function testTest()
     {

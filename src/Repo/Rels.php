@@ -11,6 +11,12 @@ use CL\LunaCore\Rel\AbstractRel;
  */
 class Rels {
 
+    protected $items = array();
+
+    /**
+     * @param AbstractRel $item
+     * @return Rels $this
+     */
     public function add(AbstractRel $item)
     {
         $this->items[$item->getName()] = $item;
@@ -18,13 +24,18 @@ class Rels {
         return $this;
     }
 
-    protected $items;
-
+    /**
+     * @return AbstractRel[]
+     */
     public function all()
     {
         return $this->items;
     }
 
+    /**
+     * @param AbstractRel[] $items
+     * @return Rels $this
+     */
     public function set(array $items)
     {
         foreach ($items as $item) {
@@ -34,11 +45,19 @@ class Rels {
         return $this;
     }
 
+    /**
+     * @param  string  $name
+     * @return boolean
+     */
     public function has($name)
     {
         return isset($this->items[$name]);
     }
 
+    /**
+     * @param  string $name
+     * @return AbstractRel|null
+     */
     public function get($name)
     {
         if ($this->has($name)) {
@@ -46,6 +65,9 @@ class Rels {
         }
     }
 
+    /**
+     * @return boolean
+     */
     public function isEmpty()
     {
         return empty($this->items);

@@ -12,8 +12,19 @@ use CL\LunaCore\Repo\AbstractRepo;
  */
 abstract class AbstractRel
 {
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var AbstractRepo
+     */
     protected $foreignRepo;
+
+    /**
+     * @var AbstractRepo
+     */
     protected $repo;
 
     abstract public function areLinked(AbstractModel $model, AbstractModel $foreignModel);
@@ -21,38 +32,57 @@ abstract class AbstractRel
     abstract public function loadForeign(array $models);
     abstract public function linkToForeign(array $models, array $foreign);
 
-    public function __construct($name, AbstractRepo $repo, AbstractRepo $foreignRepo, array $options = array())
+    /**
+     * @param string       $name
+     * @param AbstractRepo $repo
+     * @param AbstractRepo $foreignRepo
+     * @param array        $properties
+     */
+    public function __construct($name, AbstractRepo $repo, AbstractRepo $foreignRepo, array $properties = array())
     {
         $this->name = $name;
         $this->foreignRepo = $foreignRepo;
         $this->repo = $repo;
 
-        foreach ($options as $name => $value) {
+        foreach ($properties as $name => $value) {
             $this->$name = $value;
         }
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @return AbstractRepo
+     */
     public function getRepo()
     {
         return $this->repo;
     }
 
+    /**
+     * @return AbstractRepo
+     */
     public function getForeignRepo()
     {
         return $this->foreignRepo;
     }
 
+    /**
+     * @param AbstractModel[] $models
+     * @return AbstractModel[]
+     */
     public function loadForeignForNodes(array $models)
     {
         if ($this->hasForeign($models)) {
             return $this->loadForeign($models);
         } else {
-            return array();
+            return [];
         }
     }
 }

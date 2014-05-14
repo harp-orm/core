@@ -1,10 +1,15 @@
 <?php
 
-namespace CL\LunaCore\Test;
+namespace CL\LunaCore\Test\Integration;
 
 use CL\LunaCore\Test\Repo;
 
-class IdentityMapTest extends AbstractTestCase
+/**
+ * @group integration
+ * @group integration.identity_map
+ * @coversNothing
+ */
+class IdentityMapTest extends AbstractIntegrationTestCase
 {
     public function testTest()
     {

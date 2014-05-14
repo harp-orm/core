@@ -1,10 +1,15 @@
 <?php
 
-namespace CL\LunaCore\Test;
+namespace CL\LunaCore\Test\Integration;
 
 use CL\LunaCore\Test\Repo;
 
-class UnmappedTest extends AbstractTestCase
+/**
+ * @group integration
+ * @group integration.unmapped
+ * @coversNothing
+ */
+class UnmappedTest extends AbstractIntegrationTestCase
 {
     public function testTest()
     {

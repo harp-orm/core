@@ -7,7 +7,7 @@ namespace CL\LunaCore\Repo;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-class NodeEvent
+class ModelEvent
 {
     const LOAD = 1;
     const INSERT = 2;

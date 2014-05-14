@@ -2,11 +2,10 @@
 
 namespace CL\LunaCore\Repo;
 
+use CL\LunaCore\Rel\AbstractRelOne;
+use CL\LunaCore\Model\AbstractModel;
 use SplObjectStorage;
 use Closure;
-
-use CL\LunaCore\Rel\AbstractRel;
-use CL\LunaCore\Model\AbstractModel;
 
 /**
  * @author     Ivan Kerin
@@ -15,10 +14,21 @@ use CL\LunaCore\Model\AbstractModel;
  */
 class LinkOne extends AbstractLink
 {
+    /**
+     * @var AbstractModel
+     */
     protected $current;
+
+    /**
+     * @var AbstractModel
+     */
     protected $original;
 
-    public function __construct(AbstractRel $rel, AbstractModel $current)
+    /**
+     * @param AbstractRelOne $rel
+     * @param AbstractModel  $current
+     */
+    public function __construct(AbstractRelOne $rel, AbstractModel $current)
     {
         parent::__construct($rel);
 
@@ -26,6 +36,10 @@ class LinkOne extends AbstractLink
         $this->original = $current;
     }
 
+    /**
+     * @param AbstractModel $current
+     * @return LinkOne $this
+     */
     public function set(AbstractModel $current)
     {
         $this->current = $current;
@@ -33,6 +47,9 @@ class LinkOne extends AbstractLink
         return $this;
     }
 
+    /**
+     * @return LinkOne $this
+     */
     public function clear()
     {
         $this->current->setStateVoid();
@@ -40,22 +57,34 @@ class LinkOne extends AbstractLink
         return $this;
     }
 
+    /**
+     * @return AbstractModel current
+     */
     public function get()
     {
         return $this->current;
     }
 
+    /**
+     * @return AbstractModel
+     */
     public function getOriginal()
     {
         return $this->original;
     }
 
+    /**
+     * @return boolean
+     */
     public function isChanged()
     {
         return $this->current !== $this->original;
     }
 
-    public function getAll()
+    /**
+     * @return SplObjectStorage
+     */
+    public function getCurrentAndOriginal()
     {
         $all = new SplObjectStorage();
         $all->attach($this->current);

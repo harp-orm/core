@@ -14,19 +14,45 @@ use CL\LunaCore\Model\AbstractModel;
  */
 class Links
 {
-    protected $model;
-    protected $items = array();
+    /**
+     * @var AbstractModel
+     */
+    private $model;
 
+    /**
+     * @var AbstractLink[]
+     */
+    private $items = [];
+
+    /**
+     * @param AbstractModel $model
+     */
     function __construct(AbstractModel $model)
     {
         $this->model = $model;
     }
 
-    public function getNode()
+    /**
+     * @return AbstractModel
+     */
+    public function getModel()
     {
         return $this->model;
     }
 
+    /**
+     * @return AbstractLink[]
+     */
+    public function all()
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param string       $name
+     * @param AbstractLink $link
+     * @return Links $this
+     */
     public function add($name, AbstractLink $link)
     {
         $this->items[$name] = $link;
@@ -34,27 +60,43 @@ class Links
         return $this;
     }
 
-    public function all()
-    {
-        return $this->items;
-    }
-
-    public function getNodes()
+    /**
+     * Get all of the linked models
+     *
+     * @return SplObjectStorage
+     */
+    public function getModels()
     {
         $all = new SplObjectStorage();
 
         foreach ($this->items as $item) {
-            $all->addAll($item->getAll());
+            $all->addAll($item->getCurrentAndOriginal());
         }
 
         return $all;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isEmpty()
+    {
+        return empty($this->items);
+    }
+
+    /**
+     * @param  string  $name
+     * @return boolean
+     */
     public function has($name)
     {
         return isset($this->items[$name]);
     }
 
+    /**
+     * @param  string $name
+     * @return AbstractLink|null
+     */
     public function get($name)
     {
         if ($this->has($name)) {

@@ -82,7 +82,7 @@ abstract class AbstractTestRepo extends AbstractRepo
             $model
                 ->setId($id)
                 ->resetOriginals()
-                ->setStateNotVoid();
+                ->setState(AbstractModel::PERSISTED);
 
             $contents[$id] = $model;
         }
