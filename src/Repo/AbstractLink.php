@@ -23,5 +23,8 @@ abstract class AbstractLink
         return $this->rel;
     }
 
+    /**
+     * @return \SplObjectStorage
+     */
     abstract public function getCurrentAndOriginal();
 }

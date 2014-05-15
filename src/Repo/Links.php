@@ -3,8 +3,6 @@
 namespace CL\LunaCore\Repo;
 
 use SplObjectStorage;
-use Closure;
-
 use CL\LunaCore\Model\AbstractModel;
 
 /**

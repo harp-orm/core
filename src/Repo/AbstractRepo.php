@@ -7,7 +7,6 @@ use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Rel\AbstractRel;
 use ReflectionClass;
 use SplObjectStorage;
-use BadMethodCallException;
 use InvalidArgumentException;
 
 /*
@@ -18,6 +17,10 @@ use InvalidArgumentException;
 abstract class AbstractRepo
 {
     abstract public function initialize();
+
+    /**
+     * @return AbstractModel
+     */
     abstract public function selectWithId($id);
     abstract public function update(SplObjectStorage $models);
     abstract public function delete(SplObjectStorage $models);
@@ -183,7 +186,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @return string
+     * @return Asserts
      */
     public function getAsserts()
     {
@@ -423,7 +426,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  string $name
+     * @param  AbstractRel $rel
      * @throws InvalidArgumentException If $Link not part of this repo
      */
     public function errorIfRelNotFromRepo(AbstractRel $rel)

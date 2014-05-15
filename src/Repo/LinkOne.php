@@ -5,7 +5,6 @@ namespace CL\LunaCore\Repo;
 use CL\LunaCore\Rel\AbstractRelOne;
 use CL\LunaCore\Model\AbstractModel;
 use SplObjectStorage;
-use Closure;
 
 /**
  * @author     Ivan Kerin

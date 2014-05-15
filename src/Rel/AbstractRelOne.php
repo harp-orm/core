@@ -28,7 +28,7 @@ abstract class AbstractRelOne extends AbstractRel
 
     public function linkToForeign(array $models, array $foreign)
     {
-        return Objects::combineArrays($models, $foreign, function($model, $foreign) {
+        return Objects::combineArrays($models, $foreign, function ($model, $foreign) {
             return $this->areLinked($model, $foreign);
         });
     }

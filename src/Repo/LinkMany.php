@@ -6,7 +6,6 @@ use CL\LunaCore\Rel\AbstractRelMany;
 use CL\LunaCore\Model\AbstractModel;
 use CL\Util\Objects;
 use Countable;
-use Closure;
 use Iterator;
 use SplObjectStorage;
 
@@ -67,7 +66,7 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
-     * @param AbstractModel[] $current
+     * @param AbstractModel[] $models
      * @return LinkMany $this
      */
     public function set(array $models)

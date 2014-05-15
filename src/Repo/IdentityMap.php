@@ -64,7 +64,7 @@ class IdentityMap
     }
 
     /**
-     * @param  AbstractModel[]  $models
+     * @param  AbstractModel[] $models
      * @return AbstractModel[]
      */
     public function getArray(array $models)

@@ -2,7 +2,6 @@
 
 namespace CL\LunaCore\Model;
 
-use Closure;
 use CL\Carpo\Errors;
 
 /*

@@ -9,13 +9,13 @@ use CL\LunaCore\Rel\AbstractRel;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-class Rels {
-
+class Rels
+{
     protected $items = array();
 
     /**
-     * @param AbstractRel $item
-     * @return Rels $this
+     * @param  AbstractRel $item
+     * @return Rels        $this
      */
     public function add(AbstractRel $item)
     {
@@ -33,8 +33,8 @@ class Rels {
     }
 
     /**
-     * @param AbstractRel[] $items
-     * @return Rels $this
+     * @param  AbstractRel[] $items
+     * @return Rels          $this
      */
     public function set(array $items)
     {
@@ -55,7 +55,7 @@ class Rels {
     }
 
     /**
-     * @param  string $name
+     * @param  string           $name
      * @return AbstractRel|null
      */
     public function get($name)

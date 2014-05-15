@@ -77,7 +77,7 @@ abstract class AbstractRel
     }
 
     /**
-     * @param AbstractModel[] $models
+     * @param  AbstractModel[] $models
      * @return AbstractModel[]
      */
     public function loadForeignForNodes(array $models)

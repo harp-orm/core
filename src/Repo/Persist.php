@@ -4,13 +4,11 @@ namespace CL\LunaCore\Repo;
 
 use SplObjectStorage;
 use Closure;
-
 use CL\LunaCore\Rel\DeleteInterface;
 use CL\LunaCore\Rel\InsertInterface;
 use CL\LunaCore\Rel\UpdateInterface;
 use CL\LunaCore\Model\AbstractModel;
 use CL\Util\Objects;
-
 
 /**
  * @author     Ivan Kerin
@@ -133,10 +131,9 @@ class Persist
             });
     }
 
-
     public static function groupByRepo(SplObjectStorage $models)
     {
-        return Objects::groupBy($models, function($model) {
+        return Objects::groupBy($models, function ($model) {
             return $model->getRepo();
         });
     }
