@@ -8,7 +8,7 @@ use CL\LunaCore\Repo\LinkOne;
 use CL\LunaCore\Test\Model\User;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Repo\ModelEvent;
-use CL\LunaCore\Util\Objects;
+use CL\Util\Objects;
 use CL\Carpo\Assert\Present;
 
 class AbstractRepoTest extends AbstractRepoTestCase

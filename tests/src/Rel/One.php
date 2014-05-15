@@ -7,7 +7,7 @@ use CL\LunaCore\Rel\UpdateInterface;
 use CL\LunaCore\Rel\AbstractRelOne;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Repo\AbstractLink;
-use CL\LunaCore\Util\Arr;
+use CL\Util\Arr;
 
 /**
  * @author     Ivan Kerin
@@ -32,13 +32,13 @@ class One extends AbstractRelOne implements UpdateInterface
 
     public function hasForeign(array $models)
     {
-        return ! empty(Arr::extractUnique($models, $this->key));
+        return ! empty(Arr::pluckUniqueProperty($models, $this->key));
     }
 
     public function loadForeign(array $models)
     {
         return $this->getForeignRepo()
-            ->findByKey('id', Arr::extractUnique($models, $this->key));
+            ->findByKey('id', Arr::pluckUniqueProperty($models, $this->key));
     }
 
     public function update(AbstractModel $model, AbstractLink $link)

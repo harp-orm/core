@@ -4,7 +4,7 @@ namespace CL\LunaCore\Rel;
 
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Repo\LinkOne;
-use CL\LunaCore\Util\Objects;
+use CL\Util\Objects;
 use SplObjectStorage;
 
 /**

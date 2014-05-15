@@ -1,13 +1,17 @@
 language: php
 
 php:
-  - 5.3
   - 5.4
   - 5.5
   - hhvm
 
 before_install:
   - composer selfupdate
+
+notifications:
+  email: false
+  slack:
+    secure: QvanXnXxRssjvVjlHC23Ma+c+cy1PUQwoZEzNk1oUVl3nUdJlT37KTVc8xi1eA8SekCErikoCm6dYTQz5IYhFCkW3DdZtpvTUKljQTwbkQIrwF9plFJRlFW4GBndYBEho1dJfnGAEzX0/ju1UKhfU/dAzk91tlnpT0D4KSFTYiU=
 
 install:
   - composer install

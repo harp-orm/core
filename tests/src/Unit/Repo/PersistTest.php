@@ -6,7 +6,7 @@ use CL\LunaCore\Repo\Persist;
 use CL\LunaCore\Repo\ModelEvent;
 use CL\LunaCore\Repo\LinkOne;
 use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Util\Objects;
+use CL\Util\Objects;
 use SplObjectStorage;
 
 class PersistTest extends AbstractRepoTestCase

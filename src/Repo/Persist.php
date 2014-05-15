@@ -9,7 +9,7 @@ use CL\LunaCore\Rel\DeleteInterface;
 use CL\LunaCore\Rel\InsertInterface;
 use CL\LunaCore\Rel\UpdateInterface;
 use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Util\Objects;
+use CL\Util\Objects;
 
 
 /**

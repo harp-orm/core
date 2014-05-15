@@ -4,7 +4,7 @@ namespace CL\LunaCore\Test\Unit\Rel;
 
 use CL\LunaCore\Rel\AbstractRelOne;
 use CL\LunaCore\Test\AbstractTestCase;
-use CL\LunaCore\Util\Objects;
+use CL\Util\Objects;
 use SplObjectStorage;
 
 class AbstractRelOneTest extends AbstractTestCase

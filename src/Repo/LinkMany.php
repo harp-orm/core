@@ -4,7 +4,7 @@ namespace CL\LunaCore\Repo;
 
 use CL\LunaCore\Rel\AbstractRelMany;
 use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Util\Objects;
+use CL\Util\Objects;
 use Countable;
 use Closure;
 use Iterator;

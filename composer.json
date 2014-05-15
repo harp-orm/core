@@ -11,10 +11,11 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "clippings/carpo": "dev-master"
+        "clippings/carpo": "dev-master",
+        "clippings/util": "dev-master"
     },
     "require-dev": {
-        "clippings/env-backup": "dev-master"
+        "clippings/env-backup": "~0.2.5"
     },
     "autoload": {
         "psr-4": {"CL\\LunaCore\\": "src/"}

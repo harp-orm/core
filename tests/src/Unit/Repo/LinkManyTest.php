@@ -3,7 +3,7 @@
 namespace CL\LunaCore\Test\Unit\Repo;
 
 use CL\LunaCore\Repo\LinkMany;
-use CL\LunaCore\Util\Objects;
+use CL\Util\Objects;
 use SplObjectStorage;
 
 class LinkManyTest extends AbstractRepoTestCase
