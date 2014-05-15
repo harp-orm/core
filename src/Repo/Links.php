@@ -47,8 +47,8 @@ class Links
     }
 
     /**
-     * @param AbstractLink $link
-     * @return Links $this
+     * @param  AbstractLink $link
+     * @return Links        $this
      */
     public function add(AbstractLink $link)
     {
@@ -93,7 +93,7 @@ class Links
     }
 
     /**
-     * @param  string $name
+     * @param  string            $name
      * @return AbstractLink|null
      */
     public function get($name)

@@ -42,7 +42,7 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
-     * @param AbstractModel $model
+     * @param  AbstractModel $model
      * @return LinkMany
      */
     public function add(AbstractModel $model)
@@ -53,7 +53,7 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
-     * @param AbstractModel[] $models
+     * @param  AbstractModel[] $models
      * @return LinkMany
      */
     public function addArray(array $models)
@@ -66,8 +66,8 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
-     * @param AbstractModel[] $models
-     * @return LinkMany $this
+     * @param  AbstractModel[] $models
+     * @return LinkMany        $this
      */
     public function set(array $models)
     {
@@ -116,7 +116,7 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
-     * @param  string|integer  $id
+     * @param  string|integer $id
      * @return boolean
      */
     public function hasId($id)

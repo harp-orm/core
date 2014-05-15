@@ -196,8 +196,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param CL\Carpo\Asserts\AbstractAssert[] $asserts
-     * @return AbstractRepo $this
+     * @param  CL\Carpo\Asserts\AbstractAssert[] $asserts
+     * @return AbstractRepo                      $this
      */
     public function setAsserts(array $asserts)
     {
@@ -209,8 +209,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param Closure|string|array $callback
-     * @return AbstractRepo $this
+     * @param  Closure|string|array $callback
+     * @return AbstractRepo         $this
      */
     public function addEventBeforeDelete($callback)
     {
@@ -220,8 +220,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param Closure|string|array $callback
-     * @return AbstractRepo $this
+     * @param  Closure|string|array $callback
+     * @return AbstractRepo         $this
      */
     public function addEventAfterDelete($callback)
     {
@@ -231,8 +231,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param Closure|string|array $callback
-     * @return AbstractRepo $this
+     * @param  Closure|string|array $callback
+     * @return AbstractRepo         $this
      */
     public function addEventBeforeSave($callback)
     {
@@ -242,8 +242,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param Closure|string|array $callback
-     * @return AbstractRepo $this
+     * @param  Closure|string|array $callback
+     * @return AbstractRepo         $this
      */
     public function addEventAfterSave($callback)
     {
@@ -253,8 +253,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param Closure|string|array $callback
-     * @return AbstractRepo $this
+     * @param  Closure|string|array $callback
+     * @return AbstractRepo         $this
      */
     public function addEventBeforeInsert($callback)
     {
@@ -264,8 +264,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param Closure|string|array $callback
-     * @return AbstractRepo $this
+     * @param  Closure|string|array $callback
+     * @return AbstractRepo         $this
      */
     public function addEventAfterInsert($callback)
     {
@@ -275,8 +275,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param Closure|string|array $callback
-     * @return AbstractRepo $this
+     * @param  Closure|string|array $callback
+     * @return AbstractRepo         $this
      */
     public function addEventBeforeUpdate($callback)
     {
@@ -286,8 +286,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param Closure|string|array $callback
-     * @return AbstractRepo $this
+     * @param  Closure|string|array $callback
+     * @return AbstractRepo         $this
      */
     public function addEventAfterUpdate($callback)
     {
@@ -297,8 +297,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param Closure|string|array $callback
-     * @return AbstractRepo $this
+     * @param  Closure|string|array $callback
+     * @return AbstractRepo         $this
      */
     public function addEventAfterLoad($callback)
     {
@@ -308,7 +308,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param int $event
+     * @param  int     $event
      * @return boolean
      */
     public function hasBeforeEvent($event)
@@ -317,7 +317,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param int $event
+     * @param  int     $event
      * @return boolean
      */
     public function hasAfterEvent($event)
@@ -326,9 +326,9 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param AbstractModel[]|SplObjectStorage $models
-     * @param int $event
-     * @return AbstractRepo $this
+     * @param  AbstractModel[]|SplObjectStorage $models
+     * @param  int                              $event
+     * @return AbstractRepo                     $this
      */
     public function dispatchBeforeEvent($models, $event)
     {
@@ -338,9 +338,9 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param AbstractModel[]|SplObjectStorage $models
-     * @param int $event
-     * @return AbstractRepo $this
+     * @param  AbstractModel[]|SplObjectStorage $models
+     * @param  int                              $event
+     * @return AbstractRepo                     $this
      */
     public function dispatchAfterEvent($models, $event)
     {
@@ -350,8 +350,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  array $fields
-     * @param  int $state
+     * @param  array         $fields
+     * @param  int           $state
      * @return AbstractModel
      */
     public function newInstance($fields = null, $state = AbstractModel::PENDING)
@@ -360,7 +360,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  array $fields
+     * @param  array         $fields
      * @return AbstractModel
      */
     public function newVoidInstance($fields = null)
@@ -385,7 +385,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  mixed $id
+     * @param  mixed         $id
      * @return AbstractModel
      */
     public function find($id)
@@ -404,7 +404,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  AbstractModel $model
+     * @param  AbstractModel            $model
      * @throws InvalidArgumentException If $model not the same as Repo Model
      */
     public function errorIfModelNotFromRepo(AbstractModel $model)
@@ -415,7 +415,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  string $name
+     * @param  string                   $name
      * @throws InvalidArgumentException If $name Rel does not exist
      */
     public function errorIfNoRel($name)
@@ -426,7 +426,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  AbstractRel $rel
+     * @param  AbstractRel              $rel
      * @throws InvalidArgumentException If $Link not part of this repo
      */
     public function errorIfRelNotFromRepo(AbstractRel $rel)
@@ -437,8 +437,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  AbstractModel $model
-     * @return AbstractRepo  $this
+     * @param  AbstractModel            $model
+     * @return AbstractRepo             $this
      * @throws InvalidArgumentException If $model not the same as Repo Model
      */
     public function persist(AbstractModel $model)
@@ -463,8 +463,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  AbstractModel $model
-     * @param  string        $name
+     * @param  AbstractModel            $model
+     * @param  string                   $name
      * @return AbstractLink
      * @throws InvalidArgumentException If $model not the same as Repo Model or no rel named $name
      */

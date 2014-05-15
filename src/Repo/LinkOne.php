@@ -36,8 +36,8 @@ class LinkOne extends AbstractLink
     }
 
     /**
-     * @param AbstractModel $current
-     * @return LinkOne $this
+     * @param  AbstractModel $current
+     * @return LinkOne       $this
      */
     public function set(AbstractModel $current)
     {
