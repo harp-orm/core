@@ -25,7 +25,7 @@ class Links
     /**
      * @param AbstractModel $model
      */
-    function __construct(AbstractModel $model)
+    public function __construct(AbstractModel $model)
     {
         $this->model = $model;
     }

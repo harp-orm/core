@@ -74,7 +74,7 @@ abstract class AbstractRepo
     /**
      * @param string $modelClass
      */
-    function __construct($modelClass)
+    public function __construct($modelClass)
     {
         $this->modelClass = $modelClass;
         $this->linkMap = new LinkMap();
@@ -167,7 +167,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  string $name
+     * @param  string           $name
      * @return AbstractRel|null
      */
     public function getRel($name)

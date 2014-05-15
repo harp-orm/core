@@ -46,7 +46,7 @@ class Persist
     public function getChanged()
     {
         return Objects::filter($this->models, function ($model) {
-            return ($model->isChanged() AND $model->isPersisted());
+            return ($model->isChanged() and $model->isPersisted());
         });
     }
 
@@ -105,8 +105,9 @@ class Persist
     {
         return $this
             ->eachLink(function (AbstractModel $model, AbstractLink $link) {
-                if ($link->getRel() instanceof DeleteInterface) {
-                    $this->set($link->getRel()->delete($model, $link));
+                $rel = $link->getRel();
+                if ($rel instanceof DeleteInterface) {
+                    $this->set($rel->delete($model, $link));
                 }
             });
     }
@@ -115,8 +116,9 @@ class Persist
     {
         return $this
             ->eachLink(function (AbstractModel $model, AbstractLink $link) {
-                if ($link->getRel() instanceof InsertInterface) {
-                    $this->set($link->getRel()->insert($model, $link));
+                $rel = $link->getRel();
+                if ($rel instanceof InsertInterface) {
+                    $this->set($rel->insert($model, $link));
                 }
             });
     }
@@ -125,8 +127,9 @@ class Persist
     {
         return $this
             ->eachLink(function (AbstractModel $model, AbstractLink $link) {
-                if ($link->getRel() instanceof UpdateInterface) {
-                    $link->getRel()->update($model, $link);
+                $rel = $link->getRel();
+                if ($rel instanceof UpdateInterface) {
+                    $rel->update($model, $link);
                 }
             });
     }
@@ -142,21 +145,33 @@ class Persist
     {
         $this->addFromDeleteRels();
 
-        self::persist($this->getDeleted(), [ModelEvent::DELETE], function (AbstractRepo $repo, SplObjectStorage $models) {
-            $repo->delete($models);
-        });
+        self::persist(
+            $this->getDeleted(),
+            [ModelEvent::DELETE],
+            function (AbstractRepo $repo, SplObjectStorage $models) {
+                $repo->delete($models);
+            }
+        );
 
         $this->addFromInsertRels();
 
-        self::persist($this->getPending(), [ModelEvent::INSERT, ModelEvent::SAVE], function (AbstractRepo $repo, SplObjectStorage $models) {
-            $repo->insert($models);
-        });
+        self::persist(
+            $this->getPending(),
+            [ModelEvent::INSERT, ModelEvent::SAVE],
+            function (AbstractRepo $repo, SplObjectStorage $models) {
+                $repo->insert($models);
+            }
+        );
 
         $this->callUpdateRels();
 
-        self::persist($this->getChanged(), [ModelEvent::UPDATE, ModelEvent::SAVE], function (AbstractRepo $repo, SplObjectStorage $models) {
-            $repo->update($models);
-        });
+        self::persist(
+            $this->getChanged(),
+            [ModelEvent::UPDATE, ModelEvent::SAVE],
+            function (AbstractRepo $repo, SplObjectStorage $models) {
+                $repo->update($models);
+            }
+        );
     }
 
     public static function persist(SplObjectStorage $models, array $events, Closure $yield)

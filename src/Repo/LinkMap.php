@@ -17,7 +17,7 @@ class LinkMap
      */
     private $map;
 
-    function __construct()
+    public function __construct()
     {
         $this->map = new SplObjectStorage();
     }

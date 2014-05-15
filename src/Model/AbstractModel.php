@@ -167,7 +167,7 @@ abstract class AbstractModel
      */
     public function getErrors()
     {
-        if ( ! $this->errors) {
+        if (! $this->errors) {
             $this->errors = new Errors($this);
         }
 
