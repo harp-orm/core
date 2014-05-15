@@ -93,7 +93,7 @@ class Arr
     {
         $result = array();
 
-        array_walk_recursive($array, function ($value, $key) use ( & $result) {
+        array_walk_recursive($array, function ($value, $key) use (& $result) {
             if (is_numeric($key) OR is_object($value)) {
                 $result[] = $value;
             } else {
@@ -111,7 +111,7 @@ class Arr
         }, $array);
     }
 
-    public static function groupBy($array, $callback, $preserve_keys = false)
+    public static function groupBy($array, $callback, $preserveKeys = false)
     {
         $grouped = array();
 
@@ -122,7 +122,7 @@ class Arr
                 $grouped[$itemGroup] = array();
             }
 
-            if ($preserve_keys) {
+            if ($preserveKeys) {
                 $grouped[$itemGroup][$i] = $item;
             } else {
                 $grouped[$itemGroup] []= $item;

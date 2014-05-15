@@ -4,6 +4,8 @@ namespace CL\LunaCore\Rel;
 
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Repo\AbstractRepo;
+use SplObjectStorage;
+use Closure;
 
 /**
  * @author     Ivan Kerin
@@ -31,6 +33,7 @@ abstract class AbstractRel
     abstract public function hasForeign(array $models);
     abstract public function loadForeign(array $models);
     abstract public function linkToForeign(array $models, array $foreign);
+    abstract public function newLinkFrom(AbstractModel $model, SplObjectStorage $links);
 
     /**
      * @param string       $name
@@ -84,5 +87,24 @@ abstract class AbstractRel
         } else {
             return [];
         }
+    }
+
+    /**
+     * @param  AbstractModel[] $models
+     * @return AbstractModel[]
+     */
+    public function loadForeignModels(array $models, Closure $yield)
+    {
+        $foreign = $this->loadForeignForNodes($models);
+
+        $links = $this->linkToForeign($models, $foreign);
+
+        foreach ($models as $model) {
+            $link = $this->newLinkFrom($model, $links);
+
+            $yield($model, $link);
+        }
+
+        return $foreign;
     }
 }

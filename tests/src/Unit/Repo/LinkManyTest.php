@@ -52,6 +52,22 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers CL\LunaCore\Repo\LinkMany::addArray
+     */
+    public function testAddArray()
+    {
+        $link = $this->getLinkMany();
+
+        $model1 = new Model();
+        $model2 = new Model();
+        $expected = array_merge($link->asArray(), [$model1, $model2]);
+
+        $link->addArray([$model1, $model2]);
+
+        $this->assertSame($expected, $link->asArray());
+    }
+
+    /**
      * @covers CL\LunaCore\Repo\LinkMany::add
      */
     public function testAdd()
@@ -310,7 +326,9 @@ class LinkManyTest extends AbstractRepoTestCase
         $link = $this->getLinkMany();
         $expected = Objects::toArray($link->all());
 
-        foreach ($link as $item) {
+        $key = $link->key();
+
+        foreach ($link as $i => $item) {
             $this->assertSame(current($expected), $item);
             next($expected);
         }

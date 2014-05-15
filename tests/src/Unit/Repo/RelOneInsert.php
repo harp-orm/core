@@ -2,11 +2,12 @@
 
 namespace CL\LunaCore\Test\Unit\Repo;
 
-use CL\LunaCore\Rel\AbstractRelMany;
+use CL\LunaCore\Rel\AbstractRelOne;
+use CL\LunaCore\Rel\InsertInterface;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Repo\AbstractLink;
 
-class RelMany extends AbstractRelMany
+class RelOneInsert extends AbstractRelOne implements InsertInterface
 {
     public function areLinked(AbstractModel $model, AbstractModel $foreign)
     {
@@ -21,5 +22,10 @@ class RelMany extends AbstractRelMany
     public function loadForeign(array $models)
     {
         throw new BadMethodCallException('Test Rel: cannot call loadForeign');
+    }
+
+    public function insert(AbstractModel $model, AbstractLink $link)
+    {
+        throw new BadMethodCallException('Test Rel: cannot call update');
     }
 }

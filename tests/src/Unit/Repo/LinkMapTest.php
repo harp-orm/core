@@ -27,7 +27,7 @@ class LinkMapTest extends AbstractRepoTestCase
         $this->assertTrue($map->has($model));
         $this->assertTrue($map->isEmpty($model));
 
-        $links->add('test', $this->getLinkOne());
+        $links->add($this->getLinkOne());
 
         $this->assertTrue($map->has($model));
         $this->assertFalse($map->isEmpty($model));

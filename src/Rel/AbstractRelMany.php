@@ -5,6 +5,7 @@ namespace CL\LunaCore\Rel;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Repo\LinkMany;
 use CL\LunaCore\Util\Objects;
+use SplObjectStorage;
 
 /**
  * @author     Ivan Kerin
@@ -32,5 +33,14 @@ abstract class AbstractRelMany extends AbstractRel
         return Objects::groupCombineArrays($models, $foreign, function ($model, $foreign) {
             return $this->areLinked($model, $foreign);
         });
+    }
+
+    public function newLinkFrom(AbstractModel $model, SplObjectStorage $links)
+    {
+        if ($links->contains($model)) {
+            return $this->newLink($links[$model]);
+        } else {
+            return $this->newEmptyLink();
+        }
     }
 }

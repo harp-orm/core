@@ -22,9 +22,4 @@ class RelOne extends AbstractRelOne
     {
         throw new BadMethodCallException('Test Rel: cannot call loadForeign');
     }
-
-    public function update(AbstractModel $model, AbstractLink $link)
-    {
-        throw new BadMethodCallException('Test Rel: cannot call update');
-    }
 }

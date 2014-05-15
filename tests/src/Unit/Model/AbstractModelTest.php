@@ -150,6 +150,7 @@ class AbstractModelTest extends AbstractTestCase
 
     /**
      * @covers CL\LunaCore\Model\AbstractModel::isPending
+     * @covers CL\LunaCore\Model\AbstractModel::setState
      */
     public function testIsPending()
     {
@@ -163,6 +164,7 @@ class AbstractModelTest extends AbstractTestCase
 
     /**
      * @covers CL\LunaCore\Model\AbstractModel::isPersisted
+     * @covers CL\LunaCore\Model\AbstractModel::setState
      */
     public function testIsPersisted()
     {
@@ -175,6 +177,7 @@ class AbstractModelTest extends AbstractTestCase
 
     /**
      * @covers CL\LunaCore\Model\AbstractModel::isDeleted
+     * @covers CL\LunaCore\Model\AbstractModel::setState
      */
     public function testIsDeleted()
     {
@@ -250,6 +253,7 @@ class AbstractModelTest extends AbstractTestCase
         $this->assertTrue($model->isEmptyErrors());
 
         $model->name = null;
+        $model->other = null;
 
         $result = $model->validate();
         $this->assertFalse($result);

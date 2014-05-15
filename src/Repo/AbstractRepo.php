@@ -79,7 +79,7 @@ abstract class AbstractRepo
         $this->asserts = new Asserts();
         $this->rels = new Rels();
         $this->modelReflection = new ReflectionClass($modelClass);
-        $this->identityMap = new IdentityMap($this->modelReflection);
+        $this->identityMap = new IdentityMap($this);
     }
 
     /**
@@ -375,8 +375,7 @@ abstract class AbstractRepo
 
     public function initializeOnce()
     {
-        if (! $this->initialized)
-        {
+        if (! $this->initialized) {
             $this->initialized = true;
             $this->initialize();
         }
@@ -393,7 +392,10 @@ abstract class AbstractRepo
         return $model ? $this->getIdentityMap()->get($model) : $this->newVoidInstance();
     }
 
-    protected function newPersist()
+    /**
+     * @return Persist
+     */
+    public function newPersist()
     {
         return new Persist();
     }
@@ -402,10 +404,32 @@ abstract class AbstractRepo
      * @param  AbstractModel $model
      * @throws InvalidArgumentException If $model not the same as Repo Model
      */
-    protected function validateModel(AbstractModel $model)
+    public function errorIfModelNotFromRepo(AbstractModel $model)
     {
         if (! $this->modelReflection->isInstance($model)) {
             throw new InvalidArgumentException(sprintf('Argument must be instance of %s', $this->modelClass));
+        }
+    }
+
+    /**
+     * @param  string $name
+     * @throws InvalidArgumentException If $name Rel does not exist
+     */
+    public function errorIfNoRel($name)
+    {
+        if (! $this->getRel($name)) {
+            throw new InvalidArgumentException(sprintf('Rel %s does not exist in %s Repo', $name, $this->getName()));
+        }
+    }
+
+    /**
+     * @param  string $name
+     * @throws InvalidArgumentException If $Link not part of this repo
+     */
+    public function errorIfRelNotFromRepo(AbstractRel $rel)
+    {
+        if (array_search($rel, $this->getRels()->all(), true) === false) {
+            throw new InvalidArgumentException(sprintf('Rel not part of %s Repo', $this->getName()));
         }
     }
 
@@ -416,7 +440,7 @@ abstract class AbstractRepo
      */
     public function persist(AbstractModel $model)
     {
-        $this->validateModel($model);
+        $this->errorIfModelNotFromRepo($model);
 
         $this->newPersist()
             ->add($model)
@@ -425,25 +449,36 @@ abstract class AbstractRepo
         return $this;
     }
 
+    public function addLink(AbstractModel $model, AbstractLink $link)
+    {
+        $this->errorIfModelNotFromRepo($model);
+        $this->errorIfRelNotFromRepo($link->getRel());
+
+        $this->linkMap->get($model)->add($link);
+
+        return $this;
+    }
+
     /**
      * @param  AbstractModel $model
-     * @param  string        $linkName
+     * @param  string        $name
      * @return AbstractLink
-     * @throws InvalidArgumentException If $model not the same as Repo Model
+     * @throws InvalidArgumentException If $model not the same as Repo Model or no rel named $name
      */
-    public function loadLink(AbstractModel $model, $linkName)
+    public function loadLink(AbstractModel $model, $name)
     {
-        $this->validateModel($model);
+        $this->errorIfModelNotFromRepo($model);
+        $this->errorIfNoRel($name);
 
         $links = $this->linkMap->get($model);
 
-        if (! $links->has($linkName)) {
-            $rel = $this->getRel($linkName);
+        if (! $links->has($name)) {
+            $rel = $this->getRel($name);
 
             $this->loadRel($rel, [$model]);
         }
 
-        return $links->get($linkName);
+        return $links->get($name);
     }
 
     /**
@@ -453,20 +488,10 @@ abstract class AbstractRepo
      */
     public function loadRel(AbstractRel $rel, array $models)
     {
-        $foreign = $rel->loadForeignForNodes($models);
+        $this->errorIfRelNotFromRepo($rel);
 
-        $linked = $rel->linkToForeign($models, $foreign);
-
-        foreach ($models as $model) {
-            if ($linked->contains($model)) {
-                $link = $rel->newLink($linked[$model]);
-            } else {
-                $link = $rel->newEmptyLink();
-            }
-
-            $this->linkMap->get($model)->add($rel->getName(), $link);
-        }
-
-        return $foreign;
+        return $rel->loadForeignModels($models, function (AbstractModel $model, AbstractLink $link) {
+            $model->getRepo()->addLink($model, $link);
+        });
     }
 }

@@ -30,8 +30,8 @@ class LinksTest extends AbstractRepoTestCase
         $linkMany = $this->getLinkMany();
 
         $links
-            ->add('one', $linkOne)
-            ->add('many', $linkMany);
+            ->add($linkOne)
+            ->add($linkMany);
 
         $expected = [
             'one' => $linkOne,
@@ -62,8 +62,8 @@ class LinksTest extends AbstractRepoTestCase
             ->add($model3);
 
         $links
-            ->add('one', $linkOne)
-            ->add('many', $linkMany);
+            ->add($linkOne)
+            ->add($linkMany);
 
         $result = $links->getModels();
 
@@ -82,7 +82,7 @@ class LinksTest extends AbstractRepoTestCase
 
         $this->assertTrue($links->isEmpty());
 
-        $links->add('one', $this->getLinkOne());
+        $links->add($this->getLinkOne());
 
         $this->assertFalse($links->isEmpty());
     }
@@ -96,7 +96,7 @@ class LinksTest extends AbstractRepoTestCase
 
         $this->assertFalse($links->has('one'));
 
-        $links->add('one', $this->getLinkOne());
+        $links->add($this->getLinkOne());
 
         $this->assertTrue($links->has('one'));
     }
@@ -111,7 +111,7 @@ class LinksTest extends AbstractRepoTestCase
         $this->assertNull($links->get('one'));
 
         $link = $this->getLinkOne();
-        $links->add('one', $link);
+        $links->add($link);
 
         $this->assertEquals($link, $links->get('one'));
     }

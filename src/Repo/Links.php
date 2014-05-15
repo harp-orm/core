@@ -49,12 +49,13 @@ class Links
     }
 
     /**
-     * @param string       $name
      * @param AbstractLink $link
      * @return Links $this
      */
-    public function add($name, AbstractLink $link)
+    public function add(AbstractLink $link)
     {
+        $name = $link->getRel()->getName();
+
         $this->items[$name] = $link;
 
         return $this;

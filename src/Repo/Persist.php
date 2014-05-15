@@ -17,51 +17,67 @@ use CL\LunaCore\Util\Objects;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-class Persist extends SplObjectStorage
+class Persist
 {
+    private $models;
+
+    public function __construct()
+    {
+        $this->models = new SplObjectStorage();
+    }
+
+    public function all()
+    {
+        return $this->models;
+    }
+
     public function getDeleted()
     {
-        return Objects::filter($this, function ($model) {
+        return Objects::filter($this->models, function ($model) {
             return $model->isDeleted();
         });
     }
 
     public function getPending()
     {
-        return Objects::filter($this, function ($model) {
+        return Objects::filter($this->models, function ($model) {
             return $model->isPending();
         });
     }
 
     public function getChanged()
     {
-        return Objects::filter($this, function ($model) {
+        return Objects::filter($this->models, function ($model) {
             return ($model->isChanged() AND $model->isPersisted());
         });
     }
 
-    public function addOnly(AbstractModel $model)
+    public function addModel(AbstractModel $model)
     {
-        $this->attach($model);
+        $this->models->attach($model);
 
         return $this;
     }
 
     public function add(AbstractModel $model)
     {
-        if (! $this->contains($model)) {
-            $this->addOnly($model);
+        if (! $this->models->contains($model)) {
+            $this->addModel($model);
 
             $modelLinks = $model->getRepo()->getLinkMap()->get($model);
+
             foreach ($modelLinks->getModels() as $linkedModel) {
-                $this->addOnly($linkedModel);
+                $this->add($linkedModel);
             }
         }
 
         return $this;
     }
 
-    public function set(SplObjectStorage $models)
+    /**
+     * @param SplObjectStorage|AbstractModel[] $models
+     */
+    public function set($models)
     {
         foreach ($models as $model) {
             $this->add($model);
@@ -72,7 +88,7 @@ class Persist extends SplObjectStorage
 
     public function eachLink(Closure $yield)
     {
-        foreach ($this as $model) {
+        foreach ($this->models as $model) {
             $linkMap = $model->getRepo()->getLinkMap();
 
             if ($linkMap->has($model)) {
@@ -87,7 +103,7 @@ class Persist extends SplObjectStorage
         return $this;
     }
 
-    public function addDeletedLinks()
+    public function addFromDeleteRels()
     {
         return $this
             ->eachLink(function (AbstractModel $model, AbstractLink $link) {
@@ -97,7 +113,7 @@ class Persist extends SplObjectStorage
             });
     }
 
-    public function addInsertedLinks()
+    public function addFromInsertRels()
     {
         return $this
             ->eachLink(function (AbstractModel $model, AbstractLink $link) {
@@ -107,7 +123,7 @@ class Persist extends SplObjectStorage
             });
     }
 
-    public function updateLinks()
+    public function callUpdateRels()
     {
         return $this
             ->eachLink(function (AbstractModel $model, AbstractLink $link) {
@@ -127,20 +143,19 @@ class Persist extends SplObjectStorage
 
     public function execute()
     {
-        $this->addDeletedLinks();
+        $this->addFromDeleteRels();
 
         self::persist($this->getDeleted(), [ModelEvent::DELETE], function (AbstractRepo $repo, SplObjectStorage $models) {
             $repo->delete($models);
         });
 
-        $this->addInsertedLinks();
-
+        $this->addFromInsertRels();
 
         self::persist($this->getPending(), [ModelEvent::INSERT, ModelEvent::SAVE], function (AbstractRepo $repo, SplObjectStorage $models) {
             $repo->insert($models);
         });
 
-        $this->updateLinks();
+        $this->callUpdateRels();
 
         self::persist($this->getChanged(), [ModelEvent::UPDATE, ModelEvent::SAVE], function (AbstractRepo $repo, SplObjectStorage $models) {
             $repo->update($models);

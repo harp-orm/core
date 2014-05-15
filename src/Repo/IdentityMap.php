@@ -2,8 +2,6 @@
 
 namespace CL\LunaCore\Repo;
 
-use InvalidArgumentException;
-use ReflectionClass;
 use CL\LunaCore\Model\AbstractModel;
 
 /*
@@ -13,21 +11,44 @@ use CL\LunaCore\Model\AbstractModel;
  */
 class IdentityMap
 {
-    private $models;
-    private $modelClass;
+    /**
+     * @var AbstractModel[]
+     */
+    private $models = [];
 
-    public function __construct(ReflectionClass $modelClass)
+    /**
+     * @var AbstractRepo
+     */
+    private $repo;
+
+    public function __construct(AbstractRepo $repo)
     {
-        $this->modelClass = $modelClass;
+        $this->repo = $repo;
     }
 
+    /**
+     * @var AbstractRepo
+     */
+    public function getRepo()
+    {
+        return $this->repo;
+    }
+
+    /**
+     * @var AbstractModel[]
+     */
+    public function getModels()
+    {
+        return $this->models;
+    }
+
+    /**
+     * @param  AbstractModel $model
+     * @return AbstractModel
+     */
     public function get(AbstractModel $model)
     {
-        if ( ! $this->modelClass->isInstance($model)) {
-            throw new InvalidArgumentException(
-                sprintf('Node Must be of %s', $this->modelClass->getName())
-            );
-        }
+        $this->repo->errorIfModelNotFromRepo($model);
 
         if ($model->isPersisted()) {
             $key = $model->getId();
@@ -37,21 +58,29 @@ class IdentityMap
             } else {
                 $this->models[$key] = $model;
             }
-
         }
 
         return $model;
     }
 
+    /**
+     * @param  AbstractModel[]  $models
+     * @return AbstractModel[]
+     */
     public function getArray(array $models)
     {
-        return array_map(function($model){
+        return array_map(function ($model) {
             return $this->get($model);
         }, $models);
     }
 
+    /**
+     * @return IdentityMap $this
+     */
     public function clear()
     {
-        $this->models = null;
+        $this->models = [];
+
+        return $this;
     }
 }

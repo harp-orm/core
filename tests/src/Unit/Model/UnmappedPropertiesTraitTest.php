@@ -33,7 +33,9 @@ class UnmappedPropertiesTraitTest extends AbstractTestCase
         ];
 
         $this->assertEquals($expected, $object->getUnmapped());
-        $this->assertTrue(isset($object->test3));
+        $this->assertEquals('val3', $object->test3);
+        $this->assertEquals('val4', $object->test4);
+        $this->assertTrue(isset($object->test4));
         $this->assertTrue(isset($object->test4));
     }
 }
