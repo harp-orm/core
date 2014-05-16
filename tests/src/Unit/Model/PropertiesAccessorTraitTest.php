@@ -39,5 +39,4 @@ class PropertiesAccessorTraitTest extends AbstractTestCase
         $this->assertEquals('test1 change', $object->public1);
         $this->assertEquals('test2 change', $object->public2);
     }
-
 }

@@ -10,18 +10,24 @@ namespace CL\LunaCore\Model;
 trait PropertiesAccessorTrait
 {
     /**
-     * @param PropertiesAccessorTrait $object
+     * @param object $object
      */
     public static function getPublicPropertiesOf($object)
     {
         return get_object_vars($object);
     }
 
+    /**
+     * @return array
+     */
     public function getProperties()
     {
         return PropertiesAccessorTrait::getPublicPropertiesOf($this);
     }
 
+    /**
+     * @param array $values
+     */
     public function setProperties(array $values)
     {
         foreach ($values as $name => $value) {
