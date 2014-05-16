@@ -477,8 +477,9 @@ abstract class AbstractRepo
 
         if (! $links->has($name)) {
             $rel = $this->getRel($name);
-
-            $this->loadRel($rel, [$model]);
+            if ($rel !== null) {
+                $this->loadRel($rel, [$model]);
+            }
         }
 
         return $links->get($name);
