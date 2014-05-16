@@ -410,21 +410,6 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::errorIfNoRel
-     */
-    public function testErrorIfNoRel()
-    {
-        $repo = new Repo(__NAMESPACE__.'\Model');
-        $repo->getRels()->add($this->getRelOne());
-
-        $repo->errorIfNoRel('one');
-
-        $this->setExpectedException('InvalidArgumentException');
-
-        $repo->errorIfNoRel('many');
-    }
-
-    /**
      * @covers CL\LunaCore\Repo\AbstractRepo::persist
      */
     public function testPersist()
@@ -547,9 +532,13 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
         $this->assertFalse($repo->getLinkMap()->has($model));
 
-        $result = $repo->loadRel($rel, $models);
+        $result = $repo->loadRel('test', $models);
 
         $this->assertSame($expected, $result);
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        $repo->loadRel('otherRel', $models);
     }
 
     /**
@@ -564,7 +553,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
             true,
             true,
             true,
-            ['errorIfModelNotFromRepo', 'errorIfNoRel', 'loadRel']
+            ['errorIfModelNotFromRepo', 'loadRel']
         );
 
         $link = $this->getLinkOne();
@@ -577,15 +566,11 @@ class AbstractRepoTest extends AbstractRepoTestCase
             ->method('errorIfModelNotFromRepo')
             ->with($this->identicalTo($model));
 
-        $repo
-            ->expects($this->exactly(2))
-            ->method('errorIfNoRel')
-            ->with($this->equalTo('one'));
 
         $repo
             ->expects($this->once())
             ->method('loadRel')
-            ->with($this->identicalTo($rel), $this->identicalTo([$model]));
+            ->with($this->equalTo('one'), $this->identicalTo([$model]));
 
         $repo->loadLink($model, 'one');
 

@@ -416,18 +416,9 @@ abstract class AbstractRepo
     public function errorIfModelNotFromRepo(AbstractModel $model)
     {
         if (! $this->modelReflection->isInstance($model)) {
-            throw new InvalidArgumentException(sprintf('Argument must be instance of %s', $this->modelClass));
-        }
-    }
-
-    /**
-     * @param  string                   $name
-     * @throws InvalidArgumentException If $name Rel does not exist
-     */
-    public function errorIfNoRel($name)
-    {
-        if (! $this->getRel($name)) {
-            throw new InvalidArgumentException(sprintf('Rel %s does not exist in %s Repo', $name, $this->getName()));
+            throw new InvalidArgumentException(
+                sprintf('Argument must be instance of %s', $this->modelClass)
+            );
         }
     }
 
@@ -438,7 +429,9 @@ abstract class AbstractRepo
     public function errorIfRelNotFromRepo(AbstractRel $rel)
     {
         if (array_search($rel, $this->getRels()->all(), true) === false) {
-            throw new InvalidArgumentException(sprintf('Rel not part of %s Repo', $this->getName()));
+            throw new InvalidArgumentException(
+                sprintf('Rel "%s" not part of %s Repo', $rel->getName(), $this->getName())
+            );
         }
     }
 
@@ -477,28 +470,30 @@ abstract class AbstractRepo
     public function loadLink(AbstractModel $model, $name)
     {
         $this->errorIfModelNotFromRepo($model);
-        $this->errorIfNoRel($name);
 
         $links = $this->linkMap->get($model);
 
         if (! $links->has($name)) {
-            $rel = $this->getRel($name);
-            if ($rel !== null) {
-                $this->loadRel($rel, [$model]);
-            }
+            $this->loadRel($name, [$model]);
         }
 
         return $links->get($name);
     }
 
     /**
-     * @param  AbstractRel     $rel
+     * @param  string          $relName
      * @param  AbstractModel[] $models
      * @return AbstractModel[]
      */
-    public function loadRel(AbstractRel $rel, array $models)
+    public function loadRel($relName, array $models)
     {
-        $this->errorIfRelNotFromRepo($rel);
+        $rel = $this->getRel($relName);
+
+        if ($rel === null) {
+            throw new InvalidArgumentException(
+                sprintf('Cannot load Rel %s does not exist in %s Repo', $relName, $this->getName())
+            );
+        }
 
         return $rel->loadForeignModels($models, function (AbstractModel $model, AbstractLink $link) {
             $model->getRepo()->addLink($model, $link);
