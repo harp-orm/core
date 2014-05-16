@@ -33,8 +33,14 @@ class Repo extends AbstractRepo
         $this->initialize2Trait();
     }
 
+    public function afterInitialize()
+    {
+        $this->afterInitializeCalled = true;
+    }
+
     public $test;
     public $initializeCalled = false;
+    public $afterInitializeCalled = false;
     public $initialize1TraitCalled = false;
     public $initialize2TraitCalled = false;
 
