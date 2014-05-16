@@ -391,25 +391,6 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::errorIfRelNotFromRepo
-     */
-    public function testErrorIfRelNotFromRepo()
-    {
-        $repo = new Repo(__NAMESPACE__.'\Model');
-
-        $rel1 = $this->getRelMany();
-        $rel2 = $this->getRelMany();
-
-        $repo->getRels()->add($rel1);
-
-        $repo->errorIfRelNotFromRepo($rel1);
-
-        $this->setExpectedException('InvalidArgumentException');
-
-        $repo->errorIfRelNotFromRepo($rel2);
-    }
-
-    /**
      * @covers CL\LunaCore\Repo\AbstractRepo::persist
      */
     public function testPersist()
@@ -462,7 +443,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
             true,
             true,
             true,
-            ['errorIfModelNotFromRepo', 'errorIfRelNotFromRepo']
+            ['errorIfModelNotFromRepo']
         );
 
         $link = $this->getLinkOne();
@@ -473,11 +454,6 @@ class AbstractRepoTest extends AbstractRepoTestCase
             ->expects($this->once())
             ->method('errorIfModelNotFromRepo')
             ->with($this->identicalTo($model));
-
-        $repo
-            ->expects($this->once())
-            ->method('errorIfRelNotFromRepo')
-            ->with($this->identicalTo($link->getRel()));
 
         $repo->addLink($model, $link);
 

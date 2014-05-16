@@ -423,19 +423,6 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  AbstractRel              $rel
-     * @throws InvalidArgumentException If $Link not part of this repo
-     */
-    public function errorIfRelNotFromRepo(AbstractRel $rel)
-    {
-        if (array_search($rel, $this->getRels()->all(), true) === false) {
-            throw new InvalidArgumentException(
-                sprintf('Rel "%s" not part of %s Repo', $rel->getName(), $this->getName())
-            );
-        }
-    }
-
-    /**
      * @param  AbstractModel            $model
      * @return AbstractRepo             $this
      * @throws InvalidArgumentException If $model not the same as Repo Model
@@ -454,7 +441,6 @@ abstract class AbstractRepo
     public function addLink(AbstractModel $model, AbstractLink $link)
     {
         $this->errorIfModelNotFromRepo($model);
-        $this->errorIfRelNotFromRepo($link->getRel());
 
         $this->linkMap->get($model)->add($link);
 
@@ -465,7 +451,7 @@ abstract class AbstractRepo
      * @param  AbstractModel            $model
      * @param  string                   $name
      * @return AbstractLink
-     * @throws InvalidArgumentException If $model not the same as Repo Model or no rel named $name
+     * @throws InvalidArgumentException If $model not the same as Repo Model
      */
     public function loadLink(AbstractModel $model, $name)
     {
