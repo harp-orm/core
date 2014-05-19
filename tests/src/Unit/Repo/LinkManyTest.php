@@ -48,7 +48,7 @@ class LinkManyTest extends AbstractRepoTestCase
 
         $link->set($expected);
 
-        $this->assertSame($expected, $link->asArray());
+        $this->assertSame($expected, $link->toArray());
     }
 
     /**
@@ -60,11 +60,11 @@ class LinkManyTest extends AbstractRepoTestCase
 
         $model1 = new Model();
         $model2 = new Model();
-        $expected = array_merge($link->asArray(), [$model1, $model2]);
+        $expected = array_merge($link->toArray(), [$model1, $model2]);
 
         $link->addArray([$model1, $model2]);
 
-        $this->assertSame($expected, $link->asArray());
+        $this->assertSame($expected, $link->toArray());
     }
 
     /**
@@ -75,11 +75,11 @@ class LinkManyTest extends AbstractRepoTestCase
         $link = $this->getLinkMany();
 
         $model = new Model();
-        $expected = array_merge($link->asArray(), [$model]);
+        $expected = array_merge($link->toArray(), [$model]);
 
         $link->add($model);
 
-        $this->assertSame($expected, $link->asArray());
+        $this->assertSame($expected, $link->toArray());
     }
 
     /**
@@ -143,14 +143,14 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::asArray
+     * @covers CL\LunaCore\Repo\LinkMany::toArray
      */
-    public function testAsArray()
+    public function testToArray()
     {
         $models = [new Model(), new Model()];
         $link = new LinkMany($this->getRelMany(), $models);
 
-        $array = $link->asArray();
+        $array = $link->toArray();
 
         $this->assertSame($models, $array);
     }
@@ -248,7 +248,7 @@ class LinkManyTest extends AbstractRepoTestCase
     public function testGetRemovedIds()
     {
         $link = $this->getLinkMany();
-        $items = $link->asArray();
+        $items = $link->toArray();
 
         $link->all()->attach(new Model());
         $link->all()->offsetUnset($items[0]);
@@ -299,7 +299,7 @@ class LinkManyTest extends AbstractRepoTestCase
         $link = new LinkMany($this->getRelMany(), []);
         $first = $link->getFirst();
 
-        $this->assertInstanceof('CL\LunaCore\Test\Unit\Repo\Model', $first);
+        $this->assertInstanceof(Model::class, $first);
         $this->assertTrue($first->isVoid());
     }
 

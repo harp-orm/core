@@ -3,6 +3,7 @@
 namespace CL\LunaCore\Test\Unit\Rel;
 
 use CL\LunaCore\Rel\AbstractRelOne;
+use CL\LunaCore\Repo\LinkOne;
 use CL\LunaCore\Test\AbstractTestCase;
 use CL\Util\Objects;
 use SplObjectStorage;
@@ -12,11 +13,10 @@ class AbstractRelOneTest extends AbstractTestCase
 
     public function getRel()
     {
-        return $this->getMockForAbstractClass('CL\LunaCore\Rel\AbstractRelOne', [
-            'test name',
-            new Repo(__NAMESPACE__.'\Model'),
-            new Repo(__NAMESPACE__.'\Model')
-        ]);
+        return $this->getMockForAbstractClass(
+            AbstractRelOne::class,
+            ['test name', new Repo(Model::class), new Repo(Model::class)]
+        );
     }
 
     /**
@@ -30,7 +30,7 @@ class AbstractRelOneTest extends AbstractTestCase
         $rel = $this->getRel();
         $result = $rel->newLink($expected);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\LinkOne', $result);
+        $this->assertInstanceof(LinkOne::class, $result);
         $this->assertSame($rel, $result->getRel());
         $this->assertSame($expected, $result->get());
 
@@ -47,8 +47,8 @@ class AbstractRelOneTest extends AbstractTestCase
         $rel = $this->getRel();
         $result = $rel->newEmptyLink();
 
-        $this->assertInstanceof('CL\LunaCore\Repo\LinkOne', $result);
-        $this->assertInstanceof('CL\LunaCore\Test\Unit\Rel\Model', $result->get());
+        $this->assertInstanceof(LinkOne::class, $result);
+        $this->assertInstanceof(Model::class, $result->get());
         $this->assertTrue($result->get()->isVoid());
     }
 
@@ -57,7 +57,7 @@ class AbstractRelOneTest extends AbstractTestCase
      */
     public function testNewLinkFrom()
     {
-        $links = new SplObjectStorage();
+        $links = [];
 
         $model = new Model();
         $foreign = new Model();
@@ -66,49 +66,14 @@ class AbstractRelOneTest extends AbstractTestCase
 
         $link = $rel->newLinkFrom($model, $links);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\LinkOne', $link);
-        $this->assertInstanceof(__NAMESPACE__.'\Model', $link->get());
+        $this->assertInstanceof(LinkOne::class, $link);
+        $this->assertInstanceof(Model::class, $link->get());
         $this->assertTrue($link->get()->isVoid());
 
+        $link = $rel->newLinkFrom($model, [$foreign]);
 
-        $links[$model] = $foreign;
-
-        $link = $rel->newLinkFrom($model, $links);
-
-        $this->assertInstanceof('CL\LunaCore\Repo\LinkOne', $link);
-        $this->assertInstanceof(__NAMESPACE__.'\Model', $link->get());
+        $this->assertInstanceof(LinkOne::class, $link);
+        $this->assertInstanceof(Model::class, $link->get());
         $this->assertSame($foreign, $link->get());
     }
-
-    /**
-     * @covers CL\LunaCore\Rel\AbstractRelOne::linkToForeign
-     */
-    public function testLinkToForeign()
-    {
-        $models = [new Model(), new Model(), new Model()];
-        $foreign = [new Model(), new Model()];
-
-        $map = [
-            [$models[0], $foreign[0], true],
-            [$models[0], $foreign[1], false],
-            [$models[1], $foreign[0], false],
-            [$models[1], $foreign[1], true],
-            [$models[2], $foreign[0], false],
-            [$models[2], $foreign[1], false],
-        ];
-
-        $rel = $this->getRel();
-        $rel
-            ->expects($this->exactly(6))
-            ->method('areLinked')
-            ->will($this->returnValueMap($map));
-
-        $result = $rel->linkToForeign($models, $foreign);
-
-        $this->assertInstanceof('SplObjectStorage', $result);
-        $this->assertEquals($foreign[0], $result[$models[0]]);
-        $this->assertEquals($foreign[1], $result[$models[1]]);
-        $this->assertFalse($result->contains($models[2]));
-    }
-
 }

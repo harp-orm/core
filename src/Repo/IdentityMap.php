@@ -48,9 +48,7 @@ class IdentityMap
      */
     public function get(AbstractModel $model)
     {
-        $this->repo->errorIfModelNotFromRepo($model);
-
-        if ($model->isPersisted()) {
+        if ($model->isSaved()) {
             $key = $model->getId();
 
             if (isset($this->models[$key])) {

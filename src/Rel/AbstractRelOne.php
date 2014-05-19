@@ -26,19 +26,12 @@ abstract class AbstractRelOne extends AbstractRel
         return new LinkOne($this, $this->getForeignRepo()->newVoidInstance());
     }
 
-    public function linkToForeign(array $models, array $foreign)
+    public function newLinkFrom(AbstractModel $model, array $linked)
     {
-        return Objects::combineArrays($models, $foreign, function ($model, $foreign) {
-            return $this->areLinked($model, $foreign);
-        });
-    }
-
-    public function newLinkFrom(AbstractModel $model, SplObjectStorage $links)
-    {
-        if ($links->contains($model)) {
-            return $this->newLink($links[$model]);
-        } else {
+        if (empty($linked)) {
             return $this->newEmptyLink();
+        } else {
+            return $this->newLink(reset($linked));
         }
     }
 }

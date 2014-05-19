@@ -4,9 +4,9 @@ namespace CL\LunaCore\Repo;
 
 use CL\Carpo\Asserts;
 use CL\LunaCore\Model\AbstractModel;
+use CL\LunaCore\Model\State;
 use CL\LunaCore\Rel\AbstractRel;
 use ReflectionClass;
-use SplObjectStorage;
 use InvalidArgumentException;
 
 /*
@@ -17,14 +17,6 @@ use InvalidArgumentException;
 abstract class AbstractRepo
 {
     abstract public function initialize();
-
-    /**
-     * @return AbstractModel
-     */
-    abstract public function selectWithId($id);
-    abstract public function update(SplObjectStorage $models);
-    abstract public function delete(SplObjectStorage $models);
-    abstract public function insert(SplObjectStorage $models);
 
     /**
      * @var string
@@ -70,6 +62,16 @@ abstract class AbstractRepo
      * @var boolean
      */
     private $initialized = false;
+
+    /**
+     * @var boolean
+     */
+    private $softDelete = false;
+
+    /**
+     * @var boolean
+     */
+    private $inherited = false;
 
     /**
      * @param string $modelClass
@@ -123,6 +125,48 @@ abstract class AbstractRepo
     public function getModelReflection()
     {
         return $this->modelReflection;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getSoftDelete()
+    {
+        $this->initializeOnce();
+
+        return $this->softDelete;
+    }
+
+    /**
+     * @param boolean $softDelete
+     * @return AbstractRepo $this
+     */
+    public function setSoftDelete($softDelete)
+    {
+        $this->softDelete = (bool) $softDelete;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getInherited()
+    {
+        $this->initializeOnce();
+
+        return $this->inherited;
+    }
+
+    /**
+     * @param boolean $inherited
+     * @return AbstractRepo $this
+     */
+    public function setInherited($inherited)
+    {
+        $this->inherited = (bool) $inherited;
+
+        return $this;
     }
 
     /**
@@ -214,7 +258,7 @@ abstract class AbstractRepo
      */
     public function addEventBeforeDelete($callback)
     {
-        $this->getEventListeners()->addBefore(ModelEvent::DELETE, $callback);
+        $this->getEventListeners()->addBefore(Event::DELETE, $callback);
 
         return $this;
     }
@@ -225,7 +269,7 @@ abstract class AbstractRepo
      */
     public function addEventAfterDelete($callback)
     {
-        $this->getEventListeners()->addAfter(ModelEvent::DELETE, $callback);
+        $this->getEventListeners()->addAfter(Event::DELETE, $callback);
 
         return $this;
     }
@@ -236,7 +280,7 @@ abstract class AbstractRepo
      */
     public function addEventBeforeSave($callback)
     {
-        $this->getEventListeners()->addBefore(ModelEvent::SAVE, $callback);
+        $this->getEventListeners()->addBefore(Event::SAVE, $callback);
 
         return $this;
     }
@@ -247,7 +291,7 @@ abstract class AbstractRepo
      */
     public function addEventAfterSave($callback)
     {
-        $this->getEventListeners()->addAfter(ModelEvent::SAVE, $callback);
+        $this->getEventListeners()->addAfter(Event::SAVE, $callback);
 
         return $this;
     }
@@ -258,7 +302,7 @@ abstract class AbstractRepo
      */
     public function addEventBeforeInsert($callback)
     {
-        $this->getEventListeners()->addBefore(ModelEvent::INSERT, $callback);
+        $this->getEventListeners()->addBefore(Event::INSERT, $callback);
 
         return $this;
     }
@@ -269,7 +313,7 @@ abstract class AbstractRepo
      */
     public function addEventAfterInsert($callback)
     {
-        $this->getEventListeners()->addAfter(ModelEvent::INSERT, $callback);
+        $this->getEventListeners()->addAfter(Event::INSERT, $callback);
 
         return $this;
     }
@@ -280,7 +324,7 @@ abstract class AbstractRepo
      */
     public function addEventBeforeUpdate($callback)
     {
-        $this->getEventListeners()->addBefore(ModelEvent::UPDATE, $callback);
+        $this->getEventListeners()->addBefore(Event::UPDATE, $callback);
 
         return $this;
     }
@@ -291,7 +335,7 @@ abstract class AbstractRepo
      */
     public function addEventAfterUpdate($callback)
     {
-        $this->getEventListeners()->addAfter(ModelEvent::UPDATE, $callback);
+        $this->getEventListeners()->addAfter(Event::UPDATE, $callback);
 
         return $this;
     }
@@ -302,7 +346,7 @@ abstract class AbstractRepo
      */
     public function addEventAfterLoad($callback)
     {
-        $this->getEventListeners()->addAfter(ModelEvent::LOAD, $callback);
+        $this->getEventListeners()->addAfter(Event::LOAD, $callback);
 
         return $this;
     }
@@ -326,25 +370,25 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  AbstractModel[]|SplObjectStorage $models
-     * @param  int                              $event
-     * @return AbstractRepo                     $this
+     * @param  AbstractModel $model
+     * @param  int           $event
+     * @return AbstractRepo  $this
      */
-    public function dispatchBeforeEvent($models, $event)
+    public function dispatchBeforeEvent($model, $event)
     {
-        $this->getEventListeners()->dispatchBeforeEvent($models, $event);
+        $this->getEventListeners()->dispatchBeforeEvent($model, $event);
 
         return $this;
     }
 
     /**
-     * @param  AbstractModel[]|SplObjectStorage $models
-     * @param  int                              $event
-     * @return AbstractRepo                     $this
+     * @param  AbstractModel $model
+     * @param  int           $event
+     * @return AbstractRepo  $this
      */
-    public function dispatchAfterEvent($models, $event)
+    public function dispatchAfterEvent($model, $event)
     {
-        $this->getEventListeners()->dispatchAfterEvent($models, $event);
+        $this->getEventListeners()->dispatchAfterEvent($model, $event);
 
         return $this;
     }
@@ -354,7 +398,7 @@ abstract class AbstractRepo
      * @param  int           $state
      * @return AbstractModel
      */
-    public function newInstance($fields = null, $state = AbstractModel::PENDING)
+    public function newInstance($fields = null, $state = State::PENDING)
     {
         return $this->modelReflection->newInstance($fields, $state);
     }
@@ -365,7 +409,7 @@ abstract class AbstractRepo
      */
     public function newVoidInstance($fields = null)
     {
-        return $this->modelReflection->newInstance($fields, AbstractModel::VOID);
+        return $this->modelReflection->newInstance($fields, State::VOID);
     }
 
     /**
@@ -388,101 +432,5 @@ abstract class AbstractRepo
             $this->initialize();
             $this->afterInitialize();
         }
-    }
-
-    /**
-     * @param  mixed         $id
-     * @return AbstractModel
-     */
-    public function find($id)
-    {
-        $model = $this->selectWithId($id);
-
-        return $model ? $this->getIdentityMap()->get($model) : $this->newVoidInstance();
-    }
-
-    /**
-     * @return Persist
-     */
-    public function newPersist()
-    {
-        return new Persist();
-    }
-
-    /**
-     * @param  AbstractModel            $model
-     * @throws InvalidArgumentException If $model not the same as Repo Model
-     */
-    public function errorIfModelNotFromRepo(AbstractModel $model)
-    {
-        if (! $this->modelReflection->isInstance($model)) {
-            throw new InvalidArgumentException(
-                sprintf('Argument must be instance of %s', $this->modelClass)
-            );
-        }
-    }
-
-    /**
-     * @param  AbstractModel            $model
-     * @return AbstractRepo             $this
-     * @throws InvalidArgumentException If $model not the same as Repo Model
-     */
-    public function persist(AbstractModel $model)
-    {
-        $this->errorIfModelNotFromRepo($model);
-
-        $this->newPersist()
-            ->add($model)
-            ->execute();
-
-        return $this;
-    }
-
-    public function addLink(AbstractModel $model, AbstractLink $link)
-    {
-        $this->errorIfModelNotFromRepo($model);
-
-        $this->linkMap->get($model)->add($link);
-
-        return $this;
-    }
-
-    /**
-     * @param  AbstractModel            $model
-     * @param  string                   $name
-     * @return AbstractLink
-     * @throws InvalidArgumentException If $model not the same as Repo Model
-     */
-    public function loadLink(AbstractModel $model, $name)
-    {
-        $this->errorIfModelNotFromRepo($model);
-
-        $links = $this->linkMap->get($model);
-
-        if (! $links->has($name)) {
-            $this->loadRel($name, [$model]);
-        }
-
-        return $links->get($name);
-    }
-
-    /**
-     * @param  string          $relName
-     * @param  AbstractModel[] $models
-     * @return AbstractModel[]
-     */
-    public function loadRel($relName, array $models)
-    {
-        $rel = $this->getRel($relName);
-
-        if ($rel === null) {
-            throw new InvalidArgumentException(
-                sprintf('Cannot load Rel %s does not exist in %s Repo', $relName, $this->getName())
-            );
-        }
-
-        return $rel->loadForeignModels($models, function (AbstractModel $model, AbstractLink $link) {
-            $model->getRepo()->addLink($model, $link);
-        });
     }
 }

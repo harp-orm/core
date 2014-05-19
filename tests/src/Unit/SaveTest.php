@@ -2,82 +2,82 @@
 
 namespace CL\LunaCore\Test\Unit\Repo;
 
-use CL\LunaCore\Repo\Persist;
-use CL\LunaCore\Repo\ModelEvent;
+use CL\LunaCore\Repo\Save;
+use CL\LunaCore\Repo\Event;
 use CL\LunaCore\Repo\LinkOne;
-use CL\LunaCore\Model\AbstractModel;
+use CL\LunaCore\Model\State;
 use CL\Util\Objects;
 use SplObjectStorage;
 
-class PersistTest extends AbstractRepoTestCase
+class SaveTest extends AbstractRepoTestCase
 {
     /**
-     * @covers CL\LunaCore\Repo\Persist::__construct
-     * @covers CL\LunaCore\Repo\Persist::all
+     * @covers CL\LunaCore\Repo\Save::__construct
+     * @covers CL\LunaCore\Repo\Save::all
      */
     public function testConstruct()
     {
-        $persist = new Persist();
+        $save = new Save();
 
-        $this->assertInstanceOf('SplObjectStorage', $persist->all());
-        $this->assertCount(0, $persist->all());
+        $this->assertInstanceOf('SplObjectStorage', $save->all());
+        $this->assertCount(0, $save->all());
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Persist::addModel
+     * @covers CL\LunaCore\Repo\Save::addModel
      */
     public function testAddModel()
     {
-        $persist = new Persist();
+        $save = new Save();
         $model = new Model();
 
-        $persist->addModel($model);
+        $save->addModel($model);
 
-        $this->assertCount(1, $persist->all());
-        $this->assertTrue($persist->all()->contains($model));
+        $this->assertCount(1, $save->all());
+        $this->assertTrue($save->all()->contains($model));
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Persist::getChanged
-     * @covers CL\LunaCore\Repo\Persist::getPending
-     * @covers CL\LunaCore\Repo\Persist::getDeleted
+     * @covers CL\LunaCore\Repo\Save::getChanged
+     * @covers CL\LunaCore\Repo\Save::getPending
+     * @covers CL\LunaCore\Repo\Save::getDeleted
      */
     public function testFilters()
     {
-        $persist = new Persist();
+        $save = new Save();
 
         $model1 = new Model();
-        $model1->setState(AbstractModel::PERSISTED);
+        $model1->setState(State::SAVED);
         $model1->name = 'changed';
-        $persist->all()->attach($model1);
+        $save->all()->attach($model1);
 
         $model2 = new Model();
-        $model2->setState(AbstractModel::VOID);
-        $persist->all()->attach($model2);
+        $model2->setState(State::VOID);
+        $save->all()->attach($model2);
 
         $model3 = new Model();
-        $model3->setState(AbstractModel::PENDING);
-        $persist->all()->attach($model3);
+        $model3->setState(State::PENDING);
+        $save->all()->attach($model3);
 
         $model4 = new Model();
-        $model4->setState(AbstractModel::DELETED);
-        $persist->all()->attach($model4);
+        $model4->setState(State::DELETED);
+        $save->all()->attach($model4);
 
         $model5 = new Model();
-        $model5->setState(AbstractModel::PERSISTED);
-        $persist->all()->attach($model5);
+        $model5->setState(State::SAVED);
+        $save->all()->attach($model5);
 
-        $this->assertSame([$model1], Objects::toArray($persist->getChanged()));
-        $this->assertSame([$model3], Objects::toArray($persist->getPending()));
-        $this->assertSame([$model4], Objects::toArray($persist->getDeleted()));
+        $this->assertSame([$model1], Objects::toArray($save->getChanged()));
+        $this->assertSame([$model3], Objects::toArray($save->getPending()));
+        $this->assertSame([$model4], Objects::toArray($save->getDeleted()));
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Persist::add
+     * @covers CL\LunaCore\Repo\Save::add
      */
     public function testAdd()
     {
-        $persist = new Persist();
+        $save = new Save();
 
         $model1 = new Model();
         $model2 = new Model();
@@ -99,9 +99,9 @@ class PersistTest extends AbstractRepoTestCase
             ->addLink($model1, $link1)
             ->addLink($model2, $link2);
 
-        $persist->add($model1);
+        $save->add($model1);
 
-        $this->assertCount(7, $persist->all());
+        $this->assertCount(7, $save->all());
 
         $link2Models = Objects::toArray($link2->getCurrentAndOriginal());
 
@@ -116,35 +116,35 @@ class PersistTest extends AbstractRepoTestCase
         ];
 
         foreach ($expected as $model) {
-            $this->assertContains($model, $persist->all());
+            $this->assertContains($model, $save->all());
         }
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Persist::set
+     * @covers CL\LunaCore\Repo\Save::set
      */
     public function testSet()
     {
-        $persist = $this->getMock('CL\LunaCore\Repo\Persist', ['add']);
+        $save = $this->getMock('CL\LunaCore\Repo\Save', ['add']);
 
         $models = [new Model(), new Model(), new Model()];
 
         foreach ($models as $index => $model) {
-            $persist
+            $save
                 ->expects($this->at($index))
                 ->method('add')
                 ->with($this->identicalTo($model));
         }
 
-        $persist->set($models);
+        $save->set($models);
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Persist::eachLink
+     * @covers CL\LunaCore\Repo\Save::eachLink
      */
     public function testEachLink()
     {
-        $persist = new Persist();
+        $save = new Save();
 
         $model1 = new Model();
         $model2 = new Model();
@@ -161,11 +161,11 @@ class PersistTest extends AbstractRepoTestCase
             ->addLink($model1, $link1)
             ->addLink($model2, $link2);
 
-        $persist->add($model1);
+        $save->add($model1);
 
         $results = [];
 
-        $persist->eachLink(function ($model, $link) use (& $results) {
+        $save->eachLink(function ($model, $link) use (& $results) {
             $results []= [$model, $link];
         });
 
@@ -178,11 +178,11 @@ class PersistTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Persist::addFromDeleteRels
+     * @covers CL\LunaCore\Repo\Save::addFromDeleteRels
      */
     public function testAddFromDeleteRels()
     {
-        $persist = new Persist();
+        $save = new Save();
 
         $model1 = new Model();
         $model2 = new Model();
@@ -206,7 +206,7 @@ class PersistTest extends AbstractRepoTestCase
             ->addLink($model1, $link1)
             ->addLink($model2, $link2);
 
-        $persist->add($model1);
+        $save->add($model1);
 
         $rel1
             ->expects($this->once())
@@ -214,19 +214,19 @@ class PersistTest extends AbstractRepoTestCase
             ->with($this->identicalTo($model1), $this->identicalTo($link1))
             ->will($this->returnValue([$model5]));
 
-        $this->assertFalse($persist->all()->contains($model5));
+        $this->assertFalse($save->all()->contains($model5));
 
-        $persist->addFromDeleteRels();
+        $save->addFromDeleteRels();
 
-        $this->assertTrue($persist->all()->contains($model5));
+        $this->assertTrue($save->all()->contains($model5));
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Persist::addFromInsertRels
+     * @covers CL\LunaCore\Repo\Save::addFromInsertRels
      */
     public function testAddFromInsertRels()
     {
-        $persist = new Persist();
+        $save = new Save();
 
         $model1 = new Model();
         $model2 = new Model();
@@ -250,7 +250,7 @@ class PersistTest extends AbstractRepoTestCase
             ->addLink($model1, $link1)
             ->addLink($model2, $link2);
 
-        $persist->add($model1);
+        $save->add($model1);
 
         $rel1
             ->expects($this->once())
@@ -258,20 +258,20 @@ class PersistTest extends AbstractRepoTestCase
             ->with($this->identicalTo($model1), $this->identicalTo($link1))
             ->will($this->returnValue([$model5]));
 
-        $this->assertFalse($persist->all()->contains($model5));
+        $this->assertFalse($save->all()->contains($model5));
 
-        $persist->addFromInsertRels();
+        $save->addFromInsertRels();
 
-        $this->assertTrue($persist->all()->contains($model5));
+        $this->assertTrue($save->all()->contains($model5));
     }
 
 
     /**
-     * @covers CL\LunaCore\Repo\Persist::callUpdateRels
+     * @covers CL\LunaCore\Repo\Save::callUpdateRels
      */
     public function testCallUpdateRels()
     {
-        $persist = new Persist();
+        $save = new Save();
 
         $model1 = new Model();
         $model2 = new Model();
@@ -294,22 +294,22 @@ class PersistTest extends AbstractRepoTestCase
             ->addLink($model1, $link1)
             ->addLink($model2, $link2);
 
-        $persist->add($model1);
+        $save->add($model1);
 
         $rel1
             ->expects($this->once())
             ->method('update')
             ->with($this->identicalTo($model1), $this->identicalTo($link1));
 
-        $persist->callUpdateRels();
+        $save->callUpdateRels();
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Persist::groupByRepo
+     * @covers CL\LunaCore\Repo\Save::groupByRepo
      */
     public function testGroupByRepo()
     {
-        $persist = new Persist();
+        $save = new Save();
 
         $repo1 = new Repo(__NAMESPACE__.'\ModelWithRepo');
         $repo2 = new Repo(__NAMESPACE__.'\ModelWithRepo');
@@ -340,12 +340,12 @@ class PersistTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Persist::execute
-     * @covers CL\LunaCore\Repo\Persist::persist
+     * @covers CL\LunaCore\Repo\Save::execute
+     * @covers CL\LunaCore\Repo\Save::save
      */
     public function testExecute()
     {
-        $persist = new Persist();
+        $save = new Save();
 
         $repo1 = $this->getMock(
             __NAMESPACE__.'\Repo',
@@ -359,11 +359,11 @@ class PersistTest extends AbstractRepoTestCase
             [__NAMESPACE__.'\ModelWithRepo']
         );
 
-        $model1 = new ModelWithRepo(['repo' => $repo1], AbstractModel::DELETED);
+        $model1 = new ModelWithRepo(['repo' => $repo1], State::DELETED);
 
-        $model2 = new ModelWithRepo(['repo' => $repo2], AbstractModel::PENDING);
+        $model2 = new ModelWithRepo(['repo' => $repo2], State::PENDING);
 
-        $model3 = new ModelWithRepo(['repo' => $repo2], AbstractModel::PERSISTED);
+        $model3 = new ModelWithRepo(['repo' => $repo2], State::SAVED);
         $model3->name = 'changed';
 
         $models1 = new SplObjectStorage();
@@ -375,16 +375,16 @@ class PersistTest extends AbstractRepoTestCase
         $models3 = new SplObjectStorage();
         $models3->attach($model3);
 
-        $persist = new Persist();
-        $persist->all()->attach($model1);
-        $persist->all()->attach($model2);
-        $persist->all()->attach($model3);
+        $save = new Save();
+        $save->all()->attach($model1);
+        $save->all()->attach($model2);
+        $save->all()->attach($model3);
 
         // DELETE
         $repo1
             ->expects($this->at(0))
             ->method('dispatchBeforeEvent')
-            ->with($this->equalTo($models1), $this->equalTo(ModelEvent::DELETE));
+            ->with($this->equalTo($models1), $this->equalTo(Event::DELETE));
 
         $repo1
             ->expects($this->at(1))
@@ -394,18 +394,18 @@ class PersistTest extends AbstractRepoTestCase
         $repo1
             ->expects($this->at(2))
             ->method('dispatchAfterEvent')
-            ->with($this->equalTo($models1), $this->equalTo(ModelEvent::DELETE));
+            ->with($this->equalTo($models1), $this->equalTo(Event::DELETE));
 
         // INSERT
         $repo2
             ->expects($this->at(0))
             ->method('dispatchBeforeEvent')
-            ->with($this->equalTo($models2), $this->equalTo(ModelEvent::INSERT));
+            ->with($this->equalTo($models2), $this->equalTo(Event::INSERT));
 
         $repo2
             ->expects($this->at(1))
             ->method('dispatchBeforeEvent')
-            ->with($this->equalTo($models2), $this->equalTo(ModelEvent::SAVE));
+            ->with($this->equalTo($models2), $this->equalTo(Event::SAVE));
 
         $repo2
             ->expects($this->at(2))
@@ -415,23 +415,23 @@ class PersistTest extends AbstractRepoTestCase
         $repo2
             ->expects($this->at(3))
             ->method('dispatchAfterEvent')
-            ->with($this->equalTo($models2), $this->equalTo(ModelEvent::INSERT));
+            ->with($this->equalTo($models2), $this->equalTo(Event::INSERT));
 
         $repo2
             ->expects($this->at(4))
             ->method('dispatchAfterEvent')
-            ->with($this->equalTo($models2), $this->equalTo(ModelEvent::SAVE));
+            ->with($this->equalTo($models2), $this->equalTo(Event::SAVE));
 
         // UPDATE
         $repo2
             ->expects($this->at(5))
             ->method('dispatchBeforeEvent')
-            ->with($this->equalTo($models3), $this->equalTo(ModelEvent::UPDATE));
+            ->with($this->equalTo($models3), $this->equalTo(Event::UPDATE));
 
         $repo2
             ->expects($this->at(6))
             ->method('dispatchBeforeEvent')
-            ->with($this->equalTo($models3), $this->equalTo(ModelEvent::SAVE));
+            ->with($this->equalTo($models3), $this->equalTo(Event::SAVE));
 
         $repo2
             ->expects($this->at(7))
@@ -441,13 +441,13 @@ class PersistTest extends AbstractRepoTestCase
         $repo2
             ->expects($this->at(8))
             ->method('dispatchAfterEvent')
-            ->with($this->equalTo($models3), $this->equalTo(ModelEvent::UPDATE));
+            ->with($this->equalTo($models3), $this->equalTo(Event::UPDATE));
 
         $repo2
             ->expects($this->at(9))
             ->method('dispatchAfterEvent')
-            ->with($this->equalTo($models3), $this->equalTo(ModelEvent::SAVE));
+            ->with($this->equalTo($models3), $this->equalTo(Event::SAVE));
 
-        $persist->execute();
+        $save->execute();
     }
 }

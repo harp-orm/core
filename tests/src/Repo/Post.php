@@ -3,6 +3,7 @@
 namespace CL\LunaCore\Test\Repo;
 
 use CL\LunaCore\Test\Rel;
+use CL\LunaCore\Test\Model;
 use CL\Carpo\Assert;
 
 /**
@@ -20,7 +21,7 @@ class Post extends AbstractTestRepo {
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new Post('CL\LunaCore\Test\Model\Post');
+            self::$instance = new Post(Model\Post::class, 'Post.json');
         }
 
         return self::$instance;
@@ -29,6 +30,7 @@ class Post extends AbstractTestRepo {
     public function initialize()
     {
         $this
+            ->setInherited(true)
             ->setRels([
                 new Rel\One('user', $this, Post::get()),
             ]);

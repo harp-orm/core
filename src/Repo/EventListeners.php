@@ -14,10 +14,10 @@ class EventListeners
 {
     /**
      * @param array         $listeners
-     * @param int           $event
      * @param AbstractModel $target
+     * @param int           $event
      */
-    public static function dispatchEvent($listeners, $event, AbstractModel $target)
+    public static function dispatchEvent($listeners, AbstractModel $target, $event)
     {
         if (isset($listeners[$event])) {
             foreach ($listeners[$event] as $listner) {
@@ -93,24 +93,20 @@ class EventListeners
     }
 
     /**
-     * @param AbstractModel[]|SplObjectStorage $models
-     * @param int                              $event
+     * @param AbstractModel $target
+     * @param int           $event
      */
-    public function dispatchAfterEvent($models, $event)
+    public function dispatchAfterEvent(AbstractModel $target, $event)
     {
-        foreach ($models as $model) {
-            self::dispatchEvent($this->after, $event, $model);
-        }
+         self::dispatchEvent($this->after, $target, $event);
     }
 
     /**
-     * @param AbstractModel[]|SplObjectStorage $models
-     * @param int                              $event
+     * @param AbstractModel $target
+     * @param int           $event
      */
-    public function dispatchBeforeEvent($models, $event)
+    public function dispatchBeforeEvent(AbstractModel $target, $event)
     {
-        foreach ($models as $model) {
-            self::dispatchEvent($this->before, $event, $model);
-        }
+        self::dispatchEvent($this->before, $target, $event);
     }
 }

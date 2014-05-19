@@ -4,14 +4,14 @@ namespace CL\LunaCore\Test\Integration;
 
 use CL\LunaCore\Test\Model;
 use CL\LunaCore\Test\Repo;
-use CL\LunaCore\Repo\Persist;
+use CL\LunaCore\Save\Save;
 
 /**
  * @group integration
- * @group integration.persist
+ * @group integration.save
  * @coversNothing
  */
-class PersistTest extends AbstractIntegrationTestCase
+class SaveTest extends AbstractIntegrationTestCase
 {
     public function testTest()
     {
@@ -19,21 +19,27 @@ class PersistTest extends AbstractIntegrationTestCase
 
         $user1->name = 'changed name';
 
+        $user1->delete();
+
+        $this->assertNotNull($user1->deletedAt);
+
         $user2 = new Model\User(['name' => 'new name', 'password' => 'test']);
         $user2
             ->setAddress(new Model\Address(['location' => 'here']))
             ->getPosts()
-                ->add(new Model\Post(['name' => 'post name', 'body' => 'some body']))
+                ->add(new Model\BlogPost(['name' => 'post name', 'body' => 'some body', 'url' => 'http://example.com/postnew']))
                 ->add(new Model\Post(['name' => 'news', 'body' => 'some other body']));
 
         $address = new Model\Address(['name' => 'new name', 'location' => 'new location']);
 
-        (new Persist())
+        $user3 = new Model\User(['name' => 'new name', 'password' => 'test']);
+
+        (new Save())
             ->add($user1)
             ->add($user2)
             ->execute();
 
-        Repo\Address::get()->persist($address);
+        Repo\Address::get()->save($address);
 
         $expectedAddressContent = [
             1 => [
@@ -61,24 +67,30 @@ class PersistTest extends AbstractIntegrationTestCase
                 'name' => 'post 1',
                 'body' => 'my post 1',
                 'userId' => 1,
+                'class' => 'CL\LunaCore\Test\Model\Post',
             ],
             2 => [
                 'id' => 2,
                 'name' => 'post 2',
                 'body' => 'my post 2',
                 'userId' => 1,
+                'url' => 'http://example.com/post2',
+                'class' => 'CL\LunaCore\Test\Model\BlogPost',
             ],
             3 => [
                 'id' => 3,
                 'name' => 'post name',
                 'body' => 'some body',
-                'userId' => 2,
+                'userId' => 3,
+                'url' => 'http://example.com/postnew',
+                'class' => 'CL\LunaCore\Test\Model\BlogPost',
             ],
             4 => [
                 'id' => 4,
                 'name' => 'news',
                 'body' => 'some other body',
-                'userId' => 2,
+                'userId' => 3,
+                'class' => 'CL\LunaCore\Test\Model\Post',
             ],
         ];
 
@@ -91,17 +103,26 @@ class PersistTest extends AbstractIntegrationTestCase
                 'password' => null,
                 'addressId' => 1,
                 'isBlocked' => true,
+                'deletedAt' => $user1->deletedAt,
             ],
             2 => [
                 'id' => 2,
+                'name' => 'deleted',
+                'password' => null,
+                'addressId' => 1,
+                'isBlocked' => false,
+                'deletedAt' => 1400500528,
+            ],
+            3 => [
+                'id' => 3,
                 'name' => 'new name',
                 'password' => 'test',
                 'addressId' => 2,
                 'isBlocked' => false,
+                'deletedAt' => null,
             ],
         ];
 
         $this->assertEquals($expectedUserContent, Repo\User::get()->getContents());
-
     }
 }

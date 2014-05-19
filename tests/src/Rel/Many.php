@@ -6,8 +6,8 @@ use CL\LunaCore\Test\Repo\AbstractTestRepo;
 use CL\LunaCore\Rel\UpdateInterface;
 use CL\LunaCore\Rel\AbstractRelMany;
 use CL\LunaCore\Model\AbstractModel;
+use CL\LunaCore\Model\Models;
 use CL\LunaCore\Repo\AbstractLink;
-use CL\Util\Arr;
 
 /**
  * @author     Ivan Kerin
@@ -30,17 +30,17 @@ class Many extends AbstractRelMany implements UpdateInterface
         return $model->getId() == $foreign->{$this->key};
     }
 
-    public function hasForeign(array $models)
+    public function hasForeign(Models $models)
     {
-        $keys = Arr::pluckUniqueProperty($models, 'id');
-
-        return ! empty($keys);
+        return ! empty($models->pluckProperty('id'));
     }
 
-    public function loadForeign(array $models)
+    public function loadForeign(Models $models, $flags = null)
     {
         return $this->getForeignRepo()
-            ->findByKey($this->key, Arr::pluckUniqueProperty($models, 'id'));
+            ->findAll()
+            ->whereIn($this->key, $models->pluckProperty('id'))
+            ->loadRaw($flags);
     }
 
     public function update(AbstractModel $model, AbstractLink $link)

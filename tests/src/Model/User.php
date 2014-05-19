@@ -3,6 +3,7 @@
 namespace CL\LunaCore\Test\Model;
 
 use CL\LunaCore\Model\AbstractModel;
+use CL\LunaCore\Model\SoftDeleteTrait;
 use CL\LunaCore\Test\Repo;
 
 /**
@@ -11,6 +12,8 @@ use CL\LunaCore\Test\Repo;
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 class User extends AbstractModel {
+
+    use SoftDeleteTrait;
 
     public function getRepo()
     {

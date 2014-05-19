@@ -4,6 +4,15 @@
                         "name": "name",
                         "password": null,
                         "addressId": 1,
-                        "isBlocked": true
+                        "isBlocked": true,
+                        "deletedAt": null
+                    },
+                    "2": {
+                        "id": 2,
+                        "name": "deleted",
+                        "password": null,
+                        "addressId": 1,
+                        "isBlocked": false,
+                        "deletedAt": 1400500528
                     }
                 }

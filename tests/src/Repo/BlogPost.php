@@ -2,16 +2,15 @@
 
 namespace CL\LunaCore\Test\Repo;
 
-use CL\LunaCore\Test\Rel;
 use CL\LunaCore\Test\Model;
-use CL\Carpo\Assert;
+use CL\LunaCore\Test\Rel;
 
 /**
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-class Address extends AbstractTestRepo {
+class BlogPost extends Post {
 
     private static $instance;
 
@@ -21,7 +20,7 @@ class Address extends AbstractTestRepo {
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new Address(Model\Address::class, 'Address.json');
+            self::$instance = new BlogPost(Model\BlogPost::class, 'Post.json');
         }
 
         return self::$instance;
@@ -29,9 +28,11 @@ class Address extends AbstractTestRepo {
 
     public function initialize()
     {
+        parent::initialize();
+
         $this
             ->setRels([
-                new Rel\One('user', $this, Address::get()),
+                new Rel\One('address', $this, Address::get()),
             ]);
     }
 }

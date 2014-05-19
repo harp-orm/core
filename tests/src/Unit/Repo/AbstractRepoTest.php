@@ -5,19 +5,25 @@ namespace CL\LunaCore\Test\Unit\Repo;
 use CL\LunaCore\Repo\AbstractRepo;
 use CL\LunaCore\Repo\Links;
 use CL\LunaCore\Repo\LinkOne;
+use CL\LunaCore\Repo\LinkMap;
+use CL\LunaCore\Repo\Rels;
+use CL\LunaCore\Repo\IdentityMap;
+use CL\LunaCore\Repo\EventListeners;
+use CL\LunaCore\Repo\Event;
 use CL\LunaCore\Test\Model\User;
 use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Repo\ModelEvent;
+use CL\LunaCore\Model\State;
 use CL\Util\Objects;
 use CL\Carpo\Assert\Present;
+use CL\Carpo\Asserts;
 
 class AbstractRepoTest extends AbstractRepoTestCase
 {
     public function getRepoInitialized($initialized)
     {
         $repo = $this->getMockForAbstractClass(
-            'CL\LunaCore\Repo\AbstractRepo',
-            [__NAMESPACE__.'\Model']
+            AbstractRepo::class,
+            [Model::class]
         );
 
         $repo
@@ -33,9 +39,9 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testConstruct()
     {
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo(Model::class);
 
-        $this->assertEquals(__NAMESPACE__.'\Model', $repo->getModelClass());
+        $this->assertEquals(Model::class, $repo->getModelClass());
     }
 
     /**
@@ -70,7 +76,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(false);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\LinkMap', $repo->getLinkMap());
+        $this->assertInstanceof(LinkMap::class, $repo->getLinkMap());
     }
 
     /**
@@ -80,7 +86,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(false);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\IdentityMap', $repo->getIdentityMap());
+        $this->assertInstanceof(IdentityMap::class, $repo->getIdentityMap());
     }
 
     /**
@@ -91,7 +97,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
         $repo = $this->getRepoInitialized(false);
 
         $this->assertInstanceof('ReflectionClass', $repo->getModelReflection());
-        $this->assertEquals(__NAMESPACE__.'\Model', $repo->getModelReflection()->getName());
+        $this->assertEquals(Model::class, $repo->getModelReflection()->getName());
     }
 
     /**
@@ -103,7 +109,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(true);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\Rels', $repo->getRels());
+        $this->assertInstanceof(Rels::class, $repo->getRels());
 
         $rels = [
             $this->getRelOne(),
@@ -138,7 +144,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(true);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\EventListeners', $repo->getEventListeners());
+        $this->assertInstanceof(EventListeners::class, $repo->getEventListeners());
 
         $repo
             ->addEventBeforeDelete('before delete callback')
@@ -152,18 +158,18 @@ class AbstractRepoTest extends AbstractRepoTestCase
             ->addEventAfterLoad('after load callback');
 
         $expectedBefore = [
-          ModelEvent::DELETE => ['before delete callback'],
-          ModelEvent::SAVE   => ['before save callback'],
-          ModelEvent::INSERT => ['before insert callback'],
-          ModelEvent::UPDATE => ['before update callback'],
+          Event::DELETE => ['before delete callback'],
+          Event::SAVE   => ['before save callback'],
+          Event::INSERT => ['before insert callback'],
+          Event::UPDATE => ['before update callback'],
         ];
 
         $expectedAfter = [
-          ModelEvent::DELETE => ['after delete callback'],
-          ModelEvent::SAVE   => ['after save callback'],
-          ModelEvent::INSERT => ['after insert callback'],
-          ModelEvent::UPDATE => ['after update callback'],
-          ModelEvent::LOAD   => ['after load callback'],
+          Event::DELETE => ['after delete callback'],
+          Event::SAVE   => ['after save callback'],
+          Event::INSERT => ['after insert callback'],
+          Event::UPDATE => ['after update callback'],
+          Event::LOAD   => ['after load callback'],
         ];
 
         $this->assertEquals($expectedBefore, $repo->getEventListeners()->getBefore());
@@ -178,7 +184,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(true);
 
-        $this->assertInstanceof('CL\Carpo\Asserts', $repo->getAsserts());
+        $this->assertInstanceof(Asserts::class, $repo->getAsserts());
 
         $asserts = [
             new Present('name'),
@@ -197,13 +203,13 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testDispatchEvents()
     {
-        $models = [new Model()];
+        $model = new Model();
 
-        $eventListener = $this->getMock('CL\LunaCore\Repo\EventListeners');
+        $eventListener = $this->getMock(EventListeners::class);
 
         $repo = $this->getMockForAbstractClass(
-            'CL\LunaCore\Repo\AbstractRepo',
-            [__NAMESPACE__.'\Model'],
+            AbstractRepo::class,
+            [Model::class],
             '',
             true,
             true,
@@ -219,33 +225,30 @@ class AbstractRepoTest extends AbstractRepoTestCase
         $eventListener
             ->expects($this->once())
             ->method('dispatchBeforeEvent')
-            ->with($this->equalTo(ModelEvent::LOAD), $this->identicalTo($models));
+            ->with($this->identicalTo($model), $this->equalTo(Event::LOAD));
 
-        $repo->dispatchBeforeEvent(ModelEvent::LOAD, $models);
-
+        $repo->dispatchBeforeEvent($model, Event::LOAD);
 
         $eventListener
             ->expects($this->once())
             ->method('dispatchAfterEvent')
-            ->with($this->equalTo(ModelEvent::LOAD), $this->identicalTo($models));
+            ->with($this->identicalTo($model), $this->equalTo(Event::LOAD));
 
-        $repo->dispatchAfterEvent(ModelEvent::LOAD, $models);
-
+        $repo->dispatchAfterEvent($model, Event::LOAD);
 
         $eventListener
             ->expects($this->once())
             ->method('hasBeforeEvent')
-            ->with($this->equalTo(ModelEvent::LOAD));
+            ->with($this->equalTo(Event::LOAD));
 
-        $repo->hasBeforeEvent(ModelEvent::LOAD);
-
+        $repo->hasBeforeEvent(Event::LOAD);
 
         $eventListener
             ->expects($this->once())
             ->method('hasAfterEvent')
-            ->with($this->equalTo(ModelEvent::LOAD));
+            ->with($this->equalTo(Event::LOAD));
 
-        $repo->hasAfterEvent(ModelEvent::LOAD);
+        $repo->hasAfterEvent(Event::LOAD);
     }
 
     /**
@@ -257,14 +260,14 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
         $model = $repo->newInstance();
 
-        $this->assertInstanceOf(__NAMESPACE__.'\Model', $model);
+        $this->assertInstanceOf(Model::class, $model);
         $this->assertEquals(['id' => null, 'name' => 'test'], $model->getProperties());
         $this->assertTrue($model->isPending());
 
-        $model = $repo->newInstance(['id' => 10, 'name' => 'new'], AbstractModel::PERSISTED);
+        $model = $repo->newInstance(['id' => 10, 'name' => 'new'], State::SAVED);
 
         $this->assertEquals(['id' => 10, 'name' => 'new'], $model->getProperties());
-        $this->assertTrue($model->isPersisted());
+        $this->assertTrue($model->isSaved());
     }
 
     /**
@@ -276,7 +279,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
         $model = $repo->newVoidInstance();
 
-        $this->assertInstanceOf(__NAMESPACE__.'\Model', $model);
+        $this->assertInstanceOf(Model::class, $model);
         $this->assertEquals(['id' => null, 'name' => 'test'], $model->getProperties());
         $this->assertTrue($model->isVoid());
 
@@ -293,7 +296,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testGetInitialized()
     {
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo(Model::class);
 
         $this->assertFalse($repo->getInitialized());
 
@@ -313,7 +316,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testInitialize()
     {
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo(Model::class);
 
         $this->assertFalse($repo->initializeCalled);
         $this->assertFalse($repo->initialize1TraitCalled);
@@ -324,236 +327,5 @@ class AbstractRepoTest extends AbstractRepoTestCase
         $this->assertTrue($repo->initializeCalled);
         $this->assertTrue($repo->initialize1TraitCalled);
         $this->assertTrue($repo->initialize2TraitCalled);
-    }
-
-    /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::find
-     */
-    public function testFind()
-    {
-        $repo = $this->getMockForAbstractClass(
-            'CL\LunaCore\Repo\AbstractRepo',
-            [__NAMESPACE__.'\Model'],
-            '',
-            true,
-            true,
-            true,
-            ['selectWithId']
-        );
-
-        $model = new Model();
-
-        $repo
-            ->expects($this->exactly(2))
-            ->method('selectWithId')
-            ->will($this->returnValueMap([
-                [2, $model],
-                [5, null],
-            ]));
-
-        $result = $repo->find(2);
-
-        $this->assertSame($model, $result);
-
-        $result = $repo->find(5);
-
-        $this->assertInstanceOf(__NAMESPACE__.'\Model', $result);
-        $this->assertEquals(['id' => null, 'name' => 'test'], $result->getProperties());
-        $this->assertTrue($result->isVoid());
-    }
-
-    /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::newPersist
-     */
-    public function testNewPersist()
-    {
-        $repo = new Repo(__NAMESPACE__.'\Model');
-
-        $persist = $repo->newPersist();
-
-        $this->assertInstanceof('CL\LunaCore\Repo\Persist', $persist);
-    }
-
-    /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::errorIfModelNotFromRepo
-     */
-    public function testErrorIfModelNotFromRepo()
-    {
-        $repo = new Repo(__NAMESPACE__.'\Model');
-        $model = new Model();
-        $foreign = new User();
-
-        $repo->errorIfModelNotFromRepo($model);
-
-        $this->setExpectedException('InvalidArgumentException');
-
-        $repo->errorIfModelNotFromRepo($foreign);
-    }
-
-    /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::persist
-     */
-    public function testPersist()
-    {
-        $repo = $this->getMockForAbstractClass(
-            'CL\LunaCore\Repo\AbstractRepo',
-            [__NAMESPACE__.'\Model'],
-            '',
-            true,
-            true,
-            true,
-            ['errorIfModelNotFromRepo', 'newPersist']
-        );
-
-        $model = new Model();
-
-        $persist = $this->getMock('CL\LunaCore\Repo\Persist', ['add', 'execute']);
-        $persist
-            ->expects($this->once())
-            ->method('add')
-            ->with($this->identicalTo($model))
-            ->will($this->returnSelf());
-
-        $persist
-            ->expects($this->once())
-            ->method('execute');
-
-        $repo
-            ->expects($this->once())
-            ->method('newPersist')
-            ->will($this->returnValue($persist));
-
-        $repo
-            ->expects($this->once())
-            ->method('errorIfModelNotFromRepo')
-            ->with($this->identicalTo($model));
-
-        $repo->persist($model);
-    }
-
-    /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::addLink
-     */
-    public function testAddLink()
-    {
-        $repo = $this->getMockForAbstractClass(
-            'CL\LunaCore\Repo\AbstractRepo',
-            [__NAMESPACE__.'\Model'],
-            '',
-            true,
-            true,
-            true,
-            ['errorIfModelNotFromRepo']
-        );
-
-        $link = $this->getLinkOne();
-        $repo->getRels()->add($link->getRel());
-        $model = new Model();
-
-        $repo
-            ->expects($this->once())
-            ->method('errorIfModelNotFromRepo')
-            ->with($this->identicalTo($model));
-
-        $repo->addLink($model, $link);
-
-        $this->assertTrue($repo->getLinkMap()->has($model));
-        $this->assertSame($link, $repo->getLinkMap()->get($model)->get('one'));
-    }
-
-    /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::loadRel
-     */
-    public function testLoadRel()
-    {
-        $model = new Model();
-        $foreign = new Model();
-
-        $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRelOne',
-            ['test', $model->getRepo(), $foreign->getRepo()],
-            '',
-            true,
-            true,
-            true,
-            ['loadForeignModels']
-        );
-
-        $repo = $model->getRepo();
-        $repo->getRels()->add($rel);
-
-        $link = new LinkOne($rel, $foreign);
-
-        $models = [$model];
-        $expected = [$foreign];
-
-        $rel
-            ->expects($this->once())
-            ->method('loadForeignModels')
-            ->with(
-                $this->identicalTo($models),
-                $this->callback(function ($closure) use ($model, $link, $repo) {
-
-                    $this->assertInstanceof('Closure', $closure);
-
-                    $closure($model, $link);
-
-                    $this->assertTrue($repo->getLinkMap()->has($model));
-                    $this->assertSame($link, $repo->getLinkMap()->get($model)->get('test'));
-
-                    return true;
-                })
-            )
-            ->will($this->returnValue($expected));
-
-        $this->assertFalse($repo->getLinkMap()->has($model));
-
-        $result = $repo->loadRel('test', $models);
-
-        $this->assertSame($expected, $result);
-
-        $this->setExpectedException('InvalidArgumentException');
-
-        $repo->loadRel('otherRel', $models);
-    }
-
-    /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::loadLink
-     */
-    public function testLoadLink()
-    {
-        $repo = $this->getMockForAbstractClass(
-            'CL\LunaCore\Repo\AbstractRepo',
-            [__NAMESPACE__.'\Model'],
-            '',
-            true,
-            true,
-            true,
-            ['errorIfModelNotFromRepo', 'loadRel']
-        );
-
-        $link = $this->getLinkOne();
-        $rel = $link->getRel();
-        $repo->getRels()->add($rel);
-        $model = $link->get();
-
-        $repo
-            ->expects($this->exactly(2))
-            ->method('errorIfModelNotFromRepo')
-            ->with($this->identicalTo($model));
-
-
-        $repo
-            ->expects($this->once())
-            ->method('loadRel')
-            ->with($this->equalTo('one'), $this->identicalTo([$model]));
-
-        $repo->loadLink($model, 'one');
-
-        $repo->getLinkMap()->get($model)->add($link);
-
-        $result = $repo->loadLink($model, 'one');
-
-        $this->assertSame($link, $result);
     }
 }

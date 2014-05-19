@@ -3,7 +3,7 @@
 namespace CL\LunaCore\Test\Unit\Repo;
 
 use CL\LunaCore\Repo\EventListeners;
-use CL\LunaCore\Repo\ModelEvent;
+use CL\LunaCore\Repo\Event;
 
 class EventListenersTest extends AbstractRepoTestCase
 {
@@ -15,14 +15,14 @@ class EventListenersTest extends AbstractRepoTestCase
         $model = new Model();
 
         $listeners = [
-            ModelEvent::SAVE => [
+            Event::SAVE => [
                 function ($model) {
                     $model->callbackSave = true;
                 }
             ]
         ];
 
-        EventListeners::dispatchEvent($listeners, ModelEvent::SAVE, $model);
+        EventListeners::dispatchEvent($listeners, $model, Event::SAVE);
 
         $this->assertTrue($model->callbackSave);
     }
@@ -39,15 +39,15 @@ class EventListenersTest extends AbstractRepoTestCase
         $listeners = new EventListeners();
 
         $this->assertEmpty($listeners->getBefore());
-        $this->assertFalse($listeners->hasBeforeEvent(ModelEvent::INSERT));
+        $this->assertFalse($listeners->hasBeforeEvent(Event::INSERT));
 
-        $listeners->addBefore(ModelEvent::INSERT, function ($model) {
+        $listeners->addBefore(Event::INSERT, function ($model) {
             $model->callbackCalled = true;
         });
 
-        $this->assertTrue($listeners->hasBeforeEvent(ModelEvent::INSERT));
+        $this->assertTrue($listeners->hasBeforeEvent(Event::INSERT));
 
-        $listeners->dispatchBeforeEvent([$model], ModelEvent::INSERT);
+        $listeners->dispatchBeforeEvent($model, Event::INSERT);
 
         $this->assertTrue($model->callbackCalled);
     }
@@ -64,15 +64,15 @@ class EventListenersTest extends AbstractRepoTestCase
         $listeners = new EventListeners();
 
         $this->assertEmpty($listeners->getAfter());
-        $this->assertFalse($listeners->hasAfterEvent(ModelEvent::INSERT));
+        $this->assertFalse($listeners->hasAfterEvent(Event::INSERT));
 
-        $listeners->addAfter(ModelEvent::INSERT, function ($model) {
+        $listeners->addAfter(Event::INSERT, function ($model) {
             $model->callbackCalled = true;
         });
 
-        $this->assertTrue($listeners->hasAfterEvent(ModelEvent::INSERT));
+        $this->assertTrue($listeners->hasAfterEvent(Event::INSERT));
 
-        $listeners->dispatchAfterEvent([$model], ModelEvent::INSERT);
+        $listeners->dispatchAfterEvent($model, Event::INSERT);
 
         $this->assertTrue($model->callbackCalled);
     }

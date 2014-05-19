@@ -135,7 +135,7 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     /**
      * @return AbstractModel[]
      */
-    public function asArray()
+    public function toArray()
     {
         return Objects::toArray($this->current);
     }

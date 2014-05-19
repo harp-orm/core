@@ -3,9 +3,10 @@
 namespace CL\LunaCore\Test\Unit\Rel;
 
 use CL\LunaCore\Rel\AbstractRel;
-use CL\LunaCore\Repo\LinkOne;
+use CL\LunaCore\Rel\AbstractRelMany;
+use CL\LunaCore\Model\Models;
+use CL\LunaCore\Repo\LinkMany;
 use CL\LunaCore\Test\AbstractTestCase;
-use SplObjectStorage;
 
 class AbstractRelTest extends AbstractTestCase
 {
@@ -17,12 +18,12 @@ class AbstractRelTest extends AbstractTestCase
      */
     public function testConstruct()
     {
-        $repo1 = new Repo(__NAMESPACE__.'\Model');
-        $repo2 = new Repo(__NAMESPACE__.'\Model');
+        $repo1 = new Repo(Model::class);
+        $repo2 = new Repo(Model::class);
         $name = 'test name';
 
         $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRel',
+            AbstractRel::class,
             [$name, $repo1, $repo2, ['test' => 'test option']]
         );
 
@@ -33,20 +34,20 @@ class AbstractRelTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Rel\AbstractRel::loadForeignForNodes
+     * @covers CL\LunaCore\Rel\AbstractRel::loadForeignModels
      */
-    public function testLoadForeignForNodes()
+    public function testLoadForeignModels()
     {
-        $repo1 = new Repo(__NAMESPACE__.'\Model');
-        $repo2 = new Repo(__NAMESPACE__.'\Model');
+        $repo1 = new Repo(Model::class);
+        $repo2 = new Repo(Model::class);
         $name = 'test name';
 
         $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRel',
+            AbstractRel::class,
             [$name, $repo1, $repo2]
         );
 
-        $models = [new Model(), new Model()];
+        $models = Models::fromArray([new Model(), new Model()]);
         $expected = [new Model(), new Model(), new Model()];
 
         $rel
@@ -61,71 +62,73 @@ class AbstractRelTest extends AbstractTestCase
             ->with($this->identicalTo($models))
             ->will($this->returnValue($expected));
 
-        $result = $rel->loadForeignForNodes($models);
+        $result = $rel->loadForeignModels($models);
 
-        $this->assertInternalType('array', $result);
+        $this->assertInstanceOf(Models::class, $result);
         $this->assertEmpty($result);
 
-        $result = $rel->loadForeignForNodes($models);
+        $result = $rel->loadForeignModels($models);
 
-        $this->assertSame($expected, $result);
+        $this->assertInstanceOf(Models::class, $result);
+        $this->assertSame($expected, $result->toArray());
     }
 
     /**
-     * @covers CL\LunaCore\Rel\AbstractRel::loadForeignModels
+     * @covers CL\LunaCore\Rel\AbstractRel::linkModels
      */
-    public function testLoadForeignModels()
+    public function testLinkModels()
     {
-        $repo1 = new Repo(__NAMESPACE__.'\Model');
-        $repo2 = new Repo(__NAMESPACE__.'\Model');
-        $name = 'test name';
-
         $models = [new Model(), new Model()];
-        $foreign = [new Model(), new Model()];
-        $modelLinks = new SplObjectStorage();
+        $foreign = [new Model(), new Model(), new Model()];
+
+        $map = [
+            [$models[0], $foreign[0], true],
+            [$models[0], $foreign[1], false],
+            [$models[0], $foreign[2], false],
+            [$models[1], $foreign[0], false],
+            [$models[1], $foreign[1], true],
+            [$models[1], $foreign[2], true],
+        ];
 
         $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRelOne',
-            [$name, $repo1, $repo2],
+            AbstractRelMany::class,
+            ['test name', new Repo(Model::class), new Repo(Model::class)],
             '',
             true,
             true,
             true,
-            ['loadForeignForNodes', 'linkToForeign', 'newLinkFrom']
+            ['newLinkFrom']
         );
 
+        $rel
+            ->expects($this->exactly(6))
+            ->method('areLinked')
+            ->will($this->returnValueMap($map));
+
         $links = [
-            new LinkOne($rel, $foreign[0]),
-            new LinkOne($rel, $foreign[1]),
+            new LinkMany($rel, [$foreign[0]]),
+            new LinkMany($rel, [$foreign[1], $foreign[2]]),
+        ];
+
+
+        $linkMap = [
+            [$models[0], [$foreign[0]], $links[0]],
+            [$models[1], [$foreign[1], $foreign[2]], $links[1]],
         ];
 
         $rel
-            ->expects($this->once())
-            ->method('loadForeignForNodes')
-            ->with($this->identicalTo($models))
-            ->will($this->returnValue($foreign));
-
-        $rel
-            ->expects($this->once())
-            ->method('linkToForeign')
-            ->with($this->identicalTo($models), $this->identicalTo($foreign))
-            ->will($this->returnValue($modelLinks));
-
-        $rel
-            ->expects($this->at(2))
+            ->expects($this->exactly(2))
             ->method('newLinkFrom')
-            ->with($this->identicalTo($models[0]), $this->identicalTo($modelLinks))
-            ->will($this->returnValue($links[0]));
+            ->will($this->returnValueMap($linkMap));
 
-        $rel
-            ->expects($this->at(3))
-            ->method('newLinkFrom')
-            ->with($this->identicalTo($models[1]), $this->identicalTo($modelLinks))
-            ->will($this->returnValue($links[1]));
+        $result = $rel->linkModels(Models::fromArray($models), Models::fromArray($foreign));
 
-        $result = $rel->loadForeignModels($models, function($model, $link) use ($models, $links) {
-            $this->assertContains($model, $models);
-            $this->assertContains($link, $links);
-        });
+        $i = 0;
+
+        foreach ($result as $model => $link) {
+            $this->assertSame($models[$i], $model);
+            $this->assertSame($links[$i], $link);
+            $i++;
+        }
     }
 }

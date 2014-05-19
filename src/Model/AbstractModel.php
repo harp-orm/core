@@ -3,6 +3,7 @@
 namespace CL\LunaCore\Model;
 
 use CL\Carpo\Errors;
+use LogicException;
 
 /*
  * @author     Ivan Kerin
@@ -15,28 +16,46 @@ abstract class AbstractModel
     use UnmappedPropertiesTrait;
     use PropertiesAccessorTrait;
 
-    const PENDING = 1;
-    const DELETED = 2;
-    const PERSISTED = 3;
-    const VOID = 4;
-
     /**
      * @return CL\LunaCore\Repo\AbstractRepo
      */
     abstract public function getRepo();
 
+    /**
+     * @var int
+     */
     private $state;
+
+    /**
+     * @var array
+     */
     private $errors;
 
-    public function __construct(array $properties = null, $state = self::PENDING)
+    /**
+     * @param array $properties
+     * @param int $state
+     */
+    public function __construct(array $properties = null, $state = null)
     {
-        $this->state = $state;
+        $this->setState($state ?: $this->getDefaultState());
 
-        if ($properties) {
+        if (! empty($properties)) {
             $this->setProperties($properties);
         }
 
+        if ($this->getRepo()->getInherited()) {
+            $this->class = $this->getRepo()->getModelClass();
+        }
+
         $this->resetOriginals();
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultState()
+    {
+        return $this->getId() ? State::SAVED : State::PENDING;
     }
 
     /**
@@ -52,14 +71,14 @@ abstract class AbstractModel
     }
 
     /**
-     * if the model has id, it becomes persisted, otherwise - pending
+     * if the model has id, it becomes SAVED, otherwise - pending
      *
      * @return AbstractModel $this
      */
     public function setStateNotVoid()
     {
-        if ($this->state === self::VOID) {
-            $this->state = $this->getId() ? self::PERSISTED : self::PENDING;
+        if ($this->state === State::VOID) {
+            $this->state = $this->getId() ? State::SAVED : State::PENDING;
         }
 
         return $this;
@@ -70,7 +89,7 @@ abstract class AbstractModel
      */
     public function setStateVoid()
     {
-        $this->state = self::VOID;
+        $this->state = State::VOID;
 
         return $this;
     }
@@ -96,9 +115,9 @@ abstract class AbstractModel
     /**
      * @return boolean
      */
-    public function isPersisted()
+    public function isSaved()
     {
-        return $this->state === self::PERSISTED;
+        return $this->state === State::SAVED;
     }
 
     /**
@@ -106,7 +125,7 @@ abstract class AbstractModel
      */
     public function isPending()
     {
-        return $this->state === self::PENDING;
+        return $this->state === State::PENDING;
     }
 
     /**
@@ -114,7 +133,15 @@ abstract class AbstractModel
      */
     public function isDeleted()
     {
-        return $this->state === self::DELETED;
+        return $this->state === State::DELETED;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSoftDeleted()
+    {
+        return false;
     }
 
     /**
@@ -122,7 +149,7 @@ abstract class AbstractModel
      */
     public function isVoid()
     {
-        return $this->state === self::VOID;
+        return $this->state === State::VOID;
     }
 
     /**
@@ -149,13 +176,17 @@ abstract class AbstractModel
     }
 
     /**
-     * Set state as deleted (You need to persist it to delete it from the repo)
+     * Set state as deleted (You need to save it to delete it from the repo)
      *
      * @return AbstractModel $this
      */
     public function delete()
     {
-        $this->state = self::DELETED;
+        if ($this->state === State::PENDING) {
+            throw new LogicException('You cannot delete pending models');
+        } elseif ($this->state === State::SAVED) {
+            $this->state = State::DELETED;
+        }
 
         return $this;
     }

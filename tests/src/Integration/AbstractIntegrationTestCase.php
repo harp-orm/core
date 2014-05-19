@@ -34,13 +34,16 @@ abstract class AbstractIntegrationTestCase extends AbstractTestCase
                         "id": 1,
                         "name": "post 1",
                         "body": "my post 1",
-                        "userId": 1
+                        "userId": 1,
+                        "class": "CL\\\\LunaCore\\\\Test\\\\Model\\\\Post"
                     },
                     "2": {
                         "id": 2,
                         "name": "post 2",
                         "body": "my post 2",
-                        "userId": 1
+                        "userId": 1,
+                        "url": "http:\/\/example.com\/post2",
+                        "class": "CL\\\\LunaCore\\\\Test\\\\Model\\\\BlogPost"
                     }
                 }',
                 'User.json' => '{
@@ -49,7 +52,16 @@ abstract class AbstractIntegrationTestCase extends AbstractTestCase
                         "name": "name",
                         "password": null,
                         "addressId": 1,
-                        "isBlocked": true
+                        "isBlocked": true,
+                        "deletedAt": null
+                    },
+                    "2": {
+                        "id": 2,
+                        "name": "deleted",
+                        "password": null,
+                        "addressId": 1,
+                        "isBlocked": false,
+                        "deletedAt": 1400500528
                     }
                 }',
             ])
@@ -60,6 +72,7 @@ abstract class AbstractIntegrationTestCase extends AbstractTestCase
         Repo\User::get()->getIdentityMap()->clear();
         Repo\Address::get()->getIdentityMap()->clear();
         Repo\Post::get()->getIdentityMap()->clear();
+        Repo\BlogPost::get()->getIdentityMap()->clear();
     }
 
     public function tearDown()

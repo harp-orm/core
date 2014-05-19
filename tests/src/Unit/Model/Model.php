@@ -8,16 +8,10 @@ class Model extends AbstractModel
 {
     public $id;
     public $name = 'test';
-
-    private $repo;
+    public $class;
 
     public function getRepo()
     {
-        return $this->repo;
-    }
-
-    public function setRepo($repo)
-    {
-        return $this->repo = $repo;
+        return Repo::get();
     }
 }

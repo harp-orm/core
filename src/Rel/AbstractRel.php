@@ -3,6 +3,7 @@
 namespace CL\LunaCore\Rel;
 
 use CL\LunaCore\Model\AbstractModel;
+use CL\LunaCore\Model\Models;
 use CL\LunaCore\Repo\AbstractRepo;
 use SplObjectStorage;
 use Closure;
@@ -30,10 +31,9 @@ abstract class AbstractRel
     protected $repo;
 
     abstract public function areLinked(AbstractModel $model, AbstractModel $foreignModel);
-    abstract public function hasForeign(array $models);
-    abstract public function loadForeign(array $models);
-    abstract public function linkToForeign(array $models, array $foreign);
-    abstract public function newLinkFrom(AbstractModel $model, SplObjectStorage $links);
+    abstract public function hasForeign(Models $models);
+    abstract public function loadForeign(Models $models, $flags = null);
+    abstract public function newLinkFrom(AbstractModel $model, array $links);
 
     /**
      * @param string       $name
@@ -41,8 +41,12 @@ abstract class AbstractRel
      * @param AbstractRepo $foreignRepo
      * @param array        $properties
      */
-    public function __construct($name, AbstractRepo $repo, AbstractRepo $foreignRepo, array $properties = array())
-    {
+    public function __construct(
+        $name,
+        AbstractRepo $repo,
+        AbstractRepo $foreignRepo,
+        array $properties = array()
+    ) {
         $this->name = $name;
         $this->foreignRepo = $foreignRepo;
         $this->repo = $repo;
@@ -77,34 +81,33 @@ abstract class AbstractRel
     }
 
     /**
-     * @param  AbstractModel[] $models
-     * @return AbstractModel[]
+     * @param  Models $models
+     * @return Models
      */
-    public function loadForeignForNodes(array $models)
+    public function loadForeignModels(Models $models, $flags = null)
     {
         if ($this->hasForeign($models)) {
-            return $this->loadForeign($models);
+            $foreign = $this->loadForeign($models, $flags);
+
+            return Models::fromArray($foreign);
         } else {
-            return [];
+            return new Models();
         }
     }
 
-    /**
-     * @param  AbstractModel[] $models
-     * @return AbstractModel[]
-     */
-    public function loadForeignModels(array $models, Closure $yield)
+    public function linkModels(Models $models, Models $foreign)
     {
-        $foreign = $this->loadForeignForNodes($models);
-
-        $links = $this->linkToForeign($models, $foreign);
-
         foreach ($models as $model) {
-            $link = $this->newLinkFrom($model, $links);
 
-            $yield($model, $link);
+            $linked = [];
+
+            foreach ($foreign as $foreignModel) {
+                if ($this->areLinked($model, $foreignModel)) {
+                    $linked []= $foreignModel;
+                }
+            }
+
+            yield $model => $this->newLinkFrom($model, $linked);
         }
-
-        return $foreign;
     }
 }

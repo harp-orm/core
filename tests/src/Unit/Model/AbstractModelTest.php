@@ -3,66 +3,32 @@
 namespace CL\LunaCore\Test\Unit\Model;
 
 use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Repo\ModelEvent;
+use CL\LunaCore\Model\State;
+use CL\LunaCore\Repo\Event;
 use CL\LunaCore\Test\AbstractTestCase;
-use CL\Carpo\Asserts;
-use CL\Carpo\Assert\Present;
 
 class AbstractModelTest extends AbstractTestCase
 {
-    public function dataConstruct()
-    {
-        return [
-            [
-                null,
-                null,
-                ['id' => null, 'name' => 'test'],
-                AbstractModel::PENDING,
-                null,
-            ],
-            [
-                ['id' => 1, 'name' => 'test 2'],
-                null,
-                ['id' => 1, 'name' => 'test 2'],
-                AbstractModel::PENDING,
-                null,
-            ],
-            [
-                ['id' => 1, 'name' => 'test 2', 'test' => 'test 3'],
-                null,
-                ['id' => 1, 'name' => 'test 2'],
-                AbstractModel::PENDING,
-                ['test' => 'test 3'],
-            ],
-            [
-                ['id' => 1, 'name' => 'test 2', 'test' => 'test 3'],
-                AbstractModel::PERSISTED,
-                ['id' => 1, 'name' => 'test 2'],
-                AbstractModel::PERSISTED,
-                ['test' => 'test 3'],
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider dataConstruct
+   /**
      * @covers CL\LunaCore\Model\AbstractModel::__construct
      * @covers CL\LunaCore\Model\AbstractModel::getState
      */
-    public function testConstrut($properties, $state, $expectedProperties, $expectedState, $expectedUnmapped)
+    public function testConstrut()
     {
-        if ($state) {
-            $model = new Model($properties, $state);
-        } elseif ($properties) {
-            $model = new Model($properties);
-        } else {
-            $model = new Model();
-        }
+        $model = new Model();
 
-        $this->assertEquals($expectedProperties, $model->getProperties());
-        $this->assertEquals($expectedProperties, $model->getOriginals());
-        $this->assertEquals($expectedState, $model->getState());
-        $this->assertEquals($expectedUnmapped, $model->getUnmapped());
+        $this->assertEmpty($model->getUnmapped());
+        $this->assertTrue($model->isPending());
+        $this->assertEmpty($model->id);
+        $this->assertEquals('test', $model->name);
+
+        $model = new Model(['id' => 10, 'name' => 'name1', 'test' => 'testval'], State::SAVED);
+
+        $this->assertEquals(['test' => 'testval'], $model->getUnmapped());
+        $this->assertTrue($model->isSaved());
+        $this->assertEquals(10, $model->id);
+        $this->assertEquals('name1', $model->name);
+        $this->assertEquals(['id' => 10, 'name' => 'name1', 'class' => Model::class], $model->getOriginals());
     }
 
     /**
@@ -72,7 +38,7 @@ class AbstractModelTest extends AbstractTestCase
     {
         $model = new Model(['id' => 1, 'name' => 'test 2']);
 
-        $expected = ['id' => 1, 'name' => 'test 2'];
+        $expected = ['id' => 1, 'name' => 'test 2', 'class' => Model::class];
 
         $model->name = 'test 3';
         $model->id = 4;
@@ -81,7 +47,7 @@ class AbstractModelTest extends AbstractTestCase
 
         $model->resetOriginals();
 
-        $expected = ['id' => 4, 'name' => 'test 3'];
+        $expected = ['id' => 4, 'name' => 'test 3', 'class' => Model::class];
 
         $this->assertEquals($expected, $model->getOriginals());
     }
@@ -91,27 +57,23 @@ class AbstractModelTest extends AbstractTestCase
         return [
             [
                 ['id' => null],
-                AbstractModel::VOID,
-                1,
-                AbstractModel::PENDING,
+                State::VOID,
+                State::PENDING,
             ],
             [
                 ['id' => 10],
-                AbstractModel::VOID,
-                1,
-                AbstractModel::PERSISTED,
+                State::VOID,
+                State::SAVED,
             ],
             [
                 ['id' => null],
-                AbstractModel::PERSISTED,
-                0,
-                AbstractModel::PERSISTED,
+                State::SAVED,
+                State::SAVED,
             ],
             [
                 ['id' => 10],
-                AbstractModel::PENDING,
-                0,
-                AbstractModel::PENDING,
+                State::PENDING,
+                State::PENDING,
             ],
         ];
     }
@@ -120,17 +82,25 @@ class AbstractModelTest extends AbstractTestCase
      * @dataProvider dataSetStateNotVoid
      * @covers CL\LunaCore\Model\AbstractModel::setStateNotVoid
      */
-    public function testSetStateNotVoid($parameters, $state, $getIdCalled, $expected)
+    public function testSetStateNotVoid($parameters, $state, $expected)
     {
-        $model = $this->getMock('CL\LunaCore\Test\Unit\Model\Model', ['getId'], [$parameters, $state]);
-        $model
-            ->expects($this->exactly($getIdCalled))
-            ->method('getId')
-            ->will($this->returnValue($parameters['id']));
+        $model = new Model($parameters, $state);
 
         $model->setStateNotVoid();
         $this->assertEquals($expected, $model->getState());
     }
+
+    /**
+     * @covers CL\LunaCore\Model\AbstractModel::getDefaultState
+     */
+    public function testGetDefaultState()
+    {
+        $model = new Model();
+
+        $model->setStateNotVoid();
+        $this->assertEquals(State::PENDING, $model->getState());
+    }
+
 
     /**
      * @covers CL\LunaCore\Model\AbstractModel::setStateVoid
@@ -144,7 +114,7 @@ class AbstractModelTest extends AbstractTestCase
 
         $model->setStateVoid();
 
-        $this->assertEquals(AbstractModel::VOID, $model->getState());
+        $this->assertEquals(State::VOID, $model->getState());
         $this->assertTrue($model->isVoid());
     }
 
@@ -154,25 +124,25 @@ class AbstractModelTest extends AbstractTestCase
      */
     public function testIsPending()
     {
-        $model = new Model(null, AbstractModel::VOID);
+        $model = new Model(null, State::VOID);
 
         $this->assertFalse($model->isPending());
-        $model->setState(AbstractModel::PENDING);
+        $model->setState(State::PENDING);
         $this->assertTrue($model->isPending());
     }
 
 
     /**
-     * @covers CL\LunaCore\Model\AbstractModel::isPersisted
+     * @covers CL\LunaCore\Model\AbstractModel::isSaved
      * @covers CL\LunaCore\Model\AbstractModel::setState
      */
-    public function testIsPersisted()
+    public function testIsSaved()
     {
-        $model = new Model(null, AbstractModel::VOID);
+        $model = new Model(null, State::VOID);
 
-        $this->assertFalse($model->isPersisted());
-        $model->setState(AbstractModel::PERSISTED);
-        $this->assertTrue($model->isPersisted());
+        $this->assertFalse($model->isSaved());
+        $model->setState(State::SAVED);
+        $this->assertTrue($model->isSaved());
     }
 
     /**
@@ -181,11 +151,21 @@ class AbstractModelTest extends AbstractTestCase
      */
     public function testIsDeleted()
     {
-        $model = new Model(null, AbstractModel::VOID);
+        $model = new Model(null, State::VOID);
 
         $this->assertFalse($model->isDeleted());
-        $model->setState(AbstractModel::DELETED);
+        $model->setState(State::DELETED);
         $this->assertTrue($model->isDeleted());
+    }
+
+    /**
+     * @covers CL\LunaCore\Model\AbstractModel::isSoftDeleted
+     */
+    public function testIsSoftDeleted()
+    {
+        $model = new Model();
+
+        $this->assertFalse($model->isSoftDeleted());
     }
 
     /**
@@ -193,11 +173,28 @@ class AbstractModelTest extends AbstractTestCase
      */
     public function testDelete()
     {
-        $model = new Model(null, AbstractModel::VOID);
+        $model = new Model(null, State::SAVED);
 
         $this->assertFalse($model->isDeleted());
         $model->delete();
         $this->assertTrue($model->isDeleted());
+
+        $model = new Model(null, State::VOID);
+
+        $this->assertFalse($model->isDeleted());
+        $model->delete();
+        $this->assertFalse($model->isDeleted(), 'Should not delete if void');
+    }
+
+    /**
+     * @covers CL\LunaCore\Model\AbstractModel::delete
+     * @expectedException LogicException
+     */
+    public function testDeletePending()
+    {
+        $model = new Model(null, State::PENDING);
+
+        $model->delete();
     }
 
     /**
@@ -207,13 +204,6 @@ class AbstractModelTest extends AbstractTestCase
     public function testGetId()
     {
         $model = new Model();
-        $repo = $this->getMock('stdClass', ['getPrimaryKey']);
-        $repo
-            ->expects($this->exactly(4))
-            ->method('getPrimaryKey')
-            ->will($this->returnValue('id'));
-
-        $model->setRepo($repo);
 
         $this->assertEquals(null, $model->getId());
 
@@ -234,19 +224,7 @@ class AbstractModelTest extends AbstractTestCase
      */
     public function testErrors()
     {
-        $asserts = new Asserts([
-            new Present('name'),
-            new Present('other'),
-        ]);
-
         $model = new Model();
-        $repo = $this->getMock('stdClass', ['getAsserts']);
-        $repo
-            ->expects($this->once())
-            ->method('getAsserts')
-            ->will($this->returnValue($asserts));
-
-        $model->setRepo($repo);
 
         $this->assertInstanceOf('CL\Carpo\Errors', $model->getErrors());
         $this->assertCount(0, $model->getErrors());

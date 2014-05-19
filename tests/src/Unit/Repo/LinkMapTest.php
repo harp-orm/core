@@ -3,6 +3,7 @@
 namespace CL\LunaCore\Test\Unit\Repo;
 
 use CL\LunaCore\Repo\LinkMap;
+use CL\LunaCore\Repo\Links;
 
 class LinkMapTest extends AbstractRepoTestCase
 {
@@ -22,7 +23,7 @@ class LinkMapTest extends AbstractRepoTestCase
 
         $links = $map->get($model);
 
-        $this->assertInstanceOf('CL\LunaCore\Repo\Links', $links);
+        $this->assertInstanceOf(Links::class, $links);
         $this->assertEmpty($links->all());
         $this->assertTrue($map->has($model));
         $this->assertTrue($map->isEmpty($model));

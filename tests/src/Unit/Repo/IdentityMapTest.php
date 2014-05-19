@@ -3,7 +3,7 @@
 namespace CL\LunaCore\Test\Unit\Repo;
 
 use CL\LunaCore\Repo\IdentityMap;
-use CL\LunaCore\Model\AbstractModel;
+use CL\LunaCore\Model\State;
 
 class IdentityMapTest extends AbstractRepoTestCase
 {
@@ -14,7 +14,7 @@ class IdentityMapTest extends AbstractRepoTestCase
      */
     public function testConstruct()
     {
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo(Model::class);
         $map = new IdentityMap($repo);
 
         $this->assertSame($repo, $map->getRepo());
@@ -28,9 +28,9 @@ class IdentityMapTest extends AbstractRepoTestCase
     {
         $map = Repo::get()->getIdentityMap()->clear();
 
-        $model1 = new Model(['id' => 1], AbstractModel::PERSISTED);
-        $model2 = new Model(['id' => 1], AbstractModel::PERSISTED);
-        $model3 = new Model(['id' => 2], AbstractModel::PERSISTED);
+        $model1 = new Model(['id' => 1], State::SAVED);
+        $model2 = new Model(['id' => 1], State::SAVED);
+        $model3 = new Model(['id' => 2], State::SAVED);
 
         $this->assertSame($model1, $map->get($model1));
         $this->assertSame($model1, $map->get($model2));
@@ -44,15 +44,15 @@ class IdentityMapTest extends AbstractRepoTestCase
     {
         $map = Repo::get()->getIdentityMap()->clear();
 
-        $model1 = new Model(['id' => 1], AbstractModel::PERSISTED);
-        $model2 = new Model(['id' => 2], AbstractModel::PERSISTED);
+        $model1 = new Model(['id' => 1], State::SAVED);
+        $model2 = new Model(['id' => 2], State::SAVED);
 
         $map->get($model1);
         $map->get($model2);
 
         $models = [
-            new Model(['id' => 1], AbstractModel::PERSISTED),
-            new Model(['id' => 2], AbstractModel::PERSISTED),
+            new Model(['id' => 1], State::SAVED),
+            new Model(['id' => 2], State::SAVED),
         ];
 
         $expected = [$model1, $model2];
@@ -67,7 +67,7 @@ class IdentityMapTest extends AbstractRepoTestCase
     {
         $map = Repo::get()->getIdentityMap()->clear();
 
-        $map->get(new Model(['id' => 1], AbstractModel::PERSISTED));
+        $map->get(new Model(['id' => 1], State::SAVED));
         $this->assertCount(1, $map->getModels());
         $map->clear();
         $this->assertCount(0, $map->getModels());

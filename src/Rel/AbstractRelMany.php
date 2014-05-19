@@ -28,19 +28,12 @@ abstract class AbstractRelMany extends AbstractRel
         return new LinkMany($this, []);
     }
 
-    public function linkToForeign(array $models, array $foreign)
+    public function newLinkFrom(AbstractModel $model, array $linked)
     {
-        return Objects::groupCombineArrays($models, $foreign, function ($model, $foreign) {
-            return $this->areLinked($model, $foreign);
-        });
-    }
-
-    public function newLinkFrom(AbstractModel $model, SplObjectStorage $links)
-    {
-        if ($links->contains($model)) {
-            return $this->newLink($links[$model]);
-        } else {
+        if (empty($linked)) {
             return $this->newEmptyLink();
+        } else {
+            return $this->newLink($linked);
         }
     }
 }

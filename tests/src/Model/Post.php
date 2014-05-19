@@ -21,6 +21,7 @@ class Post extends AbstractModel {
     public $name;
     public $body;
     public $userId;
+    public $class;
 
     public function getUser()
     {

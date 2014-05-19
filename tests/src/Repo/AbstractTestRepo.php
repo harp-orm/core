@@ -2,40 +2,21 @@
 
 namespace CL\LunaCore\Test\Repo;
 
-use CL\LunaCore\Repo\AbstractRepo;
-use CL\LunaCore\Model\AbstractModel;
-use SplObjectStorage;
+use CL\LunaCore\Save\AbstractSaveRepo;
+use CL\LunaCore\Model\Models;
 
 /*
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class AbstractTestRepo extends AbstractRepo
+abstract class AbstractTestRepo extends AbstractSaveRepo
 {
     private $file;
 
-    public function selectWithId($key)
+    public function findAll()
     {
-        $contents = $this->getContents();
-
-        if (isset($contents[$key])) {
-            return $this->newInstance($contents[$key], AbstractModel::PERSISTED);
-        }
-    }
-
-    public function findByKey($searchKey, array $values)
-    {
-        $contents = $this->getContents();
-        $found = array();
-
-        foreach ($contents as $properties) {
-            if (in_array($properties[$searchKey], $values)) {
-                $found []= $this->newInstance($properties, AbstractModel::PERSISTED);
-            }
-        }
-
-        return $this->getIdentityMap()->getArray($found);
+        return new Find($this);
     }
 
     public function getContents()
@@ -50,7 +31,7 @@ abstract class AbstractTestRepo extends AbstractRepo
         return $this;
     }
 
-    public function update(SplObjectStorage $models)
+    public function update(Models $models)
     {
         $contents = $this->getContents();
 
@@ -59,9 +40,11 @@ abstract class AbstractTestRepo extends AbstractRepo
         }
 
         $this->setContents($contents);
+
+        return $this;
     }
 
-    public function delete(SplObjectStorage $models)
+    public function delete(Models $models)
     {
         $contents = $this->getContents();
 
@@ -70,30 +53,29 @@ abstract class AbstractTestRepo extends AbstractRepo
         }
 
         $this->setContents($contents);
+
+        return $this;
     }
 
-    public function insert(SplObjectStorage $models)
+    public function insert(Models $models)
     {
         $contents = $this->getContents();
 
         foreach ($models as $model) {
             $id = $contents ? max(array_keys($contents)) + 1 : 1;
 
-            $model
-                ->setId($id)
-                ->resetOriginals()
-                ->setState(AbstractModel::PERSISTED);
-
-            $contents[$id] = $model;
+            $contents[$id] = $model->setId($id);
         }
 
         $this->setContents($contents);
+
+        return $this;
     }
 
-    public function __construct($modelClass)
+    public function __construct($modelClass, $file)
     {
         parent::__construct($modelClass);
 
-        $this->file = __DIR__.'/../../repos/'.$this->getName().'.json';
+        $this->file = __DIR__.'/../../repos/'.$file;
     }
 }

@@ -12,11 +12,11 @@ class AbstractRelTest extends AbstractRepoTestCase
      */
     public function testConstruct()
     {
-        $repo1 = new Repo(__NAMESPACE__.'\Model');
-        $repo2 = new Repo(__NAMESPACE__.'\Model');
+        $repo1 = new Repo(Model::class);
+        $repo2 = new Repo(Model::class);
         $rel = new RelOne('test', $repo1, $repo2);
 
-        $link = $this->getMockForAbstractClass('CL\LunaCore\Repo\AbstractLink', [$rel]);
+        $link = $this->getMockForAbstractClass(AbstractLink::class, [$rel]);
         $this->assertSame($rel, $link->getRel());
     }
 }

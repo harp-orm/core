@@ -3,6 +3,7 @@
 namespace CL\LunaCore\Test\Unit\Repo;
 
 use CL\LunaCore\Repo\AbstractRepo;
+use CL\LunaCore\Model\Models;
 use BadMethodCallException;
 use SplObjectStorage;
 
@@ -19,7 +20,7 @@ class Repo extends AbstractRepo
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new Repo(__NAMESPACE__.'\Model');
+            self::$instance = new Repo(Model::class);
         }
 
         return self::$instance;
@@ -44,22 +45,22 @@ class Repo extends AbstractRepo
     public $initialize1TraitCalled = false;
     public $initialize2TraitCalled = false;
 
-    public function selectWithId($id)
+    public function findAll()
     {
         throw new BadMethodCallException('Test Repo: cannot call selectWithId');
     }
 
-    public function update(SplObjectStorage $models)
+    public function update(Models $models)
     {
         throw new BadMethodCallException('Test Repo: cannot call update');
     }
 
-    public function delete(SplObjectStorage $models)
+    public function delete(Models $models)
     {
         throw new BadMethodCallException('Test Repo: cannot call delete');
     }
 
-    public function insert(SplObjectStorage $models)
+    public function insert(Models $models)
     {
         throw new BadMethodCallException('Test Repo: cannot call insert');
     }
