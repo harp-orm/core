@@ -13,16 +13,6 @@ use CL\LunaCore\Model\Models;
 abstract class AbstractFind
 {
     /**
-     * Used to find models that are both normal and deleted
-     */
-    const ALL = 1;
-
-    /**
-     * Used to find only deleted models
-     */
-    const DELETED = 2;
-
-    /**
      * @param  string $property
      * @param  mixed $value
      * @return AbstractFind $this
@@ -64,16 +54,16 @@ abstract class AbstractFind
      * @param  AbstractSaveRepo $repo
      * @param  Models  $models
      * @param  array            $rels
-     * @param  int              $flags
+     * @param  int              $state
      */
-    protected static function loadRels(AbstractSaveRepo $repo, Models $models, array $rels, $flags = null)
+    protected static function loadRels(AbstractSaveRepo $repo, Models $models, array $rels, $state = null)
     {
         foreach ($rels as $relName => $childRels) {
             $rel = $repo->getRel($relName);
-            $foreign = $repo->loadRel($relName, $models, $flags);
+            $foreign = $repo->loadRel($relName, $models, $state);
 
             if ($childRels) {
-                self::loadRels($rel->getForeignRepo(), $foreign, $childRels, $flags);
+                self::loadRels($rel->getForeignRepo(), $foreign, $childRels, $state);
             }
         }
     }
@@ -130,13 +120,17 @@ abstract class AbstractFind
     /**
      * @return AbstractModel[]
      */
-    public function loadRaw($flags = null)
+    public function loadRaw($state = null)
     {
         if ($this->getRepo()->getSoftDelete()) {
-            if ($flags === null) {
+            if ($state === null) {
                 $this->where('deletedAt', null);
-            } elseif ($flags & self::DELETED) {
+            } elseif ($state & State::DELETED) {
                 $this->whereNot('deletedAt', null);
+            } elseif ($state & (State::DELETED | State::SAVED)) {
+
+            } else {
+                throw new InvalidArgument('Use "State::DELETED" or "State::DELETED | State::SAVED"');
             }
         }
 
@@ -146,11 +140,11 @@ abstract class AbstractFind
     /**
      * @return Models
      */
-    public function load($flags = null)
+    public function load($state = null)
     {
         $found = new Models();
 
-        foreach ($this->loadRaw($flags) as $model) {
+        foreach ($this->loadRaw($state) as $model) {
             $found->add(
                 $this->getRepo()->getIdentityMap()->getArray($model)
             );
@@ -162,13 +156,13 @@ abstract class AbstractFind
     /**
      * @return Models
      */
-    public function loadWith($rels, $flags = null)
+    public function loadWith($rels, $state = null)
     {
-        $models = $this->load($flags);
+        $models = $this->load($state);
 
         $rels = Arr::toAssoc((array) $rels);
 
-        self::loadRels($this->getRepo(), $models, $rels, $flags);
+        self::loadRels($this->getRepo(), $models, $rels, $state);
 
         return $models;
     }

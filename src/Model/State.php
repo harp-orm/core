@@ -11,6 +11,6 @@ class State
 {
     const PENDING = 1;
     const DELETED = 2;
-    const SAVED = 3;
-    const VOID = 4;
+    const SAVED = 4;
+    const VOID = 8;
 }
