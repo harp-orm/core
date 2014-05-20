@@ -1,16 +1,13 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace CL\LunaCore\Test\Unit\Save;
 
-use CL\LunaCore\Repo\AbstractRepo;
+use CL\LunaCore\Save\AbstractSaveRepo;
 use CL\LunaCore\Model\Models;
 use BadMethodCallException;
 
-class Repo extends AbstractRepo
+class Repo extends AbstractSaveRepo
 {
-    use Repo1Trait;
-    use Repo2Trait;
-
     private static $instance;
 
     /**
@@ -27,23 +24,12 @@ class Repo extends AbstractRepo
 
     public function initialize()
     {
-        $this->initializeCalled = true;
-
-        $this->initialize1Trait();
-        $this->initialize2Trait();
+        $this
+            ->setRels([
+                new RelOne('one', $this, Repo::get()),
+                new RelMany('many', $this, Repo::get()),
+            ]);
     }
-
-    public function afterInitialize()
-    {
-        $this->afterInitializeCalled = true;
-        parent::afterInitialize();
-    }
-
-    public $test;
-    public $initializeCalled = false;
-    public $afterInitializeCalled = false;
-    public $initialize1TraitCalled = false;
-    public $initialize2TraitCalled = false;
 
     public function findAll()
     {

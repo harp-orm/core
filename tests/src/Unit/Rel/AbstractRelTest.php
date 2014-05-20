@@ -47,7 +47,7 @@ class AbstractRelTest extends AbstractTestCase
             [$name, $repo1, $repo2]
         );
 
-        $models = Models::fromArray([new Model(), new Model()]);
+        $models = new Models([new Model(), new Model()]);
         $expected = [new Model(), new Model(), new Model()];
 
         $rel
@@ -121,7 +121,7 @@ class AbstractRelTest extends AbstractTestCase
             ->method('newLinkFrom')
             ->will($this->returnValueMap($linkMap));
 
-        $result = $rel->linkModels(Models::fromArray($models), Models::fromArray($foreign));
+        $result = $rel->linkModels(new Models($models), new Models($foreign));
 
         $i = 0;
 

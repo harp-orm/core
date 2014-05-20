@@ -1,12 +1,13 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace CL\LunaCore\Test\Unit\Save;
 
 use CL\LunaCore\Rel\AbstractRelOne;
 use CL\LunaCore\Rel\UpdateInterface;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
 use CL\LunaCore\Repo\AbstractLink;
+use BadMethodCallException;
 
 class RelOneUpdate extends AbstractRelOne implements UpdateInterface
 {

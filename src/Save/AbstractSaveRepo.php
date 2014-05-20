@@ -67,25 +67,16 @@ abstract class AbstractSaveRepo extends AbstractRepo
 
     /**
      * @param  AbstractModel            $model
-     * @throws InvalidArgumentException If $model not the same as Repo Model
-     */
-    public function errorIfModelNotFromRepo(AbstractModel $model)
-    {
-        if (! $this->getModelReflection()->isInstance($model)) {
-            throw new InvalidArgumentException(
-                sprintf('Argument must be instance of %s', $this->modelClass)
-            );
-        }
-    }
-
-    /**
-     * @param  AbstractModel            $model
      * @return AbstractRepo             $this
-     * @throws InvalidArgumentException If $model not the same as Repo Model
+     * @throws InvalidArgumentException If $model does not belong to repo
      */
     public function save(AbstractModel $model)
     {
-        $this->errorIfModelNotFromRepo($model);
+        if (! $this->isModel($model)) {
+            throw new InvalidArgumentException(
+                sprintf('Model must be %s, was %s', $this->getModelClass(), get_class($model))
+            );
+        }
 
         $this->newSave()
             ->add($model)
@@ -94,10 +85,13 @@ abstract class AbstractSaveRepo extends AbstractRepo
         return $this;
     }
 
+    /**
+     * @param AbstractModel $model
+     * @param AbstractLink  $link
+     * @throws InvalidArgumentException If $model does not belong to repo
+     */
     public function addLink(AbstractModel $model, AbstractLink $link)
     {
-        $this->errorIfModelNotFromRepo($model);
-
         $this->getLinkMap()->get($model)->add($link);
 
         return $this;
@@ -107,12 +101,10 @@ abstract class AbstractSaveRepo extends AbstractRepo
      * @param  AbstractModel            $model
      * @param  string                   $name
      * @return AbstractLink
-     * @throws InvalidArgumentException If $model not the same as Repo Model
+     * @throws InvalidArgumentException If $model does not belong to repo
      */
     public function loadLink(AbstractModel $model, $name, $flags = null)
     {
-        $this->errorIfModelNotFromRepo($model);
-
         $links = $this->getLinkMap()->get($model);
 
         if (! $links->has($name)) {
@@ -128,16 +120,11 @@ abstract class AbstractSaveRepo extends AbstractRepo
      * @param  string          $relName
      * @param  Models          $models
      * @return Models
+     * @throws InvalidArgumentException If $relName does not belong to repo
      */
     public function loadRel($relName, Models $models, $flags = null)
     {
-        $rel = $this->getRel($relName);
-
-        if ($rel === null) {
-            throw new InvalidArgumentException(
-                sprintf('Cannot load Rel %s does not exist in %s Repo', $relName, $this->getName())
-            );
-        }
+        $rel = $this->getRelOrError($relName);
 
         $foreign = $rel->loadForeignModels($models, $flags);
 
@@ -202,12 +189,10 @@ abstract class AbstractSaveRepo extends AbstractRepo
                 ->resetOriginals()
                 ->setState(State::SAVED);
 
-            $this->dispatchBeforeEvent($model, Event::SAVE);
-            $this->dispatchBeforeEvent($model, Event::INSERT);
+            $this->dispatchAfterEvent($model, Event::INSERT);
+            $this->dispatchAfterEvent($model, Event::SAVE);
         }
 
         return $this;
     }
-
-
 }

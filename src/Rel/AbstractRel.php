@@ -89,7 +89,7 @@ abstract class AbstractRel
         if ($this->hasForeign($models)) {
             $foreign = $this->loadForeign($models, $flags);
 
-            return Models::fromArray($foreign);
+            return new Models($foreign);
         } else {
             return new Models();
         }

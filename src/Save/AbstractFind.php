@@ -127,9 +127,7 @@ abstract class AbstractFind
                 $this->where('deletedAt', null);
             } elseif ($state & State::DELETED) {
                 $this->whereNot('deletedAt', null);
-            } elseif ($state & (State::DELETED | State::SAVED)) {
-
-            } else {
+            } elseif (! ($state & (State::DELETED | State::SAVED))) {
                 throw new InvalidArgument('Use "State::DELETED" or "State::DELETED | State::SAVED"');
             }
         }

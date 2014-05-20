@@ -79,7 +79,7 @@ abstract class AbstractRepo
     public function __construct($modelClass)
     {
         $this->modelClass = $modelClass;
-        $this->linkMap = new LinkMap();
+        $this->linkMap = new LinkMap($this);
         $this->eventListeners = new EventListeners();
         $this->asserts = new Asserts();
         $this->rels = new Rels();
@@ -218,6 +218,25 @@ abstract class AbstractRepo
     {
         return $this->getRels()->get($name);
     }
+
+    /**
+     * @param  string           $name
+     * @return AbstractRel
+     * @throws InvalidArgumentException If rel does not exist
+     */
+    public function getRelOrError($name)
+    {
+        $rel = $this->getRels()->get($name);
+
+        if ($rel === null) {
+            throw new InvalidArgumentException(
+                sprintf('Rel %s does not exist in %s Repo', $name, $this->getName())
+            );
+        }
+
+        return $rel;
+    }
+
 
     /**
      * @return EventListeners
@@ -410,6 +429,15 @@ abstract class AbstractRepo
     public function newVoidInstance($fields = null)
     {
         return $this->modelReflection->newInstance($fields, State::VOID);
+    }
+
+    /**
+     * @param  AbstractModel $model
+     * @return boolean
+     */
+    public function isModel(AbstractModel $model)
+    {
+        return $this->getModelReflection()->isInstance($model);
     }
 
     /**

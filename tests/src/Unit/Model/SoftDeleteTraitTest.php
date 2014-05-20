@@ -13,7 +13,7 @@ class SoftDeleteTraitTest extends AbstractTestCase
      */
     public function testDelete()
     {
-        $object = new SoftDeletedModel(null, State::SAVED);
+        $object = new SoftDeleteModel(null, State::SAVED);
 
         $this->assertNull($object->deletedAt);
 
@@ -28,7 +28,7 @@ class SoftDeleteTraitTest extends AbstractTestCase
      */
     public function testGetDefaultState()
     {
-        $object = new SoftDeletedModel();
+        $object = new SoftDeleteModel();
 
         $this->assertEquals(State::PENDING, $object->getDefaultState());
 
@@ -43,7 +43,7 @@ class SoftDeleteTraitTest extends AbstractTestCase
      */
     public function testRestore()
     {
-        $object = new SoftDeletedModel(null, State::SAVED);
+        $object = new SoftDeleteModel(null, State::SAVED);
 
         $object->delete();
 
@@ -62,7 +62,7 @@ class SoftDeleteTraitTest extends AbstractTestCase
      */
     public function testRealDelete()
     {
-        $object = new SoftDeletedModel(null, State::SAVED);
+        $object = new SoftDeleteModel(null, State::SAVED);
 
         $object->delete();
 

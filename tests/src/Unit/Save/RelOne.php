@@ -1,14 +1,14 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace CL\LunaCore\Test\Unit\Save;
 
 use CL\LunaCore\Rel\AbstractRelOne;
-use CL\LunaCore\Rel\DeleteInterface;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
 use CL\LunaCore\Repo\AbstractLink;
+use BadMethodCallException;
 
-class RelOneDelete extends AbstractRelOne implements DeleteInterface
+class RelOne extends AbstractRelOne
 {
     public function areLinked(AbstractModel $model, AbstractModel $foreign)
     {
@@ -23,10 +23,5 @@ class RelOneDelete extends AbstractRelOne implements DeleteInterface
     public function loadForeign(Models $models, $flags = null)
     {
         throw new BadMethodCallException('Test Rel: cannot call loadForeign');
-    }
-
-    public function delete(AbstractModel $model, AbstractLink $link)
-    {
-        throw new BadMethodCallException('Test Rel: cannot call update');
     }
 }

@@ -20,10 +20,10 @@ class Models implements Countable, Iterator
      * @param  AbstractModel[]  $models
      * @return Models
      */
-    public static function fromArray(array $models)
+    public static function fromObjects(SplObjectStorage $models)
     {
         $new = new Models();
-        return $new->addArray($models);
+        return $new->addObjects($models);
     }
 
     /**
@@ -31,24 +31,18 @@ class Models implements Countable, Iterator
      */
     private $models;
 
-    /**
-     * @var string
-     */
-    private $class;
 
-    public function __construct(SplObjectStorage $models = null, $class = null)
+    public function __construct(array $models = null)
     {
         $this->models = new SplObjectStorage();
         $this->models->rewind();
 
         if ($models) {
-            $this->set($models);
+            $this->addArray($models);
         }
-
-        $this->class = $class;
     }
 
-    public function set(SplObjectStorage $models)
+    public function addObjects(SplObjectStorage $models)
     {
         foreach ($models as $model) {
             $this->add($model);
@@ -66,19 +60,8 @@ class Models implements Countable, Iterator
         return $this;
     }
 
-    public function isAccepted(AbstractModel $model)
-    {
-        return (! $this->class or ($model instanceof $this->class));
-    }
-
     public function add(AbstractModel $model)
     {
-        if (! $this->isAccepted($model)) {
-            throw new InvalidArgumentException(
-                sprintf('Model must be an instance of %s', $this->class)
-            );
-        }
-
         $this->models->attach($model);
 
         return $this;
@@ -132,10 +115,11 @@ class Models implements Countable, Iterator
 
     public function filter(Closure $filter)
     {
-        return new Models(
-            Objects::filter($this->models, $filter),
-            $this->class
-        );
+        $filtered = new Models();
+
+        $filtered->addObjects(Objects::filter($this->models, $filter));
+
+        return $filtered;
     }
 
     public function byRepo()
@@ -145,7 +129,7 @@ class Models implements Countable, Iterator
         });
 
         foreach ($repos as $repo) {
-            yield $repo => new Models($repos->getInfo());
+            yield $repo => Models::fromObjects($repos->getInfo());
         }
     }
 

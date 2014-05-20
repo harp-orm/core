@@ -6,11 +6,8 @@ use CL\LunaCore\Repo\AbstractRepo;
 use CL\LunaCore\Model\Models;
 use BadMethodCallException;
 
-class Repo extends AbstractRepo
+class RepoOther extends AbstractRepo
 {
-    use Repo1Trait;
-    use Repo2Trait;
-
     private static $instance;
 
     /**
@@ -19,7 +16,7 @@ class Repo extends AbstractRepo
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new Repo(Model::class);
+            self::$instance = new RepoOther(Model::class);
         }
 
         return self::$instance;
@@ -27,23 +24,7 @@ class Repo extends AbstractRepo
 
     public function initialize()
     {
-        $this->initializeCalled = true;
-
-        $this->initialize1Trait();
-        $this->initialize2Trait();
     }
-
-    public function afterInitialize()
-    {
-        $this->afterInitializeCalled = true;
-        parent::afterInitialize();
-    }
-
-    public $test;
-    public $initializeCalled = false;
-    public $afterInitializeCalled = false;
-    public $initialize1TraitCalled = false;
-    public $initialize2TraitCalled = false;
 
     public function findAll()
     {

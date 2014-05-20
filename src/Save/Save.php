@@ -7,57 +7,61 @@ use CL\LunaCore\Rel\InsertInterface;
 use CL\LunaCore\Rel\UpdateInterface;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
+use SplObjectStorage;
 
 /**
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-class Save
+class Save extends Models
 {
-    private $models;
-
-    public function __construct()
+    public static function fromObjects(SplObjectStorage $array)
     {
-        $this->models = new Models();
+        $save = new Save();
+        return $save->addObjects($array);
     }
 
-    public function getModels()
-    {
-        return $this->models;
-    }
-
+    /**
+     * @return Models
+     */
     public function getModelsToDelete()
     {
-        return $this->models->filter(function (AbstractModel $model) {
+        return $this->filter(function (AbstractModel $model) {
             return ($model->isDeleted() and ! $model->isSoftDeleted());
         });
     }
 
+    /**
+     * @return Models
+     */
     public function getModelsToInsert()
     {
-        return $this->models->filter(function (AbstractModel $model) {
+        return $this->filter(function (AbstractModel $model) {
             return $model->isPending();
         });
     }
 
+    /**
+     * @return Models
+     */
     public function getModelsToUpdate()
     {
-        return $this->models->filter(function (AbstractModel $model) {
+        return $this->filter(function (AbstractModel $model) {
             return ($model->isChanged() and ($model->isSaved() or $model->isSoftDeleted()));
         });
     }
 
     public function addModel(AbstractModel $model)
     {
-        $this->models->add($model);
+        parent::add($model);
 
         return $this;
     }
 
     public function add(AbstractModel $model)
     {
-        if (! $this->models->has($model)) {
+        if (! $this->has($model)) {
             $this->addModel($model);
 
             $modelLinks = $model->getRepo()->getLinkMap()->get($model);
@@ -70,33 +74,9 @@ class Save
         return $this;
     }
 
-    /**
-     * @param Models $models
-     */
-    public function set(Models $models)
-    {
-        foreach ($models as $model) {
-            $this->add($model);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param AbstractModel[] $models
-     */
-    public function addArray(array $models)
-    {
-        foreach ($models as $model) {
-            $this->add($model);
-        }
-
-        return $this;
-    }
-
     public function eachLink()
     {
-        foreach ($this->models as $model) {
+        foreach ($this as $model) {
             $linkMap = $model->getRepo()->getLinkMap();
 
             if ($linkMap->has($model)) {
@@ -114,7 +94,7 @@ class Save
         foreach ($this->eachLink() as $model => $link) {
             $rel = $link->getRel();
             if ($rel instanceof DeleteInterface) {
-                $this->set($rel->delete($model, $link));
+                $this->addArray($rel->delete($model, $link));
             }
         }
     }
@@ -124,7 +104,7 @@ class Save
         foreach ($this->eachLink() as $model => $link) {
             $rel = $link->getRel();
             if ($rel instanceof InsertInterface) {
-                $this->set($rel->insert($model, $link));
+                $this->addArray($rel->insert($model, $link));
             }
         }
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace CL\LunaCore\Test\Unit\Save;
 
 use CL\LunaCore\Model\AbstractModel;
 
-class ModelWithRepo extends AbstractModel
+class Model extends AbstractModel
 {
     public $id;
     public $name = 'test';
@@ -12,6 +12,6 @@ class ModelWithRepo extends AbstractModel
 
     public function getRepo()
     {
-        return $this->repo;
+        return $this->repo ?: Repo::get();
     }
 }

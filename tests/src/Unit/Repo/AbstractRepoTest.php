@@ -70,6 +70,36 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers CL\LunaCore\Repo\AbstractRepo::getSoftDelete
+     * @covers CL\LunaCore\Repo\AbstractRepo::setSoftDelete
+     */
+    public function testSoftDelete()
+    {
+        $repo = $this->getRepoInitialized(true);
+
+        $this->assertEquals(false, $repo->getSoftDelete());
+
+        $repo->setSoftDelete(true);
+
+        $this->assertEquals(true, $repo->getSoftDelete());
+    }
+
+    /**
+     * @covers CL\LunaCore\Repo\AbstractRepo::getInherited
+     * @covers CL\LunaCore\Repo\AbstractRepo::setInherited
+     */
+    public function testInherited()
+    {
+        $repo = $this->getRepoInitialized(true);
+
+        $this->assertEquals(false, $repo->getInherited());
+
+        $repo->setInherited(true);
+
+        $this->assertEquals(true, $repo->getInherited());
+    }
+
+    /**
      * @covers CL\LunaCore\Repo\AbstractRepo::getLinkMap
      */
     public function testGetLinkMap()
@@ -101,9 +131,26 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers CL\LunaCore\Repo\AbstractRepo::isModel
+     */
+    public function testIsModel()
+    {
+        $repo = $this->getRepoInitialized(false);
+        $model = new Model();
+
+        $this->assertTrue($repo->isModel($model));
+
+        $model = new ModelOther();
+
+        $this->assertFalse($repo->isModel($model));
+    }
+
+    /**
      * @covers CL\LunaCore\Repo\AbstractRepo::getRels
      * @covers CL\LunaCore\Repo\AbstractRepo::getRel
      * @covers CL\LunaCore\Repo\AbstractRepo::setRels
+     * @covers CL\LunaCore\Repo\AbstractRepo::getRelOrError
+     * @expectedException InvalidArgumentException
      */
     public function testRels()
     {
@@ -125,7 +172,10 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
         $this->assertSame($expected, $repo->getRels()->all());
         $this->assertSame($expected['one'], $repo->getRel('one'));
+        $this->assertSame($expected['one'], $repo->getRelOrError('one'));
         $this->assertNull($repo->getRel('other'));
+
+        $repo->getRelOrError('other');
     }
 
     /**
