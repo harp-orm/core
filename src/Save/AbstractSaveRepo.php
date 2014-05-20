@@ -8,6 +8,7 @@ use CL\LunaCore\Model\Models;
 use CL\LunaCore\Repo\AbstractRepo;
 use CL\LunaCore\Repo\AbstractLink;
 use CL\LunaCore\Repo\Event;
+use CL\Util\Arr;
 use InvalidArgumentException;
 
 /*
@@ -67,7 +68,7 @@ abstract class AbstractSaveRepo extends AbstractRepo
 
     /**
      * @param  AbstractModel            $model
-     * @return AbstractRepo             $this
+     * @return AbstractSaveRepo         $this
      * @throws InvalidArgumentException If $model does not belong to repo
      */
     public function save(AbstractModel $model)
@@ -86,8 +87,9 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
-     * @param AbstractModel $model
-     * @param AbstractLink  $link
+     * @param  AbstractModel    $model
+     * @param  AbstractLink     $link
+     * @return AbstractSaveRepo $this
      * @throws InvalidArgumentException If $model does not belong to repo
      */
     public function addLink(AbstractModel $model, AbstractLink $link)
@@ -98,8 +100,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
-     * @param  AbstractModel            $model
-     * @param  string                   $name
+     * @param  AbstractModel  $model
+     * @param  string         $name
      * @return AbstractLink
      * @throws InvalidArgumentException If $model does not belong to repo
      */
@@ -110,19 +112,19 @@ abstract class AbstractSaveRepo extends AbstractRepo
         if (! $links->has($name)) {
             $models = new Models();
             $models->add($model);
-            $this->loadRel($name, $models, $flags);
+            $this->loadRelFor($models, $name, $flags);
         }
 
         return $links->get($name);
     }
 
     /**
-     * @param  string          $relName
      * @param  Models          $models
+     * @param  string          $relName
      * @return Models
      * @throws InvalidArgumentException If $relName does not belong to repo
      */
-    public function loadRel($relName, Models $models, $flags = null)
+    public function loadRelFor(Models $models, $relName, $flags = null)
     {
         $rel = $this->getRelOrError($relName);
 
@@ -135,6 +137,32 @@ abstract class AbstractSaveRepo extends AbstractRepo
         return $foreign;
     }
 
+    /**
+     * @param  Models $models
+     * @param  array  $rels
+     * @param  int    $state
+     * @return AbstractSaveRepo $this
+     */
+    public function loadAllRelsFor(Models $models, array $rels, $state = null)
+    {
+        $rels = Arr::toAssoc($rels);
+
+        foreach ($rels as $relName => $childRels) {
+            $foreign = $this->loadRelFor($models, $relName, $state);
+
+            if ($childRels) {
+                $rel = $this->getRel($relName);
+                $rel->getForeignRepo()->loadAllRelsFor($foreign, $childRels, $state);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param  Models $models
+     * @return AbstractSaveRepo $this
+     */
     public function updateModels(Models $models)
     {
         foreach ($models as $model) {
@@ -160,6 +188,10 @@ abstract class AbstractSaveRepo extends AbstractRepo
         return $this;
     }
 
+    /**
+     * @param  Models $models
+     * @return AbstractSaveRepo $this
+     */
     public function deleteModels(Models $models)
     {
         foreach ($models as $model) {
@@ -175,6 +207,10 @@ abstract class AbstractSaveRepo extends AbstractRepo
         return $this;
     }
 
+    /**
+     * @param  Models $models
+     * @return AbstractSaveRepo $this
+     */
     public function insertModels(Models $models)
     {
         foreach ($models as $model) {

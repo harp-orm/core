@@ -4,6 +4,9 @@ namespace CL\LunaCore\Save;
 
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
+use CL\LunaCore\Model\State;
+use CL\Util\Arr;
+use InvalidArgumentException;
 
 /*
  * @author     Ivan Kerin
@@ -51,32 +54,9 @@ abstract class AbstractFind
     abstract public function execute();
 
     /**
-     * @param  AbstractSaveRepo $repo
-     * @param  Models  $models
-     * @param  array            $rels
-     * @param  int              $state
-     */
-    protected static function loadRels(AbstractSaveRepo $repo, Models $models, array $rels, $state = null)
-    {
-        foreach ($rels as $relName => $childRels) {
-            $rel = $repo->getRel($relName);
-            $foreign = $repo->loadRel($relName, $models, $state);
-
-            if ($childRels) {
-                self::loadRels($rel->getForeignRepo(), $foreign, $childRels, $state);
-            }
-        }
-    }
-
-    /**
      * @var AbstractSaveRepo
      */
     private $repo;
-
-    /**
-     * @var array
-     */
-    private $conditions = array();
 
     public function __construct(AbstractSaveRepo $repo)
     {
@@ -128,7 +108,7 @@ abstract class AbstractFind
             } elseif ($state & State::DELETED) {
                 $this->whereNot('deletedAt', null);
             } elseif (! ($state & (State::DELETED | State::SAVED))) {
-                throw new InvalidArgument('Use "State::DELETED" or "State::DELETED | State::SAVED"');
+                throw new InvalidArgumentException('Use "State::DELETED" or "State::DELETED | State::SAVED"');
             }
         }
 
@@ -140,27 +120,21 @@ abstract class AbstractFind
      */
     public function load($state = null)
     {
-        $found = new Models();
+        $models = $this->loadRaw($state);
+        $models = $this->getRepo()->getIdentityMap()->getArray($models);
 
-        foreach ($this->loadRaw($state) as $model) {
-            $found->add(
-                $this->getRepo()->getIdentityMap()->getArray($model)
-            );
-        }
-
-        return $found;
+        return new Models($models);
     }
 
     /**
+     * @param array $rels
      * @return Models
      */
-    public function loadWith($rels, $state = null)
+    public function loadWith(array $rels, $state = null)
     {
         $models = $this->load($state);
 
-        $rels = Arr::toAssoc((array) $rels);
-
-        self::loadRels($this->getRepo(), $models, $rels, $state);
+        $this->getRepo()->loadAllRelsFor($models, $rels, $state);
 
         return $models;
     }
@@ -168,26 +142,27 @@ abstract class AbstractFind
     /**
      * @return array
      */
-    public function loadIds()
+    public function loadIds($state = null)
     {
-        return Arr::pluckProperty($this->getRepo()->getPrimaryKey(), $this->loadRaw());
+        return $this->load($state)->pluckProperty($this->getRepo()->getPrimaryKey());
     }
 
     /**
      * @return int
      */
-    public function loadCount()
+    public function loadCount($state = null)
     {
-        return count($this->loadRaw());
+        return count($this->loadRaw($state));
     }
 
     /**
      * @return AbstractModel
      */
-    public function loadFirst()
+    public function loadFirst($state = null)
     {
-        $items = $this->limit(1)->load();
+        $items = $this->limit(1)->load($state);
+        $items->rewind();
 
-        return reset($items) ?: $this->getRepo()->newVoidInstance();
+        return $items->current() ?: $this->getRepo()->newVoidInstance();
     }
 }
