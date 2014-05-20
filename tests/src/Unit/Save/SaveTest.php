@@ -10,9 +10,23 @@ use CL\LunaCore\Model\State;
 use CL\LunaCore\Model\Models;
 use CL\LunaCore\Test\AbstractTestCase;
 use CL\Util\Objects;
+use SplObjectStorage;
 
 class SaveTest extends AbstractTestCase
 {
+    /**
+     * @covers CL\LunaCore\Save\Save::fromObjects
+     */
+    public function testFromObjects()
+    {
+        $objects = new SplObjectStorage();
+        $objects->attach(new Model());
+        $objects->attach(new Model());
+
+        $save = Save::fromObjects($objects);
+        $this->assertSame(Objects::toArray($objects), Objects::toArray($save->all()));
+    }
+
     /**
      * @covers CL\LunaCore\Save\Save::addModel
      */
@@ -248,7 +262,7 @@ class SaveTest extends AbstractTestCase
                 ->expects($this->once())
                 ->method($method)
                 ->with($this->callback(function(Models $models) use ($values) {
-                    return $values === $models->toArray();
+                    return $values == $models->toArray();
                 }));
         }
 

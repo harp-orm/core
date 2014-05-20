@@ -18,7 +18,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         parent::setUp();
 
-        $this->repo = $this->getMock(Repo::class, ['findAll', 'newSave', 'loadRel'], [Model::class]);
+        $this->repo = $this->getMock(Repo::class, ['findAll', 'newSave', 'loadRelFor'], [Model::class]);
         $this->find = $this->getMock(Find::class, ['where', 'limit', 'execute'], [$this->repo]);
 
         $this->repo
@@ -135,12 +135,12 @@ class AbstractSaveRepoTest extends AbstractTestCase
 
         $this->repo
             ->expects($this->once())
-            ->method('loadRel')
+            ->method('loadRelFor')
             ->with(
-                $this->equalTo('test'),
                 $this->callback(function (Models $models) use ($model) {
                     return $models->toArray() === [$model];
                 }),
+                $this->equalTo('test'),
                 $this->equalTo(State::DELETED)
             );
 
@@ -149,9 +149,9 @@ class AbstractSaveRepoTest extends AbstractTestCase
 
 
     /**
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::loadRel
+     * @covers CL\LunaCore\Save\AbstractSaveRepo::loadRelFor
      */
-    public function testLoadRel()
+    public function testLoadRelFor()
     {
         $repo = new Repo(Model::class);
 
@@ -187,7 +187,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
             ->method('areLinked')
             ->will($this->returnValueMap($map));
 
-        $result = $repo->loadRel('test', $models, State::DELETED);
+        $result = $repo->loadRelFor($models, 'test', State::DELETED);
 
         $this->assertSame($foreign, $result);
 
@@ -196,6 +196,42 @@ class AbstractSaveRepoTest extends AbstractTestCase
 
         $this->assertSame($foreignSource[0], $link1->get());
         $this->assertSame($foreignSource[1], $link2->get());
+    }
+
+    /**
+     * @covers CL\LunaCore\Save\AbstractSaveRepo::loadAllRelsFor
+     */
+    public function testLoadAllRelsFor()
+    {
+        $repo1 = $this->getMock(Repo::class, ['loadRelFor'], [Model::class]);
+        $repo2 = $this->getMock(Repo::class, ['loadRelFor'], [Model::class]);
+        $repo3 = $this->getMock(Repo::class, ['loadRelFor'], [Model::class]);
+
+        $repo1->setRels([
+            new RelOne('one', $repo1, $repo2),
+        ]);
+
+        $repo2->setRels([
+            new RelMany('many', $repo2, $repo3),
+        ]);
+
+        $models1 = new Models([new Model(['repo' => $repo1])]);
+        $models2 = new Models([new Model(['repo' => $repo2])]);
+        $models3 = new Models([new Model(['repo' => $repo3])]);
+
+        $repo1
+            ->expects($this->once())
+            ->method('loadRelFor')
+            ->with($this->equalTo($models1), $this->equalTo('one'), $this->equalTo(State::DELETED))
+            ->will($this->returnValue($models2));
+
+        $repo2
+            ->expects($this->once())
+            ->method('loadRelFor')
+            ->with($this->equalTo($models2), $this->equalTo('many'), $this->equalTo(State::DELETED))
+            ->will($this->returnValue($models3));
+
+        $repo1->loadAllRelsFor($models1, ['one' => 'many'], State::DELETED);
     }
 
     /**
