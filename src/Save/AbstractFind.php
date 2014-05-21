@@ -15,40 +15,40 @@ use InvalidArgumentException;
 abstract class AbstractFind
 {
     /**
-     * @param  string $property
-     * @param  mixed $value
+     * @param  string       $property
+     * @param  mixed        $value
      * @return AbstractFind $this
      */
     abstract public function where($property, $value);
 
     /**
-     * @param  string $property
-     * @param  mixed $value
+     * @param  string       $property
+     * @param  mixed        $value
      * @return AbstractFind $this
      */
     abstract public function whereNot($property, $value);
 
     /**
-     * @param  string $property
-     * @param  array $value
+     * @param  string       $property
+     * @param  array        $value
      * @return AbstractFind $this
      */
     abstract public function whereIn($property, array $value);
 
     /**
-     * @param  int $limit
+     * @param  int          $limit
      * @return AbstractFind $this
      */
     abstract public function limit($limit);
 
     /**
-     * @param  int $offset
+     * @param  int          $offset
      * @return AbstractFind $this
      */
     abstract public function offset($offset);
 
     /**
-     * @return \CL\LunaCore\Model\AbstractModel
+     * @return AbstractModel[]
      */
     abstract public function execute();
 
@@ -71,7 +71,7 @@ abstract class AbstractFind
     }
 
     /**
-     * @param  mixed  $value
+     * @param  mixed        $value
      * @return AbstractFind $this
      */
     public function whereKey($value)
@@ -84,7 +84,7 @@ abstract class AbstractFind
     }
 
     /**
-     * @param  mixed  $values
+     * @param  mixed        $values
      * @return AbstractFind $this
      */
     public function whereKeys(array $values)
@@ -126,7 +126,7 @@ abstract class AbstractFind
     }
 
     /**
-     * @param array $rels
+     * @param  array  $rels
      * @return Models
      */
     public function loadWith(array $rels, $state = null)

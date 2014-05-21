@@ -16,12 +16,13 @@ use Iterator;
 class Models implements Countable, Iterator
 {
     /**
-     * @param  SplObjectStorage  $models
+     * @param  SplObjectStorage $models
      * @return Models
      */
     public static function fromObjects(SplObjectStorage $models)
     {
         $new = new Models();
+
         return $new->addObjects($models);
     }
 
@@ -29,7 +30,6 @@ class Models implements Countable, Iterator
      * @var SplObjectStorage
      */
     private $models;
-
 
     public function __construct(array $models = null)
     {
@@ -42,8 +42,8 @@ class Models implements Countable, Iterator
     }
 
     /**
-     * @param SplObjectStorage $models
-     * @return Models $this
+     * @param  SplObjectStorage $models
+     * @return Models           $this
      */
     public function addObjects(SplObjectStorage $models)
     {
@@ -55,7 +55,7 @@ class Models implements Countable, Iterator
     }
 
     /**
-     * @param array $models
+     * @param  array  $models
      * @return Models $this
      */
     public function addArray(array $models)
@@ -68,8 +68,8 @@ class Models implements Countable, Iterator
     }
 
     /**
-     * @param AbstractModel $model
-     * @return Models $this
+     * @param  AbstractModel $model
+     * @return Models        $this
      */
     public function add(AbstractModel $model)
     {
@@ -125,7 +125,7 @@ class Models implements Countable, Iterator
 
     /**
      * @param  AbstractModel $model
-     * @return Models $this
+     * @return Models        $this
      */
     public function remove(AbstractModel $model)
     {
@@ -155,7 +155,7 @@ class Models implements Countable, Iterator
 
     /**
      * @param  Closure $filter must return true for each item
-     * @return Models Filtered models
+     * @return Models  Filtered models
      */
     public function filter(Closure $filter)
     {
@@ -169,7 +169,7 @@ class Models implements Countable, Iterator
     /**
      * Group models by repo, call yield for each repo
      *
-     * @param  Closure $yield Call for each repo ($repo, $models)
+     * @param Closure $yield Call for each repo ($repo, $models)
      */
     public function byRepo(Closure $yield)
     {
@@ -183,7 +183,7 @@ class Models implements Countable, Iterator
     }
 
     /**
-     * @param string $property
+     * @param  string $property
      * @return array
      */
     public function pluckProperty($property)
