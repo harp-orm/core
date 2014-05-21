@@ -121,14 +121,12 @@ class AbstractRelTest extends AbstractTestCase
             ->method('newLinkFrom')
             ->will($this->returnValueMap($linkMap));
 
-        $result = $rel->linkModels(new Models($models), new Models($foreign));
-
         $i = 0;
 
-        foreach ($result as $model => $link) {
+        $rel->linkModels(new Models($models), new Models($foreign), function($model, $link) use ($models, $links, & $i) {
             $this->assertSame($models[$i], $model);
             $this->assertSame($links[$i], $link);
             $i++;
-        }
+        });
     }
 }

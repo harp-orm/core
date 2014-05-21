@@ -130,9 +130,9 @@ abstract class AbstractSaveRepo extends AbstractRepo
 
         $foreign = $rel->loadForeignModels($models, $flags);
 
-        foreach ($rel->linkModels($models, $foreign) as $model => $link) {
+        $rel->linkModels($models, $foreign, function (AbstractModel $model, AbstractLink $link) {
             $model->getRepo()->addLink($model, $link);
-        }
+        });
 
         return $foreign;
     }

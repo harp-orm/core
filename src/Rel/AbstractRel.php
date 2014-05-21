@@ -95,7 +95,7 @@ abstract class AbstractRel
         }
     }
 
-    public function linkModels(Models $models, Models $foreign)
+    public function linkModels(Models $models, Models $foreign, Closure $yield)
     {
         foreach ($models as $model) {
 
@@ -107,7 +107,7 @@ abstract class AbstractRel
                 }
             }
 
-            yield $model => $this->newLinkFrom($model, $linked);
+            $yield($model, $this->newLinkFrom($model, $linked));
         }
     }
 }
