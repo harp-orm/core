@@ -226,16 +226,21 @@ class SaveTest extends AbstractTestCase
         SoftDeleteRepo::set($repo2);
 
         $models = [
-            1 => (new Model(null, State::SAVED))->setProperties(['name' => 'changed']),
-            2 => new Model(null, State::VOID),
-            3 => new Model(null, State::PENDING),
-            4 => new Model(null, State::DELETED),
-            5 => (new SoftDeleteModel(null, State::DELETED))->setProperties(['deletedAt' => time()]),
-            6 => new SoftDeleteModel(null, State::SAVED),
-            7 => new SoftDeleteModel(null, State::PENDING),
-            8 => new SoftDeleteModel(null, State::DELETED),
-            9 => (new SoftDeleteModel(null, State::SAVED))->setProperties(['name' => 'changed']),
+            1 => (new Model(['id' => 1], State::SAVED))->setProperties(['name' => 'changed']),
+            2 => new Model(['id' => 2], State::VOID),
+            3 => new Model(['id' => 3], State::PENDING),
+            4 => new Model(['id' => 4], State::DELETED),
+            5 => (new SoftDeleteModel(['id' => 5], State::DELETED))->setProperties(['deletedAt' => time()]),
+            6 => new SoftDeleteModel(['id' => 6], State::SAVED),
+            7 => new SoftDeleteModel(['id' => 7], State::PENDING),
+            8 => new SoftDeleteModel(['id' => 8], State::DELETED),
+            9 => (new SoftDeleteModel(['id' => 9], State::SAVED))->setProperties(['name' => 'changed']),
         ];
+
+        $this->assertTrue($models[5]->isChanged());
+        $this->assertTrue($models[5]->isSoftDeleted());
+        $this->assertTrue($models[9]->isChanged());
+        $this->assertTrue($models[9]->isSaved());
 
         $save = new Save();
         $save->addArray($models);
@@ -251,7 +256,9 @@ class SaveTest extends AbstractTestCase
                 ->expects($this->once())
                 ->method($method)
                 ->with($this->callback(function(Models $models) use ($values) {
-                    return $values === $models->toArray();
+                    $this->assertSame($values, $models->toArray());
+
+                    return true;
                 }));
         }
 
