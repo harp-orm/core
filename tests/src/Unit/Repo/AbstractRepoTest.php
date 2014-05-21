@@ -339,7 +339,6 @@ class AbstractRepoTest extends AbstractRepoTestCase
     /**
      * @covers CL\LunaCore\Repo\AbstractRepo::getInitialized
      * @covers CL\LunaCore\Repo\AbstractRepo::initializeOnce
-     * @covers CL\LunaCore\Repo\AbstractRepo::afterInitialize
      */
     public function testGetInitialized()
     {
@@ -351,7 +350,6 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
         $this->assertTrue($repo->getInitialized());
         $this->assertTrue($repo->initializeCalled);
-        $this->assertTrue($repo->afterInitializeCalled);
 
         $repo->initializeOnce();
 

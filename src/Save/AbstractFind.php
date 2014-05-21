@@ -97,7 +97,7 @@ abstract class AbstractFind
     }
 
     /**
-     * @return AbstractModel
+     * @return AbstractModel[]
      */
     public function loadRaw($state = null)
     {

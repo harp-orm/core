@@ -26,7 +26,7 @@ class Models implements Countable, Iterator
     }
 
     /**
-     * @var array
+     * @var SplObjectStorage
      */
     private $models;
 
@@ -41,6 +41,10 @@ class Models implements Countable, Iterator
         }
     }
 
+    /**
+     * @param SplObjectStorage $models
+     * @return Models $this
+     */
     public function addObjects(SplObjectStorage $models)
     {
         foreach ($models as $model) {
@@ -50,6 +54,10 @@ class Models implements Countable, Iterator
         return $this;
     }
 
+    /**
+     * @param array $models
+     * @return Models $this
+     */
     public function addArray(array $models)
     {
         foreach ($models as $model) {
@@ -59,6 +67,10 @@ class Models implements Countable, Iterator
         return $this;
     }
 
+    /**
+     * @param AbstractModel $model
+     * @return Models $this
+     */
     public function add(AbstractModel $model)
     {
         $this->models->attach($model);
@@ -66,6 +78,9 @@ class Models implements Countable, Iterator
         return $this;
     }
 
+    /**
+     * @return Models $this
+     */
     public function clear()
     {
         $this->models = new SplObjectStorage();
@@ -73,26 +88,45 @@ class Models implements Countable, Iterator
         return $this;
     }
 
+    /**
+     * @param  AbstractModel $model
+     * @return boolean
+     */
     public function has(AbstractModel $model)
     {
         return $this->models->contains($model);
     }
 
+    /**
+     * @return int
+     */
     public function count()
     {
         return $this->models->count();
     }
 
+    /**
+     * Return containing models
+     *
+     * @return SplObjectStorage
+     */
     public function all()
     {
         return $this->models;
     }
 
+    /**
+     * @return array
+     */
     public function toArray()
     {
         return Objects::toArray($this->models);
     }
 
+    /**
+     * @param  AbstractModel $model
+     * @return Models $this
+     */
     public function remove(AbstractModel $model)
     {
         unset($this->models[$model]);
@@ -100,6 +134,10 @@ class Models implements Countable, Iterator
         return $this;
     }
 
+    /**
+     * @param  Models $models
+     * @return Models $this
+     */
     public function removeAll(Models $models)
     {
         $this->models->removeAll($models->all());
@@ -107,11 +145,18 @@ class Models implements Countable, Iterator
         return $this;
     }
 
+    /**
+     * @return boolean
+     */
     public function isEmpty()
     {
         return count($this->models) === 0;
     }
 
+    /**
+     * @param  Closure $filter must return true for each item
+     * @return Models Filtered models
+     */
     public function filter(Closure $filter)
     {
         $filtered = new Models();
@@ -121,6 +166,11 @@ class Models implements Countable, Iterator
         return $filtered;
     }
 
+    /**
+     * Group models by repo, call yield for each repo
+     *
+     * @param  Closure $yield Call for each repo ($repo, $models)
+     */
     public function byRepo(Closure $yield)
     {
         $repos = Objects::groupBy($this->models, function (AbstractModel $model) {
@@ -134,6 +184,7 @@ class Models implements Countable, Iterator
 
     /**
      * @param string $property
+     * @return array
      */
     public function pluckProperty($property)
     {

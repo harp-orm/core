@@ -447,17 +447,11 @@ abstract class AbstractRepo
         return $this->initialized;
     }
 
-    public function afterInitialize()
-    {
-
-    }
-
     public function initializeOnce()
     {
         if (! $this->initialized) {
             $this->initialized = true;
             $this->initialize();
-            $this->afterInitialize();
         }
     }
 }
