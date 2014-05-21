@@ -3,8 +3,9 @@
 namespace CL\LunaCore\Test\Unit\Rel;
 
 use CL\LunaCore\Test\AbstractTestCase;
+use CL\LunaCore\Repo\LinkOne;
+use CL\LunaCore\Model\Models;
 use CL\Util\Objects;
-use SplObjectStorage;
 
 class AbstractRelOneTest extends AbstractTestCase
 {
@@ -73,5 +74,35 @@ class AbstractRelOneTest extends AbstractTestCase
         $this->assertInstanceof('CL\LunaCore\Repo\LinkOne', $link);
         $this->assertInstanceof(__NAMESPACE__.'\Model', $link->get());
         $this->assertSame($foreign, $link->get());
+    }
+
+    /**
+     * @covers CL\LunaCore\Rel\AbstractRelOne::delete
+     */
+    public function testDelete()
+    {
+        $rel = $this->getRel();
+        $result = $rel->delete(new Model(), new LinkOne($rel, new Model()));
+        $this->assertEquals(new Models(), $result);
+    }
+
+    /**
+     * @covers CL\LunaCore\Rel\AbstractRelOne::insert
+     */
+    public function testInsert()
+    {
+        $rel = $this->getRel();
+        $result = $rel->insert(new Model(), new LinkOne($rel, new Model()));
+        $this->assertEquals(new Models(), $result);
+    }
+
+    /**
+     * @covers CL\LunaCore\Rel\AbstractRelOne::update
+     */
+    public function testUpdate()
+    {
+        $rel = $this->getRel();
+        $result = $rel->update(new Model(), new LinkOne($rel, new Model()));
+        $this->assertNull($result);
     }
 }

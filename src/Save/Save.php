@@ -6,7 +6,6 @@ use CL\LunaCore\Rel\DeleteInterface;
 use CL\LunaCore\Rel\InsertInterface;
 use CL\LunaCore\Rel\UpdateInterface;
 use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Repo\AbstractLink;
 use CL\LunaCore\Model\Models;
 use SplObjectStorage;
 use Closure;
@@ -94,31 +93,24 @@ class Save extends Models
 
     public function addFromDeleteRels()
     {
-        $this->eachLink(function (AbstractModel $model, AbstractLink $link) {
-            $rel = $link->getRel();
-            if ($rel instanceof DeleteInterface) {
-                $this->addArray($rel->delete($model, $link));
-            }
+        $this->eachLink(function (AbstractModel $model, $link) {
+            $models = $link->getRel()->delete($model, $link);
+            $this->addAll($models);
         });
     }
 
     public function addFromInsertRels()
     {
-        $this->eachLink(function (AbstractModel $model, AbstractLink $link) {
-            $rel = $link->getRel();
-            if ($rel instanceof InsertInterface) {
-                $this->addArray($rel->insert($model, $link));
-            }
+        $this->eachLink(function (AbstractModel $model, $link) {
+            $models = $link->getRel()->insert($model, $link);
+            $this->addAll($models);
         });
     }
 
     public function callUpdateRels()
     {
-        $this->eachLink(function (AbstractModel $model, AbstractLink $link) {
-            $rel = $link->getRel();
-            if ($rel instanceof UpdateInterface) {
-                $rel->update($model, $link);
-            }
+        $this->eachLink(function (AbstractModel $model, $link) {
+            $link->getRel()->update($model, $link);
         });
     }
 

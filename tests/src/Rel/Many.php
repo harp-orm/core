@@ -3,18 +3,17 @@
 namespace CL\LunaCore\Test\Rel;
 
 use CL\LunaCore\Test\Repo\AbstractTestRepo;
-use CL\LunaCore\Rel\UpdateInterface;
 use CL\LunaCore\Rel\AbstractRelMany;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
-use CL\LunaCore\Repo\AbstractLink;
+use CL\LunaCore\Repo\LinkMany;
 
 /**
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-class Many extends AbstractRelMany implements UpdateInterface
+class Many extends AbstractRelMany
 {
     private $key;
 
@@ -45,7 +44,7 @@ class Many extends AbstractRelMany implements UpdateInterface
             ->loadRaw($flags);
     }
 
-    public function update(AbstractModel $model, AbstractLink $link)
+    public function update(AbstractModel $model, LinkMany $link)
     {
         foreach ($link->getAdded() as $added) {
             $added->{$this->key} = $model->getId();

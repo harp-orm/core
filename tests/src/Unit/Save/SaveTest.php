@@ -149,9 +149,9 @@ class SaveTest extends AbstractTestCase
     public function dataRelModifiers()
     {
         return [
-            [__NAMESPACE__.'\RelOneDelete', 'delete', 'addFromDeleteRels', true],
-            [__NAMESPACE__.'\RelOneInsert', 'insert', 'addFromInsertRels', true],
-            [__NAMESPACE__.'\RelOneUpdate', 'update', 'callUpdateRels', false],
+            ['delete', 'addFromDeleteRels', true],
+            ['insert', 'addFromInsertRels', true],
+            ['update', 'callUpdateRels', false],
         ];
     }
 
@@ -161,7 +161,7 @@ class SaveTest extends AbstractTestCase
      * @covers CL\LunaCore\Save\Save::addFromInsertRels
      * @covers CL\LunaCore\Save\Save::callUpdateRels
      */
-    public function testRelModifiers($relClass, $method, $trigger, $expectAdd)
+    public function testRelModifiers($method, $trigger, $expectAdd)
     {
         $save = new Save();
 
@@ -172,7 +172,7 @@ class SaveTest extends AbstractTestCase
         $model5 = new Model();
 
         $rel1 = $this->getMock(
-            $relClass,
+            __NAMESPACE__.'\RelOne',
             [$method],
             ['test', Repo::get(), Repo::get()]
         );
@@ -192,7 +192,7 @@ class SaveTest extends AbstractTestCase
             ->expects($this->once())
             ->method($method)
             ->with($this->identicalTo($model1), $this->identicalTo($link1))
-            ->will($this->returnValue([$model5]));
+            ->will($this->returnValue(new Models([$model5])));
 
         $this->assertFalse($save->has($model5));
 

@@ -95,6 +95,30 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
+     * @covers CL\LunaCore\Model\Models::addAll
+     */
+    public function testAddAll()
+    {
+        $models = new Models();
+
+        $model1 = new Model();
+        $model2 = new Model();
+        $model3 = new Model();
+
+        $models->addAll(new Models());
+
+        $this->assertEmpty($models);
+
+        $models->addAll(new Models([$model1, $model2]));
+        $models->addAll(new Models([$model1, $model3]));
+
+        $this->assertCount(3, $models);
+
+        $this->assertSame([$model1, $model2, $model3], Objects::toArray($models->all()));
+    }
+
+
+    /**
      * @covers CL\LunaCore\Model\Models::remove
      */
     public function testRemove()

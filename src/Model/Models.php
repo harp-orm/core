@@ -54,6 +54,15 @@ class Models implements Countable, Iterator
         return $this;
     }
 
+    public function addAll(Models $other)
+    {
+        if ($other->count() > 0) {
+            $this->models->addAll($other->models);
+        }
+
+        return $this;
+    }
+
     /**
      * @param  array  $models
      * @return Models $this

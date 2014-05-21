@@ -3,9 +3,11 @@
 namespace CL\LunaCore\Test\Unit\Rel;
 
 use CL\LunaCore\Rel\AbstractRelMany;
+use CL\LunaCore\Repo\LinkMany;
 use CL\LunaCore\Test\AbstractTestCase;
+use CL\LunaCore\Model\Models;
 use CL\Util\Objects;
-use SplObjectStorage;
+
 
 class AbstractRelManyTest extends AbstractTestCase
 {
@@ -72,4 +74,35 @@ class AbstractRelManyTest extends AbstractTestCase
         $this->assertCount(1, $link->all());
         $this->assertEquals($links, $link->toArray());
     }
+
+    /**
+     * @covers CL\LunaCore\Rel\AbstractRelMany::delete
+     */
+    public function testDelete()
+    {
+        $rel = $this->getRel();
+        $result = $rel->delete(new Model(), new LinkMany($rel, []));
+        $this->assertEquals(new Models(), $result);
+    }
+
+    /**
+     * @covers CL\LunaCore\Rel\AbstractRelMany::insert
+     */
+    public function testInsert()
+    {
+        $rel = $this->getRel();
+        $result = $rel->insert(new Model(), new LinkMany($rel, []));
+        $this->assertEquals(new Models(), $result);
+    }
+
+    /**
+     * @covers CL\LunaCore\Rel\AbstractRelMany::update
+     */
+    public function testUpdate()
+    {
+        $rel = $this->getRel();
+        $result = $rel->update(new Model(), new LinkMany($rel, []));
+        $this->assertNull($result);
+    }
+
 }
