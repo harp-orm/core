@@ -16,7 +16,7 @@ class SoftDeleteRepo extends AbstractSaveRepo
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new SoftDeleteRepo(SoftDeleteModel::class);
+            self::$instance = new SoftDeleteRepo(__NAMESPACE__.'\SoftDeleteModel');
         }
 
         return self::$instance;

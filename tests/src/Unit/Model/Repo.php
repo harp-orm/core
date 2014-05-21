@@ -15,7 +15,7 @@ class Repo extends AbstractRepo
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new Repo(Model::class, 'Model.json');
+            self::$instance = new Repo(__NAMESPACE__.'\Model', 'Model.json');
         }
 
         return self::$instance;

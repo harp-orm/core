@@ -6,8 +6,11 @@ use CL\LunaCore\Rel\DeleteInterface;
 use CL\LunaCore\Rel\InsertInterface;
 use CL\LunaCore\Rel\UpdateInterface;
 use CL\LunaCore\Model\AbstractModel;
+use CL\LunaCore\Save\AbstractSaveRepo;
+use CL\LunaCore\Repo\AbstractLink;
 use CL\LunaCore\Model\Models;
 use SplObjectStorage;
+use Closure;
 
 /**
  * @author     Ivan Kerin
@@ -74,7 +77,7 @@ class Save extends Models
         return $this;
     }
 
-    public function eachLink()
+    public function eachLink(Closure $yield)
     {
         foreach ($this as $model) {
             $linkMap = $model->getRepo()->getLinkMap();
@@ -83,7 +86,7 @@ class Save extends Models
                 $links = $linkMap->get($model)->all();
 
                 foreach ($links as $link) {
-                    yield $model => $link;
+                    $yield($model, $link);
                 }
             }
         }
@@ -91,52 +94,52 @@ class Save extends Models
 
     public function addFromDeleteRels()
     {
-        foreach ($this->eachLink() as $model => $link) {
+        $this->eachLink(function (AbstractModel $model, AbstractLink $link) {
             $rel = $link->getRel();
             if ($rel instanceof DeleteInterface) {
                 $this->addArray($rel->delete($model, $link));
             }
-        }
+        });
     }
 
     public function addFromInsertRels()
     {
-        foreach ($this->eachLink() as $model => $link) {
+        $this->eachLink(function (AbstractModel $model, AbstractLink $link) {
             $rel = $link->getRel();
             if ($rel instanceof InsertInterface) {
                 $this->addArray($rel->insert($model, $link));
             }
-        }
+        });
     }
 
     public function callUpdateRels()
     {
-        foreach ($this->eachLink() as $model => $link) {
+        $this->eachLink(function (AbstractModel $model, AbstractLink $link) {
             $rel = $link->getRel();
             if ($rel instanceof UpdateInterface) {
                 $rel->update($model, $link);
             }
-        }
+        });
     }
 
     public function execute()
     {
         $this->addFromDeleteRels();
 
-        foreach ($this->getModelsToDelete()->byRepo() as $repo => $models) {
+        $this->getModelsToDelete()->byRepo(function (AbstractSaveRepo $repo, Models $models) {
             $repo->deleteModels($models);
-        }
+        });
 
         $this->addFromInsertRels();
 
-        foreach ($this->getModelsToInsert()->byRepo() as $repo => $models) {
+        $this->getModelsToInsert()->byRepo(function (AbstractSaveRepo $repo, Models $models) {
             $repo->insertModels($models);
-        }
+        });
 
         $this->callUpdateRels();
 
-        foreach ($this->getModelsToUpdate()->byRepo() as $repo => $models) {
+        $this->getModelsToUpdate()->byRepo(function (AbstractSaveRepo $repo, Models $models) {
             $repo->updateModels($models);
-        }
+        });
     }
 }

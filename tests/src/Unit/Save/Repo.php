@@ -16,7 +16,7 @@ class Repo extends AbstractSaveRepo
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new Repo(Model::class);
+            self::$instance = new Repo(__NAMESPACE__.'\Model');
         }
 
         return self::$instance;

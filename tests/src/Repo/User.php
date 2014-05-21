@@ -21,7 +21,7 @@ class User extends AbstractTestRepo {
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new User(Model\User::class, 'User.json');
+            self::$instance = new User('CL\LunaCore\Test\Model\User', 'User.json');
         }
 
         return self::$instance;

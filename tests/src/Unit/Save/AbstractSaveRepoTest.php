@@ -18,8 +18,8 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         parent::setUp();
 
-        $this->repo = $this->getMock(Repo::class, ['findAll', 'newSave', 'loadRelFor'], [Model::class]);
-        $this->find = $this->getMock(Find::class, ['where', 'limit', 'execute'], [$this->repo]);
+        $this->repo = $this->getMock(__NAMESPACE__.'\Repo', ['findAll', 'newSave', 'loadRelFor'], [__NAMESPACE__.'\Model']);
+        $this->find = $this->getMock(__NAMESPACE__.'\Find', ['where', 'limit', 'execute'], [$this->repo]);
 
         $this->repo
             ->expects($this->any())
@@ -55,7 +55,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
         $this->assertSame($model, $result);
 
         $result = $this->repo->find(4);
-        $this->assertInstanceOf(Model::class, $result);
+        $this->assertInstanceOf(__NAMESPACE__.'\Model', $result);
         $this->assertTrue($result->isVoid());
     }
 
@@ -66,7 +66,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         $save = Repo::get()->newSave();
 
-        $this->assertInstanceOf(Save::class, $save);
+        $this->assertInstanceOf('CL\LunaCore\Save\Save', $save);
     }
 
     /**
@@ -74,7 +74,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
      */
     public function testSave()
     {
-        $save = $this->getMock(Save::class, ['execute', 'add']);
+        $save = $this->getMock('CL\LunaCore\Save\Save', ['execute', 'add']);
         $model = new Model();
 
         $save
@@ -153,7 +153,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
      */
     public function testLoadRelFor()
     {
-        $repo = new Repo(Model::class);
+        $repo = new Repo(__NAMESPACE__.'\Model');
 
         $modelsSource = [new Model(['repo' => $repo]), new Model(['repo' => $repo])];
         $foreignSource = [new Model(['repo' => $repo]), new Model(['repo' => $repo])];
@@ -162,7 +162,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
         $foreign = new Models($foreignSource);
 
         $rel = $this->getMock(
-            RelOne::class,
+            __NAMESPACE__.'\RelOne',
             ['loadForeignModels', 'areLinked'],
             ['test', $repo, $repo]
         );
@@ -203,9 +203,9 @@ class AbstractSaveRepoTest extends AbstractTestCase
      */
     public function testLoadAllRelsFor()
     {
-        $repo1 = $this->getMock(Repo::class, ['loadRelFor'], [Model::class]);
-        $repo2 = $this->getMock(Repo::class, ['loadRelFor'], [Model::class]);
-        $repo3 = $this->getMock(Repo::class, ['loadRelFor'], [Model::class]);
+        $repo1 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor'], [__NAMESPACE__.'\Model']);
+        $repo2 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor'], [__NAMESPACE__.'\Model']);
+        $repo3 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor'], [__NAMESPACE__.'\Model']);
 
         $repo1->setRels([
             new RelOne('one', $repo1, $repo2),
@@ -240,9 +240,9 @@ class AbstractSaveRepoTest extends AbstractTestCase
     public function testUpdateModels()
     {
         $repo = $this->getMock(
-            Repo::class,
+            __NAMESPACE__.'\Repo',
             ['update', 'dispatchBeforeEvent', 'dispatchAfterEvent'],
-            [Model::class]
+            [__NAMESPACE__.'\Model']
         );
 
         $models = [new Model(null, State::SAVED), new Model(['deletedAt' => time()], State::DELETED)];
@@ -292,9 +292,9 @@ class AbstractSaveRepoTest extends AbstractTestCase
     public function testDeleteModels()
     {
         $repo = $this->getMock(
-            Repo::class,
+            __NAMESPACE__.'\Repo',
             ['delete', 'dispatchBeforeEvent', 'dispatchAfterEvent'],
-            [Model::class]
+            [__NAMESPACE__.'\Model']
         );
 
         $models = [new Model(null, State::DELETED), new Model(null, State::DELETED)];
@@ -334,9 +334,9 @@ class AbstractSaveRepoTest extends AbstractTestCase
     public function testInsertModels()
     {
         $repo = $this->getMock(
-            Repo::class,
+            __NAMESPACE__.'\Repo',
             ['insert', 'dispatchBeforeEvent', 'dispatchAfterEvent'],
-            [Model::class]
+            [__NAMESPACE__.'\Model']
         );
 
         $models = [new Model(), new Model()];

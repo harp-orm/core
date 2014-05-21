@@ -20,7 +20,7 @@ class BlogPost extends Post {
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new BlogPost(Model\BlogPost::class, 'Post.json');
+            self::$instance = new BlogPost('CL\LunaCore\Test\Model\BlogPost', 'Post.json');
         }
 
         return self::$instance;

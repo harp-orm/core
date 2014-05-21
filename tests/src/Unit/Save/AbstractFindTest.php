@@ -26,7 +26,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testWhereKey()
     {
-        $find = $this->getMock(Find::class, ['where'], [Repo::get()]);
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['where'], [Repo::get()]);
 
         $find
             ->expects($this->once())
@@ -41,7 +41,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testWhereKeys()
     {
-        $find = $this->getMock(Find::class, ['whereIn'], [Repo::get()]);
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['whereIn'], [Repo::get()]);
 
         $find
             ->expects($this->once())
@@ -56,13 +56,13 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadRaw()
     {
-        $repo = new Repo(Model::class);
+        $repo = new Repo(__NAMESPACE__.'\Model');
         $repo->setSoftDelete(true);
         $models1 = [new Model()];
         $models2 = [new Model()];
         $models3 = [new Model()];
 
-        $find = $this->getMock(Find::class, ['execute', 'where', 'whereNot'], [$repo]);
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['execute', 'where', 'whereNot'], [$repo]);
 
         $find
             ->expects($this->at(0))
@@ -90,7 +90,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadRawInvalidArguments()
     {
-        $repo = new Repo(Model::class);
+        $repo = new Repo(__NAMESPACE__.'\Model');
         $repo->setSoftDelete(true);
 
         $find = new Find($repo);
@@ -110,7 +110,7 @@ class AbstractFindTest extends AbstractTestCase
         $model3 = new Model(['id' => 4], State::SAVED);
         $model4 = new Model(['id' => 4], State::SAVED);
 
-        $find = $this->getMock(Find::class, ['loadRaw'], [$repo]);
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['loadRaw'], [$repo]);
 
         $find
             ->expects($this->exactly(2))
@@ -119,12 +119,12 @@ class AbstractFindTest extends AbstractTestCase
             ->will($this->onConsecutiveCalls([$model1, $model3], [$model2, $model4]));
 
         $loaded = $find->load(State::DELETED | State::SAVED);
-        $this->assertInstanceOf(Models::class, $loaded);
+        $this->assertInstanceOf('CL\LunaCore\Model\Models', $loaded);
 
         $this->assertSame([$model1, $model3], $loaded->toArray());
 
         $loaded = $find->load(State::DELETED | State::SAVED);
-        $this->assertInstanceOf(Models::class, $loaded);
+        $this->assertInstanceOf('CL\LunaCore\Model\Models', $loaded);
 
         $this->assertSame([$model1, $model3], $loaded->toArray());
     }
@@ -134,8 +134,8 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadWith()
     {
-        $repo = $this->getMock(Repo::class, ['loadAllRelsFor'], [Model::class]);
-        $find = $this->getMock(Find::class, ['load'], [$repo]);
+        $repo = $this->getMock(__NAMESPACE__.'\Repo', ['loadAllRelsFor'], [__NAMESPACE__.'\Model']);
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['load'], [$repo]);
 
         $rels = ['one' => 'many'];
 
@@ -162,7 +162,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadIds()
     {
-        $find = $this->getMock(Find::class, ['load'], [Repo::get()]);
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['load'], [Repo::get()]);
 
         $models = new Models([
             new Model(['id' => 4]),
@@ -188,7 +188,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadCount()
     {
-        $find = $this->getMock(Find::class, ['loadRaw'], [Repo::get()]);
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['loadRaw'], [Repo::get()]);
 
         $models = [
             new Model(['id' => 4]),
@@ -213,8 +213,8 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadFirst()
     {
-        $repo = new Repo(Model::class);
-        $find = $this->getMock(Find::class, ['limit', 'load'], [$repo]);
+        $repo = new Repo(__NAMESPACE__.'\Model');
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['limit', 'load'], [$repo]);
 
         $model = new Model(['id' => 300, 'repo' => $repo]);
         $models = new Models([$model]);
@@ -238,7 +238,7 @@ class AbstractFindTest extends AbstractTestCase
 
         $result = $find->loadFirst(State::DELETED);
 
-        $this->assertInstanceOf(Model::class, $result);
+        $this->assertInstanceOf(__NAMESPACE__.'\Model', $result);
         $this->assertTrue($result->isVoid());
     }
 }

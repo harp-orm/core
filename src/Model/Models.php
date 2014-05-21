@@ -122,14 +122,14 @@ class Models implements Countable, Iterator
         return $filtered;
     }
 
-    public function byRepo()
+    public function byRepo(Closure $yield)
     {
         $repos = Objects::groupBy($this->models, function (AbstractModel $model) {
             return $model->getRepo();
         });
 
         foreach ($repos as $repo) {
-            yield $repo => Models::fromObjects($repos->getInfo());
+            $yield($repo, Models::fromObjects($repos->getInfo()));
         }
     }
 

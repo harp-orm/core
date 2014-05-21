@@ -7,23 +7,20 @@ use CL\LunaCore\Repo\Links;
 use CL\LunaCore\Repo\LinkOne;
 use CL\LunaCore\Repo\LinkMap;
 use CL\LunaCore\Repo\Rels;
-use CL\LunaCore\Repo\IdentityMap;
-use CL\LunaCore\Repo\EventListeners;
 use CL\LunaCore\Repo\Event;
 use CL\LunaCore\Test\Model\User;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\State;
 use CL\Util\Objects;
 use CL\Carpo\Assert\Present;
-use CL\Carpo\Asserts;
 
 class AbstractRepoTest extends AbstractRepoTestCase
 {
     public function getRepoInitialized($initialized)
     {
         $repo = $this->getMockForAbstractClass(
-            AbstractRepo::class,
-            [Model::class]
+            'CL\LunaCore\Repo\AbstractRepo',
+            [__NAMESPACE__.'\Model']
         );
 
         $repo
@@ -39,9 +36,9 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testConstruct()
     {
-        $repo = new Repo(Model::class);
+        $repo = new Repo(__NAMESPACE__.'\Model');
 
-        $this->assertEquals(Model::class, $repo->getModelClass());
+        $this->assertEquals(__NAMESPACE__.'\Model', $repo->getModelClass());
     }
 
     /**
@@ -106,7 +103,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(false);
 
-        $this->assertInstanceof(LinkMap::class, $repo->getLinkMap());
+        $this->assertInstanceof('CL\LunaCore\Repo\LinkMap', $repo->getLinkMap());
     }
 
     /**
@@ -116,7 +113,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(false);
 
-        $this->assertInstanceof(IdentityMap::class, $repo->getIdentityMap());
+        $this->assertInstanceof('CL\LunaCore\Repo\IdentityMap', $repo->getIdentityMap());
     }
 
     /**
@@ -127,7 +124,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
         $repo = $this->getRepoInitialized(false);
 
         $this->assertInstanceof('ReflectionClass', $repo->getModelReflection());
-        $this->assertEquals(Model::class, $repo->getModelReflection()->getName());
+        $this->assertEquals(__NAMESPACE__.'\Model', $repo->getModelReflection()->getName());
     }
 
     /**
@@ -156,7 +153,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(true);
 
-        $this->assertInstanceof(Rels::class, $repo->getRels());
+        $this->assertInstanceof('CL\LunaCore\Repo\Rels', $repo->getRels());
 
         $rels = [
             $this->getRelOne(),
@@ -194,7 +191,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(true);
 
-        $this->assertInstanceof(EventListeners::class, $repo->getEventListeners());
+        $this->assertInstanceof('CL\LunaCore\Repo\EventListeners', $repo->getEventListeners());
 
         $repo
             ->addEventBeforeDelete('before delete callback')
@@ -234,7 +231,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(true);
 
-        $this->assertInstanceof(Asserts::class, $repo->getAsserts());
+        $this->assertInstanceof('CL\Carpo\Asserts', $repo->getAsserts());
 
         $asserts = [
             new Present('name'),
@@ -255,11 +252,11 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $model = new Model();
 
-        $eventListener = $this->getMock(EventListeners::class);
+        $eventListener = $this->getMock('CL\LunaCore\Repo\EventListeners');
 
         $repo = $this->getMockForAbstractClass(
-            AbstractRepo::class,
-            [Model::class],
+            'CL\LunaCore\Repo\AbstractRepo',
+            [__NAMESPACE__.'\Model'],
             '',
             true,
             true,
@@ -310,7 +307,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
         $model = $repo->newInstance();
 
-        $this->assertInstanceOf(Model::class, $model);
+        $this->assertInstanceOf(__NAMESPACE__.'\Model', $model);
         $this->assertEquals(['id' => null, 'name' => 'test'], $model->getProperties());
         $this->assertTrue($model->isPending());
 
@@ -329,7 +326,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
         $model = $repo->newVoidInstance();
 
-        $this->assertInstanceOf(Model::class, $model);
+        $this->assertInstanceOf(__NAMESPACE__.'\Model', $model);
         $this->assertEquals(['id' => null, 'name' => 'test'], $model->getProperties());
         $this->assertTrue($model->isVoid());
 
@@ -346,7 +343,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testGetInitialized()
     {
-        $repo = new Repo(Model::class);
+        $repo = new Repo(__NAMESPACE__.'\Model');
 
         $this->assertFalse($repo->getInitialized());
 
@@ -366,7 +363,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testInitialize()
     {
-        $repo = new Repo(Model::class);
+        $repo = new Repo(__NAMESPACE__.'\Model');
 
         $this->assertFalse($repo->initializeCalled);
         $this->assertFalse($repo->initialize1TraitCalled);

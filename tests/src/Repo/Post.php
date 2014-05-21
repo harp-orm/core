@@ -21,7 +21,7 @@ class Post extends AbstractTestRepo {
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new Post(Model\Post::class, 'Post.json');
+            self::$instance = new Post('CL\LunaCore\Test\Model\Post', 'Post.json');
         }
 
         return self::$instance;

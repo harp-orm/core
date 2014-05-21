@@ -299,7 +299,7 @@ class LinkManyTest extends AbstractRepoTestCase
         $link = new LinkMany($this->getRelMany(), []);
         $first = $link->getFirst();
 
-        $this->assertInstanceof(Model::class, $first);
+        $this->assertInstanceof(__NAMESPACE__.'\Model', $first);
         $this->assertTrue($first->isVoid());
     }
 

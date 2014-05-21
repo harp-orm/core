@@ -18,12 +18,12 @@ class AbstractRelTest extends AbstractTestCase
      */
     public function testConstruct()
     {
-        $repo1 = new Repo(Model::class);
-        $repo2 = new Repo(Model::class);
+        $repo1 = new Repo(__NAMESPACE__.'\Model');
+        $repo2 = new Repo(__NAMESPACE__.'\Model');
         $name = 'test name';
 
         $rel = $this->getMockForAbstractClass(
-            AbstractRel::class,
+            'CL\LunaCore\Rel\AbstractRel',
             [$name, $repo1, $repo2, ['test' => 'test option']]
         );
 
@@ -38,12 +38,12 @@ class AbstractRelTest extends AbstractTestCase
      */
     public function testLoadForeignModels()
     {
-        $repo1 = new Repo(Model::class);
-        $repo2 = new Repo(Model::class);
+        $repo1 = new Repo(__NAMESPACE__.'\Model');
+        $repo2 = new Repo(__NAMESPACE__.'\Model');
         $name = 'test name';
 
         $rel = $this->getMockForAbstractClass(
-            AbstractRel::class,
+            'CL\LunaCore\Rel\AbstractRel',
             [$name, $repo1, $repo2]
         );
 
@@ -64,12 +64,12 @@ class AbstractRelTest extends AbstractTestCase
 
         $result = $rel->loadForeignModels($models);
 
-        $this->assertInstanceOf(Models::class, $result);
+        $this->assertInstanceOf('CL\LunaCore\Model\Models', $result);
         $this->assertEmpty($result);
 
         $result = $rel->loadForeignModels($models);
 
-        $this->assertInstanceOf(Models::class, $result);
+        $this->assertInstanceOf('CL\LunaCore\Model\Models', $result);
         $this->assertSame($expected, $result->toArray());
     }
 
@@ -91,8 +91,8 @@ class AbstractRelTest extends AbstractTestCase
         ];
 
         $rel = $this->getMockForAbstractClass(
-            AbstractRelMany::class,
-            ['test name', new Repo(Model::class), new Repo(Model::class)],
+            'CL\LunaCore\Rel\AbstractRelMany',
+            ['test name', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')],
             '',
             true,
             true,

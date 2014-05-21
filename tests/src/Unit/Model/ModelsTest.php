@@ -139,7 +139,7 @@ class ModelsTest extends AbstractTestCase
             return $model->name !== 'test1';
         });
 
-        $this->assertInstanceOf(Models::class, $filtered);
+        $this->assertInstanceOf('CL\LunaCore\Model\Models', $filtered);
         $this->assertEquals([$source[2]], Objects::toArray($filtered->all()));
     }
 
@@ -165,11 +165,11 @@ class ModelsTest extends AbstractTestCase
 
         $i = 0;
 
-        foreach ($models->byRepo() as $repo => $repoModels) {
+        $models->byRepo(function($repo, Models $repoModels) use ($expected, & $i) {
             $this->assertSame($expected[$i][0], $repo);
             $this->assertSame($expected[$i][1], Objects::toArray($repoModels->all()));
             $i++;
-        }
+        });
     }
 
     /**

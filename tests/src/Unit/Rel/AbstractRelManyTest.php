@@ -3,7 +3,6 @@
 namespace CL\LunaCore\Test\Unit\Rel;
 
 use CL\LunaCore\Rel\AbstractRelMany;
-use CL\LunaCore\Repo\LinkMany;
 use CL\LunaCore\Test\AbstractTestCase;
 use CL\Util\Objects;
 use SplObjectStorage;
@@ -13,8 +12,8 @@ class AbstractRelManyTest extends AbstractTestCase
     public function getRel()
     {
         return $this->getMockForAbstractClass(
-            AbstractRelMany::class,
-            ['test name', new Repo(Model::class), new Repo(Model::class)]
+            'CL\LunaCore\Rel\AbstractRelMany',
+            ['test name', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
     }
 
@@ -29,7 +28,7 @@ class AbstractRelManyTest extends AbstractTestCase
         $rel = $this->getRel();
         $result = $rel->newLink($expected);
 
-        $this->assertInstanceof(LinkMany::class, $result);
+        $this->assertInstanceof('CL\LunaCore\Repo\LinkMany', $result);
         $models = Objects::toArray($result->all());
         $this->assertSame($expected, $models);
 
@@ -47,7 +46,7 @@ class AbstractRelManyTest extends AbstractTestCase
         $rel = $this->getRel();
         $result = $rel->newEmptyLink();
 
-        $this->assertInstanceof(LinkMany::class, $result);
+        $this->assertInstanceof('CL\LunaCore\Repo\LinkMany', $result);
         $this->assertCount(0, $result);
     }
 
@@ -64,12 +63,12 @@ class AbstractRelManyTest extends AbstractTestCase
 
         $link = $rel->newLinkFrom($model, []);
 
-        $this->assertInstanceof(LinkMany::class, $link);
+        $this->assertInstanceof('CL\LunaCore\Repo\LinkMany', $link);
         $this->assertCount(0, $link->all());
 
         $link = $rel->newLinkFrom($model, $links);
 
-        $this->assertInstanceof(LinkMany::class, $link);
+        $this->assertInstanceof('CL\LunaCore\Repo\LinkMany', $link);
         $this->assertCount(1, $link->all());
         $this->assertEquals($links, $link->toArray());
     }

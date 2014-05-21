@@ -21,7 +21,7 @@ class Address extends AbstractTestRepo {
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new Address(Model\Address::class, 'Address.json');
+            self::$instance = new Address('CL\LunaCore\Test\Model\Address', 'Address.json');
         }
 
         return self::$instance;

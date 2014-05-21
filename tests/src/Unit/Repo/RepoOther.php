@@ -16,7 +16,7 @@ class RepoOther extends AbstractRepo
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new RepoOther(Model::class);
+            self::$instance = new RepoOther(__NAMESPACE__.'\Model');
         }
 
         return self::$instance;

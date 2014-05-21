@@ -6,6 +6,7 @@ use CL\LunaCore\Save\Save;
 use CL\LunaCore\Repo\Event;
 use CL\LunaCore\Repo\LinkOne;
 use CL\LunaCore\Repo\LinkMany;
+use CL\LunaCore\Repo\AbstractLink;
 use CL\LunaCore\Model\State;
 use CL\LunaCore\Model\Models;
 use CL\LunaCore\Test\AbstractTestCase;
@@ -73,7 +74,7 @@ class SaveTest extends AbstractTestCase
 
         $filtered = $save->$filter();
 
-        $this->assertInstanceOf(Models::class, $filtered);
+        $this->assertInstanceOf('CL\LunaCore\Model\Models', $filtered);
         $this->assertSame($expected, $filtered->toArray());
     }
 
@@ -138,19 +139,19 @@ class SaveTest extends AbstractTestCase
             [$model2, $link2]
         ];
 
-        foreach ($save->eachLink() as $model => $link) {
+        $save->eachLink(function(Model $model, AbstractLink $link) use ($expected, & $i) {
             $this->assertSame($expected[$i][0], $model);
             $this->assertSame($expected[$i][1], $link);
             $i++;
-        }
+        });
     }
 
     public function dataRelModifiers()
     {
         return [
-            [RelOneDelete::class, 'delete', 'addFromDeleteRels', true],
-            [RelOneInsert::class, 'insert', 'addFromInsertRels', true],
-            [RelOneUpdate::class, 'update', 'callUpdateRels', false],
+            [__NAMESPACE__.'\RelOneDelete', 'delete', 'addFromDeleteRels', true],
+            [__NAMESPACE__.'\RelOneInsert', 'insert', 'addFromInsertRels', true],
+            [__NAMESPACE__.'\RelOneUpdate', 'update', 'callUpdateRels', false],
         ];
     }
 
@@ -210,15 +211,15 @@ class SaveTest extends AbstractTestCase
         $save = new Save();
 
         $repo1 = $this->getMock(
-            Repo::class,
+            __NAMESPACE__.'\Repo',
             ['deleteModels', 'insertModels', 'updateModels'],
-            [Model::class]
+            [__NAMESPACE__.'\Model']
         );
 
         $repo2 = $this->getMock(
-            Repo::class,
+            __NAMESPACE__.'\Repo',
             ['deleteModels', 'insertModels', 'updateModels'],
-            [SoftDeleteModel::class]
+            [__NAMESPACE__.'\SoftDeleteModel']
         );
 
         $models = [
