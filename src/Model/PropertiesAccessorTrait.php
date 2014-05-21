@@ -11,6 +11,7 @@ trait PropertiesAccessorTrait
 {
     /**
      * @param object $object
+     * @return array
      */
     public static function getPublicPropertiesOf($object)
     {
