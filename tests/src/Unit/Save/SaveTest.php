@@ -263,7 +263,9 @@ class SaveTest extends AbstractTestCase
                 ->expects($this->once())
                 ->method($method)
                 ->with($this->callback(function(Models $models) use ($values) {
-                    return $values == $models->toArray();
+                    $this->assertSame($values, $models->toArray());
+
+                    return true;
                 }));
         }
 
