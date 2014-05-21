@@ -10,7 +10,7 @@ namespace CL\LunaCore\Model;
 trait PropertiesAccessorTrait
 {
     /**
-     * @param PropertiesAccessorTrait $object
+     * @param object $object
      */
     public static function getPublicPropertiesOf($object)
     {
