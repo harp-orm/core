@@ -237,6 +237,11 @@ class SaveTest extends AbstractTestCase
             9 => (new SoftDeleteModel(['id' => 9], State::SAVED))->setProperties(['name' => 'changed']),
         ];
 
+        var_dump((new SoftDeleteModel(['id' => 5], State::DELETED)));
+        var_dump((new SoftDeleteModel(['id' => 5], State::DELETED))->setProperties(['deletedAt' => time()]));
+        var_dump($models[5]);
+
+
         $this->assertTrue($models[5]->isChanged());
         $this->assertTrue($models[5]->isSoftDeleted());
         $this->assertTrue($models[9]->isChanged());
