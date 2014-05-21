@@ -32,7 +32,9 @@ class Many extends AbstractRelMany implements UpdateInterface
 
     public function hasForeign(Models $models)
     {
-        return ! empty($models->pluckProperty('id'));
+        $keys = $models->pluckProperty('id');
+
+        return ! empty($keys);
     }
 
     public function loadForeign(Models $models, $flags = null)

@@ -32,7 +32,9 @@ class One extends AbstractRelOne implements UpdateInterface
 
     public function hasForeign(Models $models)
     {
-        return ! empty($models->pluckProperty($this->key));
+        $keys = $models->pluckProperty($this->key);
+
+        return ! empty($keys);
     }
 
     public function loadForeign(Models $models, $flags = null)
