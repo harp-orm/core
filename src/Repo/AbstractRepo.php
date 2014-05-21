@@ -138,7 +138,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param boolean $softDelete
+     * @param  boolean      $softDelete
      * @return AbstractRepo $this
      */
     public function setSoftDelete($softDelete)
@@ -159,7 +159,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param boolean $inherited
+     * @param  boolean      $inherited
      * @return AbstractRepo $this
      */
     public function setInherited($inherited)
@@ -220,7 +220,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  string           $name
+     * @param  string                   $name
      * @return AbstractRel
      * @throws InvalidArgumentException If rel does not exist
      */
@@ -236,7 +236,6 @@ abstract class AbstractRepo
 
         return $rel;
     }
-
 
     /**
      * @return EventListeners

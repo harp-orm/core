@@ -15,7 +15,7 @@ trait SoftDeleteTrait
     public $deletedAt;
 
     /**
-     * @return AbstractModel $this
+     * @return SoftDeleteTrait $this
      */
     public function delete()
     {
@@ -35,7 +35,7 @@ trait SoftDeleteTrait
     }
 
     /**
-     * @return AbstractModel $this
+     * @return SoftDeleteTrait $this
      */
     public function realDelete()
     {
@@ -47,7 +47,7 @@ trait SoftDeleteTrait
     }
 
     /**
-     * @return AbstractModel $this
+     * @return SoftDeleteTrait $this
      */
     public function restore()
     {

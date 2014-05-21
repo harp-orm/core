@@ -38,7 +38,7 @@ class LinkMap
      * Get Links object associated with this model.
      * If there is none, an empty Links object is created.
      *
-     * @param  AbstractModel $model
+     * @param  AbstractModel            $model
      * @return Links
      * @throws InvalidArgumentException If model does not belong to repo
      */

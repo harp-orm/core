@@ -33,7 +33,7 @@ abstract class AbstractModel
 
     /**
      * @param array $properties
-     * @param int $state
+     * @param int   $state
      */
     public function __construct(array $properties = null, $state = null)
     {

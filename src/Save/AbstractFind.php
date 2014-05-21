@@ -5,7 +5,6 @@ namespace CL\LunaCore\Save;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
 use CL\LunaCore\Model\State;
-use CL\Util\Arr;
 use InvalidArgumentException;
 
 /*
@@ -85,7 +84,7 @@ abstract class AbstractFind
     }
 
     /**
-     * @param  mixed  $value
+     * @param  mixed  $values
      * @return AbstractFind $this
      */
     public function whereKeys(array $values)
@@ -98,7 +97,7 @@ abstract class AbstractFind
     }
 
     /**
-     * @return AbstractModel[]
+     * @return AbstractModel
      */
     public function loadRaw($state = null)
     {

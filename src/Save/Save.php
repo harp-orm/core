@@ -6,7 +6,6 @@ use CL\LunaCore\Rel\DeleteInterface;
 use CL\LunaCore\Rel\InsertInterface;
 use CL\LunaCore\Rel\UpdateInterface;
 use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Save\AbstractSaveRepo;
 use CL\LunaCore\Repo\AbstractLink;
 use CL\LunaCore\Model\Models;
 use SplObjectStorage;
@@ -22,6 +21,7 @@ class Save extends Models
     public static function fromObjects(SplObjectStorage $array)
     {
         $save = new Save();
+
         return $save->addObjects($array);
     }
 

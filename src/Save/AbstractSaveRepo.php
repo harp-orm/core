@@ -24,19 +24,19 @@ abstract class AbstractSaveRepo extends AbstractRepo
     abstract public function findAll();
 
     /**
-     * @param  Models $models
+     * @param  Models           $models
      * @return AbstractSaveRepo $this
      */
     abstract public function update(Models $models);
 
     /**
-     * @param  Models $models
+     * @param  Models           $models
      * @return AbstractSaveRepo $this
      */
     abstract public function delete(Models $models);
 
     /**
-     * @param  Models $models
+     * @param  Models           $models
      * @return AbstractSaveRepo $this
      */
     abstract public function insert(Models $models);
@@ -87,9 +87,9 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
-     * @param  AbstractModel    $model
-     * @param  AbstractLink     $link
-     * @return AbstractSaveRepo $this
+     * @param  AbstractModel            $model
+     * @param  AbstractLink             $link
+     * @return AbstractSaveRepo         $this
      * @throws InvalidArgumentException If $model does not belong to repo
      */
     public function addLink(AbstractModel $model, AbstractLink $link)
@@ -100,8 +100,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
-     * @param  AbstractModel  $model
-     * @param  string         $name
+     * @param  AbstractModel            $model
+     * @param  string                   $name
      * @return AbstractLink
      * @throws InvalidArgumentException If $model does not belong to repo
      */
@@ -119,8 +119,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
-     * @param  Models          $models
-     * @param  string          $relName
+     * @param  Models                   $models
+     * @param  string                   $relName
      * @return Models
      * @throws InvalidArgumentException If $relName does not belong to repo
      */
@@ -138,9 +138,9 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
-     * @param  Models $models
-     * @param  array  $rels
-     * @param  int    $state
+     * @param  Models           $models
+     * @param  array            $rels
+     * @param  int              $state
      * @return AbstractSaveRepo $this
      */
     public function loadAllRelsFor(Models $models, array $rels, $state = null)
@@ -160,7 +160,7 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
-     * @param  Models $models
+     * @param  Models           $models
      * @return AbstractSaveRepo $this
      */
     public function updateModels(Models $models)
@@ -189,7 +189,7 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
-     * @param  Models $models
+     * @param  Models           $models
      * @return AbstractSaveRepo $this
      */
     public function deleteModels(Models $models)
@@ -208,7 +208,7 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
-     * @param  Models $models
+     * @param  Models           $models
      * @return AbstractSaveRepo $this
      */
     public function insertModels(Models $models)

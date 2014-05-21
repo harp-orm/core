@@ -4,7 +4,6 @@ namespace CL\LunaCore\Model;
 
 use CL\Util\Objects;
 use SplObjectStorage;
-use InvalidArgumentException;
 use Closure;
 use Countable;
 use Iterator;
@@ -17,7 +16,7 @@ use Iterator;
 class Models implements Countable, Iterator
 {
     /**
-     * @param  AbstractModel[]  $models
+     * @param  SplObjectStorage  $models
      * @return Models
      */
     public static function fromObjects(SplObjectStorage $models)
@@ -133,6 +132,9 @@ class Models implements Countable, Iterator
         }
     }
 
+    /**
+     * @param string $property
+     */
     public function pluckProperty($property)
     {
         $values = [];
