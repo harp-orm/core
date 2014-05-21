@@ -22,6 +22,16 @@ class SoftDeleteRepo extends AbstractSaveRepo
         return self::$instance;
     }
 
+    public static function set(SoftDeleteRepo $repo)
+    {
+        self::$instance = $repo;
+    }
+
+    public static function clear()
+    {
+        self::$instance = null;
+    }
+
     public function initialize()
     {
         $this
