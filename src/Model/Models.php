@@ -98,6 +98,16 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * @return AbstractModel|null
+     */
+    public function getFirst()
+    {
+        $this->rewind();
+
+        return $this->current();
+    }
+
+    /**
      * @param  AbstractModel $model
      * @return boolean
      */

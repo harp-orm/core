@@ -50,6 +50,23 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
+     * @covers CL\LunaCore\Model\Models::getFirst
+     */
+    public function testGetFirst()
+    {
+        $model1 = new Model();
+        $model2 = new Model();
+
+        $models = new Models([$model1, $model2]);
+
+        $this->assertSame($model1, $models->getFirst());
+
+        $models->clear();
+
+        $this->assertNull($models->getFirst());
+    }
+
+    /**
      * @covers CL\LunaCore\Model\Models::addObjects
      */
     public function testAddObjects()
