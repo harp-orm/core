@@ -49,9 +49,9 @@ abstract class AbstractRepo
     private $primaryKey = 'id';
 
     /**
-     * @var Rels
+     * @var AbstractRel[]
      */
-    private $rels;
+    private $rels = [];
 
     /**
      * @var Asserts
@@ -82,7 +82,6 @@ abstract class AbstractRepo
         $this->linkMap = new LinkMap($this);
         $this->eventListeners = new EventListeners();
         $this->asserts = new Asserts();
-        $this->rels = new Rels();
         $this->modelReflection = new ReflectionClass($modelClass);
         $this->identityMap = new IdentityMap($this);
     }
@@ -191,7 +190,20 @@ abstract class AbstractRepo
     }
 
     /**
-     * @return Rels
+     * @param  AbstractRel  $rel
+     * @return AbstractRepo $this
+     */
+    public function addRel(AbstractRel $rel)
+    {
+        $this->initializeOnce();
+
+        $this->rels[$rel->getName()] = $rel;
+
+        return $this;
+    }
+
+    /**
+     * @return AbstractRel[]
      */
     public function getRels()
     {
@@ -203,9 +215,11 @@ abstract class AbstractRepo
     /**
      * @param AbstractRel[] $rels
      */
-    public function setRels(array $rels)
+    public function addRels(array $rels)
     {
-        $this->getRels()->set($rels);
+        foreach ($rels as $rel) {
+            $this->addRel($rel);
+        }
 
         return $this;
     }
@@ -216,7 +230,9 @@ abstract class AbstractRepo
      */
     public function getRel($name)
     {
-        return $this->getRels()->get($name);
+        $this->initializeOnce();
+
+        return isset($this->rels[$name]) ? $this->rels[$name] : null;
     }
 
     /**
@@ -226,7 +242,7 @@ abstract class AbstractRepo
      */
     public function getRelOrError($name)
     {
-        $rel = $this->getRels()->get($name);
+        $rel = $this->getRel($name);
 
         if ($rel === null) {
             throw new InvalidArgumentException(

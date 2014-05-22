@@ -145,7 +145,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     /**
      * @covers CL\LunaCore\Repo\AbstractRepo::getRels
      * @covers CL\LunaCore\Repo\AbstractRepo::getRel
-     * @covers CL\LunaCore\Repo\AbstractRepo::setRels
+     * @covers CL\LunaCore\Repo\AbstractRepo::addRels
      * @covers CL\LunaCore\Repo\AbstractRepo::getRelOrError
      * @expectedException InvalidArgumentException
      */
@@ -153,7 +153,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(true);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\Rels', $repo->getRels());
+        $this->assertSame([], $repo->getRels());
 
         $rels = [
             $this->getRelOne(),
@@ -165,9 +165,9 @@ class AbstractRepoTest extends AbstractRepoTestCase
             'many' => $rels[1],
         ];
 
-        $repo->setRels($rels);
+        $repo->addRels($rels);
 
-        $this->assertSame($expected, $repo->getRels()->all());
+        $this->assertSame($expected, $repo->getRels());
         $this->assertSame($expected['one'], $repo->getRel('one'));
         $this->assertSame($expected['one'], $repo->getRelOrError('one'));
         $this->assertNull($repo->getRel('other'));

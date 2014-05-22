@@ -129,7 +129,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         $model = new Model();
 
-        $this->repo->setRels([
+        $this->repo->addRels([
             new RelOne('test', $this->repo, $this->repo),
         ]);
 
@@ -167,7 +167,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
             ['test', $repo, $repo]
         );
 
-        $repo->setRels([$rel]);
+        $repo->addRels([$rel]);
 
         $rel
             ->expects($this->once())
@@ -207,13 +207,8 @@ class AbstractSaveRepoTest extends AbstractTestCase
         $repo2 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor'], [__NAMESPACE__.'\Model']);
         $repo3 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor'], [__NAMESPACE__.'\Model']);
 
-        $repo1->setRels([
-            new RelOne('one', $repo1, $repo2),
-        ]);
-
-        $repo2->setRels([
-            new RelMany('many', $repo2, $repo3),
-        ]);
+        $repo1->addRel(new RelOne('one', $repo1, $repo2));
+        $repo2->addRel(new RelMany('many', $repo2, $repo3));
 
         $models1 = new Models([new Model(['repo' => $repo1])]);
         $models2 = new Models([new Model(['repo' => $repo2])]);

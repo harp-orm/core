@@ -47,8 +47,8 @@ abstract class AbstractRel
         array $properties = array()
     ) {
         $this->name = $name;
-        $this->foreignRepo = $foreignRepo;
         $this->repo = $repo;
+        $this->foreignRepo = $foreignRepo;
 
         foreach ($properties as $name => $value) {
             $this->$name = $value;

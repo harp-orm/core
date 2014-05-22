@@ -31,7 +31,7 @@ class Post extends AbstractTestRepo {
     {
         $this
             ->setInherited(true)
-            ->setRels([
+            ->addRels([
                 new Rel\One('user', $this, Post::get()),
             ]);
     }

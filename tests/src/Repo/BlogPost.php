@@ -31,7 +31,7 @@ class BlogPost extends Post {
         parent::initialize();
 
         $this
-            ->setRels([
+            ->addRels([
                 new Rel\One('address', $this, Address::get()),
             ]);
     }

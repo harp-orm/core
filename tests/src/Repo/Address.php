@@ -30,7 +30,7 @@ class Address extends AbstractTestRepo {
     public function initialize()
     {
         $this
-            ->setRels([
+            ->addRels([
                 new Rel\One('user', $this, Address::get()),
             ]);
     }

@@ -30,7 +30,7 @@ class User extends AbstractTestRepo {
     public function initialize()
     {
         $this
-            ->setRels([
+            ->addRels([
                 new Rel\One('address', $this, Address::get()),
                 new Rel\Many('posts', $this, Post::get()),
             ])

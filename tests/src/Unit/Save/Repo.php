@@ -35,7 +35,7 @@ class Repo extends AbstractSaveRepo
     public function initialize()
     {
         $this
-            ->setRels([
+            ->addRels([
                 new RelOne('one', $this, Repo::get()),
                 new RelMany('many', $this, Repo::get()),
             ]);

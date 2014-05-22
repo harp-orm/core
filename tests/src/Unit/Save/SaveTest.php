@@ -182,7 +182,7 @@ class SaveTest extends AbstractTestCase
         $link2 = new LinkOne($rel2, $model4);
 
         Repo::get()
-            ->setRels([$rel1])
+            ->addRels([$rel1])
             ->addLink($model1, $link1)
             ->addLink($model2, $link2);
 
