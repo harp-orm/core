@@ -217,6 +217,14 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * @return array
+     */
+    public function getIds()
+    {
+        return Objects::invoke($this->models, 'getId');
+    }
+
+    /**
      * Implement Iterator
      *
      * @return AbstractModel

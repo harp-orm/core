@@ -287,6 +287,21 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
+     * @covers CL\LunaCore\Model\Models::getIds
+     */
+    public function testGetIds()
+    {
+        $models = new Models([
+            new Model(['id' => 10, 'name' => 'test1']),
+            new Model(['id' => 20, 'name' => 'test2']
+        )]);
+
+        $expected = [10, 20];
+
+        $this->assertSame($expected, $models->getIds());
+    }
+
+    /**
      * @covers CL\LunaCore\Model\Models::current
      * @covers CL\LunaCore\Model\Models::key
      * @covers CL\LunaCore\Model\Models::next

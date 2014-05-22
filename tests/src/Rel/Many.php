@@ -31,7 +31,7 @@ class Many extends AbstractRelMany
 
     public function hasForeign(Models $models)
     {
-        $keys = $models->pluckProperty('id');
+        $keys = $models->getIds();
 
         return ! empty($keys);
     }
@@ -40,7 +40,7 @@ class Many extends AbstractRelMany
     {
         return $this->getForeignRepo()
             ->findAll()
-            ->whereIn($this->key, $models->pluckProperty('id'))
+            ->whereIn($this->key, $models->getIds())
             ->loadRaw($flags);
     }
 

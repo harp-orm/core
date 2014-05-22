@@ -165,7 +165,7 @@ abstract class AbstractFind
      */
     public function loadIds($state = null)
     {
-        return $this->load($state)->pluckProperty($this->getRepo()->getPrimaryKey());
+        return $this->load($state)->getIds();
     }
 
     /**
