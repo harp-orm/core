@@ -5,6 +5,7 @@ namespace CL\LunaCore\Save;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
 use CL\LunaCore\Model\State;
+use CL\LunaCore\Repo\Event;
 use InvalidArgumentException;
 
 /*
@@ -36,16 +37,31 @@ abstract class AbstractFind
     abstract public function whereIn($property, array $value);
 
     /**
+     * @return AbstractFind $this
+     */
+    abstract public function clearWhere();
+
+    /**
      * @param  int          $limit
      * @return AbstractFind $this
      */
     abstract public function limit($limit);
 
     /**
+     * @return AbstractFind $this
+     */
+    abstract public function clearLimit();
+
+    /**
      * @param  int          $offset
      * @return AbstractFind $this
      */
     abstract public function offset($offset);
+
+    /**
+     * @return AbstractFind $this
+     */
+    abstract public function clearOffset();
 
     /**
      * @return AbstractModel[]
@@ -111,7 +127,13 @@ abstract class AbstractFind
             }
         }
 
-        return $this->execute();
+        $models = $this->execute();
+
+        foreach ($models as $model) {
+            $this->getRepo()->dispatchAfterEvent($model, Event::LOAD);
+        }
+
+        return $models;
     }
 
     /**

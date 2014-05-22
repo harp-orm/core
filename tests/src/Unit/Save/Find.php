@@ -22,12 +22,27 @@ class Find extends AbstractFind
         throw new BadMethodCallException('Test Rel: cannot call whereIn');
     }
 
+    public function clearWhere()
+    {
+        throw new BadMethodCallException('Test Rel: cannot call offset');
+    }
+
     public function limit($limit)
     {
         throw new BadMethodCallException('Test Rel: cannot call limit');
     }
 
+    public function clearLimit()
+    {
+        throw new BadMethodCallException('Test Rel: cannot call offset');
+    }
+
     public function offset($offset)
+    {
+        throw new BadMethodCallException('Test Rel: cannot call offset');
+    }
+
+    public function clearOffset()
     {
         throw new BadMethodCallException('Test Rel: cannot call offset');
     }

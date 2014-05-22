@@ -37,6 +37,13 @@ class Find extends AbstractFind
         return $this;
     }
 
+    public function clearWhere()
+    {
+        $this->conditions = array();
+
+        return $this;
+    }
+
     public function limit($limit)
     {
         $this->limit = $limit;
@@ -44,9 +51,23 @@ class Find extends AbstractFind
         return $this;
     }
 
+    public function clearLimit()
+    {
+        $this->limit = null;
+
+        return $this;
+    }
+
     public function offset($offset)
     {
         $this->offset = $offset;
+
+        return $this;
+    }
+
+    public function clearOffset()
+    {
+        $this->offset = 0;
 
         return $this;
     }
