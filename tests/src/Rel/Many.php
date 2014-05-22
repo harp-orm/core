@@ -31,16 +31,16 @@ class Many extends AbstractRelMany
 
     public function hasForeign(Models $models)
     {
-        $keys = $models->getIds();
-
-        return ! empty($keys);
+        return ! $models->isEmptyProperty($this->getRepo()->getPrimaryKey());
     }
 
     public function loadForeign(Models $models, $flags = null)
     {
+        $keys = $models->pluckPropertyUnique($this->getRepo()->getPrimaryKey());
+
         return $this->getForeignRepo()
             ->findAll()
-            ->whereIn($this->key, $models->getIds())
+            ->whereIn($this->key, $keys)
             ->loadRaw($flags);
     }
 

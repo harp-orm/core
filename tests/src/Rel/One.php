@@ -31,16 +31,16 @@ class One extends AbstractRelOne
 
     public function hasForeign(Models $models)
     {
-        $keys = $models->pluckProperty($this->key);
-
-        return ! empty($keys);
+        return ! $models->isEmptyProperty($this->key);
     }
 
     public function loadForeign(Models $models, $flags = null)
     {
+        $keys = $models->pluckPropertyUnique($this->key);
+
         return $this->getForeignRepo()
             ->findAll()
-            ->whereIn('id', $models->pluckProperty($this->key))
+            ->whereIn('id', $keys)
             ->loadRaw($flags);
     }
 

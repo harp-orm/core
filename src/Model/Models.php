@@ -217,6 +217,30 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * @param  string $property
+     * @return array
+     */
+    public function isEmptyProperty($property)
+    {
+        foreach ($this->models as $model) {
+            if ($model->$property) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param  string $property
+     * @return array
+     */
+    public function pluckPropertyUnique($property)
+    {
+        return array_unique(array_filter($this->pluckProperty($property)));
+    }
+
+    /**
      * @return array
      */
     public function getIds()

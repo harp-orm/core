@@ -274,8 +274,8 @@ class ModelsTest extends AbstractTestCase
     {
         $models = new Models([
             new Model(['id' => 10, 'name' => 'test1']),
-            new Model(['id' => 20, 'name' => 'test2']
-        )]);
+            new Model(['id' => 20, 'name' => 'test2']),
+        ]);
 
         $expected = [10, 20];
 
@@ -287,18 +287,54 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
+     * @covers CL\LunaCore\Model\Models::pluckPropertyUnique
+     */
+    public function testPluckPropertyUnique()
+    {
+        $models = new Models([
+            new Model(['id' => 10, 'name' => 'test1']),
+            new Model(['id' => 20, 'name' => 'test2']),
+            new Model(['id' => 10, 'name' => 'test2']),
+            new Model(['id' => null, 'name' => 'test2']),
+        ]);
+
+        $expected = [10, 20];
+
+        $this->assertSame($expected, $models->pluckPropertyUnique('id'));
+
+        $expected = ['test1', 'test2'];
+
+        $this->assertSame($expected, $models->pluckPropertyUnique('name'));
+    }
+
+    /**
      * @covers CL\LunaCore\Model\Models::getIds
      */
     public function testGetIds()
     {
         $models = new Models([
             new Model(['id' => 10, 'name' => 'test1']),
-            new Model(['id' => 20, 'name' => 'test2']
-        )]);
+            new Model(['id' => 20, 'name' => 'test2']),
+        ]);
 
         $expected = [10, 20];
 
         $this->assertSame($expected, $models->getIds());
+    }
+
+    /**
+     * @covers CL\LunaCore\Model\Models::isEmptyProperty
+     */
+    public function testIsEmptyProperty()
+    {
+        $models = new Models([
+            new Model(['id' => 10, 'name' => null]),
+            new Model(['id' => 20, 'name' => null]),
+            new Model(['id' => null, 'name' => null]),
+        ]);
+
+        $this->assertFalse($models->isEmptyProperty('id'));
+        $this->assertTrue($models->isEmptyProperty('name'));
     }
 
     /**
