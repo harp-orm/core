@@ -121,8 +121,9 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      */
     public function delete(AbstractModel $model)
     {
-        if ($this->getRel() instanceof DeleteManyInterface) {
-            return $this->getRel()->delete($model, $this);
+        $rel = $this->getRel();
+        if ($rel instanceof DeleteManyInterface) {
+            return $rel->delete($model, $this);
         } else {
             return new Models();
         }
@@ -134,8 +135,9 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      */
     public function insert(AbstractModel $model)
     {
-        if ($this->getRel() instanceof InsertManyInterface) {
-            return $this->getRel()->insert($model, $this);
+        $rel = $this->getRel();
+        if ($rel instanceof InsertManyInterface) {
+            return $rel->insert($model, $this);
         } else {
             return new Models();
         }
@@ -146,7 +148,8 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      */
     public function update(AbstractModel $model)
     {
-        if ($this->getRel() instanceof UpdateManyInterface) {
+        $rel = $this->getRel();
+        if ($rel instanceof UpdateManyInterface) {
             return $this->getRel()->update($model, $this);
         }
     }

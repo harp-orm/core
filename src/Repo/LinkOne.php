@@ -105,8 +105,9 @@ class LinkOne extends AbstractLink
      */
     public function delete(AbstractModel $model)
     {
-        if ($this->getRel() instanceof DeleteOneInterface) {
-            return $this->getRel()->delete($model, $this);
+        $rel = $this->getRel();
+        if ($rel instanceof DeleteOneInterface) {
+            return $rel->delete($model, $this);
         } else {
             return new Models();
         }
@@ -118,8 +119,9 @@ class LinkOne extends AbstractLink
      */
     public function insert(AbstractModel $model)
     {
-        if ($this->getRel() instanceof InsertOneInterface) {
-            return $this->getRel()->insert($model, $this);
+        $rel = $this->getRel();
+        if ($rel instanceof InsertOneInterface) {
+            return $rel->insert($model, $this);
         } else {
             return new Models();
         }
@@ -130,7 +132,8 @@ class LinkOne extends AbstractLink
      */
     public function update(AbstractModel $model)
     {
-        if ($this->getRel() instanceof UpdateOneInterface) {
+        $rel = $this->getRel();
+        if ($rel instanceof UpdateOneInterface) {
             return $this->getRel()->update($model, $this);
         }
     }
