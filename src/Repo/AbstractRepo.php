@@ -432,7 +432,7 @@ abstract class AbstractRepo
      * @param  int           $state
      * @return AbstractModel
      */
-    public function newInstance($fields = null, $state = State::PENDING)
+    public function newModel($fields = null, $state = State::PENDING)
     {
         return $this->modelReflection->newInstance($fields, $state);
     }
@@ -441,7 +441,7 @@ abstract class AbstractRepo
      * @param  array         $fields
      * @return AbstractModel
      */
-    public function newVoidInstance($fields = null)
+    public function newVoidModel($fields = null)
     {
         return $this->modelReflection->newInstance($fields, State::VOID);
     }

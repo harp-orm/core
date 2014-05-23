@@ -184,6 +184,6 @@ abstract class AbstractFind
         $items = $this->limit(1)->load($state);
         $items->rewind();
 
-        return $items->current() ?: $this->getRepo()->newVoidInstance();
+        return $items->current() ?: $this->getRepo()->newVoidModel();
     }
 }

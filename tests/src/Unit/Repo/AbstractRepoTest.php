@@ -146,6 +146,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      * @covers CL\LunaCore\Repo\AbstractRepo::getRels
      * @covers CL\LunaCore\Repo\AbstractRepo::getRel
      * @covers CL\LunaCore\Repo\AbstractRepo::addRels
+     * @covers CL\LunaCore\Repo\AbstractRepo::addRel
      * @covers CL\LunaCore\Repo\AbstractRepo::getRelOrError
      * @expectedException InvalidArgumentException
      */
@@ -165,7 +166,8 @@ class AbstractRepoTest extends AbstractRepoTestCase
             'many' => $rels[1],
         ];
 
-        $repo->addRels($rels);
+        $repo->addRels([$rels[0]]);
+        $repo->addRel($rels[1]);
 
         $this->assertSame($expected, $repo->getRels());
         $this->assertSame($expected['one'], $repo->getRel('one'));
@@ -299,38 +301,38 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::newInstance
+     * @covers CL\LunaCore\Repo\AbstractRepo::newModel
      */
-    public function testNewInstance()
+    public function testNewModel()
     {
         $repo = $this->getRepoInitialized(false);
 
-        $model = $repo->newInstance();
+        $model = $repo->newModel();
 
         $this->assertInstanceOf(__NAMESPACE__.'\Model', $model);
         $this->assertEquals(['id' => null, 'name' => 'test'], $model->getProperties());
         $this->assertTrue($model->isPending());
 
-        $model = $repo->newInstance(['id' => 10, 'name' => 'new'], State::SAVED);
+        $model = $repo->newModel(['id' => 10, 'name' => 'new'], State::SAVED);
 
         $this->assertEquals(['id' => 10, 'name' => 'new'], $model->getProperties());
         $this->assertTrue($model->isSaved());
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::newVoidInstance
+     * @covers CL\LunaCore\Repo\AbstractRepo::newVoidModel
      */
-    public function testNewVoidInstance()
+    public function testNewVoidModel()
     {
         $repo = $this->getRepoInitialized(false);
 
-        $model = $repo->newVoidInstance();
+        $model = $repo->newVoidModel();
 
         $this->assertInstanceOf(__NAMESPACE__.'\Model', $model);
         $this->assertEquals(['id' => null, 'name' => 'test'], $model->getProperties());
         $this->assertTrue($model->isVoid());
 
-        $model = $repo->newVoidInstance(['id' => 10, 'name' => 'new']);
+        $model = $repo->newVoidModel(['id' => 10, 'name' => 'new']);
 
         $this->assertEquals(['id' => 10, 'name' => 'new'], $model->getProperties());
         $this->assertTrue($model->isVoid());

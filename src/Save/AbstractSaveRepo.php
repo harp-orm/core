@@ -55,7 +55,7 @@ abstract class AbstractSaveRepo extends AbstractRepo
 
         $model = reset($models);
 
-        return $model ? $this->getIdentityMap()->get($model) : $this->newVoidInstance();
+        return $model ? $this->getIdentityMap()->get($model) : $this->newVoidModel();
     }
 
     /**

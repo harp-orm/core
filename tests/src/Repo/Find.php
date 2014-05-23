@@ -110,7 +110,7 @@ class Find extends AbstractFind
                     $class = $params['class'];
                     $model = new $class($params, State::SAVED);
                 } else {
-                     $model = $this->getRepo()->newInstance($params, State::SAVED);
+                     $model = $this->getRepo()->newModel($params, State::SAVED);
                 }
 
                 $found []= $model;

@@ -22,7 +22,7 @@ abstract class AbstractRelOne extends AbstractRel
 
     public function newEmptyLink()
     {
-        return new LinkOne($this, $this->getForeignRepo()->newVoidInstance());
+        return new LinkOne($this, $this->getForeignRepo()->newVoidModel());
     }
 
     public function newLinkFrom(AbstractModel $model, array $linked)
