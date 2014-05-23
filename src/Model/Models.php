@@ -34,7 +34,6 @@ class Models implements Countable, Iterator
     public function __construct(array $models = null)
     {
         $this->models = new SplObjectStorage();
-        $this->models->rewind();
 
         if ($models) {
             $this->addArray($models);
@@ -98,22 +97,31 @@ class Models implements Countable, Iterator
     }
 
     /**
-     * @return AbstractModel|null
-     */
-    public function getFirst()
-    {
-        $this->rewind();
-
-        return $this->current();
-    }
-
-    /**
      * @param  AbstractModel $model
      * @return boolean
      */
     public function has(AbstractModel $model)
     {
         return $this->models->contains($model);
+    }
+
+    /**
+     * @param  string|integer $id
+     * @return boolean
+     */
+    public function hasId($id)
+    {
+        return array_search($id, $this->getIds()) !== false;
+    }
+
+    /**
+     * @return AbstractModel|null
+     */
+    public function getFirst()
+    {
+        $this->models->rewind();
+
+        return $this->models->current();
     }
 
     /**

@@ -67,10 +67,10 @@ class LinksTest extends AbstractRepoTestCase
 
         $result = $links->getModels();
 
-        $this->assertInstanceOf('SplObjectStorage', $result);
-        $this->assertTrue($result->contains($model1));
-        $this->assertTrue($result->contains($model2));
-        $this->assertTrue($result->contains($model3));
+        $this->assertInstanceOf('CL\LunaCore\Model\Models', $result);
+        $this->assertTrue($result->has($model1));
+        $this->assertTrue($result->has($model2));
+        $this->assertTrue($result->has($model3));
     }
 
     /**

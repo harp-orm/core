@@ -4,6 +4,7 @@ namespace CL\LunaCore\Repo;
 
 use SplObjectStorage;
 use CL\LunaCore\Model\AbstractModel;
+use CL\LunaCore\Model\Models;
 
 /**
  * @author     Ivan Kerin
@@ -62,11 +63,11 @@ class Links
     /**
      * Get all of the linked models
      *
-     * @return SplObjectStorage
+     * @return Models
      */
     public function getModels()
     {
-        $all = new SplObjectStorage();
+        $all = new Models();
 
         foreach ($this->items as $item) {
             $all->addAll($item->getCurrentAndOriginal());

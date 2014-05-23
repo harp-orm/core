@@ -3,6 +3,7 @@
 namespace CL\LunaCore\Test\Unit\Repo;
 
 use CL\LunaCore\Repo\LinkOne;
+use CL\LunaCore\Model\Models;
 
 class LinkOneTest extends AbstractRepoTestCase
 {
@@ -10,6 +11,7 @@ class LinkOneTest extends AbstractRepoTestCase
      * @covers CL\LunaCore\Repo\LinkOne::__construct
      * @covers CL\LunaCore\Repo\LinkOne::getOriginal
      * @covers CL\LunaCore\Repo\LinkOne::get
+     * @covers CL\LunaCore\Repo\LinkOne::getRel
      */
     public function testConstruct()
     {
@@ -21,6 +23,86 @@ class LinkOneTest extends AbstractRepoTestCase
         $this->assertSame($rel, $link->getRel());
         $this->assertSame($model, $link->get());
         $this->assertSame($model, $link->getOriginal());
+    }
+
+    /**
+     * @covers CL\LunaCore\Repo\LinkOne::delete
+     */
+    public function testDelete()
+    {
+        $model = new Model();
+
+        $rel = $this->getMock(
+            __NAMESPACE__.'\RelOne',
+            ['delete'],
+            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+        );
+
+        $link = new LinkOne($rel, $model);
+
+        $models = new Models();
+
+        $rel
+            ->expects($this->once())
+            ->method('delete')
+            ->with($this->identicalTo($model), $this->identicalTo($link))
+            ->will($this->returnValue($models));
+
+        $result = $link->delete($model);
+        $this->assertSame($models, $result);
+    }
+
+    /**
+     * @covers CL\LunaCore\Repo\LinkOne::insert
+     */
+    public function testInsert()
+    {
+        $model = new Model();
+
+        $rel = $this->getMock(
+            __NAMESPACE__.'\RelOne',
+            ['insert'],
+            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+        );
+
+        $link = new LinkOne($rel, $model);
+
+        $models = new Models();
+
+        $rel
+            ->expects($this->once())
+            ->method('insert')
+            ->with($this->identicalTo($model), $this->identicalTo($link))
+            ->will($this->returnValue($models));
+
+        $reuslt = $link->insert($model);
+        $this->assertSame($models, $reuslt);
+    }
+
+    /**
+     * @covers CL\LunaCore\Repo\LinkOne::update
+     */
+    public function testUpdate()
+    {
+        $model = new Model();
+
+        $rel = $this->getMock(
+            __NAMESPACE__.'\RelOne',
+            ['update'],
+            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+        );
+
+        $link = new LinkOne($rel, $model);
+
+        $models = new Models();
+
+        $rel
+            ->expects($this->once())
+            ->method('update')
+            ->with($this->identicalTo($model), $this->identicalTo($link))
+            ->will($this->returnValue($models));
+
+        $link->update($model);
     }
 
     /**
@@ -71,15 +153,15 @@ class LinkOneTest extends AbstractRepoTestCase
 
         $result = $link->getCurrentAndOriginal();
 
-        $this->assertTrue($result->contains($model));
+        $this->assertTrue($result->has($model));
         $this->assertCount(1, $result);
 
         $link->set($model2);
 
         $result = $link->getCurrentAndOriginal();
 
-        $this->assertTrue($result->contains($model));
-        $this->assertTrue($result->contains($model2));
+        $this->assertTrue($result->has($model));
+        $this->assertTrue($result->has($model2));
         $this->assertCount(2, $result);
     }
 

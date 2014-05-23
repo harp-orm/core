@@ -2,26 +2,26 @@
 
 namespace CL\LunaCore\Save;
 
-use CL\LunaCore\Rel\DeleteInterface;
-use CL\LunaCore\Rel\InsertInterface;
-use CL\LunaCore\Rel\UpdateInterface;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
-use SplObjectStorage;
+use CL\LunaCore\Repo\AbstractLink;
 use Closure;
+use Countable;
 
 /**
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-class Save extends Models
+class Save implements Countable
 {
-    public static function fromObjects(SplObjectStorage $array)
-    {
-        $save = new Save();
+    protected $models;
 
-        return $save->addObjects($array);
+    public function __construct(array $models = array())
+    {
+        $this->models = new Models();
+
+        $this->addArray($models);
     }
 
     /**
@@ -29,7 +29,7 @@ class Save extends Models
      */
     public function getModelsToDelete()
     {
-        return $this->filter(function (AbstractModel $model) {
+        return $this->models->filter(function (AbstractModel $model) {
             return ($model->isDeleted() and ! $model->isSoftDeleted());
         });
     }
@@ -39,7 +39,7 @@ class Save extends Models
      */
     public function getModelsToInsert()
     {
-        return $this->filter(function (AbstractModel $model) {
+        return $this->models->filter(function (AbstractModel $model) {
             return $model->isPending();
         });
     }
@@ -49,14 +49,14 @@ class Save extends Models
      */
     public function getModelsToUpdate()
     {
-        return $this->filter(function (AbstractModel $model) {
+        return $this->models->filter(function (AbstractModel $model) {
             return ($model->isChanged() and ($model->isSaved() or $model->isSoftDeleted()));
         });
     }
 
-    public function addModel(AbstractModel $model)
+    public function addShallow(AbstractModel $model)
     {
-        parent::add($model);
+        $this->models->add($model);
 
         return $this;
     }
@@ -64,7 +64,7 @@ class Save extends Models
     public function add(AbstractModel $model)
     {
         if (! $this->has($model)) {
-            $this->addModel($model);
+            $this->addShallow($model);
 
             $modelLinks = $model->getRepo()->getLinkMap()->get($model);
 
@@ -76,9 +76,59 @@ class Save extends Models
         return $this;
     }
 
+    /**
+     * @param AbstractModel[] $models
+     * @return Save $this
+     */
+    public function addArray(array $models)
+    {
+        foreach ($models as $model) {
+            $this->add($model);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Models $models
+     * @return Save $this
+     */
+    public function addAll(Models $models)
+    {
+        foreach ($models as $model) {
+            $this->add($model);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param  AbstractModel $model
+     * @return boolean
+     */
+    public function has(AbstractModel $model)
+    {
+        return $this->models->has($model);
+    }
+
+    public function clear()
+    {
+        $this->models->clear();
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function count()
+    {
+        return $this->models->count();
+    }
+
     public function eachLink(Closure $yield)
     {
-        foreach ($this as $model) {
+        foreach ($this->models as $model) {
             $linkMap = $model->getRepo()->getLinkMap();
 
             if ($linkMap->has($model)) {
@@ -93,24 +143,22 @@ class Save extends Models
 
     public function addFromDeleteRels()
     {
-        $this->eachLink(function (AbstractModel $model, $link) {
-            $models = $link->getRel()->delete($model, $link);
-            $this->addAll($models);
+        $this->eachLink(function (AbstractModel $model, AbstractLink $link) {
+            $this->addAll($link->delete($model));
         });
     }
 
     public function addFromInsertRels()
     {
-        $this->eachLink(function (AbstractModel $model, $link) {
-            $models = $link->getRel()->insert($model, $link);
-            $this->addAll($models);
+        $this->eachLink(function (AbstractModel $model, AbstractLink $link) {
+            $this->addAll($link->insert($model));
         });
     }
 
     public function callUpdateRels()
     {
-        $this->eachLink(function (AbstractModel $model, $link) {
-            $link->getRel()->update($model, $link);
+        $this->eachLink(function (AbstractModel $model, AbstractLink $link) {
+            $link->update($model);
         });
     }
 

@@ -31,13 +31,11 @@ class AbstractRelManyTest extends AbstractTestCase
         $result = $rel->newLink($expected);
 
         $this->assertInstanceof('CL\LunaCore\Repo\LinkMany', $result);
-        $models = Objects::toArray($result->all());
-        $this->assertSame($expected, $models);
+        $this->assertSame($expected, $result->toArray());
 
         $result2 = $rel->newLink($expected2);
 
-        $models2 = Objects::toArray($result2->all());
-        $this->assertSame($expected2, $models2, 'Should pass through identity mapper');
+        $this->assertSame($expected2, $result2->toArray(), 'Should pass through identity mapper');
     }
 
     /**
@@ -57,7 +55,7 @@ class AbstractRelManyTest extends AbstractTestCase
      */
     public function testNewLinkFrom()
     {
-        $links = [new Model()];
+        $models = [new Model()];
 
         $model = new Model();
 
@@ -66,13 +64,13 @@ class AbstractRelManyTest extends AbstractTestCase
         $link = $rel->newLinkFrom($model, []);
 
         $this->assertInstanceof('CL\LunaCore\Repo\LinkMany', $link);
-        $this->assertCount(0, $link->all());
+        $this->assertCount(0, $link);
 
-        $link = $rel->newLinkFrom($model, $links);
+        $link = $rel->newLinkFrom($model, $models);
 
         $this->assertInstanceof('CL\LunaCore\Repo\LinkMany', $link);
-        $this->assertCount(1, $link->all());
-        $this->assertEquals($links, $link->toArray());
+        $this->assertCount(1, $link);
+        $this->assertEquals($models, $link->toArray());
     }
 
     /**

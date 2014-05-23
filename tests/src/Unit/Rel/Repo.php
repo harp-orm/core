@@ -28,24 +28,4 @@ class Repo extends AbstractRepo
     {
 
     }
-
-    public function selectWithId($id)
-    {
-        throw new BadMethodCallException('Test Repo: cannot call selectWithId');
-    }
-
-    public function update(SplObjectStorage $models)
-    {
-        throw new BadMethodCallException('Test Repo: cannot call update');
-    }
-
-    public function delete(SplObjectStorage $models)
-    {
-        throw new BadMethodCallException('Test Repo: cannot call delete');
-    }
-
-    public function insert(SplObjectStorage $models)
-    {
-        throw new BadMethodCallException('Test Repo: cannot call insert');
-    }
 }

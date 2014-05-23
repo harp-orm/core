@@ -3,15 +3,15 @@
 namespace CL\LunaCore\Test\Unit\Repo;
 
 use CL\LunaCore\Repo\LinkMany;
-use CL\Util\Objects;
-use SplObjectStorage;
+use CL\LunaCore\Model\Models;
 
 class LinkManyTest extends AbstractRepoTestCase
 {
     /**
      * @covers CL\LunaCore\Repo\LinkMany::__construct
-     * @covers CL\LunaCore\Repo\LinkMany::all
-     * @covers CL\LunaCore\Repo\LinkMany::getOriginals
+     * @covers CL\LunaCore\Repo\LinkMany::get
+     * @covers CL\LunaCore\Repo\LinkMany::getRel
+     * @covers CL\LunaCore\Repo\LinkMany::getOriginal
      */
     public function testConstruct()
     {
@@ -21,8 +21,8 @@ class LinkManyTest extends AbstractRepoTestCase
         $link = new LinkMany($rel, $models);
 
         $this->assertSame($rel, $link->getRel());
-        $this->assertSame($models, Objects::toArray($link->all()));
-        $this->assertSame($models, Objects::toArray($link->getOriginals()));
+        $this->assertSame($models, $link->get()->toArray());
+        $this->assertSame($models, $link->getOriginal()->toArray());
     }
 
     /**
@@ -37,18 +37,81 @@ class LinkManyTest extends AbstractRepoTestCase
         $this->assertCount(0, $link);
     }
 
+
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::set
+     * @covers CL\LunaCore\Repo\LinkMany::delete
      */
-    public function testSet()
+    public function testDelete()
     {
-        $link = $this->getLinkMany();
+        $models = [new Model()];
 
-        $expected = [new Model(), new Model()];
+        $rel = $this->getMock(
+            __NAMESPACE__.'\RelMany',
+            ['delete'],
+            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+        );
 
-        $link->set($expected);
+        $link = new LinkMany($rel, $models);
+        $model = new Model();
+        $expected = new Models();
 
-        $this->assertSame($expected, $link->toArray());
+        $rel
+            ->expects($this->once())
+            ->method('delete')
+            ->with($this->identicalTo($model), $this->identicalTo($link))
+            ->will($this->returnValue($expected));
+
+        $result = $link->delete($model);
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * @covers CL\LunaCore\Repo\LinkMany::insert
+     */
+    public function testInsert()
+    {
+        $rel = $this->getMock(
+            __NAMESPACE__.'\RelMany',
+            ['insert'],
+            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+        );
+
+        $link = new LinkMany($rel, [new Model()]);
+        $model = new Model();
+        $expected = new Models();
+
+        $rel
+            ->expects($this->once())
+            ->method('insert')
+            ->with($this->identicalTo($model), $this->identicalTo($link))
+            ->will($this->returnValue($expected));
+
+        $reuslt = $link->insert($model);
+        $this->assertSame($expected, $reuslt);
+    }
+
+    /**
+     * @covers CL\LunaCore\Repo\LinkMany::update
+     */
+    public function testUpdate()
+    {
+        $rel = $this->getMock(
+            __NAMESPACE__.'\RelMany',
+            ['update'],
+            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+        );
+
+        $link = new LinkMany($rel, [new Model()]);
+        $model = new Model();
+        $models = new Models();
+
+        $rel
+            ->expects($this->once())
+            ->method('update')
+            ->with($this->identicalTo($model), $this->identicalTo($link))
+            ->will($this->returnValue($models));
+
+        $link->update($model);
     }
 
     /**
@@ -83,22 +146,39 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers CL\LunaCore\Repo\LinkMany::isChanged
+     */
+    public function testIsChanged()
+    {
+        $link = $this->getLinkMany();
+
+        $this->assertFalse($link->isChanged());
+
+        $link->add($link->getFirst());
+        $this->assertFalse($link->isChanged());
+
+        $model = new Model();
+        $link->add($model);
+        $this->assertTrue($link->isChanged());
+    }
+
+    /**
      * @covers CL\LunaCore\Repo\LinkMany::remove
      */
     public function testRemove()
     {
         $link = $this->getLinkMany();
-        $model = $link->rewind()->current();
+        $model = $link->getFirst();
 
         $link->remove($model);
 
-        $this->assertCount(1, $link->all());
-        $this->assertFalse($link->all()->contains($model));
+        $this->assertCount(1, $link->get());
+        $this->assertFalse($link->get()->has($model));
 
         $link->remove($model);
 
-        $this->assertCount(1, $link->all(), 'Should be the same result');
-        $this->assertFalse($link->all()->contains($model), 'Should be the same result');
+        $this->assertCount(1, $link->get(), 'Should be the same result');
+        $this->assertFalse($link->get()->has($model), 'Should be the same result');
     }
 
     /**
@@ -122,24 +202,11 @@ class LinkManyTest extends AbstractRepoTestCase
     {
         $link = $this->getLinkMany();
 
-        $model = $link->rewind()->current();
+        $model = $link->getFirst();
         $otherModel = new Model();
 
         $this->assertFalse($link->has($otherModel));
         $this->assertTrue($link->has($model));
-    }
-
-    /**
-     * @covers CL\LunaCore\Repo\LinkMany::hasId
-     */
-    public function testHasId()
-    {
-        $link = $this->getLinkMany();
-
-        $model = $link->rewind()->current();
-
-        $this->assertFalse($link->hasId(10000));
-        $this->assertTrue($link->hasId($model->getId()));
     }
 
     /**
@@ -156,37 +223,16 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::getOriginals
+     * @covers CL\LunaCore\Repo\LinkMany::getOriginal
      */
-    public function testGetOriginals()
+    public function testGetOriginal()
     {
         $link = $this->getLinkMany();
-        $originals = $link->getOriginals();
+        $originals = $link->getOriginal();
 
-        $link->set([new Model()]);
+        $link->add(new Model());
 
-        $this->assertSame($originals, $link->getOriginals());
-    }
-
-    /**
-     * @covers CL\LunaCore\Repo\LinkMany::getOriginalIds
-     */
-    public function testGetOriginalIds()
-    {
-        $link = $this->getLinkMany();
-        $link->set([new Model()]);
-        $this->assertSame([10, 20], $link->getOriginalIds());
-    }
-
-    /**
-     * @covers CL\LunaCore\Repo\LinkMany::getIds
-     */
-    public function testGetIds()
-    {
-        $link = $this->getLinkMany();
-        $this->assertSame([10, 20], $link->getIds());
-        $link->set([new Model(['id' => 5])]);
-        $this->assertSame([5], $link->getIds());
+        $this->assertSame($originals, $link->getOriginal());
     }
 
     /**
@@ -198,30 +244,13 @@ class LinkManyTest extends AbstractRepoTestCase
         $model1 = new Model();
         $model2 = new Model();
 
-        $link->all()->attach($model1);
-        $link->all()->attach($model2);
+        $link->add($model1);
+        $link->add($model2);
 
         $added = $link->getAdded();
 
-        $this->assertInstanceOf('SplObjectStorage', $added);
-        $this->assertSame([$model1, $model2], Objects::toArray($added));
-    }
-
-    /**
-     * @covers CL\LunaCore\Repo\LinkMany::getAddedIds
-     */
-    public function testGetAddedIds()
-    {
-        $link = $this->getLinkMany();
-        $model1 = new Model(['id' => 2]);
-        $model2 = new Model(['id' => 4]);
-
-        $link->all()->attach($model1);
-        $link->all()->attach($model2);
-
-        $ids = $link->getAddedIds();
-
-        $this->assertSame([2, 4], $ids);
+        $this->assertInstanceOf('CL\LunaCore\Model\Models', $added);
+        $this->assertSame([$model1, $model2], $added->toArray());
     }
 
     /**
@@ -230,33 +259,17 @@ class LinkManyTest extends AbstractRepoTestCase
     public function testGetRemoved()
     {
         $link = $this->getLinkMany();
-        $items = Objects::toArray($link->all());
+        $items = $link->toArray();
 
-        $link->all()->attach(new Model());
-        $link->all()->offsetUnset($items[0]);
-        $link->all()->offsetUnset($items[1]);
+        $link
+            ->add(new Model())
+            ->remove($items[0])
+            ->remove($items[1]);
 
         $removed = $link->getRemoved();
 
-        $this->assertInstanceOf('SplObjectStorage', $removed);
-        $this->assertSame($items, Objects::toArray($removed));
-    }
-
-    /**
-     * @covers CL\LunaCore\Repo\LinkMany::getRemovedIds
-     */
-    public function testGetRemovedIds()
-    {
-        $link = $this->getLinkMany();
-        $items = $link->toArray();
-
-        $link->all()->attach(new Model());
-        $link->all()->offsetUnset($items[0]);
-        $link->all()->offsetUnset($items[1]);
-
-        $ids = $link->getRemovedIds();
-
-        $this->assertSame([10, 20], $ids);
+        $this->assertInstanceOf('CL\LunaCore\Model\Models', $removed);
+        $this->assertSame($items, $removed->toArray());
     }
 
     /**
@@ -266,23 +279,24 @@ class LinkManyTest extends AbstractRepoTestCase
     {
         $link = $this->getLinkMany();
 
-        $items = Objects::toArray($link->all());
+        $items = $link->toArray();
         $model1 = new Model();
         $model2 = new Model();
 
-        $link->all()->attach($model1);
-        $link->all()->attach($model2);
-        $link->all()->offsetUnset($items[0]);
+        $link
+            ->add($model1)
+            ->add($model2)
+            ->remove($items[0]);
 
         $result = $link->getCurrentAndOriginal();
 
-        $this->assertInstanceOf('SplObjectStorage', $result);
+        $this->assertInstanceOf('CL\LunaCore\Model\Models', $result);
 
         $this->assertCount(4, $result);
-        $this->assertTrue($result->contains($model1));
-        $this->assertTrue($result->contains($model2));
-        $this->assertTrue($result->contains($items[0]));
-        $this->assertTrue($result->contains($items[1]));
+        $this->assertTrue($result->has($model1));
+        $this->assertTrue($result->has($model2));
+        $this->assertTrue($result->has($items[0]));
+        $this->assertTrue($result->has($items[1]));
     }
 
     /**
@@ -291,10 +305,9 @@ class LinkManyTest extends AbstractRepoTestCase
     public function testGetFirst()
     {
         $link = $this->getLinkMany();
-        $items = Objects::toArray($link->all());
-        $first = $link->getFirst();
+        $item = $link->get()->getFirst();
 
-        $this->assertSame($items[0], $first);
+        $this->assertSame($item, $link->getFirst());
 
         $link = new LinkMany($this->getRelMany(), []);
         $first = $link->getFirst();
@@ -310,7 +323,7 @@ class LinkManyTest extends AbstractRepoTestCase
     {
         $link = $this->getLinkMany();
         $this->assertCount(2, $link);
-        $link->all()->attach(new Model());
+        $link->add(new Model());
         $this->assertCount(3, $link);
     }
 
@@ -324,7 +337,7 @@ class LinkManyTest extends AbstractRepoTestCase
     public function testIterator()
     {
         $link = $this->getLinkMany();
-        $expected = Objects::toArray($link->all());
+        $expected = $link->toArray();
 
         $key = $link->key();
 

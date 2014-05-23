@@ -3,6 +3,8 @@
 namespace CL\LunaCore\Repo;
 
 use CL\LunaCore\Rel\AbstractRel;
+use CL\LunaCore\Model\AbstractModel;
+use CL\LunaCore\Model\Models;
 
 /**
  * @author     Ivan Kerin
@@ -23,8 +25,25 @@ abstract class AbstractLink
         return $this->rel;
     }
 
+    abstract public function delete(AbstractModel $model);
+
+    abstract public function insert(AbstractModel $model);
+
+    abstract public function update(AbstractModel $model);
+
     /**
-     * @return \SplObjectStorage
+     * @return Models
      */
     abstract public function getCurrentAndOriginal();
+
+    /**
+     * @return boolean
+     */
+    abstract public function isChanged();
+
+    abstract public function clear();
+
+    abstract public function get();
+
+    abstract public function getOriginal();
 }

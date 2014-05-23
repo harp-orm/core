@@ -16,27 +16,28 @@ use SplObjectStorage;
 class SaveTest extends AbstractTestCase
 {
     /**
-     * @covers CL\LunaCore\Save\Save::fromObjects
+     * @covers CL\LunaCore\Save\Save::__construct
      */
-    public function testFromObjects()
+    public function testConstruct()
     {
-        $objects = new SplObjectStorage();
-        $objects->attach(new Model());
-        $objects->attach(new Model());
+        $model1 = new Model();
+        $model2 = new Model();
+        $save = new Save([$model1, $model2]);
 
-        $save = Save::fromObjects($objects);
-        $this->assertSame(Objects::toArray($objects), Objects::toArray($save->all()));
+        $this->assertCount(2, $save);
+        $this->assertTrue($save->has($model1));
+        $this->assertTrue($save->has($model2));
     }
 
     /**
-     * @covers CL\LunaCore\Save\Save::addModel
+     * @covers CL\LunaCore\Save\Save::addShallow
      */
-    public function testAddModel()
+    public function testAddShallow()
     {
         $save = new Save();
         $model = new Model();
 
-        $save->addModel($model);
+        $save->addShallow($model);
 
         $this->assertCount(1, $save);
         $this->assertTrue($save->has($model));
@@ -45,11 +46,11 @@ class SaveTest extends AbstractTestCase
     public function dataFilters()
     {
         $models = [
-            1 => new Model(null, State::SAVED),
+            1 => (new Model(null, State::SAVED))->setProperties(['name' => '1233']),
             2 => new Model(null, State::VOID),
             3 => new Model(null, State::PENDING),
             4 => new Model(null, State::DELETED),
-            5 => new SoftDeleteModel(['deletedAt' => time()], State::DELETED),
+            5 => (new SoftDeleteModel(null, State::SAVED))->delete(),
             6 => new SoftDeleteModel(null, State::SAVED),
             7 => new SoftDeleteModel(null, State::PENDING),
             8 => new SoftDeleteModel(null, State::DELETED),
@@ -57,6 +58,8 @@ class SaveTest extends AbstractTestCase
 
         return [
             [$models, 'getModelsToDelete', [$models[4], $models[8]]],
+            [$models, 'getModelsToInsert', [$models[3], $models[7]]],
+            [$models, 'getModelsToUpdate', [$models[1], $models[5]]],
         ];
     }
 
@@ -111,6 +114,71 @@ class SaveTest extends AbstractTestCase
         foreach ($models as $model) {
             $this->assertTrue($save->has($model));
         }
+    }
+
+    /**
+     * @covers CL\LunaCore\Save\Save::addArray
+     */
+    public function testAddArray()
+    {
+        $save = $this->getMock('CL\LunaCore\Save\Save', ['add']);
+
+        $model1 = new Model();
+        $model2 = new Model();
+
+        $save
+            ->expects($this->at(0))
+            ->method('add')
+            ->with($this->identicalTo($model1));
+
+        $save
+            ->expects($this->at(1))
+            ->method('add')
+            ->with($this->identicalTo($model2));
+
+        $save->addArray([$model1, $model2]);
+    }
+
+    /**
+     * @covers CL\LunaCore\Save\Save::addAll
+     */
+    public function testAddAll()
+    {
+        $save = $this->getMock('CL\LunaCore\Save\Save', ['add']);
+
+        $model1 = new Model();
+        $model2 = new Model();
+
+        $save
+            ->expects($this->at(0))
+            ->method('add')
+            ->with($this->identicalTo($model1));
+
+        $save
+            ->expects($this->at(1))
+            ->method('add')
+            ->with($this->identicalTo($model2));
+
+        $save->addAll(new Models([$model1, $model2]));
+    }
+
+    /**
+     * @covers CL\LunaCore\Save\Save::has
+     * @covers CL\LunaCore\Save\Save::count
+     * @covers CL\LunaCore\Save\Save::clear
+     */
+    public function testInterface()
+    {
+        $save = new Save();
+        $model = new Model();
+
+        $this->assertFalse($save->has($model));
+        $save->add($model);
+        $this->assertTrue($save->has($model));
+
+        $this->assertCount(1, $save);
+        $save->clear();
+        $this->assertCount(0, $save);
     }
 
     /**

@@ -4,10 +4,9 @@ namespace CL\LunaCore\Repo;
 
 use CL\LunaCore\Rel\AbstractRelMany;
 use CL\LunaCore\Model\AbstractModel;
-use CL\Util\Objects;
+use CL\LunaCore\Model\Models;
 use Countable;
 use Iterator;
-use SplObjectStorage;
 
 /**
  * @author     Ivan Kerin
@@ -17,198 +16,88 @@ use SplObjectStorage;
 class LinkMany extends AbstractLink implements Countable, Iterator
 {
     /**
-     * @var SplObjectStorage
+     * @var Models
+     */
+    protected $original;
+
+    /**
+     * @var Models
      */
     protected $current;
 
     /**
-     * @var SplObjectStorage
-     */
-    protected $originals;
-
-    /**
      * @param AbstractRelMany $rel
-     * @param AbstractModel[] $current
+     * @param AbstractModel[] $models
      */
-    public function __construct(AbstractRelMany $rel, array $current)
+    public function __construct(AbstractRelMany $rel, array $models)
     {
+        $this->current = new Models($models);
+        $this->original = new Models($models);
+
         parent::__construct($rel);
-
-        $this->current = new SplObjectStorage();
-
-        $this->addArray($current);
-
-        $this->originals = clone $this->current;
     }
 
     /**
-     * @param  AbstractModel $model
-     * @return LinkMany
+     * @return AbstractRelMany
      */
-    public function add(AbstractModel $model)
+    public function getRel()
     {
-        $this->current->attach($model);
-
-        return $this;
+        return $this->rel;
     }
 
     /**
-     * @param  AbstractModel[] $models
-     * @return LinkMany
+     * @return Models
      */
-    public function addArray(array $models)
-    {
-        foreach ($models as $item) {
-            $this->add($item);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param  AbstractModel[] $models
-     * @return LinkMany        $this
-     */
-    public function set(array $models)
-    {
-        $this->clear();
-        $this->addArray($models);
-
-        return $this;
-    }
-
-    /**
-     * @return LinkMany
-     */
-    public function clear()
-    {
-        $this->current = new SplObjectStorage();
-
-        return $this;
-    }
-
-    /**
-     * @param  AbstractModel $model
-     * @return LinkMany
-     */
-    public function remove(AbstractModel $model)
-    {
-        unset($this->current[$model]);
-
-        return $this;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isEmpty()
-    {
-        return count($this->current) === 0;
-    }
-
-    /**
-     * @param  AbstractModel $model
-     * @return boolean
-     */
-    public function has(AbstractModel $model)
-    {
-        return $this->current->contains($model);
-    }
-
-    /**
-     * @param  string|integer $id
-     * @return boolean
-     */
-    public function hasId($id)
-    {
-        return array_search($id, $this->getIds()) !== false;
-    }
-
-    /**
-     * @return SplObjectStorage
-     */
-    public function all()
+    public function get()
     {
         return $this->current;
     }
 
     /**
-     * @return AbstractModel[]
+     * @return Models
      */
-    public function toArray()
+    public function getOriginal()
     {
-        return Objects::toArray($this->current);
+        return $this->original;
     }
 
     /**
-     * @return SplObjectStorage
+     * @return boolean
      */
-    public function getOriginals()
+    public function isChanged()
     {
-        return $this->originals;
+        return $this->current != $this->original;
     }
 
     /**
-     * @return array
-     */
-    public function getOriginalIds()
-    {
-        return Objects::invoke($this->originals, 'getId');
-    }
-
-    /**
-     * @return array
-     */
-    public function getIds()
-    {
-        return Objects::invoke($this->current, 'getId');
-    }
-
-    /**
-     * @return SplObjectStorage
+     * @return Models
      */
     public function getAdded()
     {
         $added = clone $this->current;
-        $added->removeAll($this->originals);
+        $added->removeAll($this->original);
 
         return $added;
     }
 
     /**
-     * @return array
-     */
-    public function getAddedIds()
-    {
-        return Objects::invoke($this->getAdded(), 'getId');
-    }
-
-    /**
-     * @return SplObjectStorage
+     * @return Models
      */
     public function getRemoved()
     {
-        $removed = clone $this->originals;
+        $removed = clone $this->original;
         $removed->removeAll($this->current);
 
         return $removed;
     }
 
     /**
-     * @return array
-     */
-    public function getRemovedIds()
-    {
-        return Objects::invoke($this->getRemoved(), 'getId');
-    }
-
-    /**
-     * @return SplObjectStorage
+     * @return Models
      */
     public function getCurrentAndOriginal()
     {
         $all = clone $this->current;
-        $all->addAll($this->originals);
+        $all->addAll($this->original);
 
         return $all;
     }
@@ -220,18 +109,104 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      */
     public function getFirst()
     {
-        $this->current->rewind();
-
-        if ($this->current->valid()) {
-            return $this->current->current();
-        } else {
-            return $this->getRel()->getForeignRepo()->newVoidInstance();
-        }
+        return $this->current->getFirst() ?: $this->getRel()->getForeignRepo()->newVoidModel();
     }
 
     /**
-     * Implements Countable
-     *
+     * @param  AbstractModel $model
+     * @return Models
+     */
+    public function delete(AbstractModel $model)
+    {
+        return $this->getRel()->delete($model, $this);
+    }
+
+    /**
+     * @param  AbstractModel $model
+     * @return Models
+     */
+    public function insert(AbstractModel $model)
+    {
+        return $this->getRel()->insert($model, $this);
+    }
+
+    /**
+     * @param  AbstractModel $model
+     */
+    public function update(AbstractModel $model)
+    {
+        $this->getRel()->update($model, $this);
+    }
+
+    /**
+     * @param  AbstractModel[]  $models
+     * @return LinkMany $this
+     */
+    public function addArray(array $models)
+    {
+        $this->current->addArray($models);
+
+        return $this;
+    }
+
+    /**
+     * @param  AbstractModel $model
+     * @return LinkMany      $this
+     */
+    public function add(AbstractModel $model)
+    {
+        $this->current->add($model);
+
+        return $this;
+    }
+
+    /**
+     * @param  AbstractModel $model
+     * @return LinkMany      $this
+     */
+    public function remove(AbstractModel $model)
+    {
+        $this->current->remove($model);
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isEmpty()
+    {
+        return $this->current->isEmpty();
+    }
+
+    /**
+     * @return LinkMany $this
+     */
+    public function clear()
+    {
+        $this->current->clear();
+
+        return $this;
+    }
+
+    /**
+     * @param  AbstractModel $model
+     * @return boolean
+     */
+    public function has(AbstractModel $model)
+    {
+        return $this->current->has($model);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->current->toArray();
+    }
+
+    /**
      * @return int
      */
     public function count()
@@ -240,7 +215,7 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
-     * Implements Iterator
+     * Implement Iterator
      *
      * @return AbstractModel
      */
@@ -250,7 +225,7 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
-     * Implements Iterator
+     * Implement Iterator
      */
     public function key()
     {
@@ -258,9 +233,7 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
-     * Implements Iterator
-     *
-     * @return AbstractModel
+     * Implement Iterator
      */
     public function next()
     {
@@ -268,20 +241,14 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
-     * Implements Iterator
-     *
-     * @return LinkMany $this
+     * Implement Iterator
      */
     public function rewind()
     {
-        $this->current->rewind();
-
-        return $this;
+        return $this->current->rewind();
     }
 
     /**
-     * Implements Iterator
-     *
      * @return boolean
      */
     public function valid()

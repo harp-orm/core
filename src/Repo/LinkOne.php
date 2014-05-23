@@ -4,7 +4,7 @@ namespace CL\LunaCore\Repo;
 
 use CL\LunaCore\Rel\AbstractRelOne;
 use CL\LunaCore\Model\AbstractModel;
-use SplObjectStorage;
+use CL\LunaCore\Model\Models;
 
 /**
  * @author     Ivan Kerin
@@ -29,10 +29,18 @@ class LinkOne extends AbstractLink
      */
     public function __construct(AbstractRelOne $rel, AbstractModel $current)
     {
-        parent::__construct($rel);
-
         $this->current = $current;
         $this->original = $current;
+
+        parent::__construct($rel);
+    }
+
+    /**
+     * @return AbstractRelOne
+     */
+    public function getRel()
+    {
+        return $this->rel;
     }
 
     /**
@@ -81,14 +89,37 @@ class LinkOne extends AbstractLink
     }
 
     /**
-     * @return SplObjectStorage
+     * @return Models
      */
     public function getCurrentAndOriginal()
     {
-        $all = new SplObjectStorage();
-        $all->attach($this->current);
-        $all->attach($this->original);
-
-        return $all;
+        return new Models([$this->current, $this->original]);
     }
+
+    /**
+     * @param  AbstractModel $model
+     * @return Models
+     */
+    public function delete(AbstractModel $model)
+    {
+        return $this->getRel()->delete($model, $this);
+    }
+
+    /**
+     * @param  AbstractModel $model
+     * @return Models
+     */
+    public function insert(AbstractModel $model)
+    {
+        return $this->getRel()->insert($model, $this);
+    }
+
+    /**
+     * @param  AbstractModel $model
+     */
+    public function update(AbstractModel $model)
+    {
+        $this->getRel()->update($model, $this);
+    }
+
 }
