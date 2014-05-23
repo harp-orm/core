@@ -13,10 +13,13 @@ use CL\LunaCore\Test\AbstractTestCase;
 use CL\Util\Objects;
 use SplObjectStorage;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Save\Save
+ */
 class SaveTest extends AbstractTestCase
 {
     /**
-     * @covers CL\LunaCore\Save\Save::__construct
+     * @covers ::__construct
      */
     public function testConstruct()
     {
@@ -30,7 +33,7 @@ class SaveTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\Save::addShallow
+     * @covers ::addShallow
      */
     public function testAddShallow()
     {
@@ -65,9 +68,9 @@ class SaveTest extends AbstractTestCase
 
     /**
      * @dataProvider dataFilters
-     * @covers CL\LunaCore\Save\Save::getModelsToDelete
-     * @covers CL\LunaCore\Save\Save::getModelsToInsert
-     * @covers CL\LunaCore\Save\Save::getModelsToUpdate
+     * @covers ::getModelsToDelete
+     * @covers ::getModelsToInsert
+     * @covers ::getModelsToUpdate
      */
     public function testFilters($models, $filter, $expected)
     {
@@ -82,7 +85,7 @@ class SaveTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\Save::add
+     * @covers ::add
      */
     public function testAdd()
     {
@@ -117,7 +120,7 @@ class SaveTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\Save::addArray
+     * @covers ::addArray
      */
     public function testAddArray()
     {
@@ -140,7 +143,7 @@ class SaveTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\Save::addAll
+     * @covers ::addAll
      */
     public function testAddAll()
     {
@@ -163,9 +166,9 @@ class SaveTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\Save::has
-     * @covers CL\LunaCore\Save\Save::count
-     * @covers CL\LunaCore\Save\Save::clear
+     * @covers ::has
+     * @covers ::count
+     * @covers ::clear
      */
     public function testInterface()
     {
@@ -182,7 +185,7 @@ class SaveTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\Save::eachLink
+     * @covers ::eachLink
      */
     public function testEachLink()
     {
@@ -225,9 +228,9 @@ class SaveTest extends AbstractTestCase
 
     /**
      * @dataProvider dataRelModifiers
-     * @covers CL\LunaCore\Save\Save::addFromDeleteRels
-     * @covers CL\LunaCore\Save\Save::addFromInsertRels
-     * @covers CL\LunaCore\Save\Save::callUpdateRels
+     * @covers ::addFromDeleteRels
+     * @covers ::addFromInsertRels
+     * @covers ::callUpdateRels
      */
     public function testRelModifiers($method, $trigger, $expectAdd)
     {
@@ -272,7 +275,7 @@ class SaveTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\Save::execute
+     * @covers ::execute
      */
     public function testExecute()
     {

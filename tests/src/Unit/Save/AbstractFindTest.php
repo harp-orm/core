@@ -7,11 +7,14 @@ use CL\LunaCore\Model\State;
 use CL\LunaCore\Model\Models;
 use CL\LunaCore\Save\AbstractFind;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Save\AbstractFind
+ */
 class AbstractFindTest extends AbstractTestCase
 {
     /**
-     * @covers CL\LunaCore\Save\AbstractFind::__construct
-     * @covers CL\LunaCore\Save\AbstractFind::getRepo
+     * @covers ::__construct
+     * @covers ::getRepo
      */
     public function testConstruct()
     {
@@ -22,7 +25,7 @@ class AbstractFindTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractFind::whereKey
+     * @covers ::whereKey
      */
     public function testWhereKey()
     {
@@ -37,7 +40,7 @@ class AbstractFindTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractFind::whereKeys
+     * @covers ::whereKeys
      */
     public function testWhereKeys()
     {
@@ -52,7 +55,7 @@ class AbstractFindTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractFind::loadRaw
+     * @covers ::loadRaw
      */
     public function testLoadRaw()
     {
@@ -85,7 +88,7 @@ class AbstractFindTest extends AbstractTestCase
         $this->assertSame($models3, $find->loadRaw(State::DELETED | State::SAVED));
     }
     /**
-     * @covers CL\LunaCore\Save\AbstractFind::loadRaw
+     * @covers ::loadRaw
      * @expectedException InvalidArgumentException
      */
     public function testLoadRawInvalidArguments()
@@ -99,7 +102,7 @@ class AbstractFindTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractFind::load
+     * @covers ::load
      */
     public function testLoad()
     {
@@ -130,7 +133,7 @@ class AbstractFindTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractFind::loadWith
+     * @covers ::loadWith
      */
     public function testLoadWith()
     {
@@ -158,7 +161,7 @@ class AbstractFindTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractFind::loadIds
+     * @covers ::loadIds
      */
     public function testLoadIds()
     {
@@ -184,7 +187,7 @@ class AbstractFindTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractFind::loadCount
+     * @covers ::loadCount
      */
     public function testLoadCount()
     {
@@ -209,7 +212,7 @@ class AbstractFindTest extends AbstractTestCase
 
 
     /**
-     * @covers CL\LunaCore\Save\AbstractFind::loadFirst
+     * @covers ::loadFirst
      */
     public function testLoadFirst()
     {

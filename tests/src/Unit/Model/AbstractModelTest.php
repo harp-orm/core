@@ -7,11 +7,14 @@ use CL\LunaCore\Model\State;
 use CL\LunaCore\Repo\Event;
 use CL\LunaCore\Test\AbstractTestCase;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Model\AbstractModel
+ */
 class AbstractModelTest extends AbstractTestCase
 {
    /**
-     * @covers CL\LunaCore\Model\AbstractModel::__construct
-     * @covers CL\LunaCore\Model\AbstractModel::getState
+     * @covers ::__construct
+     * @covers ::getState
      */
     public function testConstrut()
     {
@@ -32,7 +35,7 @@ class AbstractModelTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\AbstractModel::resetOriginals
+     * @covers ::resetOriginals
      */
     public function testResetOriginals()
     {
@@ -80,7 +83,7 @@ class AbstractModelTest extends AbstractTestCase
 
     /**
      * @dataProvider dataSetStateNotVoid
-     * @covers CL\LunaCore\Model\AbstractModel::setStateNotVoid
+     * @covers ::setStateNotVoid
      */
     public function testSetStateNotVoid($parameters, $state, $expected)
     {
@@ -91,7 +94,7 @@ class AbstractModelTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\AbstractModel::getDefaultState
+     * @covers ::getDefaultState
      */
     public function testGetDefaultState()
     {
@@ -103,8 +106,8 @@ class AbstractModelTest extends AbstractTestCase
 
 
     /**
-     * @covers CL\LunaCore\Model\AbstractModel::setStateVoid
-     * @covers CL\LunaCore\Model\AbstractModel::isVoid
+     * @covers ::setStateVoid
+     * @covers ::isVoid
      */
     public function testStateVoid()
     {
@@ -119,8 +122,8 @@ class AbstractModelTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\AbstractModel::isPending
-     * @covers CL\LunaCore\Model\AbstractModel::setState
+     * @covers ::isPending
+     * @covers ::setState
      */
     public function testIsPending()
     {
@@ -133,8 +136,8 @@ class AbstractModelTest extends AbstractTestCase
 
 
     /**
-     * @covers CL\LunaCore\Model\AbstractModel::isSaved
-     * @covers CL\LunaCore\Model\AbstractModel::setState
+     * @covers ::isSaved
+     * @covers ::setState
      */
     public function testIsSaved()
     {
@@ -146,8 +149,8 @@ class AbstractModelTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\AbstractModel::isDeleted
-     * @covers CL\LunaCore\Model\AbstractModel::setState
+     * @covers ::isDeleted
+     * @covers ::setState
      */
     public function testIsDeleted()
     {
@@ -159,7 +162,7 @@ class AbstractModelTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\AbstractModel::isSoftDeleted
+     * @covers ::isSoftDeleted
      */
     public function testIsSoftDeleted()
     {
@@ -169,7 +172,7 @@ class AbstractModelTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\AbstractModel::delete
+     * @covers ::delete
      */
     public function testDelete()
     {
@@ -187,7 +190,7 @@ class AbstractModelTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\AbstractModel::delete
+     * @covers ::delete
      * @expectedException LogicException
      */
     public function testDeletePending()
@@ -198,8 +201,8 @@ class AbstractModelTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\AbstractModel::getId
-     * @covers CL\LunaCore\Model\AbstractModel::setId
+     * @covers ::getId
+     * @covers ::setId
      */
     public function testGetId()
     {
@@ -218,9 +221,9 @@ class AbstractModelTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\AbstractModel::getErrors
-     * @covers CL\LunaCore\Model\AbstractModel::isEmptyErrors
-     * @covers CL\LunaCore\Model\AbstractModel::validate
+     * @covers ::getErrors
+     * @covers ::isEmptyErrors
+     * @covers ::validate
      */
     public function testErrors()
     {

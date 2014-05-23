@@ -7,10 +7,13 @@ use CL\Util\Objects;
 use SplObjectStorage;
 use CL\LunaCore\Test\AbstractTestCase;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Model\Models
+ */
 class ModelsTest extends AbstractTestCase
 {
     /**
-     * @covers CL\LunaCore\Model\Models::fromObjects
+     * @covers ::fromObjects
      */
     public function testFromObjects()
     {
@@ -23,8 +26,8 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::__construct
-     * @covers CL\LunaCore\Model\Models::all
+     * @covers ::__construct
+     * @covers ::all
      */
     public function testConstruct()
     {
@@ -36,7 +39,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::clear
+     * @covers ::clear
      */
     public function testClear()
     {
@@ -50,7 +53,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::getFirst
+     * @covers ::getFirst
      */
     public function testGetFirst()
     {
@@ -67,7 +70,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::addObjects
+     * @covers ::addObjects
      */
     public function testAddObjects()
     {
@@ -85,7 +88,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::addArray
+     * @covers ::addArray
      */
     public function testAddArray()
     {
@@ -98,7 +101,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::add
+     * @covers ::add
      */
     public function testAdd()
     {
@@ -112,7 +115,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::addAll
+     * @covers ::addAll
      */
     public function testAddAll()
     {
@@ -136,7 +139,7 @@ class ModelsTest extends AbstractTestCase
 
 
     /**
-     * @covers CL\LunaCore\Model\Models::remove
+     * @covers ::remove
      */
     public function testRemove()
     {
@@ -149,7 +152,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::removeAll
+     * @covers ::removeAll
      */
     public function testRemoveAll()
     {
@@ -164,7 +167,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::filter
+     * @covers ::filter
      */
     public function testFilter()
     {
@@ -185,7 +188,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::byRepo
+     * @covers ::byRepo
      */
     public function testByRepo()
     {
@@ -214,7 +217,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::isEmpty
+     * @covers ::isEmpty
      */
     public function testIsEmpty()
     {
@@ -229,7 +232,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::has
+     * @covers ::has
      */
     public function testHas()
     {
@@ -244,7 +247,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::toArray
+     * @covers ::toArray
      */
     public function testToArray()
     {
@@ -257,7 +260,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::count
+     * @covers ::count
      */
     public function testCountable()
     {
@@ -268,7 +271,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::pluckProperty
+     * @covers ::pluckProperty
      */
     public function testPluckProperty()
     {
@@ -287,7 +290,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::pluckPropertyUnique
+     * @covers ::pluckPropertyUnique
      */
     public function testPluckPropertyUnique()
     {
@@ -308,7 +311,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::getIds
+     * @covers ::getIds
      */
     public function testGetIds()
     {
@@ -323,7 +326,7 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::isEmptyProperty
+     * @covers ::isEmptyProperty
      */
     public function testIsEmptyProperty()
     {
@@ -338,11 +341,11 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\Models::current
-     * @covers CL\LunaCore\Model\Models::key
-     * @covers CL\LunaCore\Model\Models::next
-     * @covers CL\LunaCore\Model\Models::rewind
-     * @covers CL\LunaCore\Model\Models::valid
+     * @covers ::current
+     * @covers ::key
+     * @covers ::next
+     * @covers ::rewind
+     * @covers ::valid
      */
     public function testIterator()
     {

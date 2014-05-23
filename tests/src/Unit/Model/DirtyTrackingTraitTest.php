@@ -5,12 +5,15 @@ namespace CL\LunaCore\Test\Unit\Model;
 use CL\LunaCore\Model\DirtyTrackingTrait;
 use CL\LunaCore\Test\AbstractTestCase;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Model\DirtyTrackingTrait
+ */
 class DirtyTrackingTraitTest extends AbstractTestCase
 {
     /**
-     * @covers CL\LunaCore\Model\DirtyTrackingTrait::setOriginals
-     * @covers CL\LunaCore\Model\DirtyTrackingTrait::getOriginals
-     * @covers CL\LunaCore\Model\DirtyTrackingTrait::getOriginal
+     * @covers ::setOriginals
+     * @covers ::getOriginals
+     * @covers ::getOriginal
      */
     public function testOriginals()
     {
@@ -34,7 +37,7 @@ class DirtyTrackingTraitTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\DirtyTrackingTrait::hasChange
+     * @covers ::hasChange
      */
     public function testHasChange()
     {
@@ -55,7 +58,7 @@ class DirtyTrackingTraitTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\DirtyTrackingTrait::getChange
+     * @covers ::getChange
      */
     public function testGetChange()
     {
@@ -78,7 +81,7 @@ class DirtyTrackingTraitTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\DirtyTrackingTrait::getChanges
+     * @covers ::getChanges
      */
     public function testGetChanges()
     {
@@ -110,8 +113,8 @@ class DirtyTrackingTraitTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\DirtyTrackingTrait::isEmptyChanges
-     * @covers CL\LunaCore\Model\DirtyTrackingTrait::isChanged
+     * @covers ::isEmptyChanges
+     * @covers ::isChanged
      */
     public function testChanged()
     {

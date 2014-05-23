@@ -9,6 +9,9 @@ use CL\LunaCore\Model\State;
 use CL\LunaCore\Model\Models;
 use CL\LunaCore\Save\Save;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Save\AbstractSaveRepo
+ */
 class AbstractSaveRepoTest extends AbstractTestCase
 {
     private $repo;
@@ -28,7 +31,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::find
+     * @covers ::find
      */
     public function testFind()
     {
@@ -60,7 +63,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::newSave
+     * @covers ::newSave
      */
     public function testNewSave()
     {
@@ -70,7 +73,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::save
+     * @covers ::save
      */
     public function testSave()
     {
@@ -97,7 +100,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::save
+     * @covers ::save
      * @expectedException InvalidArgumentException
      */
     public function testSaveOtherModel()
@@ -108,8 +111,8 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::addLink
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::loadLink
+     * @covers ::addLink
+     * @covers ::loadLink
      */
     public function testAddLink()
     {
@@ -123,7 +126,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::loadLink
+     * @covers ::loadLink
      */
     public function testLoadLink()
     {
@@ -149,7 +152,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
 
 
     /**
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::loadRelFor
+     * @covers ::loadRelFor
      */
     public function testLoadRelFor()
     {
@@ -199,7 +202,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::loadAllRelsFor
+     * @covers ::loadAllRelsFor
      */
     public function testLoadAllRelsFor()
     {
@@ -230,7 +233,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::updateModels
+     * @covers ::updateModels
      */
     public function testUpdateModels()
     {
@@ -282,7 +285,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::deleteModels
+     * @covers ::deleteModels
      */
     public function testDeleteModels()
     {
@@ -324,7 +327,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Save\AbstractSaveRepo::insertModels
+     * @covers ::insertModels
      */
     public function testInsertModels()
     {

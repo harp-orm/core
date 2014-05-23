@@ -4,6 +4,9 @@ namespace CL\LunaCore\Test\Unit\Repo;
 
 use CL\LunaCore\Repo\Event;
 
+/**
+ * @covers CL\LunaCore\Repo\Event
+ */
 class EventTest extends AbstractRepoTestCase
 {
     public function testConstruct()

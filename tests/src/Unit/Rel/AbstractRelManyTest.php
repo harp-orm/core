@@ -8,7 +8,9 @@ use CL\LunaCore\Test\AbstractTestCase;
 use CL\LunaCore\Model\Models;
 use CL\Util\Objects;
 
-
+/**
+ * @coversDefaultClass CL\LunaCore\Rel\AbstractRelMany
+ */
 class AbstractRelManyTest extends AbstractTestCase
 {
     public function getRel()
@@ -20,7 +22,7 @@ class AbstractRelManyTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Rel\AbstractRelMany::newLink
+     * @covers ::newLink
      */
     public function testNewLink()
     {
@@ -39,7 +41,7 @@ class AbstractRelManyTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Rel\AbstractRelMany::newEmptyLink
+     * @covers ::newEmptyLink
      */
     public function testNewEmptyLink()
     {
@@ -51,7 +53,7 @@ class AbstractRelManyTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Rel\AbstractRelMany::newLinkFrom
+     * @covers ::newLinkFrom
      */
     public function testNewLinkFrom()
     {

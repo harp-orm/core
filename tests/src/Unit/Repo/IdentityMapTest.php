@@ -5,12 +5,15 @@ namespace CL\LunaCore\Test\Unit\Repo;
 use CL\LunaCore\Repo\IdentityMap;
 use CL\LunaCore\Model\State;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Repo\IdentityMap
+ */
 class IdentityMapTest extends AbstractRepoTestCase
 {
     /**
-     * @covers CL\LunaCore\Repo\IdentityMap::__construct
-     * @covers CL\LunaCore\Repo\IdentityMap::getRepo
-     * @covers CL\LunaCore\Repo\IdentityMap::getModels
+     * @covers ::__construct
+     * @covers ::getRepo
+     * @covers ::getModels
      */
     public function testConstruct()
     {
@@ -22,7 +25,7 @@ class IdentityMapTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\IdentityMap::get
+     * @covers ::get
      */
     public function testGet()
     {
@@ -38,7 +41,7 @@ class IdentityMapTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\IdentityMap::getArray
+     * @covers ::getArray
      */
     public function testGetArray()
     {
@@ -61,7 +64,7 @@ class IdentityMapTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\IdentityMap::clear
+     * @covers ::clear
      */
     public function testClear()
     {

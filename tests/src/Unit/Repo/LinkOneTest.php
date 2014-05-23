@@ -5,13 +5,16 @@ namespace CL\LunaCore\Test\Unit\Repo;
 use CL\LunaCore\Repo\LinkOne;
 use CL\LunaCore\Model\Models;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Repo\LinkOne
+ */
 class LinkOneTest extends AbstractRepoTestCase
 {
     /**
-     * @covers CL\LunaCore\Repo\LinkOne::__construct
-     * @covers CL\LunaCore\Repo\LinkOne::getOriginal
-     * @covers CL\LunaCore\Repo\LinkOne::get
-     * @covers CL\LunaCore\Repo\LinkOne::getRel
+     * @covers ::__construct
+     * @covers ::getOriginal
+     * @covers ::get
+     * @covers ::getRel
      */
     public function testConstruct()
     {
@@ -26,7 +29,7 @@ class LinkOneTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkOne::delete
+     * @covers ::delete
      */
     public function testDelete()
     {
@@ -53,7 +56,7 @@ class LinkOneTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkOne::insert
+     * @covers ::insert
      */
     public function testInsert()
     {
@@ -80,7 +83,7 @@ class LinkOneTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkOne::update
+     * @covers ::update
      */
     public function testUpdate()
     {
@@ -106,10 +109,10 @@ class LinkOneTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkOne::set
-     * @covers CL\LunaCore\Repo\LinkOne::get
-     * @covers CL\LunaCore\Repo\LinkOne::isChanged
-     * @covers CL\LunaCore\Repo\LinkOne::getOriginal
+     * @covers ::set
+     * @covers ::get
+     * @covers ::isChanged
+     * @covers ::getOriginal
      */
     public function testSet()
     {
@@ -131,7 +134,7 @@ class LinkOneTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkOne::clear
+     * @covers ::clear
      */
     public function testClear()
     {
@@ -142,7 +145,7 @@ class LinkOneTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkOne::getCurrentAndOriginal
+     * @covers ::getCurrentAndOriginal
      */
     public function testGetCurrentAndOriginal()
     {

@@ -4,12 +4,15 @@ namespace CL\LunaCore\Test\Unit\Repo;
 
 use CL\LunaCore\Repo\Links;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Repo\Links
+ */
 class LinksTest extends AbstractRepoTestCase
 {
     /**
-     * @covers CL\LunaCore\Repo\Links::getModel
-     * @covers CL\LunaCore\Repo\Links::__construct
-     * @covers CL\LunaCore\Repo\Links::all
+     * @covers ::getModel
+     * @covers ::__construct
+     * @covers ::all
      */
     public function testConstruct()
     {
@@ -21,7 +24,7 @@ class LinksTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Links::add
+     * @covers ::add
      */
     public function testAdd()
     {
@@ -42,7 +45,7 @@ class LinksTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Links::getModels
+     * @covers ::getModels
      */
     public function testGetModels()
     {
@@ -74,7 +77,7 @@ class LinksTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Links::isEmpty
+     * @covers ::isEmpty
      */
     public function testIsEmpty()
     {
@@ -88,7 +91,7 @@ class LinksTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Links::has
+     * @covers ::has
      */
     public function testHas()
     {
@@ -102,7 +105,7 @@ class LinksTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\Links::get
+     * @covers ::get
      */
     public function testGet()
     {

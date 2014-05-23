@@ -4,14 +4,17 @@ namespace CL\LunaCore\Test\Unit\Repo;
 
 use CL\LunaCore\Repo\LinkMap;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Repo\LinkMap
+ */
 class LinkMapTest extends AbstractRepoTestCase
 {
     /**
-     * @covers CL\LunaCore\Repo\LinkMap::get
-     * @covers CL\LunaCore\Repo\LinkMap::has
-     * @covers CL\LunaCore\Repo\LinkMap::getRepo
-     * @covers CL\LunaCore\Repo\LinkMap::isEmpty
-     * @covers CL\LunaCore\Repo\LinkMap::__construct
+     * @covers ::get
+     * @covers ::has
+     * @covers ::getRepo
+     * @covers ::isEmpty
+     * @covers ::__construct
      */
     public function testTest()
     {
@@ -40,7 +43,7 @@ class LinkMapTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMap::get
+     * @covers ::get
      * @expectedException InvalidArgumentException
      */
     public function testInvalidModel()

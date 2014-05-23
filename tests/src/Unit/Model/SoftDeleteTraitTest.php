@@ -6,10 +6,13 @@ use CL\LunaCore\Model\SoftDeleteTrait;
 use CL\LunaCore\Model\State;
 use CL\LunaCore\Test\AbstractTestCase;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Model\SoftDeleteTrait
+ */
 class SoftDeleteTraitTest extends AbstractTestCase
 {
     /**
-     * @covers CL\LunaCore\Model\SoftDeleteTrait::delete
+     * @covers ::delete
      */
     public function testDelete()
     {
@@ -24,7 +27,7 @@ class SoftDeleteTraitTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\SoftDeleteTrait::getDefaultState
+     * @covers ::getDefaultState
      */
     public function testGetDefaultState()
     {
@@ -38,8 +41,8 @@ class SoftDeleteTraitTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\SoftDeleteTrait::restore
-     * @covers CL\LunaCore\Model\SoftDeleteTrait::isSoftDeleted
+     * @covers ::restore
+     * @covers ::isSoftDeleted
      */
     public function testRestore()
     {
@@ -57,8 +60,8 @@ class SoftDeleteTraitTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\SoftDeleteTrait::realDelete
-     * @covers CL\LunaCore\Model\SoftDeleteTrait::isSoftDeleted
+     * @covers ::realDelete
+     * @covers ::isSoftDeleted
      */
     public function testRealDelete()
     {

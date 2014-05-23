@@ -14,6 +14,9 @@ use CL\LunaCore\Model\State;
 use CL\Util\Objects;
 use CL\Carpo\Assert\Present;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Repo\AbstractRepo
+ */
 class AbstractRepoTest extends AbstractRepoTestCase
 {
     public function getRepoInitialized($initialized)
@@ -31,8 +34,8 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::__construct
-     * @covers CL\LunaCore\Repo\AbstractRepo::getModelClass
+     * @covers ::__construct
+     * @covers ::getModelClass
      */
     public function testConstruct()
     {
@@ -42,7 +45,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::getName
+     * @covers ::getName
      */
     public function testGetName()
     {
@@ -52,8 +55,8 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::getPrimaryKey
-     * @covers CL\LunaCore\Repo\AbstractRepo::setPrimaryKey
+     * @covers ::getPrimaryKey
+     * @covers ::setPrimaryKey
      */
     public function testPrimaryKey()
     {
@@ -67,8 +70,8 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::getSoftDelete
-     * @covers CL\LunaCore\Repo\AbstractRepo::setSoftDelete
+     * @covers ::getSoftDelete
+     * @covers ::setSoftDelete
      */
     public function testSoftDelete()
     {
@@ -82,8 +85,8 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::getInherited
-     * @covers CL\LunaCore\Repo\AbstractRepo::setInherited
+     * @covers ::getInherited
+     * @covers ::setInherited
      */
     public function testInherited()
     {
@@ -97,7 +100,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::getLinkMap
+     * @covers ::getLinkMap
      */
     public function testGetLinkMap()
     {
@@ -107,7 +110,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::getIdentityMap
+     * @covers ::getIdentityMap
      */
     public function testGetIdentityMap()
     {
@@ -117,7 +120,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::getModelReflection
+     * @covers ::getModelReflection
      */
     public function testGetModelReflection()
     {
@@ -128,7 +131,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::isModel
+     * @covers ::isModel
      */
     public function testIsModel()
     {
@@ -143,11 +146,11 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::getRels
-     * @covers CL\LunaCore\Repo\AbstractRepo::getRel
-     * @covers CL\LunaCore\Repo\AbstractRepo::addRels
-     * @covers CL\LunaCore\Repo\AbstractRepo::addRel
-     * @covers CL\LunaCore\Repo\AbstractRepo::getRelOrError
+     * @covers ::getRels
+     * @covers ::getRel
+     * @covers ::addRels
+     * @covers ::addRel
+     * @covers ::getRelOrError
      * @expectedException InvalidArgumentException
      */
     public function testRels()
@@ -178,16 +181,16 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::getEventListeners
-     * @covers CL\LunaCore\Repo\AbstractRepo::addEventBeforeDelete
-     * @covers CL\LunaCore\Repo\AbstractRepo::addEventBeforeSave
-     * @covers CL\LunaCore\Repo\AbstractRepo::addEventBeforeInsert
-     * @covers CL\LunaCore\Repo\AbstractRepo::addEventBeforeUpdate
-     * @covers CL\LunaCore\Repo\AbstractRepo::addEventAfterDelete
-     * @covers CL\LunaCore\Repo\AbstractRepo::addEventAfterSave
-     * @covers CL\LunaCore\Repo\AbstractRepo::addEventAfterInsert
-     * @covers CL\LunaCore\Repo\AbstractRepo::addEventAfterUpdate
-     * @covers CL\LunaCore\Repo\AbstractRepo::addEventAfterLoad
+     * @covers ::getEventListeners
+     * @covers ::addEventBeforeDelete
+     * @covers ::addEventBeforeSave
+     * @covers ::addEventBeforeInsert
+     * @covers ::addEventBeforeUpdate
+     * @covers ::addEventAfterDelete
+     * @covers ::addEventAfterSave
+     * @covers ::addEventAfterInsert
+     * @covers ::addEventAfterUpdate
+     * @covers ::addEventAfterLoad
      */
     public function testEventListeners()
     {
@@ -226,8 +229,8 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::getAsserts
-     * @covers CL\LunaCore\Repo\AbstractRepo::setAsserts
+     * @covers ::getAsserts
+     * @covers ::setAsserts
      */
     public function testAsserts()
     {
@@ -245,10 +248,10 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::hasBeforeEvent
-     * @covers CL\LunaCore\Repo\AbstractRepo::hasAfterEvent
-     * @covers CL\LunaCore\Repo\AbstractRepo::dispatchBeforeEvent
-     * @covers CL\LunaCore\Repo\AbstractRepo::dispatchAfterEvent
+     * @covers ::hasBeforeEvent
+     * @covers ::hasAfterEvent
+     * @covers ::dispatchBeforeEvent
+     * @covers ::dispatchAfterEvent
      */
     public function testDispatchEvents()
     {
@@ -301,7 +304,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::newModel
+     * @covers ::newModel
      */
     public function testNewModel()
     {
@@ -320,7 +323,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::newVoidModel
+     * @covers ::newVoidModel
      */
     public function testNewVoidModel()
     {
@@ -339,8 +342,8 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\AbstractRepo::getInitialized
-     * @covers CL\LunaCore\Repo\AbstractRepo::initializeOnce
+     * @covers ::getInitialized
+     * @covers ::initializeOnce
      */
     public function testGetInitialized()
     {

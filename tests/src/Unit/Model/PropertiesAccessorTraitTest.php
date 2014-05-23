@@ -5,11 +5,14 @@ namespace CL\LunaCore\Test\Unit\Model;
 use CL\LunaCore\Model\PropertiesAccessorTrait;
 use CL\LunaCore\Test\AbstractTestCase;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Model\PropertiesAccessorTrait
+ */
 class PropertiesAccessorTraitTest extends AbstractTestCase
 {
     /**
-     * @covers CL\LunaCore\Model\PropertiesAccessorTrait::getProperties
-     * @covers CL\LunaCore\Model\PropertiesAccessorTrait::getPublicPropertiesOf
+     * @covers ::getProperties
+     * @covers ::getPublicPropertiesOf
      */
     public function testGetProperties()
     {
@@ -25,7 +28,7 @@ class PropertiesAccessorTraitTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Model\PropertiesAccessorTrait::setProperties
+     * @covers ::setProperties
      */
     public function testSetProperties()
     {

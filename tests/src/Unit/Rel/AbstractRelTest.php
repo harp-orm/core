@@ -8,13 +8,16 @@ use CL\LunaCore\Model\Models;
 use CL\LunaCore\Repo\LinkMany;
 use CL\LunaCore\Test\AbstractTestCase;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Rel\AbstractRel
+ */
 class AbstractRelTest extends AbstractTestCase
 {
     /**
-     * @covers CL\LunaCore\Rel\AbstractRel::__construct
-     * @covers CL\LunaCore\Rel\AbstractRel::getName
-     * @covers CL\LunaCore\Rel\AbstractRel::getRepo
-     * @covers CL\LunaCore\Rel\AbstractRel::getForeignRepo
+     * @covers ::__construct
+     * @covers ::getName
+     * @covers ::getRepo
+     * @covers ::getForeignRepo
      */
     public function testConstruct()
     {
@@ -34,7 +37,7 @@ class AbstractRelTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Rel\AbstractRel::loadForeignModels
+     * @covers ::loadForeignModels
      */
     public function testLoadForeignModels()
     {
@@ -74,7 +77,7 @@ class AbstractRelTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Rel\AbstractRel::linkModels
+     * @covers ::linkModels
      */
     public function testLinkModels()
     {

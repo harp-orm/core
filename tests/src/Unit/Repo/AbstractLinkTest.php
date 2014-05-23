@@ -2,11 +2,14 @@
 
 namespace CL\LunaCore\Test\Unit\Repo;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Repo\AbstractLink
+ */
 class AbstractRelTest extends AbstractRepoTestCase
 {
     /**
-     * @covers CL\LunaCore\Repo\AbstractLink::__construct
-     * @covers CL\LunaCore\Repo\AbstractLink::getRel
+     * @covers ::__construct
+     * @covers ::getRel
      */
     public function testConstruct()
     {

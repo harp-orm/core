@@ -3,12 +3,15 @@
 namespace CL\LunaCore\Test\Unit\Save;
 
 use CL\LunaCore\Rel\AbstractRelOne;
+use CL\LunaCore\Rel\DeleteOneInterface;
+use CL\LunaCore\Rel\InsertOneInterface;
+use CL\LunaCore\Rel\UpdateOneInterface;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
-use CL\LunaCore\Repo\AbstractLink;
+use CL\LunaCore\Repo\LinkOne;
 use BadMethodCallException;
 
-class RelOne extends AbstractRelOne
+class RelOne extends AbstractRelOne implements DeleteOneInterface, InsertOneInterface, UpdateOneInterface
 {
     public function areLinked(AbstractModel $model, AbstractModel $foreign)
     {
@@ -23,5 +26,20 @@ class RelOne extends AbstractRelOne
     public function loadForeign(Models $models, $flags = null)
     {
         throw new BadMethodCallException('Test Rel: cannot call loadForeign');
+    }
+
+    public function delete(AbstractModel $model, LinkOne $link)
+    {
+        throw new BadMethodCallException('Test Rel: cannot call delete');
+    }
+
+    public function insert(AbstractModel $model, LinkOne $link)
+    {
+        throw new BadMethodCallException('Test Rel: cannot call insert');
+    }
+
+    public function update(AbstractModel $model, LinkOne $link)
+    {
+        throw new BadMethodCallException('Test Rel: cannot call update');
     }
 }

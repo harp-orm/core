@@ -7,6 +7,9 @@ use CL\LunaCore\Repo\LinkOne;
 use CL\LunaCore\Model\Models;
 use CL\Util\Objects;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Rel\AbstractRelOne
+ */
 class AbstractRelOneTest extends AbstractTestCase
 {
 
@@ -19,7 +22,7 @@ class AbstractRelOneTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Rel\AbstractRelOne::newLink
+     * @covers ::newLink
      */
     public function testNewLink()
     {
@@ -39,7 +42,7 @@ class AbstractRelOneTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Rel\AbstractRelOne::newEmptyLink
+     * @covers ::newEmptyLink
      */
     public function testNewEmptyLink()
     {
@@ -52,7 +55,7 @@ class AbstractRelOneTest extends AbstractTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Rel\AbstractRelOne::newLinkFrom
+     * @covers ::newLinkFrom
      */
     public function testNewLinkFrom()
     {

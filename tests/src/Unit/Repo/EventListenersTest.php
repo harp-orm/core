@@ -5,10 +5,13 @@ namespace CL\LunaCore\Test\Unit\Repo;
 use CL\LunaCore\Repo\EventListeners;
 use CL\LunaCore\Repo\Event;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Repo\EventListeners
+ */
 class EventListenersTest extends AbstractRepoTestCase
 {
     /**
-     * @covers CL\LunaCore\Repo\EventListeners::dispatchEvent
+     * @covers ::dispatchEvent
      */
     public function testDispatchEvent()
     {
@@ -28,10 +31,10 @@ class EventListenersTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\EventListeners::getBefore
-     * @covers CL\LunaCore\Repo\EventListeners::addBefore
-     * @covers CL\LunaCore\Repo\EventListeners::hasBeforeEvent
-     * @covers CL\LunaCore\Repo\EventListeners::dispatchBeforeEvent
+     * @covers ::getBefore
+     * @covers ::addBefore
+     * @covers ::hasBeforeEvent
+     * @covers ::dispatchBeforeEvent
      */
     public function testBefore()
     {
@@ -53,10 +56,10 @@ class EventListenersTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\EventListeners::getAfter
-     * @covers CL\LunaCore\Repo\EventListeners::addAfter
-     * @covers CL\LunaCore\Repo\EventListeners::hasAfterEvent
-     * @covers CL\LunaCore\Repo\EventListeners::dispatchAfterEvent
+     * @covers ::getAfter
+     * @covers ::addAfter
+     * @covers ::hasAfterEvent
+     * @covers ::dispatchAfterEvent
      */
     public function testAfter()
     {

@@ -5,13 +5,16 @@ namespace CL\LunaCore\Test\Unit\Repo;
 use CL\LunaCore\Repo\LinkMany;
 use CL\LunaCore\Model\Models;
 
+/**
+ * @coversDefaultClass CL\LunaCore\Repo\LinkMany
+ */
 class LinkManyTest extends AbstractRepoTestCase
 {
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::__construct
-     * @covers CL\LunaCore\Repo\LinkMany::get
-     * @covers CL\LunaCore\Repo\LinkMany::getRel
-     * @covers CL\LunaCore\Repo\LinkMany::getOriginal
+     * @covers ::__construct
+     * @covers ::get
+     * @covers ::getRel
+     * @covers ::getOriginal
      */
     public function testConstruct()
     {
@@ -26,7 +29,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::clear
+     * @covers ::clear
      */
     public function testClear()
     {
@@ -39,7 +42,7 @@ class LinkManyTest extends AbstractRepoTestCase
 
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::delete
+     * @covers ::delete
      */
     public function testDelete()
     {
@@ -66,7 +69,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::insert
+     * @covers ::insert
      */
     public function testInsert()
     {
@@ -91,7 +94,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::update
+     * @covers ::update
      */
     public function testUpdate()
     {
@@ -115,7 +118,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::addArray
+     * @covers ::addArray
      */
     public function testAddArray()
     {
@@ -131,7 +134,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::add
+     * @covers ::add
      */
     public function testAdd()
     {
@@ -146,7 +149,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::isChanged
+     * @covers ::isChanged
      */
     public function testIsChanged()
     {
@@ -163,7 +166,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::remove
+     * @covers ::remove
      */
     public function testRemove()
     {
@@ -182,7 +185,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::isEmpty
+     * @covers ::isEmpty
      */
     public function testIsEmpty()
     {
@@ -196,7 +199,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::has
+     * @covers ::has
      */
     public function testHas()
     {
@@ -210,7 +213,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::toArray
+     * @covers ::toArray
      */
     public function testToArray()
     {
@@ -223,7 +226,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::getOriginal
+     * @covers ::getOriginal
      */
     public function testGetOriginal()
     {
@@ -236,7 +239,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::getAdded
+     * @covers ::getAdded
      */
     public function testGetAdded()
     {
@@ -254,7 +257,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::getRemoved
+     * @covers ::getRemoved
      */
     public function testGetRemoved()
     {
@@ -273,7 +276,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::getCurrentAndOriginal
+     * @covers ::getCurrentAndOriginal
      */
     public function testGetCurrentAndOriginal()
     {
@@ -300,7 +303,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::getFirst
+     * @covers ::getFirst
      */
     public function testGetFirst()
     {
@@ -317,7 +320,7 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::count
+     * @covers ::count
      */
     public function testCountable()
     {
@@ -328,11 +331,11 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers CL\LunaCore\Repo\LinkMany::current
-     * @covers CL\LunaCore\Repo\LinkMany::key
-     * @covers CL\LunaCore\Repo\LinkMany::next
-     * @covers CL\LunaCore\Repo\LinkMany::rewind
-     * @covers CL\LunaCore\Repo\LinkMany::valid
+     * @covers ::current
+     * @covers ::key
+     * @covers ::next
+     * @covers ::rewind
+     * @covers ::valid
      */
     public function testIterator()
     {
