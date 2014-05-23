@@ -112,13 +112,27 @@ abstract class AbstractFind
         return $this;
     }
 
+    public function onlySaved()
+    {
+        $this->where('deletedAt', null);
+
+        return $this;
+    }
+
+    public function onlyDeleted()
+    {
+        $this->whereNot('deletedAt', null);
+
+        return $this;
+    }
+
     public function applyFlags($flags)
     {
         if ($this->getRepo()->getSoftDelete()) {
             if ($flags === null) {
-                $this->where('deletedAt', null);
+                $this->onlySaved();
             } elseif ($flags & State::DELETED) {
-                $this->whereNot('deletedAt', null);
+                $this->onlyDeleted();
             } elseif (! ($flags & (State::DELETED | State::SAVED))) {
                 throw new InvalidArgumentException('Use "State::DELETED" or "State::DELETED | State::SAVED"');
             }

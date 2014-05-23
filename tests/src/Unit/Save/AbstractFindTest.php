@@ -83,6 +83,9 @@ class AbstractFindTest extends AbstractTestCase
 
     /**
      * @covers ::applyFlags
+     * @covers ::onlySaved
+     * @covers ::onlyDeleted
+     * @expectedException InvalidArgumentException
      */
     public function testApplyFlags()
     {
@@ -108,6 +111,8 @@ class AbstractFindTest extends AbstractTestCase
         $find->applyFlags(null);
         $find->applyFlags(State::DELETED);
         $find->applyFlags(State::DELETED | State::SAVED);
+
+        $find->applyFlags(State::VOID);
     }
 
     /**
