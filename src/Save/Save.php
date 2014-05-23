@@ -77,8 +77,8 @@ class Save implements Countable
     }
 
     /**
-     * @param AbstractModel[] $models
-     * @return Save $this
+     * @param  AbstractModel[] $models
+     * @return Save            $this
      */
     public function addArray(array $models)
     {
@@ -90,8 +90,8 @@ class Save implements Countable
     }
 
     /**
-     * @param Models $models
-     * @return Save $this
+     * @param  Models $models
+     * @return Save   $this
      */
     public function addAll(Models $models)
     {

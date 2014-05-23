@@ -131,7 +131,7 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
-     * @param  AbstractModel $model
+     * @param AbstractModel $model
      */
     public function update(AbstractModel $model)
     {
@@ -139,8 +139,8 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
-     * @param  AbstractModel[]  $models
-     * @return LinkMany $this
+     * @param  AbstractModel[] $models
+     * @return LinkMany        $this
      */
     public function addArray(array $models)
     {

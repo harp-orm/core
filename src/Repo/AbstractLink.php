@@ -25,8 +25,14 @@ abstract class AbstractLink
         return $this->rel;
     }
 
+    /**
+     * @return Models
+     */
     abstract public function delete(AbstractModel $model);
 
+    /**
+     * @return Models
+     */
     abstract public function insert(AbstractModel $model);
 
     abstract public function update(AbstractModel $model);

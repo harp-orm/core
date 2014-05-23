@@ -115,7 +115,7 @@ class LinkOne extends AbstractLink
     }
 
     /**
-     * @param  AbstractModel $model
+     * @param AbstractModel $model
      */
     public function update(AbstractModel $model)
     {

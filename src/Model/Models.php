@@ -226,7 +226,7 @@ class Models implements Countable, Iterator
 
     /**
      * @param  string $property
-     * @return array
+     * @return boolean
      */
     public function isEmptyProperty($property)
     {

@@ -38,7 +38,7 @@ abstract class AbstractRelMany extends AbstractRel
 
     /**
      * @param  AbstractModel $model
-     * @param  LinkMany       $link
+     * @param  LinkMany      $link
      * @return Models
      */
     public function insert(AbstractModel $model, LinkMany $link)
@@ -48,7 +48,7 @@ abstract class AbstractRelMany extends AbstractRel
 
     /**
      * @param  AbstractModel $model
-     * @param  LinkMany       $link
+     * @param  LinkMany      $link
      * @return Models
      */
     public function delete(AbstractModel $model, LinkMany $link)
@@ -57,8 +57,8 @@ abstract class AbstractRelMany extends AbstractRel
     }
 
     /**
-     * @param  AbstractModel $model
-     * @param  LinkMany       $link
+     * @param AbstractModel $model
+     * @param LinkMany      $link
      */
     public function update(AbstractModel $model, LinkMany $link)
     {

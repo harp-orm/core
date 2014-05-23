@@ -55,8 +55,8 @@ abstract class AbstractRelOne extends AbstractRel
     }
 
     /**
-     * @param  AbstractModel $model
-     * @param  LinkOne       $link
+     * @param AbstractModel $model
+     * @param LinkOne       $link
      */
     public function update(AbstractModel $model, LinkOne $link)
     {
