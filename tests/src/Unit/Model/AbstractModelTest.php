@@ -28,7 +28,7 @@ class AbstractModelTest extends AbstractTestCase
         $model = new Model(['id' => 10, 'name' => 'name1', 'test' => 'testval'], State::SAVED);
 
         $this->assertEquals(['test' => 'testval'], $model->getUnmapped());
-        $this->assertTrue($model->isSaved());
+        $this->assertEquals(State::SAVED, $model->getState());
         $this->assertEquals(10, $model->id);
         $this->assertEquals('name1', $model->name);
         $this->assertEquals(['id' => 10, 'name' => 'name1', 'class' => __NAMESPACE__.'\Model'], $model->getOriginals());
