@@ -4,6 +4,7 @@ namespace CL\LunaCore\Test\Rel;
 
 use CL\LunaCore\Test\Repo\AbstractTestRepo;
 use CL\LunaCore\Rel\AbstractRelMany;
+use CL\LunaCore\Rel\UpdateManyInterface;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
 use CL\LunaCore\Repo\LinkMany;
@@ -13,7 +14,7 @@ use CL\LunaCore\Repo\LinkMany;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-class Many extends AbstractRelMany
+class Many extends AbstractRelMany implements UpdateManyInterface
 {
     private $key;
 

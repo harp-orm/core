@@ -3,8 +3,6 @@
 namespace CL\LunaCore\Test\Unit\Rel;
 
 use CL\LunaCore\Repo\AbstractRepo;
-use BadMethodCallException;
-use SplObjectStorage;
 
 class Repo extends AbstractRepo
 {

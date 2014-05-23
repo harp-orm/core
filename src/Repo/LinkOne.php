@@ -3,6 +3,9 @@
 namespace CL\LunaCore\Repo;
 
 use CL\LunaCore\Rel\AbstractRelOne;
+use CL\LunaCore\Rel\DeleteOneInterface;
+use CL\LunaCore\Rel\InsertOneInterface;
+use CL\LunaCore\Rel\UpdateOneInterface;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
 
@@ -102,7 +105,11 @@ class LinkOne extends AbstractLink
      */
     public function delete(AbstractModel $model)
     {
-        return $this->getRel()->delete($model, $this);
+        if ($this->getRel() instanceof DeleteOneInterface) {
+            return $this->getRel()->delete($model, $this);
+        } else {
+            return new Models();
+        }
     }
 
     /**
@@ -111,7 +118,11 @@ class LinkOne extends AbstractLink
      */
     public function insert(AbstractModel $model)
     {
-        return $this->getRel()->insert($model, $this);
+        if ($this->getRel() instanceof InsertOneInterface) {
+            return $this->getRel()->insert($model, $this);
+        } else {
+            return new Models();
+        }
     }
 
     /**
@@ -119,7 +130,8 @@ class LinkOne extends AbstractLink
      */
     public function update(AbstractModel $model)
     {
-        $this->getRel()->update($model, $this);
+        if ($this->getRel() instanceof UpdateOneInterface) {
+            return $this->getRel()->update($model, $this);
+        }
     }
-
 }

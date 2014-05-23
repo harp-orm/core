@@ -3,6 +3,9 @@
 namespace CL\LunaCore\Repo;
 
 use CL\LunaCore\Rel\AbstractRelMany;
+use CL\LunaCore\Rel\DeleteManyInterface;
+use CL\LunaCore\Rel\InsertManyInterface;
+use CL\LunaCore\Rel\UpdateManyInterface;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
 use Countable;
@@ -118,7 +121,11 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      */
     public function delete(AbstractModel $model)
     {
-        return $this->getRel()->delete($model, $this);
+        if ($this->getRel() instanceof DeleteManyInterface) {
+            return $this->getRel()->delete($model, $this);
+        } else {
+            return new Models();
+        }
     }
 
     /**
@@ -127,7 +134,11 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      */
     public function insert(AbstractModel $model)
     {
-        return $this->getRel()->insert($model, $this);
+        if ($this->getRel() instanceof InsertManyInterface) {
+            return $this->getRel()->insert($model, $this);
+        } else {
+            return new Models();
+        }
     }
 
     /**
@@ -135,7 +146,9 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      */
     public function update(AbstractModel $model)
     {
-        $this->getRel()->update($model, $this);
+        if ($this->getRel() instanceof UpdateManyInterface) {
+            return $this->getRel()->update($model, $this);
+        }
     }
 
     /**

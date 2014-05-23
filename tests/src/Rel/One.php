@@ -4,6 +4,7 @@ namespace CL\LunaCore\Test\Rel;
 
 use CL\LunaCore\Test\Repo\AbstractTestRepo;
 use CL\LunaCore\Rel\AbstractRelOne;
+use CL\LunaCore\Rel\UpdateOneInterface;
 use CL\LunaCore\Model\AbstractModel;
 use CL\LunaCore\Model\Models;
 use CL\LunaCore\Repo\LinkOne;
@@ -13,7 +14,7 @@ use CL\LunaCore\Repo\LinkOne;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-class One extends AbstractRelOne
+class One extends AbstractRelOne implements UpdateOneInterface
 {
     private $key;
 

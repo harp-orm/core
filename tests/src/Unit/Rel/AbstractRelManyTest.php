@@ -72,35 +72,4 @@ class AbstractRelManyTest extends AbstractTestCase
         $this->assertCount(1, $link);
         $this->assertEquals($models, $link->toArray());
     }
-
-    /**
-     * @covers CL\LunaCore\Rel\AbstractRelMany::delete
-     */
-    public function testDelete()
-    {
-        $rel = $this->getRel();
-        $result = $rel->delete(new Model(), new LinkMany($rel, []));
-        $this->assertEquals(new Models(), $result);
-    }
-
-    /**
-     * @covers CL\LunaCore\Rel\AbstractRelMany::insert
-     */
-    public function testInsert()
-    {
-        $rel = $this->getRel();
-        $result = $rel->insert(new Model(), new LinkMany($rel, []));
-        $this->assertEquals(new Models(), $result);
-    }
-
-    /**
-     * @covers CL\LunaCore\Rel\AbstractRelMany::update
-     */
-    public function testUpdate()
-    {
-        $rel = $this->getRel();
-        $result = $rel->update(new Model(), new LinkMany($rel, []));
-        $this->assertNull($result);
-    }
-
 }
