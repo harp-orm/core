@@ -112,22 +112,27 @@ abstract class AbstractFind
         return $this;
     }
 
-    /**
-     * @return AbstractModel[]
-     */
-    public function loadRaw($state = null)
+    public function applyFlags($flags)
     {
         if ($this->getRepo()->getSoftDelete()) {
-            if ($state === null) {
+            if ($flags === null) {
                 $this->where('deletedAt', null);
-            } elseif ($state & State::DELETED) {
+            } elseif ($flags & State::DELETED) {
                 $this->whereNot('deletedAt', null);
-            } elseif (! ($state & (State::DELETED | State::SAVED))) {
+            } elseif (! ($flags & (State::DELETED | State::SAVED))) {
                 throw new InvalidArgumentException('Use "State::DELETED" or "State::DELETED | State::SAVED"');
             }
         }
 
-        $models = $this->execute();
+        return $this;
+    }
+
+    /**
+     * @return AbstractModel[]
+     */
+    public function loadRaw($flags = null)
+    {
+        $models = $this->applyFlags($flags)->execute();
 
         foreach ($models as $model) {
             $this->getRepo()->dispatchAfterEvent($model, Event::LOAD);
@@ -139,9 +144,9 @@ abstract class AbstractFind
     /**
      * @return Models
      */
-    public function load($state = null)
+    public function load($flags = null)
     {
-        $models = $this->loadRaw($state);
+        $models = $this->loadRaw($flags);
         $models = $this->getRepo()->getIdentityMap()->getArray($models);
 
         return new Models($models);
@@ -151,11 +156,11 @@ abstract class AbstractFind
      * @param  array  $rels
      * @return Models
      */
-    public function loadWith(array $rels, $state = null)
+    public function loadWith(array $rels, $flags = null)
     {
-        $models = $this->load($state);
+        $models = $this->load($flags);
 
-        $this->getRepo()->loadAllRelsFor($models, $rels, $state);
+        $this->getRepo()->loadAllRelsFor($models, $rels, $flags);
 
         return $models;
     }
@@ -163,25 +168,25 @@ abstract class AbstractFind
     /**
      * @return array
      */
-    public function loadIds($state = null)
+    public function loadIds($flags = null)
     {
-        return $this->load($state)->getIds();
+        return $this->load($flags)->getIds();
     }
 
     /**
      * @return int
      */
-    public function loadCount($state = null)
+    public function loadCount($flags = null)
     {
-        return count($this->loadRaw($state));
+        return count($this->loadRaw($flags));
     }
 
     /**
      * @return AbstractModel
      */
-    public function loadFirst($state = null)
+    public function loadFirst($flags = null)
     {
-        $items = $this->limit(1)->load($state);
+        $items = $this->limit(1)->load($flags);
         $items->rewind();
 
         return $items->current() ?: $this->getRepo()->newVoidModel();

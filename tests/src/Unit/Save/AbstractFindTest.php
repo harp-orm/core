@@ -60,12 +60,40 @@ class AbstractFindTest extends AbstractTestCase
     public function testLoadRaw()
     {
         $repo = new Repo(__NAMESPACE__.'\Model');
+
+        $models = [new Model(), new Model()];
+
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['execute', 'applyFlags'], [$repo]);
+
+        $find
+            ->expects($this->once())
+            ->method('applyFlags')
+            ->with($this->equalTo(State::DELETED | State::SAVED))
+            ->will($this->returnSelf());
+
+        $find
+            ->expects($this->once())
+            ->method('execute')
+            ->will($this->returnValue($models));
+
+        $result = $find->loadRaw(State::DELETED | State::SAVED);
+
+        $this->assertSame($models, $result);
+    }
+
+    /**
+     * @covers ::applyFlags
+     */
+    public function testApplyFlags()
+    {
+        $repo = new Repo(__NAMESPACE__.'\Model');
         $repo->setSoftDelete(true);
+
         $models1 = [new Model()];
         $models2 = [new Model()];
         $models3 = [new Model()];
 
-        $find = $this->getMock(__NAMESPACE__.'\Find', ['execute', 'where', 'whereNot'], [$repo]);
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['where', 'whereNot'], [$repo]);
 
         $find
             ->expects($this->at(0))
@@ -77,16 +105,11 @@ class AbstractFindTest extends AbstractTestCase
             ->method('whereNot')
             ->with($this->equalTo('deletedAt'), null);
 
-
-        $find
-            ->expects($this->exactly(3))
-            ->method('execute')
-            ->will($this->onConsecutiveCalls($models1, $models2, $models3));
-
-        $this->assertSame($models1, $find->loadRaw());
-        $this->assertSame($models2, $find->loadRaw(State::DELETED));
-        $this->assertSame($models3, $find->loadRaw(State::DELETED | State::SAVED));
+        $find->applyFlags(null);
+        $find->applyFlags(State::DELETED);
+        $find->applyFlags(State::DELETED | State::SAVED);
     }
+
     /**
      * @covers ::loadRaw
      * @expectedException InvalidArgumentException
