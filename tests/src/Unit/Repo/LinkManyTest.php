@@ -69,6 +69,24 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::delete
+     */
+    public function testNoDelete()
+    {
+        $rel = $this->getMockForAbstractClass(
+            'CL\LunaCore\Rel\AbstractRelMany',
+            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+        );
+
+        $link = new LinkMany($rel, [new Model()]);
+        $model = new Model();
+        $models = new Models();
+
+        $result = $link->delete($model);
+        $this->assertEquals(new Models(), $result);
+    }
+
+    /**
      * @covers ::insert
      */
     public function testInsert()
@@ -94,6 +112,24 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::insert
+     */
+    public function testNoInsert()
+    {
+        $rel = $this->getMockForAbstractClass(
+            'CL\LunaCore\Rel\AbstractRelMany',
+            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+        );
+
+        $link = new LinkMany($rel, [new Model()]);
+        $model = new Model();
+        $models = new Models();
+
+        $result = $link->insert($model);
+        $this->assertEquals(new Models(), $result);
+    }
+
+    /**
      * @covers ::update
      */
     public function testUpdate()
@@ -115,6 +151,24 @@ class LinkManyTest extends AbstractRepoTestCase
             ->will($this->returnValue($models));
 
         $link->update($model);
+    }
+
+    /**
+     * @covers ::update
+     */
+    public function testNoUpdate()
+    {
+        $rel = $this->getMockForAbstractClass(
+            'CL\LunaCore\Rel\AbstractRelMany',
+            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+        );
+
+        $link = new LinkMany($rel, [new Model()]);
+        $model = new Model();
+        $models = new Models();
+
+        $result = $link->update($model);
+        $this->assertNull($result);
     }
 
     /**
@@ -317,6 +371,23 @@ class LinkManyTest extends AbstractRepoTestCase
 
         $this->assertInstanceof(__NAMESPACE__.'\Model', $first);
         $this->assertTrue($first->isVoid());
+    }
+
+    /**
+     * @covers ::getNext
+     */
+    public function testGetNext()
+    {
+        $link = $this->getLinkMany();
+        $items = $link->get()->toArray();
+        $link->getFirst();
+
+        $this->assertSame($items[1], $link->getNext());
+
+        $next = $link->getNext();
+
+        $this->assertInstanceof(__NAMESPACE__.'\Model', $next);
+        $this->assertTrue($next->isVoid());
     }
 
     /**

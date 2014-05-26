@@ -56,6 +56,24 @@ class LinkOneTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::delete
+     */
+    public function testNoDelete()
+    {
+        $rel = $this->getMockForAbstractClass(
+            'CL\LunaCore\Rel\AbstractRelOne',
+            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+        );
+
+        $link = new LinkOne($rel, new Model());
+        $model = new Model();
+        $models = new Models();
+
+        $result = $link->delete($model);
+        $this->assertEquals(new Models(), $result);
+    }
+
+    /**
      * @covers ::insert
      */
     public function testInsert()
@@ -83,6 +101,24 @@ class LinkOneTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::insert
+     */
+    public function testNoInsert()
+    {
+        $rel = $this->getMockForAbstractClass(
+            'CL\LunaCore\Rel\AbstractRelOne',
+            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+        );
+
+        $link = new LinkOne($rel, new Model());
+        $model = new Model();
+        $models = new Models();
+
+        $result = $link->insert($model);
+        $this->assertEquals(new Models(), $result);
+    }
+
+    /**
      * @covers ::update
      */
     public function testUpdate()
@@ -106,6 +142,24 @@ class LinkOneTest extends AbstractRepoTestCase
             ->will($this->returnValue($models));
 
         $link->update($model);
+    }
+
+    /**
+     * @covers ::update
+     */
+    public function testNoUpdate()
+    {
+        $rel = $this->getMockForAbstractClass(
+            'CL\LunaCore\Rel\AbstractRelOne',
+            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+        );
+
+        $link = new LinkOne($rel, new Model());
+        $model = new Model();
+        $models = new Models();
+
+        $result = $link->update($model);
+        $this->assertNull($result);
     }
 
     /**
