@@ -16,17 +16,6 @@ use Iterator;
 class Models implements Countable, Iterator
 {
     /**
-     * @param  SplObjectStorage $models
-     * @return Models
-     */
-    public static function fromObjects(SplObjectStorage $models)
-    {
-        $new = new Models();
-
-        return $new->addObjects($models);
-    }
-
-    /**
      * @var SplObjectStorage
      */
     private $models;
@@ -125,6 +114,16 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * @return AbstractModel|null
+     */
+    public function getNext()
+    {
+        $this->models->next();
+
+        return $this->models->current();
+    }
+
+    /**
      * @return int
      */
     public function count()
@@ -205,7 +204,10 @@ class Models implements Countable, Iterator
         });
 
         foreach ($repos as $repo) {
-            $yield($repo, Models::fromObjects($repos->getInfo()));
+            $models = new Models();
+            $models->addObjects($repos->getInfo());
+
+            $yield($repo, $models);
         }
     }
 
@@ -276,10 +278,14 @@ class Models implements Countable, Iterator
 
     /**
      * Implement Iterator
+     *
+     * @return AbstractModel
      */
     public function next()
     {
-        return $this->models->next();
+        $this->models->next();
+
+        return $this;
     }
 
     /**
@@ -287,7 +293,9 @@ class Models implements Countable, Iterator
      */
     public function rewind()
     {
-        return $this->models->rewind();
+        $this->models->rewind();
+
+        return $this;
     }
 
     /**

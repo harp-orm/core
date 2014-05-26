@@ -3,9 +3,9 @@
 namespace CL\LunaCore\Save;
 
 use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Model\Models;
 use CL\LunaCore\Model\State;
 use CL\LunaCore\Repo\Event;
+use CL\LunaCore\Repo\RepoModels;
 use InvalidArgumentException;
 
 /*
@@ -163,7 +163,7 @@ abstract class AbstractFind
         $models = $this->loadRaw($flags);
         $models = $this->getRepo()->getIdentityMap()->getArray($models);
 
-        return new Models($models);
+        return new RepoModels($this->repo, $models);
     }
 
     /**
@@ -200,9 +200,6 @@ abstract class AbstractFind
      */
     public function loadFirst($flags = null)
     {
-        $items = $this->limit(1)->load($flags);
-        $items->rewind();
-
-        return $items->current() ?: $this->getRepo()->newVoidModel();
+        return $this->limit(1)->load($flags)->getFirst();
     }
 }

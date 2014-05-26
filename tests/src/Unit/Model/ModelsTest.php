@@ -13,19 +13,6 @@ use CL\LunaCore\Test\AbstractTestCase;
 class ModelsTest extends AbstractTestCase
 {
     /**
-     * @covers ::fromObjects
-     */
-    public function testFromObjects()
-    {
-        $objects = new SplObjectStorage();
-        $objects->attach(new Model());
-        $objects->attach(new Model());
-
-        $models = Models::fromObjects($objects);
-        $this->assertSame(Objects::toArray($objects), Objects::toArray($models->all()));
-    }
-
-    /**
      * @covers ::__construct
      * @covers ::all
      */
@@ -67,6 +54,24 @@ class ModelsTest extends AbstractTestCase
         $models->clear();
 
         $this->assertNull($models->getFirst());
+    }
+
+    /**
+     * @covers ::getNext
+     */
+    public function testGetNext()
+    {
+        $model1 = new Model();
+        $model2 = new Model();
+        $model3 = new Model();
+
+        $models = new Models([$model1, $model2, $model3]);
+
+        $models->getFirst();
+
+        $this->assertSame($model2, $models->getNext());
+        $this->assertSame($model3, $models->getNext());
+        $this->assertNull($models->getNext());
     }
 
     /**
@@ -229,6 +234,21 @@ class ModelsTest extends AbstractTestCase
         $models->add($model);
 
         $this->assertFalse($models->isEmpty());
+    }
+
+    /**
+     * @covers ::hasId
+     */
+    public function testHasId()
+    {
+        $model = new Model(['id' => 12]);
+        $models = new Models();
+
+        $this->assertFalse($models->hasId(12));
+
+        $models->add($model);
+
+        $this->assertTrue($models->hasId(12));
     }
 
     /**

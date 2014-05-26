@@ -34,8 +34,8 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      */
     public function __construct(AbstractRelMany $rel, array $models)
     {
-        $this->current = new Models($models);
-        $this->original = new Models($models);
+        $this->current = new RepoModels($rel->getForeignRepo(), $models);
+        $this->original = new RepoModels($rel->getForeignRepo(), $models);
 
         parent::__construct($rel);
     }
@@ -112,7 +112,17 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      */
     public function getFirst()
     {
-        return $this->current->getFirst() ?: $this->getRel()->getForeignRepo()->newVoidModel();
+        return $this->current->getFirst();
+    }
+
+    /**
+     * Return next model, void model if no model
+     *
+     * @return AbstractModel
+     */
+    public function getNext()
+    {
+        return $this->current->getNext();
     }
 
     /**
@@ -253,7 +263,9 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      */
     public function next()
     {
-        return $this->current->next();
+        $this->current->next();
+
+        return $this;
     }
 
     /**
@@ -261,7 +273,9 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      */
     public function rewind()
     {
-        return $this->current->rewind();
+        $this->current->rewind();
+
+        return $this;
     }
 
     /**

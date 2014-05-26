@@ -5,6 +5,7 @@ namespace CL\LunaCore\Test\Unit\Save;
 use CL\LunaCore\Test\AbstractTestCase;
 use CL\LunaCore\Model\State;
 use CL\LunaCore\Model\Models;
+use CL\LunaCore\Repo\RepoModels;
 use CL\LunaCore\Save\AbstractFind;
 
 /**
@@ -248,8 +249,8 @@ class AbstractFindTest extends AbstractTestCase
         $find = $this->getMock(__NAMESPACE__.'\Find', ['limit', 'load'], [$repo]);
 
         $model = new Model(['id' => 300, 'repo' => $repo]);
-        $models = new Models([$model]);
-        $emptyModels = new Models();
+        $models = new RepoModels($repo, [$model]);
+        $emptyModels = new RepoModels($repo);
 
         $find
             ->expects($this->exactly(2))
