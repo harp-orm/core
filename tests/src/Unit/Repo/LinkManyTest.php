@@ -188,6 +188,22 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::addModels
+     */
+    public function testAddModels()
+    {
+        $link = $this->getLinkMany();
+
+        $model1 = new Model();
+        $model2 = new Model();
+        $expected = array_merge($link->toArray(), [$model1, $model2]);
+
+        $link->addModels(new Models([$model1, $model2]));
+
+        $this->assertSame($expected, $link->toArray());
+    }
+
+    /**
      * @covers ::add
      */
     public function testAdd()

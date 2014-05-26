@@ -176,6 +176,18 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
+     * @param  Models   $models
+     * @return LinkMany $this
+     */
+    public function addModels(Models $models)
+    {
+        $this->current->addAll($models);
+
+        return $this;
+    }
+
+
+    /**
      * @param  AbstractModel $model
      * @return LinkMany      $this
      */
