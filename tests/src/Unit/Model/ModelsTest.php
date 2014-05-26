@@ -26,6 +26,21 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
+     * @covers ::__clone
+     */
+    public function testClone()
+    {
+        $source = [new Model(), new Model()];
+        $models = new Models($source);
+
+        $clone = clone $models;
+
+        $this->assertSame($source, $clone->toArray());
+        $this->assertEquals($models->all(), $clone->all());
+        $this->assertNotSame($models->all(), $clone->all());
+    }
+
+    /**
      * @covers ::clear
      */
     public function testClear()

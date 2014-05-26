@@ -30,6 +30,14 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * Clone internal SplObjectStorage
+     */
+    public function __clone()
+    {
+        $this->models = clone $this->models;
+    }
+
+    /**
      * @param  SplObjectStorage $models
      * @return Models           $this
      */
