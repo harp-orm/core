@@ -243,7 +243,11 @@ class AbstractSaveRepoTest extends AbstractTestCase
             [__NAMESPACE__.'\Model']
         );
 
-        $models = [new Model(null, State::SAVED), new Model(['deletedAt' => time()], State::DELETED)];
+        $models = [
+            new Model(null, State::SAVED),
+            new SoftDeleteModel(['deletedAt' => time()], State::DELETED)
+        ];
+
         $modelsObject = new Models($models);
 
         $repo
@@ -267,17 +271,17 @@ class AbstractSaveRepoTest extends AbstractTestCase
             ->with($this->identicalTo($models[1], $this->equalTo(Event::DELETE)));
 
         $repo
-            ->expects($this->at(5))
+            ->expects($this->at(4))
             ->method('dispatchAfterEvent')
             ->with($this->identicalTo($models[0], $this->equalTo(Event::UPDATE)));
 
         $repo
-            ->expects($this->at(6))
+            ->expects($this->at(5))
             ->method('dispatchAfterEvent')
             ->with($this->identicalTo($models[0], $this->equalTo(Event::SAVE)));
 
         $repo
-            ->expects($this->at(7))
+            ->expects($this->at(6))
             ->method('dispatchAfterEvent')
             ->with($this->identicalTo($models[1], $this->equalTo(Event::DELETE)));
 
