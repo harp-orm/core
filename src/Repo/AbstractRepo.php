@@ -446,6 +446,14 @@ abstract class AbstractRepo
         return $this->modelReflection->newInstance($fields, State::VOID);
     }
 
+    public function clear()
+    {
+        $this->identityMap->clear();
+        $this->linkMap->clear();
+
+        return $this;
+    }
+
     /**
      * @param  AbstractModel $model
      * @return boolean

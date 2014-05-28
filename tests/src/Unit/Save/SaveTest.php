@@ -347,7 +347,7 @@ class SaveTest extends AbstractTestCase
 
         $save->execute();
 
-        Repo::clear();
-        SoftDeleteRepo::clear();
+        Repo::clearInstance();
+        SoftDeleteRepo::clearInstance();
     }
 }

@@ -64,6 +64,22 @@ class IdentityMapTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::has
+     */
+    public function testHas()
+    {
+        $map = Repo::get()->getIdentityMap()->clear();
+
+        $model = new Model(['id' => 1], State::SAVED);
+
+        $this->assertFalse($map->has($model));
+
+        $map->get($model);
+
+        $this->assertTrue($map->has($model));
+    }
+
+    /**
      * @covers ::clear
      */
     public function testClear()

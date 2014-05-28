@@ -27,7 +27,7 @@ class Repo extends AbstractSaveRepo
         self::$instance = $repo;
     }
 
-    public static function clear()
+    public static function clearInstance()
     {
         self::$instance = null;
     }

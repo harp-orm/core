@@ -74,4 +74,14 @@ class LinkMap
     {
         return $this->map->contains($model);
     }
+
+    /**
+     * @return LinkMap $this
+     */
+    public function clear()
+    {
+        $this->map = new SplObjectStorage();
+
+        return $this;
+    }
 }

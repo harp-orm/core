@@ -6,7 +6,6 @@ use CL\LunaCore\Repo\AbstractRepo;
 use CL\LunaCore\Repo\Links;
 use CL\LunaCore\Repo\LinkOne;
 use CL\LunaCore\Repo\LinkMap;
-use CL\LunaCore\Repo\Rels;
 use CL\LunaCore\Repo\Event;
 use CL\LunaCore\Test\Model\User;
 use CL\LunaCore\Model\AbstractModel;
@@ -339,6 +338,25 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
         $this->assertEquals(['id' => 10, 'name' => 'new'], $model->getProperties());
         $this->assertTrue($model->isVoid());
+    }
+
+    public function testClear()
+    {
+        $repo = new Repo(__NAMESPACE__.'\Model');
+        $model = new Model(['id' => 1], State::SAVED);
+        $rel = new RelOne('one', $repo, $repo);
+        $repo->addRel($rel);
+
+        $repo->getIdentityMap()->get($model);
+        $repo->getLinkMap()->get($model, 'one');
+
+        $this->assertTrue($repo->getIdentityMap()->has($model));
+        $this->assertTrue($repo->getLinkMap()->has($model));
+
+        $repo->clear();
+
+        $this->assertFalse($repo->getIdentityMap()->has($model));
+        $this->assertFalse($repo->getLinkMap()->has($model));
     }
 
     /**

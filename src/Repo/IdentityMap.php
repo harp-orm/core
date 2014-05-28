@@ -62,6 +62,15 @@ class IdentityMap
     }
 
     /**
+     * @param  AbstractModel $model
+     * @return boolean
+     */
+    public function has(AbstractModel $model)
+    {
+        return isset($this->models[$model->getId()]);
+    }
+
+    /**
      * @param  AbstractModel[] $models
      * @return AbstractModel[]
      */
