@@ -13,6 +13,14 @@ use InvalidArgumentException;
  */
 class RepoModels extends Models
 {
+    /**
+     * AbstractRepo
+     */
+    private $repo;
+
+    /**
+     * @return AbstractRepo
+     */
     public function getRepo()
     {
         return $this->repo;

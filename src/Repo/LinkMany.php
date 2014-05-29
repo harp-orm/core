@@ -160,7 +160,7 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     {
         $rel = $this->getRel();
         if ($rel instanceof UpdateManyInterface) {
-            return $this->getRel()->update($model, $this);
+            return $rel->update($model, $this);
         }
     }
 

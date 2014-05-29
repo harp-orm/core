@@ -134,7 +134,7 @@ class LinkOne extends AbstractLink
     {
         $rel = $this->getRel();
         if ($rel instanceof UpdateOneInterface) {
-            return $this->getRel()->update($model, $this);
+            return $rel->update($model, $this);
         }
     }
 }
