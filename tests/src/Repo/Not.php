@@ -1,6 +1,6 @@
 <?php
 
-namespace CL\LunaCore\Test\Repo;
+namespace Harp\Core\Test\Repo;
 
 /*
  * @author     Ivan Kerin

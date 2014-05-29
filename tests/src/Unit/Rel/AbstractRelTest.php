@@ -1,15 +1,15 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Rel;
+namespace Harp\Core\Test\Unit\Rel;
 
-use CL\LunaCore\Rel\AbstractRel;
-use CL\LunaCore\Rel\AbstractRelMany;
-use CL\LunaCore\Model\Models;
-use CL\LunaCore\Repo\LinkMany;
-use CL\LunaCore\Test\AbstractTestCase;
+use Harp\Core\Rel\AbstractRel;
+use Harp\Core\Rel\AbstractRelMany;
+use Harp\Core\Model\Models;
+use Harp\Core\Repo\LinkMany;
+use Harp\Core\Test\AbstractTestCase;
 
 /**
- * @coversDefaultClass CL\LunaCore\Rel\AbstractRel
+ * @coversDefaultClass Harp\Core\Rel\AbstractRel
  */
 class AbstractRelTest extends AbstractTestCase
 {
@@ -26,7 +26,7 @@ class AbstractRelTest extends AbstractTestCase
         $name = 'test name';
 
         $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRel',
+            'Harp\Core\Rel\AbstractRel',
             [$name, $repo1, $repo2, ['test' => 'test option']]
         );
 
@@ -46,7 +46,7 @@ class AbstractRelTest extends AbstractTestCase
         $name = 'test name';
 
         $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRel',
+            'Harp\Core\Rel\AbstractRel',
             [$name, $repo1, $repo2]
         );
 
@@ -67,12 +67,12 @@ class AbstractRelTest extends AbstractTestCase
 
         $result = $rel->loadForeignModels($models);
 
-        $this->assertInstanceOf('CL\LunaCore\Model\Models', $result);
+        $this->assertInstanceOf('Harp\Core\Model\Models', $result);
         $this->assertEmpty($result);
 
         $result = $rel->loadForeignModels($models);
 
-        $this->assertInstanceOf('CL\LunaCore\Model\Models', $result);
+        $this->assertInstanceOf('Harp\Core\Model\Models', $result);
         $this->assertSame($expected, $result->toArray());
     }
 
@@ -94,7 +94,7 @@ class AbstractRelTest extends AbstractTestCase
         ];
 
         $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRelMany',
+            'Harp\Core\Rel\AbstractRelMany',
             ['test name', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')],
             '',
             true,

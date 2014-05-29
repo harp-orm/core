@@ -1,6 +1,6 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace Harp\Core\Test\Unit\Repo;
 
 trait Repo1Trait
 {

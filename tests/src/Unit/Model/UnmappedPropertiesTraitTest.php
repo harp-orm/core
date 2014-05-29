@@ -1,14 +1,14 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Model;
+namespace Harp\Core\Test\Unit\Model;
 
-use CL\LunaCore\Model\UnmappedPropertiesTrait;
-use CL\LunaCore\Test\AbstractTestCase;
+use Harp\Core\Model\UnmappedPropertiesTrait;
+use Harp\Core\Test\AbstractTestCase;
 
 class UnmappedPropertiesTraitTest extends AbstractTestCase
 {
     /**
-     * @covers CL\LunaCore\Model\UnmappedPropertiesTrait
+     * @covers Harp\Core\Model\UnmappedPropertiesTrait
      */
     public function testAll()
     {

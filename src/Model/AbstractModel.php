@@ -1,8 +1,8 @@
 <?php
 
-namespace CL\LunaCore\Model;
+namespace Harp\Core\Model;
 
-use CL\Carpo\Errors;
+use Harp\Validate\Errors;
 use LogicException;
 
 /*
@@ -17,7 +17,7 @@ abstract class AbstractModel
     use PropertiesAccessorTrait;
 
     /**
-     * @return CL\LunaCore\Repo\AbstractRepo
+     * @return Harp\Core\Repo\AbstractRepo
      */
     abstract public function getRepo();
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace CL\LunaCore\Test\Integration;
+namespace Harp\Core\Test\Integration;
 
-use CL\LunaCore\Test\Model;
-use CL\LunaCore\Test\Repo;
-use CL\LunaCore\Save\Save;
+use Harp\Core\Test\Model;
+use Harp\Core\Test\Repo;
+use Harp\Core\Save\Save;
 
 /**
  * @group integration

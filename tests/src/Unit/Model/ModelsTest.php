@@ -1,14 +1,14 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Model;
+namespace Harp\Core\Test\Unit\Model;
 
-use CL\LunaCore\Model\Models;
+use Harp\Core\Model\Models;
 use CL\Util\Objects;
 use SplObjectStorage;
-use CL\LunaCore\Test\AbstractTestCase;
+use Harp\Core\Test\AbstractTestCase;
 
 /**
- * @coversDefaultClass CL\LunaCore\Model\Models
+ * @coversDefaultClass Harp\Core\Model\Models
  */
 class ModelsTest extends AbstractTestCase
 {
@@ -203,7 +203,7 @@ class ModelsTest extends AbstractTestCase
             return $model->name !== 'test1';
         });
 
-        $this->assertInstanceOf('CL\LunaCore\Model\Models', $filtered);
+        $this->assertInstanceOf('Harp\Core\Model\Models', $filtered);
         $this->assertEquals([$source[2]], Objects::toArray($filtered->all()));
     }
 

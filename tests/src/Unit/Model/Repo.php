@@ -1,9 +1,9 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Model;
+namespace Harp\Core\Test\Unit\Model;
 
-use CL\LunaCore\Repo\AbstractRepo;
-use CL\Carpo\Assert\Present;
+use Harp\Core\Repo\AbstractRepo;
+use Harp\Validate\Assert\Present;
 
 class Repo extends AbstractRepo
 {

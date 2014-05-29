@@ -1,11 +1,11 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace Harp\Core\Test\Unit\Repo;
 
-use CL\LunaCore\Repo\LinkMap;
+use Harp\Core\Repo\LinkMap;
 
 /**
- * @coversDefaultClass CL\LunaCore\Repo\LinkMap
+ * @coversDefaultClass Harp\Core\Repo\LinkMap
  */
 class LinkMapTest extends AbstractRepoTestCase
 {
@@ -27,7 +27,7 @@ class LinkMapTest extends AbstractRepoTestCase
 
         $links = $map->get($model);
 
-        $this->assertInstanceOf('CL\LunaCore\Repo\Links', $links);
+        $this->assertInstanceOf('Harp\Core\Repo\Links', $links);
         $this->assertEmpty($links->all());
         $this->assertTrue($map->has($model));
         $this->assertTrue($map->isEmpty($model));

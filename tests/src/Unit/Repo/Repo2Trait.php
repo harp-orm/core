@@ -1,8 +1,8 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace Harp\Core\Test\Unit\Repo;
 
-use CL\LunaCore\Repo\AbstractRepo;
+use Harp\Core\Repo\AbstractRepo;
 
 trait Repo2Trait
 {

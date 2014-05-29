@@ -1,12 +1,12 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace Harp\Core\Test\Unit\Repo;
 
-use CL\LunaCore\Repo\IdentityMap;
-use CL\LunaCore\Model\State;
+use Harp\Core\Repo\IdentityMap;
+use Harp\Core\Model\State;
 
 /**
- * @coversDefaultClass CL\LunaCore\Repo\IdentityMap
+ * @coversDefaultClass Harp\Core\Repo\IdentityMap
  */
 class IdentityMapTest extends AbstractRepoTestCase
 {

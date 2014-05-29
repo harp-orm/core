@@ -1,13 +1,13 @@
 <?php
 
-namespace CL\LunaCore\Test\Rel;
+namespace Harp\Core\Test\Rel;
 
-use CL\LunaCore\Test\Repo\AbstractTestRepo;
-use CL\LunaCore\Rel\AbstractRelMany;
-use CL\LunaCore\Rel\UpdateManyInterface;
-use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Model\Models;
-use CL\LunaCore\Repo\LinkMany;
+use Harp\Core\Test\Repo\AbstractTestRepo;
+use Harp\Core\Rel\AbstractRelMany;
+use Harp\Core\Rel\UpdateManyInterface;
+use Harp\Core\Model\AbstractModel;
+use Harp\Core\Model\Models;
+use Harp\Core\Repo\LinkMany;
 
 /**
  * @author     Ivan Kerin

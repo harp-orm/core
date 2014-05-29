@@ -1,8 +1,8 @@
 <?php
 
-namespace CL\LunaCore\Repo;
+namespace Harp\Core\Repo;
 
-use CL\LunaCore\Model\AbstractModel;
+use Harp\Core\Model\AbstractModel;
 use SplObjectStorage;
 use InvalidArgumentException;
 

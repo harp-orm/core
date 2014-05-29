@@ -1,8 +1,8 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Model;
+namespace Harp\Core\Test\Unit\Model;
 
-use CL\LunaCore\Repo\AbstractRepo;
+use Harp\Core\Repo\AbstractRepo;
 
 class SoftDeleteRepo extends AbstractRepo
 {

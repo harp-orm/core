@@ -1,12 +1,12 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Model;
+namespace Harp\Core\Test\Unit\Model;
 
-use CL\LunaCore\Model\PropertiesAccessorTrait;
-use CL\LunaCore\Test\AbstractTestCase;
+use Harp\Core\Model\PropertiesAccessorTrait;
+use Harp\Core\Test\AbstractTestCase;
 
 /**
- * @coversDefaultClass CL\LunaCore\Model\PropertiesAccessorTrait
+ * @coversDefaultClass Harp\Core\Model\PropertiesAccessorTrait
  */
 class PropertiesAccessorTraitTest extends AbstractTestCase
 {

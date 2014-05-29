@@ -1,11 +1,11 @@
 <?php
 
-namespace CL\LunaCore\Repo;
+namespace Harp\Core\Repo;
 
-use CL\Carpo\Asserts;
-use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Model\State;
-use CL\LunaCore\Rel\AbstractRel;
+use Harp\Validate\Asserts;
+use Harp\Core\Model\AbstractModel;
+use Harp\Core\Model\State;
+use Harp\Core\Rel\AbstractRel;
 use ReflectionClass;
 use InvalidArgumentException;
 
@@ -274,7 +274,7 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  CL\Carpo\Asserts\AbstractAssert[] $asserts
+     * @param  Harp\Validate\Asserts\AbstractAssert[] $asserts
      * @return AbstractRepo                      $this
      */
     public function setAsserts(array $asserts)

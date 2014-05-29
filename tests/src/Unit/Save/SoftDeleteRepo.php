@@ -1,9 +1,9 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Save;
+namespace Harp\Core\Test\Unit\Save;
 
-use CL\LunaCore\Save\AbstractSaveRepo;
-use CL\LunaCore\Model\Models;
+use Harp\Core\Save\AbstractSaveRepo;
+use Harp\Core\Model\Models;
 use BadMethodCallException;
 
 class SoftDeleteRepo extends AbstractSaveRepo

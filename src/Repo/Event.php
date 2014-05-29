@@ -1,6 +1,6 @@
 <?php
 
-namespace CL\LunaCore\Repo;
+namespace Harp\Core\Repo;
 
 /**
  * @author     Ivan Kerin

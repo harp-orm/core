@@ -1,9 +1,9 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace Harp\Core\Test\Unit\Repo;
 
-use CL\LunaCore\Repo\AbstractRepo;
-use CL\LunaCore\Model\Models;
+use Harp\Core\Repo\AbstractRepo;
+use Harp\Core\Model\Models;
 use BadMethodCallException;
 
 class RepoOther extends AbstractRepo

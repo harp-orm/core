@@ -1,9 +1,9 @@
 <?php
 
-namespace CL\LunaCore\Test\Repo;
+namespace Harp\Core\Test\Repo;
 
-use CL\LunaCore\Test\Model;
-use CL\LunaCore\Test\Rel;
+use Harp\Core\Test\Model;
+use Harp\Core\Test\Rel;
 
 /**
  * @author     Ivan Kerin
@@ -20,7 +20,7 @@ class BlogPost extends Post {
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new BlogPost('CL\LunaCore\Test\Model\BlogPost', 'Post.json');
+            self::$instance = new BlogPost('Harp\Core\Test\Model\BlogPost', 'Post.json');
         }
 
         return self::$instance;

@@ -1,10 +1,10 @@
 <?php
 
-namespace CL\LunaCore\Test\Repo;
+namespace Harp\Core\Test\Repo;
 
-use CL\LunaCore\Test\Rel;
-use CL\LunaCore\Test\Model;
-use CL\Carpo\Assert;
+use Harp\Core\Test\Rel;
+use Harp\Core\Test\Model;
+use Harp\Validate\Assert;
 
 /**
  * @author     Ivan Kerin
@@ -21,7 +21,7 @@ class Post extends AbstractTestRepo {
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new Post('CL\LunaCore\Test\Model\Post', 'Post.json');
+            self::$instance = new Post('Harp\Core\Test\Model\Post', 'Post.json');
         }
 
         return self::$instance;

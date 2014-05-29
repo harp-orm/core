@@ -1,10 +1,10 @@
 <?php
 
-namespace CL\LunaCore\Test\Model;
+namespace Harp\Core\Test\Model;
 
-use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Model\SoftDeleteTrait;
-use CL\LunaCore\Test\Repo;
+use Harp\Core\Model\AbstractModel;
+use Harp\Core\Model\SoftDeleteTrait;
+use Harp\Core\Test\Repo;
 
 /**
  * @author     Ivan Kerin

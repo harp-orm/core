@@ -1,14 +1,14 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Rel;
+namespace Harp\Core\Test\Unit\Rel;
 
-use CL\LunaCore\Test\AbstractTestCase;
-use CL\LunaCore\Repo\LinkOne;
-use CL\LunaCore\Model\Models;
+use Harp\Core\Test\AbstractTestCase;
+use Harp\Core\Repo\LinkOne;
+use Harp\Core\Model\Models;
 use CL\Util\Objects;
 
 /**
- * @coversDefaultClass CL\LunaCore\Rel\AbstractRelOne
+ * @coversDefaultClass Harp\Core\Rel\AbstractRelOne
  */
 class AbstractRelOneTest extends AbstractTestCase
 {
@@ -16,7 +16,7 @@ class AbstractRelOneTest extends AbstractTestCase
     public function getRel()
     {
         return $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRelOne',
+            'Harp\Core\Rel\AbstractRelOne',
             ['test name', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
     }
@@ -32,7 +32,7 @@ class AbstractRelOneTest extends AbstractTestCase
         $rel = $this->getRel();
         $result = $rel->newLink($expected);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\LinkOne', $result);
+        $this->assertInstanceof('Harp\Core\Repo\LinkOne', $result);
         $this->assertSame($rel, $result->getRel());
         $this->assertSame($expected, $result->get());
 
@@ -49,7 +49,7 @@ class AbstractRelOneTest extends AbstractTestCase
         $rel = $this->getRel();
         $result = $rel->newEmptyLink();
 
-        $this->assertInstanceof('CL\LunaCore\Repo\LinkOne', $result);
+        $this->assertInstanceof('Harp\Core\Repo\LinkOne', $result);
         $this->assertInstanceof(__NAMESPACE__.'\Model', $result->get());
         $this->assertTrue($result->get()->isVoid());
     }
@@ -68,13 +68,13 @@ class AbstractRelOneTest extends AbstractTestCase
 
         $link = $rel->newLinkFrom($model, $links);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\LinkOne', $link);
+        $this->assertInstanceof('Harp\Core\Repo\LinkOne', $link);
         $this->assertInstanceof(__NAMESPACE__.'\Model', $link->get());
         $this->assertTrue($link->get()->isVoid());
 
         $link = $rel->newLinkFrom($model, [$foreign]);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\LinkOne', $link);
+        $this->assertInstanceof('Harp\Core\Repo\LinkOne', $link);
         $this->assertInstanceof(__NAMESPACE__.'\Model', $link->get());
         $this->assertSame($foreign, $link->get());
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace CL\LunaCore\Rel;
+namespace Harp\Core\Rel;
 
-use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Model\Models;
-use CL\LunaCore\Repo\AbstractRepo;
+use Harp\Core\Model\AbstractModel;
+use Harp\Core\Model\Models;
+use Harp\Core\Repo\AbstractRepo;
 use Closure;
 
 /**

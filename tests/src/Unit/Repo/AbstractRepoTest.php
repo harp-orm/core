@@ -1,27 +1,27 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace Harp\Core\Test\Unit\Repo;
 
-use CL\LunaCore\Repo\AbstractRepo;
-use CL\LunaCore\Repo\Links;
-use CL\LunaCore\Repo\LinkOne;
-use CL\LunaCore\Repo\LinkMap;
-use CL\LunaCore\Repo\Event;
-use CL\LunaCore\Test\Model\User;
-use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Model\State;
+use Harp\Core\Repo\AbstractRepo;
+use Harp\Core\Repo\Links;
+use Harp\Core\Repo\LinkOne;
+use Harp\Core\Repo\LinkMap;
+use Harp\Core\Repo\Event;
+use Harp\Core\Test\Model\User;
+use Harp\Core\Model\AbstractModel;
+use Harp\Core\Model\State;
 use CL\Util\Objects;
-use CL\Carpo\Assert\Present;
+use Harp\Validate\Assert\Present;
 
 /**
- * @coversDefaultClass CL\LunaCore\Repo\AbstractRepo
+ * @coversDefaultClass Harp\Core\Repo\AbstractRepo
  */
 class AbstractRepoTest extends AbstractRepoTestCase
 {
     public function getRepoInitialized($initialized)
     {
         $repo = $this->getMockForAbstractClass(
-            'CL\LunaCore\Repo\AbstractRepo',
+            'Harp\Core\Repo\AbstractRepo',
             [__NAMESPACE__.'\Model']
         );
 
@@ -105,7 +105,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(false);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\LinkMap', $repo->getLinkMap());
+        $this->assertInstanceof('Harp\Core\Repo\LinkMap', $repo->getLinkMap());
     }
 
     /**
@@ -115,7 +115,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(false);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\IdentityMap', $repo->getIdentityMap());
+        $this->assertInstanceof('Harp\Core\Repo\IdentityMap', $repo->getIdentityMap());
     }
 
     /**
@@ -195,7 +195,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(true);
 
-        $this->assertInstanceof('CL\LunaCore\Repo\EventListeners', $repo->getEventListeners());
+        $this->assertInstanceof('Harp\Core\Repo\EventListeners', $repo->getEventListeners());
 
         $repo
             ->addEventBeforeDelete('before delete callback')
@@ -235,7 +235,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $repo = $this->getRepoInitialized(true);
 
-        $this->assertInstanceof('CL\Carpo\Asserts', $repo->getAsserts());
+        $this->assertInstanceof('Harp\Validate\Asserts', $repo->getAsserts());
 
         $asserts = [
             new Present('name'),
@@ -256,10 +256,10 @@ class AbstractRepoTest extends AbstractRepoTestCase
     {
         $model = new Model();
 
-        $eventListener = $this->getMock('CL\LunaCore\Repo\EventListeners');
+        $eventListener = $this->getMock('Harp\Core\Repo\EventListeners');
 
         $repo = $this->getMockForAbstractClass(
-            'CL\LunaCore\Repo\AbstractRepo',
+            'Harp\Core\Repo\AbstractRepo',
             [__NAMESPACE__.'\Model'],
             '',
             true,

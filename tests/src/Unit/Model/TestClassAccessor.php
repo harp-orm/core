@@ -1,8 +1,8 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Model;
+namespace Harp\Core\Test\Unit\Model;
 
-use CL\LunaCore\Model\PropertiesAccessorTrait;
+use Harp\Core\Model\PropertiesAccessorTrait;
 
 class TestClassAccessor
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Rel;
+namespace Harp\Core\Test\Unit\Rel;
 
-use CL\LunaCore\Repo\AbstractRepo;
+use Harp\Core\Repo\AbstractRepo;
 
 class Repo extends AbstractRepo
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace Harp\Core\Test\Unit\Repo;
 
-use CL\LunaCore\Repo\Event;
+use Harp\Core\Repo\Event;
 
 /**
- * @covers CL\LunaCore\Repo\Event
+ * @covers Harp\Core\Repo\Event
  */
 class EventTest extends AbstractRepoTestCase
 {

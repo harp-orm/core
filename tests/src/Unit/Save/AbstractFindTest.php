@@ -1,15 +1,15 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Save;
+namespace Harp\Core\Test\Unit\Save;
 
-use CL\LunaCore\Test\AbstractTestCase;
-use CL\LunaCore\Model\State;
-use CL\LunaCore\Model\Models;
-use CL\LunaCore\Repo\RepoModels;
-use CL\LunaCore\Save\AbstractFind;
+use Harp\Core\Test\AbstractTestCase;
+use Harp\Core\Model\State;
+use Harp\Core\Model\Models;
+use Harp\Core\Repo\RepoModels;
+use Harp\Core\Save\AbstractFind;
 
 /**
- * @coversDefaultClass CL\LunaCore\Save\AbstractFind
+ * @coversDefaultClass Harp\Core\Save\AbstractFind
  */
 class AbstractFindTest extends AbstractTestCase
 {
@@ -151,12 +151,12 @@ class AbstractFindTest extends AbstractTestCase
             ->will($this->onConsecutiveCalls([$model1, $model3], [$model2, $model4]));
 
         $loaded = $find->load(State::DELETED | State::SAVED);
-        $this->assertInstanceOf('CL\LunaCore\Model\Models', $loaded);
+        $this->assertInstanceOf('Harp\Core\Model\Models', $loaded);
 
         $this->assertSame([$model1, $model3], $loaded->toArray());
 
         $loaded = $find->load(State::DELETED | State::SAVED);
-        $this->assertInstanceOf('CL\LunaCore\Model\Models', $loaded);
+        $this->assertInstanceOf('Harp\Core\Model\Models', $loaded);
 
         $this->assertSame([$model1, $model3], $loaded->toArray());
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace CL\LunaCore\Model;
+namespace Harp\Core\Model;
 
 /*
  * @author     Ivan Kerin

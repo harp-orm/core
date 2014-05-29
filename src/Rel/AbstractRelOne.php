@@ -1,9 +1,9 @@
 <?php
 
-namespace CL\LunaCore\Rel;
+namespace Harp\Core\Rel;
 
-use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Repo\LinkOne;
+use Harp\Core\Model\AbstractModel;
+use Harp\Core\Repo\LinkOne;
 
 /**
  * @author     Ivan Kerin

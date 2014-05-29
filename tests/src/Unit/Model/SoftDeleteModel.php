@@ -1,9 +1,9 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Model;
+namespace Harp\Core\Test\Unit\Model;
 
-use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Model\SoftDeleteTrait;
+use Harp\Core\Model\AbstractModel;
+use Harp\Core\Model\SoftDeleteTrait;
 
 class SoftDeleteModel extends AbstractModel
 {

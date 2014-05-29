@@ -1,14 +1,14 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Model;
+namespace Harp\Core\Test\Unit\Model;
 
-use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Model\State;
-use CL\LunaCore\Repo\Event;
-use CL\LunaCore\Test\AbstractTestCase;
+use Harp\Core\Model\AbstractModel;
+use Harp\Core\Model\State;
+use Harp\Core\Repo\Event;
+use Harp\Core\Test\AbstractTestCase;
 
 /**
- * @coversDefaultClass CL\LunaCore\Model\AbstractModel
+ * @coversDefaultClass Harp\Core\Model\AbstractModel
  */
 class AbstractModelTest extends AbstractTestCase
 {
@@ -229,7 +229,7 @@ class AbstractModelTest extends AbstractTestCase
     {
         $model = new Model();
 
-        $this->assertInstanceOf('CL\Carpo\Errors', $model->getErrors());
+        $this->assertInstanceOf('Harp\Validate\Errors', $model->getErrors());
         $this->assertCount(0, $model->getErrors());
         $this->assertTrue($model->isEmptyErrors());
 
@@ -239,7 +239,7 @@ class AbstractModelTest extends AbstractTestCase
         $result = $model->validate();
         $this->assertFalse($result);
 
-        $this->assertInstanceOf('CL\Carpo\Errors', $model->getErrors());
+        $this->assertInstanceOf('Harp\Validate\Errors', $model->getErrors());
         $this->assertCount(2, $model->getErrors());
         $this->assertFalse($model->isEmptyErrors());
         $this->assertCount(1, $model->getErrors()->onlyFor('name'));

@@ -1,12 +1,12 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace Harp\Core\Test\Unit\Repo;
 
-use CL\LunaCore\Repo\LinkMany;
-use CL\LunaCore\Model\Models;
+use Harp\Core\Repo\LinkMany;
+use Harp\Core\Model\Models;
 
 /**
- * @coversDefaultClass CL\LunaCore\Repo\LinkMany
+ * @coversDefaultClass Harp\Core\Repo\LinkMany
  */
 class LinkManyTest extends AbstractRepoTestCase
 {
@@ -74,7 +74,7 @@ class LinkManyTest extends AbstractRepoTestCase
     public function testNoDelete()
     {
         $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRelMany',
+            'Harp\Core\Rel\AbstractRelMany',
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
@@ -117,7 +117,7 @@ class LinkManyTest extends AbstractRepoTestCase
     public function testNoInsert()
     {
         $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRelMany',
+            'Harp\Core\Rel\AbstractRelMany',
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
@@ -159,7 +159,7 @@ class LinkManyTest extends AbstractRepoTestCase
     public function testNoUpdate()
     {
         $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRelMany',
+            'Harp\Core\Rel\AbstractRelMany',
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
@@ -322,7 +322,7 @@ class LinkManyTest extends AbstractRepoTestCase
 
         $added = $link->getAdded();
 
-        $this->assertInstanceOf('CL\LunaCore\Model\Models', $added);
+        $this->assertInstanceOf('Harp\Core\Model\Models', $added);
         $this->assertSame([$model1, $model2], $added->toArray());
     }
 
@@ -341,7 +341,7 @@ class LinkManyTest extends AbstractRepoTestCase
 
         $removed = $link->getRemoved();
 
-        $this->assertInstanceOf('CL\LunaCore\Model\Models', $removed);
+        $this->assertInstanceOf('Harp\Core\Model\Models', $removed);
         $this->assertSame($items, $removed->toArray());
     }
 
@@ -363,7 +363,7 @@ class LinkManyTest extends AbstractRepoTestCase
 
         $result = $link->getCurrentAndOriginal();
 
-        $this->assertInstanceOf('CL\LunaCore\Model\Models', $result);
+        $this->assertInstanceOf('Harp\Core\Model\Models', $result);
 
         $this->assertCount(4, $result);
         $this->assertTrue($result->has($model1));

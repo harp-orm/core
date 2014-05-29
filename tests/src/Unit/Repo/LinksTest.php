@@ -1,11 +1,11 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace Harp\Core\Test\Unit\Repo;
 
-use CL\LunaCore\Repo\Links;
+use Harp\Core\Repo\Links;
 
 /**
- * @coversDefaultClass CL\LunaCore\Repo\Links
+ * @coversDefaultClass Harp\Core\Repo\Links
  */
 class LinksTest extends AbstractRepoTestCase
 {
@@ -70,7 +70,7 @@ class LinksTest extends AbstractRepoTestCase
 
         $result = $links->getModels();
 
-        $this->assertInstanceOf('CL\LunaCore\Model\Models', $result);
+        $this->assertInstanceOf('Harp\Core\Model\Models', $result);
         $this->assertTrue($result->has($model1));
         $this->assertTrue($result->has($model2));
         $this->assertTrue($result->has($model3));

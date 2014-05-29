@@ -1,12 +1,12 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Model;
+namespace Harp\Core\Test\Unit\Model;
 
-use CL\LunaCore\Model\DirtyTrackingTrait;
-use CL\LunaCore\Test\AbstractTestCase;
+use Harp\Core\Model\DirtyTrackingTrait;
+use Harp\Core\Test\AbstractTestCase;
 
 /**
- * @coversDefaultClass CL\LunaCore\Model\DirtyTrackingTrait
+ * @coversDefaultClass Harp\Core\Model\DirtyTrackingTrait
  */
 class DirtyTrackingTraitTest extends AbstractTestCase
 {

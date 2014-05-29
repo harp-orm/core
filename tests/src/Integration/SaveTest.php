@@ -1,10 +1,10 @@
 <?php
 
-namespace CL\LunaCore\Test\Integration;
+namespace Harp\Core\Test\Integration;
 
-use CL\LunaCore\Test\Model;
-use CL\LunaCore\Test\Repo;
-use CL\LunaCore\Save\Save;
+use Harp\Core\Test\Model;
+use Harp\Core\Test\Repo;
+use Harp\Core\Save\Save;
 
 /**
  * @group integration
@@ -67,7 +67,7 @@ class SaveTest extends AbstractIntegrationTestCase
                 'name' => 'post 1',
                 'body' => 'my post 1',
                 'userId' => 1,
-                'class' => 'CL\LunaCore\Test\Model\Post',
+                'class' => 'Harp\Core\Test\Model\Post',
             ],
             2 => [
                 'id' => 2,
@@ -75,7 +75,7 @@ class SaveTest extends AbstractIntegrationTestCase
                 'body' => 'my post 2',
                 'userId' => 1,
                 'url' => 'http://example.com/post2',
-                'class' => 'CL\LunaCore\Test\Model\BlogPost',
+                'class' => 'Harp\Core\Test\Model\BlogPost',
             ],
             3 => [
                 'id' => 3,
@@ -83,14 +83,14 @@ class SaveTest extends AbstractIntegrationTestCase
                 'body' => 'some body',
                 'userId' => 3,
                 'url' => 'http://example.com/postnew',
-                'class' => 'CL\LunaCore\Test\Model\BlogPost',
+                'class' => 'Harp\Core\Test\Model\BlogPost',
             ],
             4 => [
                 'id' => 4,
                 'name' => 'news',
                 'body' => 'some other body',
                 'userId' => 3,
-                'class' => 'CL\LunaCore\Test\Model\Post',
+                'class' => 'Harp\Core\Test\Model\Post',
             ],
         ];
 

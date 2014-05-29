@@ -1,13 +1,13 @@
 <?php
 
-namespace CL\LunaCore\Repo;
+namespace Harp\Core\Repo;
 
-use CL\LunaCore\Rel\AbstractRelOne;
-use CL\LunaCore\Rel\DeleteOneInterface;
-use CL\LunaCore\Rel\InsertOneInterface;
-use CL\LunaCore\Rel\UpdateOneInterface;
-use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Model\Models;
+use Harp\Core\Rel\AbstractRelOne;
+use Harp\Core\Rel\DeleteOneInterface;
+use Harp\Core\Rel\InsertOneInterface;
+use Harp\Core\Rel\UpdateOneInterface;
+use Harp\Core\Model\AbstractModel;
+use Harp\Core\Model\Models;
 
 /**
  * @author     Ivan Kerin

@@ -1,13 +1,13 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Model;
+namespace Harp\Core\Test\Unit\Model;
 
-use CL\LunaCore\Model\SoftDeleteTrait;
-use CL\LunaCore\Model\State;
-use CL\LunaCore\Test\AbstractTestCase;
+use Harp\Core\Model\SoftDeleteTrait;
+use Harp\Core\Model\State;
+use Harp\Core\Test\AbstractTestCase;
 
 /**
- * @coversDefaultClass CL\LunaCore\Model\SoftDeleteTrait
+ * @coversDefaultClass Harp\Core\Model\SoftDeleteTrait
  */
 class SoftDeleteTraitTest extends AbstractTestCase
 {

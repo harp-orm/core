@@ -1,8 +1,8 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Model;
+namespace Harp\Core\Test\Unit\Model;
 
-use CL\LunaCore\Model\DirtyTrackingTrait;
+use Harp\Core\Model\DirtyTrackingTrait;
 
 class TestClassDirty
 {

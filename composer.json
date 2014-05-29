@@ -1,5 +1,5 @@
 {
-    "name": "clippings/luna-core",
+    "name": "harp-orm/core",
     "description": "DataMapper style ORM Core Componenets",
     "license": "BSD-3-Clause",
     "authors": [
@@ -11,13 +11,13 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "clippings/carpo": "dev-master",
+        "harp-orm/validate": "dev-master",
         "clippings/util": "dev-master"
     },
     "require-dev": {
         "clippings/env-backup": "~0.2.5"
     },
     "autoload": {
-        "psr-4": {"CL\\LunaCore\\": "src/"}
+        "psr-4": {"Harp\\Core\\": "src/"}
     }
 }

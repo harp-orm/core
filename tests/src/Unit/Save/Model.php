@@ -1,8 +1,8 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Save;
+namespace Harp\Core\Test\Unit\Save;
 
-use CL\LunaCore\Model\AbstractModel;
+use Harp\Core\Model\AbstractModel;
 
 class Model extends AbstractModel
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace CL\LunaCore\Test\Integration;
+namespace Harp\Core\Test\Integration;
 
 use CL\EnvBackup\Env;
 use CL\EnvBackup\DirectoryParam;
-use CL\LunaCore\Test\Repo;
-use CL\LunaCore\Test\AbstractTestCase;
+use Harp\Core\Test\Repo;
+use Harp\Core\Test\AbstractTestCase;
 
 abstract class AbstractIntegrationTestCase extends AbstractTestCase
 {
@@ -35,7 +35,7 @@ abstract class AbstractIntegrationTestCase extends AbstractTestCase
                         "name": "post 1",
                         "body": "my post 1",
                         "userId": 1,
-                        "class": "CL\\\\LunaCore\\\\Test\\\\Model\\\\Post"
+                        "class": "Harp\\\\Core\\\\Test\\\\Model\\\\Post"
                     },
                     "2": {
                         "id": 2,
@@ -43,7 +43,7 @@ abstract class AbstractIntegrationTestCase extends AbstractTestCase
                         "body": "my post 2",
                         "userId": 1,
                         "url": "http:\/\/example.com\/post2",
-                        "class": "CL\\\\LunaCore\\\\Test\\\\Model\\\\BlogPost"
+                        "class": "Harp\\\\Core\\\\Test\\\\Model\\\\BlogPost"
                     }
                 }',
                 'User.json' => '{

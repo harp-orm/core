@@ -1,10 +1,10 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace Harp\Core\Test\Unit\Repo;
 
-use CL\LunaCore\Repo\LinkMany;
-use CL\LunaCore\Repo\LinkOne;
-use CL\LunaCore\Test\AbstractTestCase;
+use Harp\Core\Repo\LinkMany;
+use Harp\Core\Repo\LinkOne;
+use Harp\Core\Test\AbstractTestCase;
 
 abstract class AbstractRepoTestCase extends AbstractTestCase
 {

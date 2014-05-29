@@ -1,10 +1,10 @@
 <?php
 
-namespace CL\LunaCore\Repo;
+namespace Harp\Core\Repo;
 
-use CL\LunaCore\Rel\AbstractRel;
-use CL\LunaCore\Model\AbstractModel;
-use CL\LunaCore\Model\Models;
+use Harp\Core\Rel\AbstractRel;
+use Harp\Core\Model\AbstractModel;
+use Harp\Core\Model\Models;
 
 /**
  * @author     Ivan Kerin

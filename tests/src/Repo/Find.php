@@ -1,9 +1,9 @@
 <?php
 
-namespace CL\LunaCore\Test\Repo;
+namespace Harp\Core\Test\Repo;
 
-use CL\LunaCore\Model\State;
-use CL\LunaCore\Save\AbstractFind;
+use Harp\Core\Model\State;
+use Harp\Core\Save\AbstractFind;
 
 /*
  * @author     Ivan Kerin

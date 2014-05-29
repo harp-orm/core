@@ -1,13 +1,13 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace Harp\Core\Test\Unit\Repo;
 
-use CL\LunaCore\Repo\RepoModels;
+use Harp\Core\Repo\RepoModels;
 use CL\Util\Objects;
-use CL\LunaCore\Test\AbstractTestCase;
+use Harp\Core\Test\AbstractTestCase;
 
 /**
- * @coversDefaultClass CL\LunaCore\Repo\RepoModels
+ * @coversDefaultClass Harp\Core\Repo\RepoModels
  */
 class ModelsTest extends AbstractTestCase
 {

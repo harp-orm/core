@@ -1,12 +1,12 @@
 <?php
 
-namespace CL\LunaCore\Test\Unit\Repo;
+namespace Harp\Core\Test\Unit\Repo;
 
-use CL\LunaCore\Repo\LinkOne;
-use CL\LunaCore\Model\Models;
+use Harp\Core\Repo\LinkOne;
+use Harp\Core\Model\Models;
 
 /**
- * @coversDefaultClass CL\LunaCore\Repo\LinkOne
+ * @coversDefaultClass Harp\Core\Repo\LinkOne
  */
 class LinkOneTest extends AbstractRepoTestCase
 {
@@ -61,7 +61,7 @@ class LinkOneTest extends AbstractRepoTestCase
     public function testNoDelete()
     {
         $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRelOne',
+            'Harp\Core\Rel\AbstractRelOne',
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
@@ -106,7 +106,7 @@ class LinkOneTest extends AbstractRepoTestCase
     public function testNoInsert()
     {
         $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRelOne',
+            'Harp\Core\Rel\AbstractRelOne',
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
@@ -150,7 +150,7 @@ class LinkOneTest extends AbstractRepoTestCase
     public function testNoUpdate()
     {
         $rel = $this->getMockForAbstractClass(
-            'CL\LunaCore\Rel\AbstractRelOne',
+            'Harp\Core\Rel\AbstractRelOne',
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 

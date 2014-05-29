@@ -1,8 +1,8 @@
 <?php
 
-namespace CL\LunaCore\Test\Integration;
+namespace Harp\Core\Test\Integration;
 
-use CL\LunaCore\Test\Repo;
+use Harp\Core\Test\Repo;
 
 /**
  * @group integration
