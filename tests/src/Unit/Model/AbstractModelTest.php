@@ -14,7 +14,6 @@ class AbstractModelTest extends AbstractTestCase
 {
    /**
      * @covers ::__construct
-     * @covers ::formatLoadedData
      * @covers ::loadData
      * @covers ::saveData
      * @covers ::getState
