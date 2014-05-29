@@ -43,21 +43,23 @@ abstract class AbstractModel
             $this->setProperties($properties);
         }
 
-        $this->formatLoadedData();
+        $this->loadData();
 
         $this->resetOriginals();
     }
 
-    public function formatLoadedData()
+    public function loadData()
     {
         if ($this->getRepo()->getInherited()) {
             $this->class = $this->getRepo()->getModelClass();
         }
+
+        return $this;
     }
 
-    public function getDataToSave()
+    public function saveData()
     {
-        return $this->getProperties();
+        return $this;
     }
 
     /**
