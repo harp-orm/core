@@ -287,7 +287,7 @@ class Models implements Countable, Iterator
     /**
      * Implement Iterator
      *
-     * @return AbstractModel
+     * @return Models
      */
     public function next()
     {

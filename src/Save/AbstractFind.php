@@ -156,7 +156,7 @@ abstract class AbstractFind
     }
 
     /**
-     * @return Models
+     * @return RepoModels
      */
     public function load($flags = null)
     {
@@ -168,7 +168,7 @@ abstract class AbstractFind
 
     /**
      * @param  array  $rels
-     * @return Models
+     * @return RepoModels
      */
     public function loadWith(array $rels, $flags = null)
     {

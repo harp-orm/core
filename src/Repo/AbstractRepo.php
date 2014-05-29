@@ -275,7 +275,7 @@ abstract class AbstractRepo
 
     /**
      * @param  Harp\Validate\Asserts\AbstractAssert[] $asserts
-     * @return AbstractRepo                      $this
+     * @return AbstractRepo                           $this
      */
     public function setAsserts(array $asserts)
     {
