@@ -6,7 +6,7 @@ use Harp\Core\Rel\AbstractRelMany;
 use Harp\Core\Repo\LinkMany;
 use Harp\Core\Test\AbstractTestCase;
 use Harp\Core\Model\Models;
-use CL\Util\Objects;
+use Harp\Util\Objects;
 
 /**
  * @coversDefaultClass Harp\Core\Rel\AbstractRelMany

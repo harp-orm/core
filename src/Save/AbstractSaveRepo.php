@@ -8,7 +8,7 @@ use Harp\Core\Model\Models;
 use Harp\Core\Repo\AbstractRepo;
 use Harp\Core\Repo\AbstractLink;
 use Harp\Core\Repo\Event;
-use CL\Util\Arr;
+use Harp\Util\Arr;
 use InvalidArgumentException;
 
 /*

@@ -2,7 +2,7 @@
 
 namespace Harp\Core\Model;
 
-use CL\Util\Objects;
+use Harp\Util\Objects;
 use SplObjectStorage;
 use Closure;
 use Countable;

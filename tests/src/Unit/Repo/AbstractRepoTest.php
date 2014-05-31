@@ -10,7 +10,7 @@ use Harp\Core\Repo\Event;
 use Harp\Core\Test\Model\User;
 use Harp\Core\Model\AbstractModel;
 use Harp\Core\Model\State;
-use CL\Util\Objects;
+use Harp\Util\Objects;
 use Harp\Validate\Assert\Present;
 
 /**

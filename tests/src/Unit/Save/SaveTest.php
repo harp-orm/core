@@ -10,7 +10,7 @@ use Harp\Core\Repo\AbstractLink;
 use Harp\Core\Model\State;
 use Harp\Core\Model\Models;
 use Harp\Core\Test\AbstractTestCase;
-use CL\Util\Objects;
+use Harp\Util\Objects;
 use SplObjectStorage;
 
 /**

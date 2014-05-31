@@ -3,7 +3,7 @@
 namespace Harp\Core\Test\Unit\Model;
 
 use Harp\Core\Model\Models;
-use CL\Util\Objects;
+use Harp\Util\Objects;
 use SplObjectStorage;
 use Harp\Core\Test\AbstractTestCase;
 

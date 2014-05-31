@@ -3,7 +3,7 @@
 namespace Harp\Core\Test\Unit\Repo;
 
 use Harp\Core\Repo\RepoModels;
-use CL\Util\Objects;
+use Harp\Util\Objects;
 use Harp\Core\Test\AbstractTestCase;
 
 /**

@@ -5,7 +5,7 @@ namespace Harp\Core\Test\Unit\Rel;
 use Harp\Core\Test\AbstractTestCase;
 use Harp\Core\Repo\LinkOne;
 use Harp\Core\Model\Models;
-use CL\Util\Objects;
+use Harp\Util\Objects;
 
 /**
  * @coversDefaultClass Harp\Core\Rel\AbstractRelOne
