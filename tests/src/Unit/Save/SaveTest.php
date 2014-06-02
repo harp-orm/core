@@ -235,7 +235,7 @@ class SaveTest extends AbstractTestCase
      * @dataProvider dataRelModifiers
      * @covers ::addFromDeleteRels
      * @covers ::addFromInsertRels
-     * @covers ::callUpdateRels
+     * @covers ::addFromUpdateRels
      */
     public function testRelModifiers($method, $trigger)
     {
