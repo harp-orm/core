@@ -193,6 +193,7 @@ class SaveTest extends AbstractTestCase
 
         $model1 = new Model();
         $model2 = new Model();
+        $model3 = new Model();
 
         $link1 = new LinkOne(Repo::get()->getRel('one'), $model2);
         $link2 = new LinkMany(Repo::get()->getRel('many'), []);
@@ -210,19 +211,23 @@ class SaveTest extends AbstractTestCase
             [$model2, $link2]
         ];
 
-        $save->eachLink(function(Model $model, AbstractLink $link) use ($expected, & $i) {
+        $save->eachLink(function(Model $model, AbstractLink $link) use ($expected, $model3, & $i) {
             $this->assertSame($expected[$i][0], $model);
             $this->assertSame($expected[$i][1], $link);
             $i++;
+
+            return new Models([$model3]);
         });
+
+        $this->assertTrue($save->has($model3));
     }
 
     public function dataRelModifiers()
     {
         return [
-            ['delete', 'addFromDeleteRels', true],
-            ['insert', 'addFromInsertRels', true],
-            ['update', 'callUpdateRels', false],
+            ['delete', 'addFromDeleteRels'],
+            ['insert', 'addFromInsertRels'],
+            ['update', 'addFromUpdateRels'],
         ];
     }
 
@@ -232,7 +237,7 @@ class SaveTest extends AbstractTestCase
      * @covers ::addFromInsertRels
      * @covers ::callUpdateRels
      */
-    public function testRelModifiers($method, $trigger, $expectAdd)
+    public function testRelModifiers($method, $trigger)
     {
         $save = new Save();
 
@@ -269,9 +274,7 @@ class SaveTest extends AbstractTestCase
 
         $save->$trigger();
 
-        if ($expectAdd) {
-            $this->assertTrue($save->has($model5));
-        }
+        $this->assertTrue($save->has($model5));
     }
 
     /**

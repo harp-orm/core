@@ -135,7 +135,9 @@ class Save implements Countable
                 $links = $linkMap->get($model)->all();
 
                 foreach ($links as $link) {
-                    $yield($model, $link);
+                    if (($new = $yield($model, $link))) {
+                        $this->addAll($new);
+                    }
                 }
             }
         }
@@ -144,21 +146,21 @@ class Save implements Countable
     public function addFromDeleteRels()
     {
         $this->eachLink(function (AbstractModel $model, AbstractLink $link) {
-            $this->addAll($link->delete($model));
+            return $link->delete($model);
         });
     }
 
     public function addFromInsertRels()
     {
         $this->eachLink(function (AbstractModel $model, AbstractLink $link) {
-            $this->addAll($link->insert($model));
+            return $link->insert($model);
         });
     }
 
-    public function callUpdateRels()
+    public function addFromUpdateRels()
     {
         $this->eachLink(function (AbstractModel $model, AbstractLink $link) {
-            $link->update($model);
+            return $link->update($model);
         });
     }
 
@@ -176,7 +178,7 @@ class Save implements Countable
             $repo->insertModels($models);
         });
 
-        $this->callUpdateRels();
+        $this->addFromUpdateRels();
 
         $this->getModelsToUpdate()->byRepo(function (AbstractSaveRepo $repo, Models $models) {
             $repo->updateModels($models);
