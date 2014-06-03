@@ -42,20 +42,27 @@ abstract class AbstractSaveRepo extends AbstractRepo
     abstract public function insert(Models $models);
 
     /**
-     * @param  mixed         $id
+     * @param  string|id     $id
      * @return AbstractModel
      */
     public function find($id, $flags = null)
     {
-        $models = $this
+        return $this
             ->findAll()
-            ->whereKey($id)
-            ->limit(1)
-            ->loadRaw($flags);
+            ->where($this->getPrimaryKey(), $id)
+            ->loadFirst($flags);
+    }
 
-        $model = reset($models);
-
-        return $model ? $this->getIdentityMap()->get($model) : $this->newVoidModel();
+    /**
+     * @param  string        $id
+     * @return AbstractModel
+     */
+    public function findNamed($name, $flags = null)
+    {
+        return $this
+            ->findAll()
+            ->where($this->getNameKey(), $name)
+            ->loadFirst($flags);
     }
 
     /**

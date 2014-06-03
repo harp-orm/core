@@ -63,6 +63,38 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
+     * @covers ::findNamed
+     */
+    public function testFindNamed()
+    {
+        $model = new Model();
+
+        $this->find
+            ->expects($this->exactly(2))
+            ->method('where')
+            ->with($this->equalTo('name'), $this->equalTo('test'))
+            ->will($this->returnSelf());
+
+        $this->find
+            ->expects($this->exactly(2))
+            ->method('limit')
+            ->with($this->equalTo(1))
+            ->will($this->returnSelf());
+
+        $this->find
+            ->expects($this->exactly(2))
+            ->method('execute')
+            ->will($this->onConsecutiveCalls([$model], []));
+
+        $result = $this->repo->findNamed('test');
+        $this->assertSame($model, $result);
+
+        $result = $this->repo->findNamed('test');
+        $this->assertInstanceOf(__NAMESPACE__.'\Model', $result);
+        $this->assertTrue($result->isVoid());
+    }
+
+    /**
      * @covers ::newSave
      */
     public function testNewSave()

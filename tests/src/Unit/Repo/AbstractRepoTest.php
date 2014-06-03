@@ -69,6 +69,21 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::getNameKey
+     * @covers ::setNameKey
+     */
+    public function testNameKey()
+    {
+        $repo = $this->getRepoInitialized(true);
+
+        $this->assertEquals('name', $repo->getNameKey());
+
+        $repo->setNameKey('title');
+
+        $this->assertEquals('title', $repo->getNameKey());
+    }
+
+    /**
      * @covers ::getSoftDelete
      * @covers ::setSoftDelete
      */

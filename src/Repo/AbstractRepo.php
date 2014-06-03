@@ -49,6 +49,11 @@ abstract class AbstractRepo
     private $primaryKey = 'id';
 
     /**
+     * @var string
+     */
+    private $nameKey = 'name';
+
+    /**
      * @var AbstractRel[]
      */
     private $rels = [];
@@ -185,6 +190,27 @@ abstract class AbstractRepo
     public function setPrimaryKey($primaryKey)
     {
         $this->primaryKey = $primaryKey;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameKey()
+    {
+        $this->initializeOnce();
+
+        return $this->nameKey;
+    }
+
+    /**
+     * @param string
+     * @return AbstractRepo $this
+     */
+    public function setNameKey($nameKey)
+    {
+        $this->nameKey = $nameKey;
 
         return $this;
     }
