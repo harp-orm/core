@@ -22,6 +22,22 @@ class AbstractRelManyTest extends AbstractTestCase
     }
 
     /**
+     * @covers ::getLinkClass
+     * @covers ::setLinkClass
+     */
+    public function testCustomClass()
+    {
+        $rel = $this->getRel();
+        $rel->setLinkClass(__NAMESPACE__.'\LinkManyExtension');
+
+        $this->assertEquals(__NAMESPACE__.'\LinkManyExtension', $rel->getLinkClass());
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        $rel->setLinkClass(__NAMESPACE__.'\Model');
+    }
+
+    /**
      * @covers ::newLinkFrom
      */
     public function testNewLinkFrom()
@@ -34,6 +50,12 @@ class AbstractRelManyTest extends AbstractTestCase
         $result = $rel->newLinkFrom($expected);
 
         $this->assertInstanceof('Harp\Core\Repo\LinkMany', $result);
+        $this->assertSame($expected, $result->toArray());
+
+        $rel->setLinkClass(__NAMESPACE__.'\LinkManyExtension');
+        $result = $rel->newLinkFrom($expected);
+
+        $this->assertInstanceof(__NAMESPACE__.'\LinkManyExtension', $result);
         $this->assertSame($expected, $result->toArray());
 
         $result2 = $rel->newLinkFrom($expected2);

@@ -32,7 +32,8 @@ class User extends AbstractTestRepo {
         $this
             ->addRels([
                 new Rel\One('address', $this, Address::get()),
-                new Rel\Many('posts', $this, Post::get()),
+                (new Rel\Many('posts', $this, Post::get()))
+                    ->setLinkClass(__NAMESPACE__.'\LinkManyPosts'),
             ])
             ->setSoftDelete(true)
             ->setAsserts([

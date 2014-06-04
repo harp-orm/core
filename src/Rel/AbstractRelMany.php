@@ -4,6 +4,7 @@ namespace Harp\Core\Rel;
 
 use Harp\Core\Model\AbstractModel;
 use Harp\Core\Repo\LinkMany;
+use InvalidArgumentException;
 
 /**
  * @author     Ivan Kerin
@@ -12,12 +13,37 @@ use Harp\Core\Repo\LinkMany;
  */
 abstract class AbstractRelMany extends AbstractRel
 {
+    private $linkClass;
+
+    public function setLinkClass($class)
+    {
+        if (! is_subclass_of($class, 'Harp\Core\Repo\LinkMany')) {
+            throw new InvalidArgumentException(
+                sprintf('Class %s must be a subclass of LinkMany', $class)
+            );
+        }
+
+        $this->linkClass = $class;
+
+        return $this;
+    }
+
+    public function getLinkClass()
+    {
+        return $this->linkClass;
+    }
+
     public function newLinkFrom(array $linked)
     {
         foreach ($linked as & $model) {
             $model = $model->getRepo()->getIdentityMap()->get($model);
         }
 
-        return new LinkMany($this, $linked);
+        if ($this->linkClass) {
+            $class = $this->linkClass;
+            return new $class($this, $linked);
+        } else {
+            return new LinkMany($this, $linked);
+        }
     }
 }

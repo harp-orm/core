@@ -1,1 +1,17 @@
-{}
+{
+                    "1": {
+                        "id": 1,
+                        "name": "post 1",
+                        "body": "my post 1",
+                        "userId": 1,
+                        "class": "Harp\\Core\\Test\\Model\\Post"
+                    },
+                    "2": {
+                        "id": 2,
+                        "name": "post 2",
+                        "body": "my post 2",
+                        "userId": 1,
+                        "url": "http:\/\/example.com\/post2",
+                        "class": "Harp\\Core\\Test\\Model\\BlogPost"
+                    }
+                }
