@@ -208,7 +208,7 @@ class Models implements Countable, Iterator
     public function byRepo(Closure $yield)
     {
         $repos = Objects::groupBy($this->models, function (AbstractModel $model) {
-            return $model->getRepo();
+            return $model->getRepo()->getRootRepo();
         });
 
         foreach ($repos as $repo) {
