@@ -26,6 +26,27 @@ class ModelsTest extends AbstractTestCase
     }
 
     /**
+     * @covers ::assertValid
+     */
+    public function testAssertValid()
+    {
+        $source = [
+            new Model(['name' => 'test', 'other' => 'test2']),
+            new Model(['name' => 'test', 'other' => 'test2']),
+        ];
+
+        $models = new Models($source);
+
+        $this->assertSame($models, $models->assertValid());
+
+        $source[0]->name = null;
+
+        $this->setExpectedException('LogicException');
+
+        $models->assertValid();
+    }
+
+    /**
      * @covers ::__clone
      */
     public function testClone()

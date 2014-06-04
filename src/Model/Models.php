@@ -7,6 +7,7 @@ use SplObjectStorage;
 use Closure;
 use Countable;
 use Iterator;
+use LogicException;
 
 /*
  * @author     Ivan Kerin
@@ -147,6 +148,23 @@ class Models implements Countable, Iterator
     public function all()
     {
         return $this->models;
+    }
+
+    /**
+     * @throws LogicException If a model is invalid
+     * @return Models $this
+     */
+    public function assertValid()
+    {
+        foreach ($this->models as $model) {
+            if (! $model->validate()) {
+                throw new LogicException(
+                    sprintf('Model contains errors %s', $model->getErrors()->humanize())
+                );
+            }
+        }
+
+        return $this;
     }
 
     /**

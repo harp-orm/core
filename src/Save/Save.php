@@ -174,13 +174,13 @@ class Save implements Countable
 
         $this->addFromInsertRels();
 
-        $this->getModelsToInsert()->byRepo(function (AbstractSaveRepo $repo, Models $models) {
+        $this->getModelsToInsert()->assertValid()->byRepo(function (AbstractSaveRepo $repo, Models $models) {
             $repo->insertModels($models);
         });
 
         $this->addFromUpdateRels();
 
-        $this->getModelsToUpdate()->byRepo(function (AbstractSaveRepo $repo, Models $models) {
+        $this->getModelsToUpdate()->assertValid()->byRepo(function (AbstractSaveRepo $repo, Models $models) {
             $repo->updateModels($models);
         });
     }
