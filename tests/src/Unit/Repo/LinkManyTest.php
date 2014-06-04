@@ -13,7 +13,6 @@ class LinkManyTest extends AbstractRepoTestCase
     /**
      * @covers ::__construct
      * @covers ::get
-     * @covers ::getRel
      * @covers ::getOriginal
      */
     public function testConstruct()
@@ -21,9 +20,8 @@ class LinkManyTest extends AbstractRepoTestCase
         $rel = $this->getRelMany();
         $models = [new Model(), new Model()];
 
-        $link = new LinkMany($rel, $models);
+        $link = new LinkMany(new Model(), $rel, $models);
 
-        $this->assertSame($rel, $link->getRel());
         $this->assertSame($models, $link->get()->toArray());
         $this->assertSame($models, $link->getOriginal()->toArray());
     }
@@ -54,7 +52,7 @@ class LinkManyTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkMany($rel, $models);
+        $link = new LinkMany(new Model(), $rel, $models);
         $model = new Model();
         $expected = new Models();
 
@@ -78,7 +76,7 @@ class LinkManyTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkMany($rel, [new Model()]);
+        $link = new LinkMany(new Model(), $rel, [new Model()]);
         $model = new Model();
         $models = new Models();
 
@@ -97,7 +95,7 @@ class LinkManyTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkMany($rel, [new Model()]);
+        $link = new LinkMany(new Model(), $rel, [new Model()]);
         $model = new Model();
         $expected = new Models();
 
@@ -121,7 +119,7 @@ class LinkManyTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkMany($rel, [new Model()]);
+        $link = new LinkMany(new Model(), $rel, [new Model()]);
         $model = new Model();
         $models = new Models();
 
@@ -140,7 +138,7 @@ class LinkManyTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkMany($rel, [new Model()]);
+        $link = new LinkMany(new Model(), $rel, [new Model()]);
         $model = new Model();
         $models = new Models();
 
@@ -163,7 +161,7 @@ class LinkManyTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkMany($rel, [new Model()]);
+        $link = new LinkMany(new Model(), $rel, [new Model()]);
         $model = new Model();
         $models = new Models();
 
@@ -263,7 +261,7 @@ class LinkManyTest extends AbstractRepoTestCase
 
         $this->assertFalse($link->isEmpty());
 
-        $emptyLink = new LinkMany($this->getRelMany(), []);
+        $emptyLink = new LinkMany(new Model(), $this->getRelMany(), []);
 
         $this->assertTrue($emptyLink->isEmpty());
     }
@@ -288,7 +286,7 @@ class LinkManyTest extends AbstractRepoTestCase
     public function testToArray()
     {
         $models = [new Model(), new Model()];
-        $link = new LinkMany($this->getRelMany(), $models);
+        $link = new LinkMany(new Model(), $this->getRelMany(), $models);
 
         $array = $link->toArray();
 
@@ -382,7 +380,7 @@ class LinkManyTest extends AbstractRepoTestCase
 
         $this->assertSame($item, $link->getFirst());
 
-        $link = new LinkMany($this->getRelMany(), []);
+        $link = new LinkMany(new Model(), $this->getRelMany(), []);
         $first = $link->getFirst();
 
         $this->assertInstanceof(__NAMESPACE__.'\Model', $first);

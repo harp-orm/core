@@ -14,16 +14,14 @@ class LinkOneTest extends AbstractRepoTestCase
      * @covers ::__construct
      * @covers ::getOriginal
      * @covers ::get
-     * @covers ::getRel
      */
     public function testConstruct()
     {
         $rel = $this->getRelOne();
         $model = new Model();
 
-        $link = new LinkOne($rel, $model);
+        $link = new LinkOne(new Model(), $rel, $model);
 
-        $this->assertSame($rel, $link->getRel());
         $this->assertSame($model, $link->get());
         $this->assertSame($model, $link->getOriginal());
     }
@@ -41,7 +39,7 @@ class LinkOneTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkOne($rel, $model);
+        $link = new LinkOne(new Model(), $rel, $model);
 
         $models = new Models();
 
@@ -65,7 +63,7 @@ class LinkOneTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkOne($rel, new Model());
+        $link = new LinkOne(new Model(), $rel, new Model());
         $model = new Model();
         $models = new Models();
 
@@ -86,7 +84,7 @@ class LinkOneTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkOne($rel, $model);
+        $link = new LinkOne(new Model(), $rel, $model);
 
         $models = new Models();
 
@@ -110,7 +108,7 @@ class LinkOneTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkOne($rel, new Model());
+        $link = new LinkOne(new Model(), $rel, new Model());
         $model = new Model();
         $models = new Models();
 
@@ -131,7 +129,7 @@ class LinkOneTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkOne($rel, $model);
+        $link = new LinkOne(new Model(), $rel, $model);
 
         $models = new Models();
 
@@ -154,7 +152,7 @@ class LinkOneTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkOne($rel, new Model());
+        $link = new LinkOne(new Model(), $rel, new Model());
         $model = new Model();
         $models = new Models();
 

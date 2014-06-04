@@ -32,12 +32,12 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      * @param AbstractRelMany $rel
      * @param AbstractModel[] $models
      */
-    public function __construct(AbstractRelMany $rel, array $models)
+    public function __construct(AbstractModel $model, AbstractRelMany $rel, array $models)
     {
         $this->current = new RepoModels($rel->getForeignRepo(), $models);
         $this->original = new RepoModels($rel->getForeignRepo(), $models);
 
-        parent::__construct($rel);
+        parent::__construct($model, $rel);
     }
 
     /**

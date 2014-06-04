@@ -30,12 +30,12 @@ class LinkOne extends AbstractLink
      * @param AbstractRelOne $rel
      * @param AbstractModel  $current
      */
-    public function __construct(AbstractRelOne $rel, AbstractModel $current)
+    public function __construct(AbstractModel $model, AbstractRelOne $rel, AbstractModel $current)
     {
         $this->current = $current;
         $this->original = $current;
 
-        parent::__construct($rel);
+        parent::__construct($model, $rel);
     }
 
     /**

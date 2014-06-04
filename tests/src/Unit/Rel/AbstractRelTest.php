@@ -109,14 +109,14 @@ class AbstractRelTest extends AbstractTestCase
             ->will($this->returnValueMap($map));
 
         $links = [
-            new LinkMany($rel, [$foreign[0]]),
-            new LinkMany($rel, [$foreign[1], $foreign[2]]),
+            new LinkMany($models[0], $rel, [$foreign[0]]),
+            new LinkMany($models[1], $rel, [$foreign[1], $foreign[2]]),
         ];
 
 
         $linkMap = [
-            [[$foreign[0]], $links[0]],
-            [[$foreign[1], $foreign[2]], $links[1]],
+            [$models[0], [$foreign[0]], $links[0]],
+            [$models[1], [$foreign[1], $foreign[2]], $links[1]],
         ];
 
         $rel

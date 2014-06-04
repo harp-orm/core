@@ -14,15 +14,22 @@ use Harp\Core\Model\Models;
 abstract class AbstractLink
 {
     protected $rel;
+    protected $model;
 
-    public function __construct(AbstractRel $rel)
+    public function __construct(AbstractModel $model, AbstractRel $rel)
     {
         $this->rel = $rel;
+        $this->model = $model;
     }
 
     public function getRel()
     {
         return $this->rel;
+    }
+
+    public function getModel()
+    {
+        return $this->model;
     }
 
     /**

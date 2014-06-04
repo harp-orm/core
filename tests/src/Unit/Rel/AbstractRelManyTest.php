@@ -45,24 +45,25 @@ class AbstractRelManyTest extends AbstractTestCase
         $expected = [new Model(['id' => 1]), new Model(['id' => 2])];
         $expected2 = [new Model(['id' => 1]), new Model(['id' => 2])];
         $expected3 = [];
+        $model = new Model();
 
         $rel = $this->getRel();
-        $result = $rel->newLinkFrom($expected);
+        $result = $rel->newLinkFrom($model, $expected);
 
         $this->assertInstanceof('Harp\Core\Repo\LinkMany', $result);
         $this->assertSame($expected, $result->toArray());
 
         $rel->setLinkClass(__NAMESPACE__.'\LinkManyExtension');
-        $result = $rel->newLinkFrom($expected);
+        $result = $rel->newLinkFrom($model, $expected);
 
         $this->assertInstanceof(__NAMESPACE__.'\LinkManyExtension', $result);
         $this->assertSame($expected, $result->toArray());
 
-        $result2 = $rel->newLinkFrom($expected2);
+        $result2 = $rel->newLinkFrom($model, $expected2);
 
         $this->assertSame($expected2, $result2->toArray(), 'Should pass through identity mapper');
 
-        $result3 = $rel->newLinkFrom($expected3);
+        $result3 = $rel->newLinkFrom($model, $expected3);
 
         $this->assertSame($expected3, $result3->toArray(), 'Should allow empty');
     }

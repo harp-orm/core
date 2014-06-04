@@ -150,7 +150,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         $model = new Model();
         $foreign = new Model();
-        $link = new LinkOne(Repo::get()->getRel('one'), $foreign);
+        $link = new LinkOne($model, Repo::get()->getRel('one'), $foreign);
 
         Repo::get()->addLink($model, $link);
 

@@ -33,7 +33,7 @@ abstract class AbstractRelMany extends AbstractRel
         return $this->linkClass;
     }
 
-    public function newLinkFrom(array $linked)
+    public function newLinkFrom(AbstractModel $model, array $linked)
     {
         foreach ($linked as & $model) {
             $model = $model->getRepo()->getIdentityMap()->get($model);
@@ -41,9 +41,9 @@ abstract class AbstractRelMany extends AbstractRel
 
         if ($this->linkClass) {
             $class = $this->linkClass;
-            return new $class($this, $linked);
+            return new $class($model, $this, $linked);
         } else {
-            return new LinkMany($this, $linked);
+            return new LinkMany($model, $this, $linked);
         }
     }
 }

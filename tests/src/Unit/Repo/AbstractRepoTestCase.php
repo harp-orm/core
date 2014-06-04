@@ -28,11 +28,11 @@ abstract class AbstractRepoTestCase extends AbstractTestCase
     {
         $models = [new Model(['id' => 10]), new Model(['id' => 20])];
 
-        return new LinkMany($this->getRelMany(), $models);
+        return new LinkMany(new Model(), $this->getRelMany(), $models);
     }
 
     public function getLinkOne()
     {
-        return new LinkOne($this->getRelOne(), new Model());
+        return new LinkOne(new Model(), $this->getRelOne(), new Model());
     }
 }
