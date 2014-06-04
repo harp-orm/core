@@ -35,8 +35,8 @@ abstract class AbstractRelMany extends AbstractRel
 
     public function newLinkFrom(AbstractModel $model, array $linked)
     {
-        foreach ($linked as & $model) {
-            $model = $model->getRepo()->getIdentityMap()->get($model);
+        foreach ($linked as & $foreign) {
+            $foreign = $foreign->getRepo()->getIdentityMap()->get($foreign);
         }
 
         if ($this->linkClass) {
