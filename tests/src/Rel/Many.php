@@ -45,10 +45,10 @@ class Many extends AbstractRelMany implements UpdateManyInterface
             ->loadRaw($flags);
     }
 
-    public function update(AbstractModel $model, LinkMany $link)
+    public function update(LinkMany $link)
     {
         foreach ($link->getAdded() as $added) {
-            $added->{$this->key} = $model->getId();
+            $added->{$this->key} = $link->getModel()->getId();
         }
 
         foreach ($link->getRemoved() as $added) {

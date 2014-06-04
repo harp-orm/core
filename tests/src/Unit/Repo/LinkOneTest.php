@@ -41,17 +41,17 @@ class LinkOneTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkOne(new Model(), $rel, $model);
+        $link = new LinkOne($model, $rel, $model);
 
         $models = new Models();
 
         $rel
             ->expects($this->once())
             ->method('delete')
-            ->with($this->identicalTo($model), $this->identicalTo($link))
+            ->with($this->identicalTo($link))
             ->will($this->returnValue($models));
 
-        $result = $link->delete($model);
+        $result = $link->delete();
         $this->assertSame($models, $result);
     }
 
@@ -65,12 +65,12 @@ class LinkOneTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkOne(new Model(), $rel, new Model());
         $model = new Model();
+        $link = new LinkOne($model, $rel, new Model());
         $models = new Models();
 
-        $result = $link->delete($model);
-        $this->assertEquals(new Models(), $result);
+        $result = $link->delete();
+        $this->assertNull($result);
     }
 
     /**
@@ -86,17 +86,17 @@ class LinkOneTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkOne(new Model(), $rel, $model);
+        $link = new LinkOne($model, $rel, $model);
 
         $models = new Models();
 
         $rel
             ->expects($this->once())
             ->method('insert')
-            ->with($this->identicalTo($model), $this->identicalTo($link))
+            ->with($this->identicalTo($link))
             ->will($this->returnValue($models));
 
-        $reuslt = $link->insert($model);
+        $reuslt = $link->insert();
         $this->assertSame($models, $reuslt);
     }
 
@@ -110,12 +110,12 @@ class LinkOneTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkOne(new Model(), $rel, new Model());
         $model = new Model();
+        $link = new LinkOne($model, $rel, new Model());
         $models = new Models();
 
-        $result = $link->insert($model);
-        $this->assertEquals(new Models(), $result);
+        $result = $link->insert();
+        $this->assertNull($result);
     }
 
     /**
@@ -131,17 +131,19 @@ class LinkOneTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkOne(new Model(), $rel, $model);
+        $link = new LinkOne($model, $rel, $model);
 
         $models = new Models();
 
         $rel
             ->expects($this->once())
             ->method('update')
-            ->with($this->identicalTo($model), $this->identicalTo($link))
+            ->with($this->identicalTo($link))
             ->will($this->returnValue($models));
 
-        $link->update($model);
+        $reuslt = $link->update();
+        $this->assertSame($models, $reuslt);
+
     }
 
     /**
@@ -154,11 +156,11 @@ class LinkOneTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkOne(new Model(), $rel, new Model());
         $model = new Model();
+        $link = new LinkOne($model, $rel, new Model());
         $models = new Models();
 
-        $result = $link->update($model);
+        $result = $link->update();
         $this->assertNull($result);
     }
 

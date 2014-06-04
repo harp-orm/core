@@ -45,8 +45,8 @@ class One extends AbstractRelOne implements UpdateOneInterface
             ->loadRaw($flags);
     }
 
-    public function update(AbstractModel $model, LinkOne $link)
+    public function update(LinkOne $link)
     {
-        $model->{$this->key} = $link->get()->getId();
+        $link->getModel()->{$this->key} = $link->get()->getId();
     }
 }

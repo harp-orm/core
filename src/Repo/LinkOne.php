@@ -100,41 +100,38 @@ class LinkOne extends AbstractLink
     }
 
     /**
-     * @param  AbstractModel $model
-     * @return Models
+     * @return Models|null
      */
-    public function delete(AbstractModel $model)
+    public function delete()
     {
         $rel = $this->getRel();
+
         if ($rel instanceof DeleteOneInterface) {
-            return $rel->delete($model, $this);
-        } else {
-            return new Models();
+            return $rel->delete($this);
         }
     }
 
     /**
-     * @param  AbstractModel $model
-     * @return Models
+     * @return Models|null
      */
-    public function insert(AbstractModel $model)
+    public function insert()
     {
         $rel = $this->getRel();
+
         if ($rel instanceof InsertOneInterface) {
-            return $rel->insert($model, $this);
-        } else {
-            return new Models();
+            return $rel->insert($this);
         }
     }
 
     /**
-     * @param AbstractModel $model
+     * @return Models|null
      */
-    public function update(AbstractModel $model)
+    public function update()
     {
         $rel = $this->getRel();
+
         if ($rel instanceof UpdateOneInterface) {
-            return $rel->update($model, $this);
+            return $rel->update($this);
         }
     }
 }

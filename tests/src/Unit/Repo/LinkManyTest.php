@@ -54,17 +54,17 @@ class LinkManyTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkMany(new Model(), $rel, $models);
         $model = new Model();
+        $link = new LinkMany($model, $rel, $models);
         $expected = new Models();
 
         $rel
             ->expects($this->once())
             ->method('delete')
-            ->with($this->identicalTo($model), $this->identicalTo($link))
+            ->with($this->identicalTo($link))
             ->will($this->returnValue($expected));
 
-        $result = $link->delete($model);
+        $result = $link->delete();
         $this->assertSame($expected, $result);
     }
 
@@ -78,12 +78,12 @@ class LinkManyTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkMany(new Model(), $rel, [new Model()]);
         $model = new Model();
+        $link = new LinkMany($model, $rel, [new Model()]);
         $models = new Models();
 
-        $result = $link->delete($model);
-        $this->assertEquals(new Models(), $result);
+        $result = $link->delete();
+        $this->assertNull($result);
     }
 
     /**
@@ -97,17 +97,17 @@ class LinkManyTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkMany(new Model(), $rel, [new Model()]);
         $model = new Model();
+        $link = new LinkMany($model, $rel, [new Model()]);
         $expected = new Models();
 
         $rel
             ->expects($this->once())
             ->method('insert')
-            ->with($this->identicalTo($model), $this->identicalTo($link))
+            ->with($this->identicalTo($link))
             ->will($this->returnValue($expected));
 
-        $reuslt = $link->insert($model);
+        $reuslt = $link->insert();
         $this->assertSame($expected, $reuslt);
     }
 
@@ -121,12 +121,12 @@ class LinkManyTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkMany(new Model(), $rel, [new Model()]);
         $model = new Model();
+        $link = new LinkMany($model, $rel, [new Model()]);
         $models = new Models();
 
-        $result = $link->insert($model);
-        $this->assertEquals(new Models(), $result);
+        $result = $link->insert();
+        $this->assertNull($result);
     }
 
     /**
@@ -140,17 +140,19 @@ class LinkManyTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkMany(new Model(), $rel, [new Model()]);
         $model = new Model();
-        $models = new Models();
+        $link = new LinkMany($model, $rel, [new Model()]);
+        $expected = new Models();
 
         $rel
             ->expects($this->once())
             ->method('update')
-            ->with($this->identicalTo($model), $this->identicalTo($link))
-            ->will($this->returnValue($models));
+            ->with($this->identicalTo($link))
+            ->will($this->returnValue($expected));
 
-        $link->update($model);
+        $reuslt = $link->update();
+        $this->assertSame($expected, $reuslt);
+
     }
 
     /**
@@ -163,11 +165,11 @@ class LinkManyTest extends AbstractRepoTestCase
             ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
         );
 
-        $link = new LinkMany(new Model(), $rel, [new Model()]);
         $model = new Model();
+        $link = new LinkMany($model, $rel, [new Model()]);
         $models = new Models();
 
-        $result = $link->update($model);
+        $result = $link->update();
         $this->assertNull($result);
     }
 

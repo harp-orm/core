@@ -15,12 +15,12 @@ abstract class AbstractRelOne extends AbstractRel
     public function newLinkFrom(AbstractModel $model, array $linked)
     {
         if (empty($linked)) {
-            $model = $this->getForeignRepo()->newVoidModel();
+            $foreign = $this->getForeignRepo()->newVoidModel();
         } else {
-            $model = reset($linked);
-            $model = $model->getRepo()->getIdentityMap()->get($model);
+            $foreign = reset($linked);
+            $foreign = $foreign->getRepo()->getIdentityMap()->get($foreign);
         }
 
-        return new LinkOne($model, $this, $model);
+        return new LinkOne($model, $this, $foreign);
     }
 }

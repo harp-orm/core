@@ -3,7 +3,6 @@
 namespace Harp\Core\Rel;
 
 use Harp\Core\Repo\LinkMany;
-use Harp\Core\Model\AbstractModel;
 
 /**
  * @author     Ivan Kerin
@@ -12,5 +11,5 @@ use Harp\Core\Model\AbstractModel;
  */
 interface UpdateManyInterface
 {
-    public function update(AbstractModel $model, LinkMany $link);
+    public function update(LinkMany $link);
 }

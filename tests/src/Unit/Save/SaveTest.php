@@ -211,8 +211,8 @@ class SaveTest extends AbstractTestCase
             [$model2, $link2]
         ];
 
-        $save->eachLink(function(Model $model, AbstractLink $link) use ($expected, $model3, & $i) {
-            $this->assertSame($expected[$i][0], $model);
+        $save->eachLink(function(AbstractLink $link) use ($expected, $model3, & $i) {
+            $this->assertSame($expected[$i][0], $link->getModel());
             $this->assertSame($expected[$i][1], $link);
             $i++;
 
@@ -267,7 +267,7 @@ class SaveTest extends AbstractTestCase
         $rel1
             ->expects($this->once())
             ->method($method)
-            ->with($this->identicalTo($model1), $this->identicalTo($link1))
+            ->with($this->identicalTo($link1))
             ->will($this->returnValue(new Models([$model5])));
 
         $this->assertFalse($save->has($model5));

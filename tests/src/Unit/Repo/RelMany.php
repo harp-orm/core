@@ -28,17 +28,17 @@ class RelMany extends AbstractRelMany implements DeleteManyInterface, InsertMany
         throw new BadMethodCallException('Test Rel: cannot call loadForeign');
     }
 
-    public function delete(AbstractModel $model, LinkMany $link)
+    public function delete(LinkMany $link)
     {
         throw new BadMethodCallException('Test Rel: cannot call delete');
     }
 
-    public function insert(AbstractModel $model, LinkMany $link)
+    public function insert(LinkMany $link)
     {
         throw new BadMethodCallException('Test Rel: cannot call insert');
     }
 
-    public function update(AbstractModel $model, LinkMany $link)
+    public function update(LinkMany $link)
     {
         throw new BadMethodCallException('Test Rel: cannot call update');
     }

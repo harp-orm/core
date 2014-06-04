@@ -28,17 +28,17 @@ class RelOne extends AbstractRelOne implements DeleteOneInterface, InsertOneInte
         throw new BadMethodCallException('Test Rel: cannot call loadForeign');
     }
 
-    public function delete(AbstractModel $model, LinkOne $link)
+    public function delete(LinkOne $link)
     {
         throw new BadMethodCallException('Test Rel: cannot call delete');
     }
 
-    public function insert(AbstractModel $model, LinkOne $link)
+    public function insert(LinkOne $link)
     {
         throw new BadMethodCallException('Test Rel: cannot call insert');
     }
 
-    public function update(AbstractModel $model, LinkOne $link)
+    public function update(LinkOne $link)
     {
         throw new BadMethodCallException('Test Rel: cannot call update');
     }

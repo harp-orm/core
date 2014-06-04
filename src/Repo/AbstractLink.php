@@ -33,16 +33,19 @@ abstract class AbstractLink
     }
 
     /**
-     * @return Models
+     * @return Models|null
      */
-    abstract public function delete(AbstractModel $model);
+    abstract public function delete();
 
     /**
-     * @return Models
+     * @return Models|null
      */
-    abstract public function insert(AbstractModel $model);
+    abstract public function insert();
 
-    abstract public function update(AbstractModel $model);
+    /**
+     * @return Models|null
+     */
+    abstract public function update();
 
     /**
      * @return Models

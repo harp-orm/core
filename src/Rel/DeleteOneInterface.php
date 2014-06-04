@@ -3,7 +3,6 @@
 namespace Harp\Core\Rel;
 
 use Harp\Core\Repo\LinkOne;
-use Harp\Core\Model\AbstractModel;
 
 /**
  * @author     Ivan Kerin
@@ -12,5 +11,5 @@ use Harp\Core\Model\AbstractModel;
  */
 interface DeleteOneInterface
 {
-    public function delete(AbstractModel $model, LinkOne $link);
+    public function delete(LinkOne $link);
 }

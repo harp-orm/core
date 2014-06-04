@@ -3,7 +3,6 @@
 namespace Harp\Core\Rel;
 
 use Harp\Core\Repo\LinkOne;
-use Harp\Core\Model\AbstractModel;
 
 /**
  * @author     Ivan Kerin
@@ -12,5 +11,5 @@ use Harp\Core\Model\AbstractModel;
  */
 interface InsertOneInterface
 {
-    public function insert(AbstractModel $model, LinkOne $link);
+    public function insert(LinkOne $link);
 }
