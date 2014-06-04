@@ -15,7 +15,10 @@ use Countable;
  */
 class Save implements Countable
 {
-    protected $models;
+    /**
+     * @var Models
+     */
+    private $models;
 
     public function __construct(array $models = array())
     {

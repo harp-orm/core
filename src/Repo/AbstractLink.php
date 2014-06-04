@@ -13,8 +13,8 @@ use Harp\Core\Model\Models;
  */
 abstract class AbstractLink
 {
-    protected $rel;
-    protected $model;
+    private $rel;
+    private $model;
 
     public function __construct(AbstractModel $model, AbstractRel $rel)
     {

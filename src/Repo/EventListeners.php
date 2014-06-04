@@ -28,12 +28,12 @@ class EventListeners
     /**
      * @var array
      */
-    protected $before = [];
+    private $before = [];
 
     /**
      * @var array
      */
-    protected $after = [];
+    private $after = [];
 
     /**
      * @return array

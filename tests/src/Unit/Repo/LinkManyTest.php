@@ -13,6 +13,7 @@ class LinkManyTest extends AbstractRepoTestCase
     /**
      * @covers ::__construct
      * @covers ::get
+     * @covers ::getRel
      * @covers ::getOriginal
      */
     public function testConstruct()
@@ -22,6 +23,7 @@ class LinkManyTest extends AbstractRepoTestCase
 
         $link = new LinkMany(new Model(), $rel, $models);
 
+        $this->assertSame($rel, $link->getRel());
         $this->assertSame($models, $link->get()->toArray());
         $this->assertSame($models, $link->getOriginal()->toArray());
     }

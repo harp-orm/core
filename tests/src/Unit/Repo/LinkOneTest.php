@@ -13,6 +13,7 @@ class LinkOneTest extends AbstractRepoTestCase
     /**
      * @covers ::__construct
      * @covers ::getOriginal
+     * @covers ::getRel
      * @covers ::get
      */
     public function testConstruct()
@@ -22,6 +23,7 @@ class LinkOneTest extends AbstractRepoTestCase
 
         $link = new LinkOne(new Model(), $rel, $model);
 
+        $this->assertSame($rel, $link->getRel());
         $this->assertSame($model, $link->get());
         $this->assertSame($model, $link->getOriginal());
     }

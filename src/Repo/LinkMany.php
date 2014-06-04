@@ -21,12 +21,12 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     /**
      * @var Models
      */
-    protected $original;
+    private $original;
 
     /**
      * @var Models
      */
-    protected $current;
+    private $current;
 
     /**
      * @param AbstractRelMany $rel
@@ -45,7 +45,7 @@ class LinkMany extends AbstractLink implements Countable, Iterator
      */
     public function getRel()
     {
-        return $this->rel;
+        return parent::getRel();
     }
 
     /**

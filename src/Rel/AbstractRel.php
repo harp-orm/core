@@ -17,17 +17,17 @@ abstract class AbstractRel
     /**
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @var AbstractRepo
      */
-    protected $foreignRepo;
+    private $foreignRepo;
 
     /**
      * @var AbstractRepo
      */
-    protected $repo;
+    private $repo;
 
     abstract public function areLinked(AbstractModel $model, AbstractModel $foreignModel);
     abstract public function hasForeign(Models $models);

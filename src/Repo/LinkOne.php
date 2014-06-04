@@ -19,12 +19,12 @@ class LinkOne extends AbstractLink
     /**
      * @var AbstractModel
      */
-    protected $current;
+    private $current;
 
     /**
      * @var AbstractModel
      */
-    protected $original;
+    private $original;
 
     /**
      * @param AbstractRelOne $rel
@@ -43,7 +43,7 @@ class LinkOne extends AbstractLink
      */
     public function getRel()
     {
-        return $this->rel;
+        return parent::getRel();
     }
 
     /**
