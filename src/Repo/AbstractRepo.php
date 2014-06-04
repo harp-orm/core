@@ -306,6 +306,23 @@ abstract class AbstractRepo
     }
 
     /**
+     * @param  AbstractModel            $name
+     * @throws InvalidArgumentException If model not part of repo
+     */
+    public function assertModel(AbstractModel $model)
+    {
+        if (! $this->isModel($model)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Model must be instance of %s, but was %s',
+                    $this->getRootRepo()->getModelClass(),
+                    get_class($model)
+                )
+            );
+        }
+    }
+
+    /**
      * @return EventListeners
      */
     public function getEventListeners()

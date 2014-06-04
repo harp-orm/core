@@ -180,6 +180,23 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::assertModel
+     */
+    public function testAssertModel()
+    {
+        $repo = $this->getRepoInitialized(true);
+        $model = new Model();
+        $other = new ModelOther();
+
+        $repo->assertModel($model);
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        $repo->assertModel($other);
+    }
+
+
+    /**
      * @covers ::getRels
      * @covers ::getRel
      * @covers ::addRels
