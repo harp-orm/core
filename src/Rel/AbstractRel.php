@@ -32,7 +32,7 @@ abstract class AbstractRel
     abstract public function areLinked(AbstractModel $model, AbstractModel $foreignModel);
     abstract public function hasForeign(Models $models);
     abstract public function loadForeign(Models $models, $flags = null);
-    abstract public function newLinkFrom(AbstractModel $model, array $links);
+    abstract public function newLinkFrom(array $links);
 
     /**
      * @param string       $name
@@ -106,7 +106,7 @@ abstract class AbstractRel
                 }
             }
 
-            $yield($model, $this->newLinkFrom($model, $linked));
+            $yield($model, $this->newLinkFrom($linked));
         }
     }
 }

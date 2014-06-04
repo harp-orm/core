@@ -115,8 +115,8 @@ class AbstractRelTest extends AbstractTestCase
 
 
         $linkMap = [
-            [$models[0], [$foreign[0]], $links[0]],
-            [$models[1], [$foreign[1], $foreign[2]], $links[1]],
+            [[$foreign[0]], $links[0]],
+            [[$foreign[1], $foreign[2]], $links[1]],
         ];
 
         $rel

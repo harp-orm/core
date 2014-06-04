@@ -12,24 +12,15 @@ use Harp\Core\Repo\LinkOne;
  */
 abstract class AbstractRelOne extends AbstractRel
 {
-    public function newLink(AbstractModel $model)
-    {
-        $model = $model->getRepo()->getIdentityMap()->get($model);
-
-        return new LinkOne($this, $model);
-    }
-
-    public function newEmptyLink()
-    {
-        return new LinkOne($this, $this->getForeignRepo()->newVoidModel());
-    }
-
-    public function newLinkFrom(AbstractModel $model, array $linked)
+    public function newLinkFrom(array $linked)
     {
         if (empty($linked)) {
-            return $this->newEmptyLink();
+            $model = $this->getForeignRepo()->newVoidModel();
         } else {
-            return $this->newLink(reset($linked));
+            $model = reset($linked);
+            $model = $model->getRepo()->getIdentityMap()->get($model);
         }
+
+        return new LinkOne($this, $model);
     }
 }

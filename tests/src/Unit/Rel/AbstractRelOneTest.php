@@ -22,7 +22,7 @@ class AbstractRelOneTest extends AbstractTestCase
     }
 
     /**
-     * @covers ::newLink
+     * @covers ::newLinkFrom
      */
     public function testNewLink()
     {
@@ -30,52 +30,21 @@ class AbstractRelOneTest extends AbstractTestCase
         $expected2 = new Model(['id' => 1]);
 
         $rel = $this->getRel();
-        $result = $rel->newLink($expected);
+        $result = $rel->newLinkFrom([$expected]);
 
         $this->assertInstanceof('Harp\Core\Repo\LinkOne', $result);
         $this->assertSame($rel, $result->getRel());
         $this->assertSame($expected, $result->get());
 
-        $result2 = $rel->newLink($expected2);
+        $result2 = $rel->newLinkFrom([$expected2]);
 
         $this->assertSame($expected2, $result2->get());
-    }
 
-    /**
-     * @covers ::newEmptyLink
-     */
-    public function testNewEmptyLink()
-    {
-        $rel = $this->getRel();
-        $result = $rel->newEmptyLink();
+        $result3 = $rel->newLinkFrom([]);
 
-        $this->assertInstanceof('Harp\Core\Repo\LinkOne', $result);
-        $this->assertInstanceof(__NAMESPACE__.'\Model', $result->get());
-        $this->assertTrue($result->get()->isVoid());
-    }
+        $this->assertInstanceof('Harp\Core\Repo\LinkOne', $result3);
+        $this->assertInstanceof(__NAMESPACE__.'\Model', $result3->get());
+        $this->assertTrue($result3->get()->isVoid());
 
-    /**
-     * @covers ::newLinkFrom
-     */
-    public function testNewLinkFrom()
-    {
-        $links = [];
-
-        $model = new Model();
-        $foreign = new Model();
-
-        $rel = $this->getRel();
-
-        $link = $rel->newLinkFrom($model, $links);
-
-        $this->assertInstanceof('Harp\Core\Repo\LinkOne', $link);
-        $this->assertInstanceof(__NAMESPACE__.'\Model', $link->get());
-        $this->assertTrue($link->get()->isVoid());
-
-        $link = $rel->newLinkFrom($model, [$foreign]);
-
-        $this->assertInstanceof('Harp\Core\Repo\LinkOne', $link);
-        $this->assertInstanceof(__NAMESPACE__.'\Model', $link->get());
-        $this->assertSame($foreign, $link->get());
     }
 }

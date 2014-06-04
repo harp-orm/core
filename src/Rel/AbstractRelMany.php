@@ -12,26 +12,12 @@ use Harp\Core\Repo\LinkMany;
  */
 abstract class AbstractRelMany extends AbstractRel
 {
-    public function newLink(array $foreignModels)
+    public function newLinkFrom(array $linked)
     {
-        foreach ($foreignModels as & $model) {
+        foreach ($linked as & $model) {
             $model = $model->getRepo()->getIdentityMap()->get($model);
         }
 
-        return new LinkMany($this, $foreignModels);
-    }
-
-    public function newEmptyLink()
-    {
-        return new LinkMany($this, []);
-    }
-
-    public function newLinkFrom(AbstractModel $model, array $linked)
-    {
-        if (empty($linked)) {
-            return $this->newEmptyLink();
-        } else {
-            return $this->newLink($linked);
-        }
+        return new LinkMany($this, $linked);
     }
 }

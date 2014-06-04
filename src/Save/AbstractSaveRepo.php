@@ -117,9 +117,7 @@ abstract class AbstractSaveRepo extends AbstractRepo
         $links = $this->getLinkMap()->get($model);
 
         if (! $links->has($name)) {
-            $models = new Models();
-            $models->add($model);
-            $this->loadRelFor($models, $name, $flags);
+            $this->loadRelFor(new Models([$model]), $name, $flags);
         }
 
         return $links->get($name);
