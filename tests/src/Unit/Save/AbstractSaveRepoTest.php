@@ -63,9 +63,9 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
-     * @covers ::findNamed
+     * @covers ::findByName
      */
-    public function testFindNamed()
+    public function testfindByName()
     {
         $model = new Model();
 
@@ -86,10 +86,10 @@ class AbstractSaveRepoTest extends AbstractTestCase
             ->method('execute')
             ->will($this->onConsecutiveCalls([$model], []));
 
-        $result = $this->repo->findNamed('test');
+        $result = $this->repo->findByName('test');
         $this->assertSame($model, $result);
 
-        $result = $this->repo->findNamed('test');
+        $result = $this->repo->findByName('test');
         $this->assertInstanceOf(__NAMESPACE__.'\Model', $result);
         $this->assertTrue($result->isVoid());
     }

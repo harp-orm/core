@@ -57,7 +57,7 @@ abstract class AbstractSaveRepo extends AbstractRepo
      * @param  string        $id
      * @return AbstractModel
      */
-    public function findNamed($name, $flags = null)
+    public function findByName($name, $flags = null)
     {
         return $this
             ->findAll()
