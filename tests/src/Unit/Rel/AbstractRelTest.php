@@ -126,8 +126,8 @@ class AbstractRelTest extends AbstractTestCase
 
         $i = 0;
 
-        $rel->linkModels(new Models($models), new Models($foreign), function($model, $link) use ($models, $links, & $i) {
-            $this->assertSame($models[$i], $model);
+        $rel->linkModels(new Models($models), new Models($foreign), function($link) use ($models, $links, & $i) {
+            $this->assertSame($models[$i], $link->getModel());
             $this->assertSame($links[$i], $link);
             $i++;
         });

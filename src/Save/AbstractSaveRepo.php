@@ -94,14 +94,13 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
-     * @param  AbstractModel            $model
      * @param  AbstractLink             $link
      * @return AbstractSaveRepo         $this
      * @throws InvalidArgumentException If $model does not belong to repo
      */
-    public function addLink(AbstractModel $model, AbstractLink $link)
+    public function addLink(AbstractLink $link)
     {
-        $this->getLinkMap()->get($model)->add($link);
+        $this->getLinkMap()->get($link->getModel())->add($link);
 
         return $this;
     }
@@ -135,8 +134,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
 
         $foreign = $rel->loadForeignModels($models, $flags);
 
-        $rel->linkModels($models, $foreign, function (AbstractModel $model, AbstractLink $link) {
-            $model->getRepo()->addLink($model, $link);
+        $rel->linkModels($models, $foreign, function (AbstractLink $link) {
+            $link->getModel()->getRepo()->addLink($link);
         });
 
         return $foreign;

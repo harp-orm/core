@@ -107,8 +107,8 @@ class SaveTest extends AbstractTestCase
         $link2->add($models[4]);
 
         Repo::get()
-            ->addLink($models[0], $link1)
-            ->addLink($models[1], $link2);
+            ->addLink($link1)
+            ->addLink($link2);
 
         $save->add($models[0]);
 
@@ -199,8 +199,8 @@ class SaveTest extends AbstractTestCase
         $link2 = new LinkMany($model2, Repo::get()->getRel('many'), []);
 
         Repo::get()
-            ->addLink($model1, $link1)
-            ->addLink($model2, $link2);
+            ->addLink($link1)
+            ->addLink($link2);
 
         $save->add($model1);
 
@@ -259,8 +259,8 @@ class SaveTest extends AbstractTestCase
 
         Repo::get()
             ->addRels([$rel1])
-            ->addLink($model1, $link1)
-            ->addLink($model2, $link2);
+            ->addLink($link1)
+            ->addLink($link2);
 
         $save->add($model1);
 

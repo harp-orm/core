@@ -106,7 +106,9 @@ abstract class AbstractRel
                 }
             }
 
-            $yield($model, $this->newLinkFrom($model, $linked));
+            $link = $this->newLinkFrom($model, $linked);
+
+            $yield($link);
         }
     }
 }
