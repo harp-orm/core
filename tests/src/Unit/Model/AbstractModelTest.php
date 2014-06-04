@@ -5,6 +5,7 @@ namespace Harp\Core\Test\Unit\Model;
 use Harp\Core\Model\AbstractModel;
 use Harp\Core\Model\State;
 use Harp\Core\Repo\Event;
+use stdClass;
 use Harp\Core\Test\AbstractTestCase;
 
 /**
@@ -35,6 +36,43 @@ class AbstractModelTest extends AbstractTestCase
         $this->assertEquals('name1', $model->name);
         $this->assertEquals(['id' => 10, 'name' => 'name1', 'class' => __NAMESPACE__.'\Model'], $model->getOriginals());
         $this->assertSame($model, $model->saveData());
+    }
+
+    /**
+     * @covers ::getLink
+     */
+    public function testGetLink()
+    {
+        $repo = $this->getMock(
+            __NAMESPACE__.'\Repo',
+            ['loadLink'],
+            [__NAMESPACE__.'\Model']
+        );
+
+        $model = $this->getMock(
+            __NAMESPACE__.'\Model',
+            ['getRepo'],
+            [],
+            '',
+            false
+        );
+
+        $link = new stdClass();
+
+        $model
+            ->expects($this->once())
+            ->method('getRepo')
+            ->will($this->returnValue($repo));
+
+        $repo
+            ->expects($this->once())
+            ->method('loadLink')
+            ->with($this->identicalTo($model), $this->equalTo('test'))
+            ->will($this->returnValue($link));
+
+        $result = $model->getLink('test');
+
+        $this->assertSame($link, $result);
     }
 
     /**

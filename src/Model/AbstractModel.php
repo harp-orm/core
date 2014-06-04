@@ -3,6 +3,7 @@
 namespace Harp\Core\Model;
 
 use Harp\Validate\Errors;
+use Harp\Core\Repo\AbstractLink;
 use LogicException;
 
 /*
@@ -46,6 +47,15 @@ abstract class AbstractModel
         $this->loadData();
 
         $this->resetOriginals();
+    }
+
+    /**
+     * @param  string $name
+     * @return AbstractLink
+     */
+    public function getLink($name)
+    {
+        return $this->getRepo()->loadLink($this, $name);
     }
 
     public function loadData()

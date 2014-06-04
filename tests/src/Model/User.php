@@ -28,18 +28,18 @@ class User extends AbstractModel {
 
     public function getAddress()
     {
-        return $this->getRepo()->loadLink($this, 'address')->get();
+        return $this->getLink('address')->get();
     }
 
     public function setAddress(Address $address)
     {
-        $this->getRepo()->loadLink($this, 'address')->set($address);
+        $this->getLink('address')->set($address);
 
         return $this;
     }
 
     public function getPosts()
     {
-        return $this->getRepo()->loadLink($this, 'posts');
+        return $this->getLink('posts');
     }
 }

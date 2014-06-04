@@ -20,11 +20,13 @@ class BlogPost extends Post {
 
     public function getAddress()
     {
-        return Repo\Post::get()->loadLink($this, 'address')->get();
+        return $this->getLink('address')->get();
     }
 
     public function setAddress(Address $address)
     {
-        return Repo\Post::get()->loadLink($this, 'address')->set($address);
+        $this->getLink('address')->set($address);
+
+        return $this;
     }
 }
