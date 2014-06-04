@@ -69,6 +69,21 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::getRootRepo
+     * @covers ::setRootRepo
+     */
+    public function testRootRepo()
+    {
+        $repo = $this->getRepoInitialized(true);
+
+        $this->assertSame($repo, $repo->getRootRepo());
+
+        $repo->setRootRepo(RepoInherited::get());
+
+        $this->assertSame(RepoInherited::get(), $repo->getRootRepo());
+    }
+
+    /**
      * @covers ::getNameKey
      * @covers ::setNameKey
      */
@@ -149,10 +164,15 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testIsModel()
     {
-        $repo = $this->getRepoInitialized(false);
+        $repo = Repo::get();
+        $repoInherited = RepoInherited::get();
         $model = new Model();
+        $modelInherited = new Model();
 
         $this->assertTrue($repo->isModel($model));
+        $this->assertTrue($repo->isModel($modelInherited));
+        $this->assertTrue($repoInherited->isModel($modelInherited));
+        $this->assertTrue($repoInherited->isModel($model));
 
         $model = new ModelOther();
 

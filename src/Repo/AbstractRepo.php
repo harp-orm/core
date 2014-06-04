@@ -79,6 +79,11 @@ abstract class AbstractRepo
     private $inherited = false;
 
     /**
+     * @var AbstractRepo
+     */
+    private $rootRepo;
+
+    /**
      * @param string $modelClass
      */
     public function __construct($modelClass)
@@ -121,6 +126,27 @@ abstract class AbstractRepo
     public function getModelClass()
     {
         return $this->modelClass;
+    }
+
+    /**
+     * @return AbstractRepo
+     */
+    public function getRootRepo()
+    {
+        $this->initializeOnce();
+
+        return $this->rootRepo ?: $this;
+    }
+
+    /**
+     * @param  AbstractRepo $rootRepo
+     * @return AbstractRepo $this
+     */
+    public function setRootRepo(AbstractRepo $rootRepo)
+    {
+        $this->rootRepo = $rootRepo;
+
+        return $this;
     }
 
     /**
@@ -486,7 +512,7 @@ abstract class AbstractRepo
      */
     public function isModel(AbstractModel $model)
     {
-        return $this->getModelReflection()->isInstance($model);
+        return $this->getRootRepo()->getModelReflection()->isInstance($model);
     }
 
     /**

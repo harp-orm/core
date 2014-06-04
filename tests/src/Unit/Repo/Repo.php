@@ -27,6 +27,8 @@ class Repo extends AbstractRepo
 
     public function initialize()
     {
+        $this->setInherited(true);
+
         $this->initializeCalled = true;
 
         $this->initialize1Trait();
