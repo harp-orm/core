@@ -100,7 +100,7 @@ abstract class AbstractSaveRepo extends AbstractRepo
      */
     public function addLink(AbstractLink $link)
     {
-        $this->getLinkMap()->get($link->getModel())->add($link);
+        $this->getLinkMap()->addLink($link);
 
         return $this;
     }

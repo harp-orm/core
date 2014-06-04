@@ -3,6 +3,7 @@
 namespace Harp\Core\Test\Unit\Repo;
 
 use Harp\Core\Repo\LinkMap;
+use Harp\Core\Repo\LinkOne;
 
 /**
  * @coversDefaultClass Harp\Core\Repo\LinkMap
@@ -40,6 +41,22 @@ class LinkMapTest extends AbstractRepoTestCase
         $links2 = $map->get($model);
 
         $this->assertSame($links, $links2);
+    }
+
+    /**
+     * @covers ::addLink
+     */
+    public function testAddLink()
+    {
+        $model = new Model();
+        $foreign = new Model();
+        $link = new LinkOne($model, new RelOne('one', Repo::get(), Repo::get()), $foreign);
+
+        $map = new LinkMap(Repo::get());
+
+        $map->addLink($link);
+
+        $this->assertSame($link, $map->get($model)->get('one'));
     }
 
     /**

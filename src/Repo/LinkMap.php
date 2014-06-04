@@ -58,6 +58,17 @@ class LinkMap
     }
 
     /**
+     * @param AbstractLink $link
+     * @return LinkMap $this
+     */
+    public function addLink(AbstractLink $link)
+    {
+        $this->get($link->getModel())->add($link);
+
+        return $this;
+    }
+
+    /**
      * @param  AbstractModel $model
      * @return boolean
      */
