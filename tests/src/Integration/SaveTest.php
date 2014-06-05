@@ -105,8 +105,6 @@ class SaveTest extends AbstractIntegrationTestCase
                 'password' => $this->equalTo(null),
                 'addressId' => $this->equalTo(1),
                 'deletedAt' => $this->equalTo($user1->deletedAt),
-                'createdAt' => $this->equalTo(1401949982),
-                'updatedAt' => $this->greaterThan(1401949998),
                 'isBlocked' => $this->equalTo(true),
             ],
             $contents[1]
@@ -119,8 +117,6 @@ class SaveTest extends AbstractIntegrationTestCase
                 'password'  => $this->equalTo(null),
                 'addressId' => $this->equalTo(1),
                 'deletedAt' => $this->equalTo(1401949982),
-                'createdAt' => $this->equalTo(1400500528),
-                'updatedAt' => $this->equalTo(1401949998),
                 'isBlocked' => $this->equalTo(false),
             ],
             $contents[2]
@@ -133,8 +129,6 @@ class SaveTest extends AbstractIntegrationTestCase
                 'password'  => $this->equalTo('test'),
                 'addressId' => $this->equalTo(2),
                 'deletedAt' => $this->equalTo(null),
-                'createdAt' => $this->greaterThan(1400500528),
-                'updatedAt' => $this->greaterThan(1401949998),
                 'isBlocked' => $this->equalTo(false),
             ],
             $contents[3]

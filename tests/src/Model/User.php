@@ -24,8 +24,6 @@ class User extends AbstractModel {
     public $name;
     public $password;
     public $addressId;
-    public $createdAt;
-    public $updatedAt;
     public $isBlocked = false;
 
     public function getAddress()

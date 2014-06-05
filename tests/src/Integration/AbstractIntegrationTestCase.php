@@ -60,8 +60,6 @@ abstract class AbstractIntegrationTestCase extends AbstractTestCase
                         "password": null,
                         "addressId": 1,
                         "deletedAt": null,
-                        "createdAt": 1401949982,
-                        "updatedAt": 1401949998,
                         "isBlocked": true
                     },
                     "2": {
@@ -70,8 +68,6 @@ abstract class AbstractIntegrationTestCase extends AbstractTestCase
                         "password": null,
                         "addressId": 1,
                         "deletedAt": 1401949982,
-                        "createdAt": 1400500528,
-                        "updatedAt": 1401949998,
                         "isBlocked": false
                     }
                 }',
