@@ -6,6 +6,7 @@ use CL\EnvBackup\Env;
 use CL\EnvBackup\DirectoryParam;
 use Harp\Core\Test\Repo;
 use Harp\Core\Test\AbstractTestCase;
+use CL\PHPUnitExtensions\ConstrainArrayTrait;
 
 abstract class AbstractIntegrationTestCase extends AbstractTestCase
 {
@@ -21,6 +22,10 @@ abstract class AbstractIntegrationTestCase extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
+
+        if (! is_dir(__DIR__.'/../../repos')) {
+            mkdir(__DIR__.'/../../repos');
+        }
 
         $this->env = new Env([
             new DirectoryParam(__DIR__.'/../../repos', [
