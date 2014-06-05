@@ -36,7 +36,7 @@ abstract class AbstractTestRepo extends AbstractSaveRepo
         $contents = $this->getContents();
 
         foreach ($models as $model) {
-            $contents[$model->getId()] = $model;
+            $contents[$model->getId()] = $model->saveData();
         }
 
         $this->setContents($contents);
@@ -64,7 +64,7 @@ abstract class AbstractTestRepo extends AbstractSaveRepo
         foreach ($models as $model) {
             $id = $contents ? max(array_keys($contents)) + 1 : 1;
 
-            $contents[$id] = $model->setId($id);
+            $contents[$id] = $model->setId($id)->saveData();
         }
 
         $this->setContents($contents);

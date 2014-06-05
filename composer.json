@@ -15,7 +15,8 @@
         "harp-orm/util": "~0.2.0"
     },
     "require-dev": {
-        "clippings/env-backup": "~0.2.5"
+        "clippings/env-backup": "~0.2.5",
+        "clippings/phpunit-extensions": "dev-master"
     },
     "autoload": {
         "psr-4": {"Harp\\Core\\": "src/"}

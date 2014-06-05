@@ -19,7 +19,7 @@ abstract class AbstractRelMany extends AbstractRel
     {
         if (! is_subclass_of($class, 'Harp\Core\Repo\LinkMany')) {
             throw new InvalidArgumentException(
-                sprintf('Class %s must be a subclass of LinkMany', $class)
+                sprintf('Class %s must be a subclass of Harp\Core\Repo\LinkMany', $class)
             );
         }
 

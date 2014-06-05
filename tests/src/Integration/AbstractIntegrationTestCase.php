@@ -9,6 +9,8 @@ use Harp\Core\Test\AbstractTestCase;
 
 abstract class AbstractIntegrationTestCase extends AbstractTestCase
 {
+    use ConstrainArrayTrait;
+
     private $env;
 
     public function getEnv()
@@ -52,16 +54,20 @@ abstract class AbstractIntegrationTestCase extends AbstractTestCase
                         "name": "name",
                         "password": null,
                         "addressId": 1,
-                        "isBlocked": true,
-                        "deletedAt": null
+                        "deletedAt": null,
+                        "createdAt": 1401949982,
+                        "updatedAt": 1401949998,
+                        "isBlocked": true
                     },
                     "2": {
                         "id": 2,
                         "name": "deleted",
                         "password": null,
                         "addressId": 1,
-                        "isBlocked": false,
-                        "deletedAt": 1400500528
+                        "deletedAt": 1401949982,
+                        "createdAt": 1400500528,
+                        "updatedAt": 1401949998,
+                        "isBlocked": false
                     }
                 }',
             ])

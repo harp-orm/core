@@ -64,11 +64,19 @@ abstract class AbstractModel
             $this->class = $this->getRepo()->getModelClass();
         }
 
+        if (property_exists($this, 'createdAt') and ($this->createdAt === null)) {
+            $this->createdAt = time();
+        }
+
         return $this;
     }
 
     public function saveData()
     {
+        if (property_exists($this, 'updatedAt')) {
+            $this->updatedAt = time();
+        }
+
         return $this;
     }
 

@@ -96,33 +96,48 @@ class SaveTest extends AbstractIntegrationTestCase
 
         $this->assertEquals($expectedPostContent, Repo\Post::get()->getContents());
 
-        $expectedUserContent = [
-            1 => [
-                'id' => 1,
-                'name' => 'changed name',
-                'password' => null,
-                'addressId' => 1,
-                'isBlocked' => true,
-                'deletedAt' => $user1->deletedAt,
-            ],
-            2 => [
-                'id' => 2,
-                'name' => 'deleted',
-                'password' => null,
-                'addressId' => 1,
-                'isBlocked' => false,
-                'deletedAt' => 1400500528,
-            ],
-            3 => [
-                'id' => 3,
-                'name' => 'new name',
-                'password' => 'test',
-                'addressId' => 2,
-                'isBlocked' => false,
-                'deletedAt' => null,
-            ],
-        ];
+        $contents = Repo\User::get()->getContents();
 
-        $this->assertEquals($expectedUserContent, Repo\User::get()->getContents());
+        $this->assertArrayConstrained(
+            [
+                'id' => $this->equalTo(1),
+                'name' => $this->equalTo('changed name'),
+                'password' => $this->equalTo(null),
+                'addressId' => $this->equalTo(1),
+                'deletedAt' => $this->equalTo($user1->deletedAt),
+                'createdAt' => $this->equalTo(1401949982),
+                'updatedAt' => $this->greaterThan(1401949998),
+                'isBlocked' => $this->equalTo(true),
+            ],
+            $contents[1]
+        );
+
+        $this->assertArrayConstrained(
+            [
+                'id'        => $this->equalTo(2),
+                'name'      => $this->equalTo('deleted'),
+                'password'  => $this->equalTo(null),
+                'addressId' => $this->equalTo(1),
+                'deletedAt' => $this->equalTo(1401949982),
+                'createdAt' => $this->equalTo(1400500528),
+                'updatedAt' => $this->equalTo(1401949998),
+                'isBlocked' => $this->equalTo(false),
+            ],
+            $contents[2]
+        );
+
+        $this->assertArrayConstrained(
+            [
+                'id'        => $this->equalTo(3),
+                'name'      => $this->equalTo('new name'),
+                'password'  => $this->equalTo('test'),
+                'addressId' => $this->equalTo(2),
+                'deletedAt' => $this->equalTo(null),
+                'createdAt' => $this->greaterThan(1400500528),
+                'updatedAt' => $this->greaterThan(1401949998),
+                'isBlocked' => $this->equalTo(false),
+            ],
+            $contents[3]
+        );
     }
 }
