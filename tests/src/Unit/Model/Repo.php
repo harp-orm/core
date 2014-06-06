@@ -7,18 +7,9 @@ use Harp\Validate\Assert\Present;
 
 class Repo extends AbstractRepo
 {
-    private static $instance;
-
-    /**
-     * @return User
-     */
-    public static function get()
+    public static function newInstance()
     {
-        if (! self::$instance) {
-            self::$instance = new Repo(__NAMESPACE__.'\Model', 'Model.json');
-        }
-
-        return self::$instance;
+        return new Repo(__NAMESPACE__.'\Model', 'Model.json');;
     }
 
     public function initialize()

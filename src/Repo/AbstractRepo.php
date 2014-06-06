@@ -14,8 +14,21 @@ use InvalidArgumentException;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class AbstractRepo
+abstract class AbstractRepo implements RepoInterface
 {
+    private static $instances;
+
+    public static function get()
+    {
+        $class = get_called_class();
+
+        if (! isset(self::$instances[$class])) {
+            self::$instances[$class] = static::newInstance();
+        }
+
+        return self::$instances[$class];
+    }
+
     abstract public function initialize();
 
     /**

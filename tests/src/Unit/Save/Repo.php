@@ -16,10 +16,15 @@ class Repo extends AbstractSaveRepo
     public static function get()
     {
         if (! self::$instance) {
-            self::$instance = new Repo(__NAMESPACE__.'\Model');
+            self::$instance = self::newInstance();
         }
 
         return self::$instance;
+    }
+
+    public static function newInstance()
+    {
+        return new Repo(__NAMESPACE__.'\Model');
     }
 
     public static function set(Repo $repo)

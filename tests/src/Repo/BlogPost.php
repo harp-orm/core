@@ -12,18 +12,9 @@ use Harp\Core\Test\Rel;
  */
 class BlogPost extends Post {
 
-    private static $instance;
-
-    /**
-     * @return User
-     */
-    public static function get()
+    public static function newInstance()
     {
-        if (! self::$instance) {
-            self::$instance = new BlogPost('Harp\Core\Test\Model\BlogPost', 'Post.json');
-        }
-
-        return self::$instance;
+        return new BlogPost('Harp\Core\Test\Model\BlogPost', 'Post.json');
     }
 
     public function initialize()

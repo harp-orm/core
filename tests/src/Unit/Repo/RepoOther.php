@@ -8,18 +8,9 @@ use BadMethodCallException;
 
 class RepoOther extends AbstractRepo
 {
-    private static $instance;
-
-    /**
-     * @return User
-     */
-    public static function get()
+    public static function newInstance()
     {
-        if (! self::$instance) {
-            self::$instance = new RepoOther(__NAMESPACE__.'\ModelOther');
-        }
-
-        return self::$instance;
+        return new RepoOther(__NAMESPACE__.'\ModelOther');
     }
 
     public function initialize()

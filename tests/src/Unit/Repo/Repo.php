@@ -11,18 +11,9 @@ class Repo extends AbstractRepo
     use Repo1Trait;
     use Repo2Trait;
 
-    private static $instance;
-
-    /**
-     * @return User
-     */
-    public static function get()
+    public static function newInstance()
     {
-        if (! self::$instance) {
-            self::$instance = new Repo(__NAMESPACE__.'\Model');
-        }
-
-        return self::$instance;
+        return new Repo(__NAMESPACE__.'\Model');
     }
 
     public function initialize()

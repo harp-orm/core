@@ -4,18 +4,9 @@ namespace Harp\Core\Test\Unit\Repo;
 
 class RepoInherited extends Repo
 {
-    private static $instance;
-
-    /**
-     * @return User
-     */
-    public static function get()
+    public static function newInstance()
     {
-        if (! self::$instance) {
-            self::$instance = new RepoInherited(__NAMESPACE__.'\RepoInherited');
-        }
-
-        return self::$instance;
+        return new RepoInherited(__NAMESPACE__.'\RepoInherited');
     }
 
     public function initialize()
