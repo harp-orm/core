@@ -18,6 +18,24 @@ use Harp\Validate\Assert\Present;
  */
 class AbstractRepoTest extends AbstractRepoTestCase
 {
+    /**
+     * @covers ::get
+     */
+    public function testGet()
+    {
+        $repo = new Repo2(__NAMESPACE__.'\Model');
+
+        Repo2::$instance = $repo;
+
+        $result = Repo2::get();
+
+        $this->assertSame($repo, $result);
+
+        $result = Repo2::get();
+
+        $this->assertSame($repo, $result);
+    }
+
     public function getRepoInitialized($initialized)
     {
         $repo = $this->getMockForAbstractClass(

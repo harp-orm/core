@@ -8,33 +8,9 @@ use BadMethodCallException;
 
 class Repo extends AbstractSaveRepo
 {
-    private static $instance;
-
-    /**
-     * @return User
-     */
-    public static function get()
-    {
-        if (! self::$instance) {
-            self::$instance = self::newInstance();
-        }
-
-        return self::$instance;
-    }
-
     public static function newInstance()
     {
         return new Repo(__NAMESPACE__.'\Model');
-    }
-
-    public static function set(Repo $repo)
-    {
-        self::$instance = $repo;
-    }
-
-    public static function clearInstance()
-    {
-        self::$instance = null;
     }
 
     public function initialize()

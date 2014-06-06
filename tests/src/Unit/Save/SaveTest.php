@@ -286,29 +286,36 @@ class SaveTest extends AbstractTestCase
 
         $repo1 = $this->getMock(
             __NAMESPACE__.'\Repo',
-            ['deleteModels', 'insertModels', 'updateModels'],
+            ['deleteModels', 'insertModels', 'updateModels', 'get'],
             [__NAMESPACE__.'\Model']
         );
 
+        $repo1
+            ->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($repo1));
+
         $repo2 = $this->getMock(
             __NAMESPACE__.'\SoftDeleteRepo',
-            ['deleteModels', 'insertModels', 'updateModels'],
+            ['deleteModels', 'insertModels', 'updateModels', 'get'],
             [__NAMESPACE__.'\SoftDeleteModel']
         );
 
-        Repo::set($repo1);
-        SoftDeleteRepo::set($repo2);
+        $repo2
+            ->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($repo2));
 
         $models = [
-            1 => (new Model(['id' => 1], State::SAVED))->setProperties(['name' => 'changed']),
-            2 => new Model(['id' => 2], State::VOID),
-            3 => new Model(['id' => 3], State::PENDING),
-            4 => new Model(['id' => 4], State::DELETED),
-            5 => (new SoftDeleteModel(['id' => 5], State::DELETED))->setProperties(['deletedAt' => time()]),
-            6 => new SoftDeleteModel(['id' => 6], State::SAVED),
-            7 => new SoftDeleteModel(['id' => 7], State::PENDING),
-            8 => new SoftDeleteModel(['id' => 8], State::DELETED),
-            9 => (new SoftDeleteModel(['id' => 9], State::SAVED))->setProperties(['name' => 'changed']),
+            1 => (new Model(['id' => 1, 'repo' => $repo1], State::SAVED))->setProperties(['name' => 'changed']),
+            2 => new Model(['id' => 2, 'repo' => $repo1], State::VOID),
+            3 => new Model(['id' => 3, 'repo' => $repo1], State::PENDING),
+            4 => new Model(['id' => 4, 'repo' => $repo1], State::DELETED),
+            5 => (new SoftDeleteModel(['id' => 5, 'repo' => $repo2], State::DELETED))->setProperties(['deletedAt' => time()]),
+            6 => new SoftDeleteModel(['id' => 6, 'repo' => $repo2], State::SAVED),
+            7 => new SoftDeleteModel(['id' => 7, 'repo' => $repo2], State::PENDING),
+            8 => new SoftDeleteModel(['id' => 8, 'repo' => $repo2], State::DELETED),
+            9 => (new SoftDeleteModel(['id' => 9, 'repo' => $repo2], State::SAVED))->setProperties(['name' => 'changed']),
         ];
 
         $save = new Save();
@@ -349,8 +356,5 @@ class SaveTest extends AbstractTestCase
         }
 
         $save->execute();
-
-        Repo::clearInstance();
-        SoftDeleteRepo::clearInstance();
     }
 }
