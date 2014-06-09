@@ -24,7 +24,7 @@ class Repo extends AbstractSaveRepo
 
     public function findAll()
     {
-        throw new BadMethodCallException('Test Repo: cannot call selectWithId');
+        throw new BadMethodCallException('Test Repo: cannot call findAll');
     }
 
     public function update(Models $models)
