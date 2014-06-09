@@ -27,7 +27,7 @@ class User extends AbstractTestRepo {
                     ->setLinkClass(__NAMESPACE__.'\LinkManyPosts'),
             ])
             ->setSoftDelete(true)
-            ->setAsserts([
+            ->addAsserts([
                 new Assert\Present('name'),
             ]);
     }

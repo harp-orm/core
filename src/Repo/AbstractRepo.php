@@ -359,7 +359,7 @@ abstract class AbstractRepo implements RepoInterface
      * @param  Harp\Validate\Asserts\AbstractAssert[] $asserts
      * @return AbstractRepo                           $this
      */
-    public function setAsserts(array $asserts)
+    public function addAsserts(array $asserts)
     {
         $this->initializeOnce();
 

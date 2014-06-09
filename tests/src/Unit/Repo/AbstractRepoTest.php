@@ -299,7 +299,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
     /**
      * @covers ::getAsserts
-     * @covers ::setAsserts
+     * @covers ::addAsserts
      */
     public function testAsserts()
     {
@@ -311,7 +311,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
             new Present('name'),
         ];
 
-        $repo->setAsserts($asserts);
+        $repo->addAsserts($asserts);
 
         $this->assertSame($asserts, Objects::toArray($repo->getAsserts()->all()));
     }

@@ -16,7 +16,7 @@ class Repo extends AbstractRepo
     {
         $this
             ->setInherited(true)
-            ->setAsserts([
+            ->addAsserts([
                 new Present('name'),
                 new Present('other'),
             ]);
