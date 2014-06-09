@@ -22,6 +22,7 @@ class BlogPost extends Post {
         parent::initialize();
 
         $this
+            ->setRootRepo(Post::get())
             ->addRels([
                 new Rel\One('address', $this, Address::get()),
             ]);
