@@ -161,7 +161,10 @@ abstract class AbstractFind
     public function load($flags = null)
     {
         $models = $this->loadRaw($flags);
-        $models = $this->getRepo()->getIdentityMap()->getArray($models);
+
+        foreach ($models as & $model) {
+            $model = $model->getRepo()->getIdentityMap()->get($model);
+        }
 
         return new RepoModels($this->repo, $models);
     }
