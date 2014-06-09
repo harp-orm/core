@@ -92,13 +92,37 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testRootRepo()
     {
-        $repo = $this->getRepoInitialized(true);
+        $repo = new Repo(__NAMESPACE__.'\Model');
 
         $this->assertSame($repo, $repo->getRootRepo());
 
         $repo->setRootRepo(RepoInherited::get());
 
         $this->assertSame(RepoInherited::get(), $repo->getRootRepo());
+    }
+
+    /**
+     * @covers ::setRootRepo
+     * @expectedException LogicException
+     * @expectedExceptionMessage The root repo must be set as inherited (->setInherited(true))
+     */
+    public function testRootRepoError1()
+    {
+        $repo = new Repo(__NAMESPACE__.'\ModelOther');
+
+        $repo->setRootRepo(RepoOther::get());
+    }
+
+    /**
+     * @covers ::setRootRepo
+     * @expectedException LogicException
+     * @expectedExceptionMessage You must call parent::initialize() for inherited repos
+     */
+    public function testRootRepoError2()
+    {
+        $repo = new RepoOther(__NAMESPACE__.'\ModelOther');
+
+        $repo->setRootRepo(Repo::get());
     }
 
     /**

@@ -7,6 +7,7 @@ use Harp\Core\Model\AbstractModel;
 use Harp\Core\Model\State;
 use Harp\Core\Rel\AbstractRel;
 use ReflectionClass;
+use LogicException;
 use InvalidArgumentException;
 
 /*
@@ -157,6 +158,14 @@ abstract class AbstractRepo implements RepoInterface
      */
     public function setRootRepo(AbstractRepo $rootRepo)
     {
+        if (! $rootRepo->getInherited()) {
+            throw new LogicException('The root repo must be set as inherited (->setInherited(true))');
+        }
+
+        if (! $this->inherited) {
+            throw new LogicException('You must call parent::initialize() for inherited repos');
+        }
+
         $this->rootRepo = $rootRepo;
 
         return $this;
