@@ -228,7 +228,6 @@ class ModelsTest extends AbstractTestCase
         $this->assertEquals([$source[2]], Objects::toArray($filtered->all()));
     }
 
-
     /**
      * @covers ::invoke
      */
@@ -247,6 +246,26 @@ class ModelsTest extends AbstractTestCase
         $this->assertEquals(['test1', 'test1', 'test2'], $result);
     }
 
+
+    /**
+     * @covers ::map
+     */
+    public function testMap()
+    {
+        $source = [
+            new Model(['name' => 'test1']),
+            new Model(['name' => 'test1']),
+            new Model(['name' => 'test2']),
+        ];
+
+        $models = new Models($source);
+
+        $result = $models->map(function ($model) {
+            return $model->name;
+        });
+
+        $this->assertEquals(['test1', 'test1', 'test2'], $result);
+    }
     /**
      * @covers ::byRepo
      */

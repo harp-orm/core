@@ -1,22 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
     "hash": "5bce17ab60dc0d9120fa412a1b440ab5",
     "packages": [
         {
             "name": "harp-orm/util",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/harp-orm/util.git",
-                "reference": "902c0d451126279fa0d5dbff7f3f99ce9e6cf9d2"
+                "reference": "66de94b09e584b00d1a67090e72f0e31454fab15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/harp-orm/util/zipball/902c0d451126279fa0d5dbff7f3f99ce9e6cf9d2",
-                "reference": "902c0d451126279fa0d5dbff7f3f99ce9e6cf9d2",
+                "url": "https://api.github.com/repos/harp-orm/util/zipball/66de94b09e584b00d1a67090e72f0e31454fab15",
+                "reference": "66de94b09e584b00d1a67090e72f0e31454fab15",
                 "shasum": ""
             },
             "type": "library",
@@ -25,6 +26,7 @@
                     "Harp\\Util\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -32,15 +34,12 @@
                 {
                     "name": "Ivan Kerin",
                     "email": "ikerin@gmail.com",
+                    "homepage": "http://www.openbuildings.com",
                     "role": "Author"
                 }
             ],
             "description": "General purpose helper methods",
-            "support": {
-                "source": "https://github.com/harp-orm/util/tree/0.2.0",
-                "issues": "https://github.com/harp-orm/util/issues"
-            },
-            "time": "2014-05-31 11:21:41"
+            "time": "2014-06-12 07:03:18"
         },
         {
             "name": "harp-orm/validate",
@@ -120,12 +119,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/clippings/phpunit-extensions.git",
-                "reference": "6cb5e86a36939c44f086210c344326303fc0ca0d"
+                "reference": "7b5cccefb43585ca0a8ca2c32de8f5a9cca8ef78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/clippings/phpunit-extensions/zipball/6cb5e86a36939c44f086210c344326303fc0ca0d",
-                "reference": "6cb5e86a36939c44f086210c344326303fc0ca0d",
+                "url": "https://api.github.com/repos/clippings/phpunit-extensions/zipball/7b5cccefb43585ca0a8ca2c32de8f5a9cca8ef78",
+                "reference": "7b5cccefb43585ca0a8ca2c32de8f5a9cca8ef78",
                 "shasum": ""
             },
             "type": "library",
@@ -147,7 +146,7 @@
                 }
             ],
             "description": "Additional assertions and constraints for PHPUnit",
-            "time": "2014-06-05 10:49:50"
+            "time": "2014-06-05 13:10:57"
         }
     ],
     "aliases": [],

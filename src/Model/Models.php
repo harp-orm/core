@@ -133,14 +133,6 @@ class Models implements Countable, Iterator
     }
 
     /**
-     * @return array
-     */
-    public function invoke($methodName)
-    {
-        return Objects::invoke($this->models, $methodName);
-    }
-
-    /**
      * @return int
      */
     public function count()
@@ -224,6 +216,24 @@ class Models implements Countable, Iterator
         $filtered->addObjects(Objects::filter($this->models, $filter));
 
         return $filtered;
+    }
+
+    /**
+     * @param  string $methodName
+     * @return array
+     */
+    public function invoke($methodName)
+    {
+        return Objects::invoke($this->models, $methodName);
+    }
+
+    /**
+     * @param  Closure $closure
+     * @return array
+     */
+    public function map(Closure $closure)
+    {
+        return Objects::map($this->models, $closure);
     }
 
     /**
