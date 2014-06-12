@@ -228,6 +228,25 @@ class ModelsTest extends AbstractTestCase
         $this->assertEquals([$source[2]], Objects::toArray($filtered->all()));
     }
 
+
+    /**
+     * @covers ::invoke
+     */
+    public function testInvoke()
+    {
+        $source = [
+            new Model(['name' => 'test1']),
+            new Model(['name' => 'test1']),
+            new Model(['name' => 'test2']),
+        ];
+
+        $models = new Models($source);
+
+        $result = $models->invoke('getName');
+
+        $this->assertEquals(['test1', 'test1', 'test2'], $result);
+    }
+
     /**
      * @covers ::byRepo
      */

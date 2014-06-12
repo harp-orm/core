@@ -14,4 +14,9 @@ class Model extends AbstractModel
     {
         return Repo::get();
     }
+
+    public function getName()
+    {
+        return $this->name;
+    }
 }

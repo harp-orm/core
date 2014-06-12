@@ -133,6 +133,14 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * @return array
+     */
+    public function invoke($methodName)
+    {
+        return Objects::invoke($this->models, $methodName);
+    }
+
+    /**
      * @return int
      */
     public function count()
