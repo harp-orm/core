@@ -555,6 +555,32 @@ abstract class AbstractRepo implements RepoInterface
     }
 
     /**
+     * Unserialize data from storage
+     *
+     * @param  AbstractModel $model
+     * @return AbstractRepo         $this
+     */
+    public function unserializeModel(AbstractModel $model)
+    {
+        if ($this->getInherited()) {
+            $model->class = $this->getModelClass();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Serialize model properties for storage
+     *
+     * @param  array  $properties
+     * @return array
+     */
+    public function serializeModel(array $properties)
+    {
+        return $properties;
+    }
+
+    /**
      * @return boolean
      */
     public function getInitialized()

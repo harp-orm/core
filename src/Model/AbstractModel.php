@@ -44,7 +44,7 @@ abstract class AbstractModel
             $this->setProperties($properties);
         }
 
-        $this->loadData();
+        $this->getRepo()->unserializeModel($this);
 
         $this->resetOriginals();
     }
@@ -56,20 +56,6 @@ abstract class AbstractModel
     public function getLink($name)
     {
         return $this->getRepo()->loadLink($this, $name);
-    }
-
-    public function loadData()
-    {
-        if ($this->getRepo()->getInherited()) {
-            $this->class = $this->getRepo()->getModelClass();
-        }
-
-        return $this;
-    }
-
-    public function saveData()
-    {
-        return $this;
     }
 
     /**

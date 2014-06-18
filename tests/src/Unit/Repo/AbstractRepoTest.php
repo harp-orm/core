@@ -72,6 +72,29 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::serializeModel
+     * @covers ::unserializeModel
+     */
+    public function testSerializeModel()
+    {
+        $repo = new Repo(__NAMESPACE__.'\Model');
+        $model = new Model();
+
+        $repo->unserializeModel($model);
+
+        $repo = new RepoInherited(__NAMESPACE__.'\ModelInherited');
+        $model = new ModelInherited();
+
+        $repo->unserializeModel($model);
+
+        $this->assertEquals('Harp\Core\Test\Unit\Repo\ModelInherited', $model->class);
+
+        $result = $repo->serializeModel($model->getProperties());
+
+        $this->assertSame($model->getProperties(), $result);
+    }
+
+    /**
      * @covers ::getPrimaryKey
      * @covers ::setPrimaryKey
      */

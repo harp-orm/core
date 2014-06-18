@@ -15,8 +15,6 @@ class AbstractModelTest extends AbstractTestCase
 {
    /**
      * @covers ::__construct
-     * @covers ::loadData
-     * @covers ::saveData
      * @covers ::getState
      */
     public function testConstrut()
@@ -35,7 +33,6 @@ class AbstractModelTest extends AbstractTestCase
         $this->assertEquals(10, $model->id);
         $this->assertEquals('name1', $model->name);
         $this->assertEquals(['id' => 10, 'name' => 'name1', 'class' => __NAMESPACE__.'\Model'], $model->getOriginals());
-        $this->assertSame($model, $model->saveData());
     }
 
     /**
