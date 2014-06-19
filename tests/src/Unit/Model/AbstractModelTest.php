@@ -5,6 +5,8 @@ namespace Harp\Core\Test\Unit\Model;
 use Harp\Core\Model\AbstractModel;
 use Harp\Core\Model\State;
 use Harp\Core\Repo\Event;
+use Harp\Core\Repo\LinkOne;
+use Harp\Core\Repo\LinkMany;
 use stdClass;
 use Harp\Core\Test\AbstractTestCase;
 
@@ -70,6 +72,40 @@ class AbstractModelTest extends AbstractTestCase
         $result = $model->getLink('test');
 
         $this->assertSame($link, $result);
+    }
+
+    /**
+     * @covers ::getLinkOrError
+     */
+    public function testGetLinkOrError()
+    {
+        $model = $this->getMock(
+            __NAMESPACE__.'\Model',
+            ['getLink'],
+            [],
+            '',
+            false
+        );
+        $other = new Model();
+        $otherVoid = new Model([], State::VOID);
+
+        $repo = new Repo(__NAMESPACE__.'\Model');
+
+        $linkOne = new LinkOne($model, new RelOne('one', $repo, $repo), $other);
+        $linkMany = new LinkMany($model, new RelMany('many', $repo, $repo), []);
+        $linkOneVoid = new LinkOne($model, new RelOne('one', $repo, $repo), $otherVoid);
+
+        $model
+            ->expects($this->exactly(3))
+            ->method('getLink')
+            ->will($this->onConsecutiveCalls($linkOne, $linkMany, $linkOneVoid));
+
+        $this->assertSame($linkOne, $model->getLinkOrError('test'));
+        $this->assertSame($linkMany, $model->getLinkOrError('test'));
+
+        $this->setExpectedException('LogicException', 'Link for rel test should not be void');
+
+        $this->assertSame($linkOne, $model->getLinkOrError('test'));
     }
 
     /**

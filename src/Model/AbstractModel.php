@@ -4,6 +4,7 @@ namespace Harp\Core\Model;
 
 use Harp\Validate\Errors;
 use Harp\Core\Repo\AbstractLink;
+use Harp\Core\Repo\LinkOne;
 use LogicException;
 
 /*
@@ -60,6 +61,23 @@ abstract class AbstractModel
     public function getLink($name)
     {
         return $this->getRepo()->loadLink($this, $name);
+    }
+
+    /**
+     * @param  string $name
+     * @return AbstractLink
+     */
+    public function getLinkOrError($name)
+    {
+        $link = $this->getLink($name);
+
+        if ($link instanceof LinkOne AND $link->get()->isVoid()) {
+            throw new LogicException(
+                sprintf('Link for rel %s should not be void', $name)
+            );
+        }
+
+        return $link;
     }
 
     /**
