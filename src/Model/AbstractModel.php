@@ -44,7 +44,11 @@ abstract class AbstractModel
             $this->setProperties($properties);
         }
 
-        $this->getRepo()->unserializeModel($this);
+        if ($this->getRepo()->getInherited()) {
+           $this->class = $this->getRepo()->getModelClass();
+        }
+
+        $this->getRepo()->getSerializers()->unserialize($this);
 
         $this->resetOriginals();
     }

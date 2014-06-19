@@ -100,12 +100,13 @@ class SaveTest extends AbstractIntegrationTestCase
 
         $this->assertArrayConstrained(
             [
-                'id' => $this->equalTo(1),
-                'name' => $this->equalTo('changed name'),
-                'password' => $this->equalTo(null),
+                'id'        => $this->equalTo(1),
+                'name'      => $this->equalTo('changed name'),
+                'password'  => $this->equalTo(null),
                 'addressId' => $this->equalTo(1),
                 'deletedAt' => $this->equalTo($user1->deletedAt),
                 'isBlocked' => $this->equalTo(true),
+                'profile'   => $this->equalTo(array('firstName'   => 'tester')),
             ],
             $contents[1]
         );
@@ -118,6 +119,7 @@ class SaveTest extends AbstractIntegrationTestCase
                 'addressId' => $this->equalTo(1),
                 'deletedAt' => $this->equalTo(1401949982),
                 'isBlocked' => $this->equalTo(false),
+                'profile'   => $this->equalTo(null),
             ],
             $contents[2]
         );
@@ -130,6 +132,7 @@ class SaveTest extends AbstractIntegrationTestCase
                 'addressId' => $this->equalTo(2),
                 'deletedAt' => $this->equalTo(null),
                 'isBlocked' => $this->equalTo(false),
+                'profile'   => $this->equalTo(null),
             ],
             $contents[3]
         );

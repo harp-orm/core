@@ -5,6 +5,7 @@ namespace Harp\Core\Test\Repo;
 use Harp\Core\Test\Rel;
 use Harp\Core\Test\Model;
 use Harp\Validate\Assert;
+use Harp\Serializer;
 
 /**
  * @author     Ivan Kerin
@@ -29,6 +30,10 @@ class User extends AbstractTestRepo {
             ->setSoftDelete(true)
             ->addAsserts([
                 new Assert\Present('name'),
+            ])
+            ->addSerializers([
+                new Serializer\Json('profile'),
             ]);
+
     }
 }

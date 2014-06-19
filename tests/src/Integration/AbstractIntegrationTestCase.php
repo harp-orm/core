@@ -60,7 +60,8 @@ abstract class AbstractIntegrationTestCase extends AbstractTestCase
                         "password": null,
                         "addressId": 1,
                         "deletedAt": null,
-                        "isBlocked": true
+                        "isBlocked": true,
+                        "profile" : "{\"firstName\":\"tester\"}"
                     },
                     "2": {
                         "id": 2,
@@ -68,7 +69,8 @@ abstract class AbstractIntegrationTestCase extends AbstractTestCase
                         "password": null,
                         "addressId": 1,
                         "deletedAt": 1401949982,
-                        "isBlocked": false
+                        "isBlocked": false,
+                        "profile" : null
                     }
                 }',
             ])

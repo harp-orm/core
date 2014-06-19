@@ -36,7 +36,7 @@ abstract class AbstractTestRepo extends AbstractSaveRepo
         $contents = $this->getContents();
 
         foreach ($models as $model) {
-            $contents[$model->getId()] = $this->serializeModel($model->getProperties());
+            $contents[$model->getId()] = $this->getSerializers()->serialize($model->getProperties());
         }
 
         $this->setContents($contents);
@@ -64,7 +64,7 @@ abstract class AbstractTestRepo extends AbstractSaveRepo
         foreach ($models as $model) {
             $id = $contents ? max(array_keys($contents)) + 1 : 1;
 
-            $contents[$id] = $this->serializeModel($model->setId($id)->getProperties());
+            $contents[$id] = $this->getSerializers()->serialize($model->setId($id)->getProperties());
         }
 
         $this->setContents($contents);

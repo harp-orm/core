@@ -3,6 +3,7 @@
 namespace Harp\Core\Repo;
 
 use Harp\Validate\Asserts;
+use Harp\Serializer\Serializers;
 use Harp\Core\Model\AbstractModel;
 use Harp\Core\Model\State;
 use Harp\Core\Rel\AbstractRel;
@@ -78,6 +79,11 @@ abstract class AbstractRepo implements RepoInterface
     private $asserts;
 
     /**
+     * @var Serializers
+     */
+    private $serializers;
+
+    /**
      * @var boolean
      */
     private $initialized = false;
@@ -105,6 +111,7 @@ abstract class AbstractRepo implements RepoInterface
         $this->modelClass = $modelClass;
         $this->linkMap = new LinkMap($this);
         $this->eventListeners = new EventListeners();
+        $this->serializers = new Serializers();
         $this->asserts = new Asserts();
         $this->modelReflection = new ReflectionClass($modelClass);
         $this->identityMap = new IdentityMap($this);
@@ -378,6 +385,29 @@ abstract class AbstractRepo implements RepoInterface
     }
 
     /**
+     * @return Serializers
+     */
+    public function getSerializers()
+    {
+        $this->initializeOnce();
+
+        return $this->serializers;
+    }
+
+    /**
+     * @param  Harp\Serializer\AbstractSerializer[] $serializers
+     * @return AbstractRepo                         $this
+     */
+    public function addSerializers(array $serializers)
+    {
+        $this->initializeOnce();
+
+        $this->getSerializers()->set($serializers);
+
+        return $this;
+    }
+
+    /**
      * @param  Closure|string|array $callback
      * @return AbstractRepo         $this
      */
@@ -552,32 +582,6 @@ abstract class AbstractRepo implements RepoInterface
     public function isModel(AbstractModel $model)
     {
         return $this->getRootRepo()->getModelReflection()->isInstance($model);
-    }
-
-    /**
-     * Unserialize data from storage
-     *
-     * @param  AbstractModel $model
-     * @return AbstractRepo         $this
-     */
-    public function unserializeModel(AbstractModel $model)
-    {
-        if ($this->getInherited()) {
-            $model->class = $this->getModelClass();
-        }
-
-        return $this;
-    }
-
-    /**
-     * Serialize model properties for storage
-     *
-     * @param  array  $properties
-     * @return array
-     */
-    public function serializeModel(array $properties)
-    {
-        return $properties;
     }
 
     /**

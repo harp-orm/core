@@ -12,6 +12,7 @@ use Harp\Core\Model\AbstractModel;
 use Harp\Core\Model\State;
 use Harp\Util\Objects;
 use Harp\Validate\Assert\Present;
+use Harp\Serializer\Json;
 
 /**
  * @coversDefaultClass Harp\Core\Repo\AbstractRepo
@@ -69,29 +70,6 @@ class AbstractRepoTest extends AbstractRepoTestCase
         $repo = $this->getRepoInitialized(false);
 
         $this->assertEquals('Model', $repo->getName());
-    }
-
-    /**
-     * @covers ::serializeModel
-     * @covers ::unserializeModel
-     */
-    public function testSerializeModel()
-    {
-        $repo = new Repo(__NAMESPACE__.'\Model');
-        $model = new Model();
-
-        $repo->unserializeModel($model);
-
-        $repo = new RepoInherited(__NAMESPACE__.'\ModelInherited');
-        $model = new ModelInherited();
-
-        $repo->unserializeModel($model);
-
-        $this->assertEquals('Harp\Core\Test\Unit\Repo\ModelInherited', $model->class);
-
-        $result = $repo->serializeModel($model->getProperties());
-
-        $this->assertSame($model->getProperties(), $result);
     }
 
     /**
@@ -361,6 +339,25 @@ class AbstractRepoTest extends AbstractRepoTestCase
         $repo->addAsserts($asserts);
 
         $this->assertSame($asserts, Objects::toArray($repo->getAsserts()->all()));
+    }
+
+    /**
+     * @covers ::getSerializers
+     * @covers ::addSerializers
+     */
+    public function testSerializers()
+    {
+        $repo = $this->getRepoInitialized(true);
+
+        $this->assertInstanceof('Harp\Serializer\Serializers', $repo->getSerializers());
+
+        $serializers = [
+            new Json('profile'),
+        ];
+
+        $repo->addSerializers($serializers);
+
+        $this->assertSame($serializers, Objects::toArray($repo->getSerializers()->all()));
     }
 
     /**
