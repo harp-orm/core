@@ -71,7 +71,7 @@ abstract class AbstractModel
     {
         $link = $this->getLink($name);
 
-        if ($link instanceof LinkOne AND $link->get()->isVoid()) {
+        if ($link instanceof LinkOne and $link->get()->isVoid()) {
             throw new LogicException(
                 sprintf('Link for rel %s should not be void', $name)
             );
