@@ -159,7 +159,7 @@ class Models implements Countable, Iterator
         foreach ($this->models as $model) {
             if (! $model->validate()) {
                 throw new LogicException(
-                    sprintf('Model contains errors %s', $model->getErrors()->humanize())
+                    sprintf('%s contains errors: %s', $model->getRepo()->getName(), $model->getErrors()->humanize())
                 );
             }
         }
