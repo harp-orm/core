@@ -181,6 +181,9 @@ abstract class AbstractSaveRepo extends AbstractRepo
         $this->update($models);
 
         foreach ($models as $model) {
+
+            $model->resetOriginals();
+
             if ($model->isSoftDeleted()) {
                 $this->dispatchAfterEvent($model, Event::DELETE);
             } else {
