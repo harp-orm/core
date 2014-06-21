@@ -246,13 +246,7 @@ abstract class AbstractModel
      */
     public function validate()
     {
-        $changes = $this->getProperties();
-
-        if ($this->getUnmapped()) {
-            $changes += $this->getUnmapped();
-        }
-
-        $this->errors = $this->getRepo()->getAsserts()->validate($changes);
+        $this->errors = $this->getRepo()->getAsserts()->validate($this);
 
         return $this->isEmptyErrors();
     }
