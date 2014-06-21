@@ -72,8 +72,8 @@ class Save implements Countable
     /**
      * Add only one model without traversing the linked models
      *
-     * @param AbstractModel $model
-     * @return Save $this
+     * @param  AbstractModel $model
+     * @return Save          $this
      */
     public function addShallow(AbstractModel $model)
     {
@@ -85,7 +85,7 @@ class Save implements Countable
     /**
      * Add a model, traverse all the linked models recursively and add them too.
      *
-     * @param AbstractModel $model
+     * @param  AbstractModel $model
      * @return Save
      */
     public function add(AbstractModel $model)
@@ -163,7 +163,7 @@ class Save implements Countable
      * Each callback may return a Models object, in which case these models are added too.
      * This is useful for relations that modify additional models
      *
-     * @param  Closure $yield
+     * @param Closure $yield
      */
     public function eachLink(Closure $yield)
     {

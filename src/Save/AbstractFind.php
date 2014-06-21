@@ -198,7 +198,7 @@ abstract class AbstractFind
      * Example:
      *   ->loadWith(['user' => 'profile'])
      *
-     * @param  array  $rels
+     * @param  array      $rels
      * @return RepoModels
      */
     public function loadWith(array $rels, $flags = null)
