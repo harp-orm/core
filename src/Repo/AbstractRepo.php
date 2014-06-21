@@ -432,24 +432,6 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  int     $event
-     * @return boolean
-     */
-    public function hasBeforeEvent($event)
-    {
-        return $this->getEventListeners()->hasBeforeEvent($event);
-    }
-
-    /**
-     * @param  int     $event
-     * @return boolean
-     */
-    public function hasAfterEvent($event)
-    {
-        return $this->getEventListeners()->hasAfterEvent($event);
-    }
-
-    /**
      * @param  AbstractModel $model
      * @param  int           $event
      * @return AbstractRepo  $this

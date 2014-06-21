@@ -343,8 +343,6 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
 
     /**
-     * @covers ::hasBeforeEvent
-     * @covers ::hasAfterEvent
      * @covers ::dispatchBeforeEvent
      * @covers ::dispatchAfterEvent
      */
@@ -365,7 +363,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
         );
 
         $repo
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(2))
             ->method('getEventListeners')
             ->will($this->returnValue($eventListener));
 
@@ -382,20 +380,6 @@ class AbstractRepoTest extends AbstractRepoTestCase
             ->with($this->identicalTo($model), $this->equalTo(Event::SAVE));
 
         $repo->dispatchAfterEvent($model, Event::SAVE);
-
-        $eventListener
-            ->expects($this->once())
-            ->method('hasBeforeEvent')
-            ->with($this->equalTo(Event::SAVE));
-
-        $repo->hasBeforeEvent(Event::SAVE);
-
-        $eventListener
-            ->expects($this->once())
-            ->method('hasAfterEvent')
-            ->with($this->equalTo(Event::SAVE));
-
-        $repo->hasAfterEvent(Event::SAVE);
     }
 
     /**
