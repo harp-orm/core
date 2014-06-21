@@ -16,7 +16,6 @@ class Repo extends AbstractRepo
     public function initialize()
     {
         $this
-            ->setInherited(true)
             ->addAsserts([
                 new Present('name'),
                 new Present('other'),

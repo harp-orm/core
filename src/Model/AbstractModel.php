@@ -29,7 +29,7 @@ abstract class AbstractModel
     use PropertiesAccessorTrait;
 
     /**
-     * @return Harp\Core\Repo\AbstractRepo
+     * @return \Harp\Core\Repo\AbstractRepo
      */
     abstract public function getRepo();
 
@@ -39,7 +39,7 @@ abstract class AbstractModel
     private $state;
 
     /**
-     * @var array
+     * @var Errors
      */
     private $errors;
 
@@ -57,13 +57,11 @@ abstract class AbstractModel
             $this->setProperties($properties);
         }
 
-        if ($this->getRepo()->getInherited()) {
-           $this->class = $this->getRepo()->getModelClass();
-        }
-
         $this->getRepo()->getSerializers()->unserialize($this);
 
-        $this->resetOriginals();
+        $this
+            ->updateInheritanceClass()
+            ->resetOriginals();
 
         $this->getRepo()->dispatchAfterEvent($this, Event::CONSTRUCT);
     }
@@ -199,13 +197,23 @@ abstract class AbstractModel
     }
 
     /**
-     * This method will be overwridden by SoftDeleteTrait
+     * This method will be overridden by SoftDeleteTrait
      *
      * @return boolean
      */
     public function isSoftDeleted()
     {
         return false;
+    }
+
+    /**
+     * A no-op, will be overridden by InheritedTrait
+     *
+     * @return AbstractModel $this
+     */
+    public function updateInheritanceClass()
+    {
+        return $this;
     }
 
     /**

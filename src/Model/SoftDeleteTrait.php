@@ -6,6 +6,7 @@ namespace Harp\Core\Model;
  * Add deletedAt property and methods to work with soft deletion.
  * Also overrides several getDefaultState, delete, isSoftDeleted to return appropriate values,
  * if the model is "soft deleted"
+ * You need to call setSoftDelete(true) on the corresponding repo
  *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.

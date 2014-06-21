@@ -3,6 +3,7 @@
 namespace Harp\Core\Test\Model;
 
 use Harp\Core\Model\AbstractModel;
+use Harp\Core\Model\InheritedTrait;
 use Harp\Core\Test\Repo;
 
 /**
@@ -10,7 +11,9 @@ use Harp\Core\Test\Repo;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-class Post extends AbstractModel {
+class Post extends AbstractModel
+{
+    use InheritedTrait;
 
     public function getRepo()
     {
@@ -21,7 +24,6 @@ class Post extends AbstractModel {
     public $name;
     public $body;
     public $userId;
-    public $class;
 
     public function getUser()
     {

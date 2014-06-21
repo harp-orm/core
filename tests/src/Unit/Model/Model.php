@@ -8,7 +8,6 @@ class Model extends AbstractModel
 {
     public $id;
     public $name = 'test';
-    public $class;
     public $afterConstructCalled = false;
 
     public function getRepo()
