@@ -9,7 +9,9 @@ use Countable;
 use Iterator;
 use LogicException;
 
-/*
+/**
+ * A collection of model unique objects.
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
@@ -39,6 +41,8 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * Link all models from the SplObjectStorage
+     *
      * @param  SplObjectStorage $models
      * @return Models           $this
      */
@@ -51,6 +55,11 @@ class Models implements Countable, Iterator
         return $this;
     }
 
+    /**
+     * Add all models from a different Models collection
+     *
+     * @param Models $other
+     */
     public function addAll(Models $other)
     {
         if ($other->count() > 0) {
@@ -151,6 +160,8 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * Call "validate" method on all the models, throw a LogicException if any of them has validation errors.
+     *
      * @throws LogicException If a model is invalid
      * @return Models $this
      */
@@ -206,6 +217,9 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * Return a new Models object with only the models that pass the filter callback
+     * (Filter callback returned true).
+     *
      * @param  Closure $filter must return true for each item
      * @return Models  Filtered models
      */
@@ -219,6 +233,8 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * Call a method on each of the models, return the results as an array
+     *
      * @param  string $methodName
      * @return array
      */
@@ -228,6 +244,8 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * Call a closure for each model, return the results as an array
+     *
      * @param  Closure $closure
      * @return array
      */
@@ -256,6 +274,8 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * Return the value of a property for each model
+     *
      * @param  string $property
      * @return array
      */
@@ -271,6 +291,8 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * Return false if there is at least one non-empty property of a model.
+     *
      * @param  string  $property
      * @return boolean
      */
@@ -286,6 +308,8 @@ class Models implements Countable, Iterator
     }
 
     /**
+     * Return only unique values from pluckProperty
+     *
      * @param  string $property
      * @return array
      */

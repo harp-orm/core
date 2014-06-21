@@ -9,6 +9,9 @@ use Closure;
 use Countable;
 
 /**
+ * This model handles grouping of models for saving to the storage mechanism.
+ * It will group models from the same repos, alongside linked models (traversed recursively).
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
@@ -20,6 +23,9 @@ class Save implements Countable
      */
     private $models;
 
+    /**
+     * @param array $models
+     */
     public function __construct(array $models = array())
     {
         $this->models = new Models();
@@ -28,6 +34,8 @@ class Save implements Countable
     }
 
     /**
+     * Return all the models that are deleted (but not soft deleted)
+     *
      * @return Models
      */
     public function getModelsToDelete()
@@ -38,6 +46,8 @@ class Save implements Countable
     }
 
     /**
+     * Return all the "pending" models
+     *
      * @return Models
      */
     public function getModelsToInsert()
@@ -48,6 +58,8 @@ class Save implements Countable
     }
 
     /**
+     * Return all the models that are both saved and changed
+     *
      * @return Models
      */
     public function getModelsToUpdate()
@@ -57,6 +69,12 @@ class Save implements Countable
         });
     }
 
+    /**
+     * Add only one model without traversing the linked models
+     *
+     * @param AbstractModel $model
+     * @return Save $this
+     */
     public function addShallow(AbstractModel $model)
     {
         $this->models->add($model);
@@ -64,6 +82,12 @@ class Save implements Countable
         return $this;
     }
 
+    /**
+     * Add a model, traverse all the linked models recursively and add them too.
+     *
+     * @param AbstractModel $model
+     * @return AbstractModel
+     */
     public function add(AbstractModel $model)
     {
         if (! $this->has($model)) {
@@ -114,6 +138,11 @@ class Save implements Countable
         return $this->models->has($model);
     }
 
+    /**
+     * Remove all the added models
+     *
+     * @return Save $this
+     */
     public function clear()
     {
         $this->models->clear();
@@ -129,6 +158,13 @@ class Save implements Countable
         return $this->models->count();
     }
 
+    /**
+     * Iterate over all the links of the models
+     * Each callback may return a Models object, in which case these models are added too.
+     * This is useful for relations that modify additional models
+     *
+     * @param  Closure $yield
+     */
     public function eachLink(Closure $yield)
     {
         foreach ($this->models as $model) {
@@ -146,6 +182,9 @@ class Save implements Countable
         }
     }
 
+    /**
+     * Perform "delete" method on each link and gather the results
+     */
     public function addFromDeleteRels()
     {
         $this->eachLink(function (AbstractLink $link) {
@@ -153,6 +192,9 @@ class Save implements Countable
         });
     }
 
+    /**
+     * Perform "insert" method on each link and gather the results
+     */
     public function addFromInsertRels()
     {
         $this->eachLink(function (AbstractLink $link) {
@@ -160,6 +202,9 @@ class Save implements Countable
         });
     }
 
+    /**
+     * Perform "update" method on each link and gather the results
+     */
     public function addFromUpdateRels()
     {
         $this->eachLink(function (AbstractLink $link) {
@@ -167,6 +212,9 @@ class Save implements Countable
         });
     }
 
+    /**
+     * Save all the models to the storage mechanism
+     */
     public function execute()
     {
         $this->addFromDeleteRels();

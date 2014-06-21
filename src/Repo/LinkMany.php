@@ -12,6 +12,14 @@ use Countable;
 use Iterator;
 
 /**
+ * Represents a link between one model and many other "foreign" models.
+ * It is the result of a "many" relation (RelMany).
+ *
+ * Tracks changes so you can retrieve original models, and know which ones were added / deleted.
+ * Can also act as an iterater so you can foreach all the foreign models.
+ * RepoModels is used to store the models internaly, so that adding foreign models from
+ * different repos will result in an exception.
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
@@ -95,6 +103,8 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
+     * Used in the saving process.
+     *
      * @return Models
      */
     public function getCurrentAndOriginal()
@@ -126,6 +136,8 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
+     * Used by DeleteManyInterface relations, in the saving process
+     *
      * @return Models|null
      */
     public function delete()
@@ -137,6 +149,8 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
+     * Used by InsertManyInterface relations, in the saving process
+     *
      * @return Models|null
      */
     public function insert()
@@ -149,6 +163,8 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     }
 
     /**
+     * Used by UpdateManyInterface relations, in the saving process
+     *
      * @return Models|null
      */
     public function update()

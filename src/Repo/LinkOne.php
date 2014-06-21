@@ -10,6 +10,12 @@ use Harp\Core\Model\AbstractModel;
 use Harp\Core\Model\Models;
 
 /**
+ * Represents a link between one model and another "foreign" model.
+ * It is the result of a "one" relation (RelOne).
+ *
+ * Tracks changes so you can retrieve original model as well.
+ * If the linked foreign model could not be found will return a "void" model.
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
@@ -92,6 +98,8 @@ class LinkOne extends AbstractLink
     }
 
     /**
+     * Used in the saving process.
+     *
      * @return Models
      */
     public function getCurrentAndOriginal()
@@ -100,6 +108,8 @@ class LinkOne extends AbstractLink
     }
 
     /**
+     * Used by DeleteManyInterface relations, in the saving process
+     *
      * @return Models|null
      */
     public function delete()
@@ -112,6 +122,8 @@ class LinkOne extends AbstractLink
     }
 
     /**
+     * Used by InsertOneInterface relations, in the saving process
+     *
      * @return Models|null
      */
     public function insert()
@@ -124,6 +136,8 @@ class LinkOne extends AbstractLink
     }
 
     /**
+     * Used by UpdateOneInterface relations, in the saving process
+     *
      * @return Models|null
      */
     public function update()

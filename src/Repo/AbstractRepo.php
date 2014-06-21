@@ -11,15 +11,36 @@ use ReflectionClass;
 use LogicException;
 use InvalidArgumentException;
 
-/*
+/**
+ * A Repo represents a storage and configuration medium for models. Each model has a corresponding "repo".
+ * Repos are also singleton classes. You can get the repo object with the "get" static method
+ *
+ * This class is the core implementation of a repo and contins all the logic for the "configuration" part.
+ *
+ * The abstract method "initialize" which is implemented in your own repos is called only once. It is
+ * distinct from the __construct, becase it can create a lot of overhead. Since relations require "repo"
+ * requesting a single "repo" could trigger the constructors of all the other repos, associated with it,
+ * and their related repo's too. Thats why we need "initialize" method, which will lazy load all the relations.
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 abstract class AbstractRepo
 {
+    /**
+     * Holds all the singleton repo instances.
+     * Use the name of the class as array key.
+     *
+     * @var array
+     */
     private static $instances;
 
+    /**
+     * Implement singleton pattern for repos.
+     *
+     * @return AbstractRepo
+     */
     public static function get()
     {
         $class = get_called_class();
@@ -150,6 +171,8 @@ abstract class AbstractRepo
     }
 
     /**
+     * Used for inherited repos.
+     *
      * @return AbstractRepo
      */
     public function getRootRepo()
@@ -160,6 +183,8 @@ abstract class AbstractRepo
     }
 
     /**
+     * Used for inherited repos. All the child repos should call this, to set the parent repo object explicitly.
+     *
      * @param  AbstractRepo $rootRepo
      * @return AbstractRepo $this
      */
@@ -197,6 +222,9 @@ abstract class AbstractRepo
     }
 
     /**
+     * Enables "soft delete" on models of this repo.
+     * You will need to add the SoftDeleteTrait to the model class too.
+     *
      * @param  boolean      $softDelete
      * @return AbstractRepo $this
      */
@@ -218,6 +246,9 @@ abstract class AbstractRepo
     }
 
     /**
+     * Enables Repo "inheritance" allowing multiple repos to share one storage table
+     * You will need to call setRootRepo on all the child repos.
+     *
      * @param  boolean      $inherited
      * @return AbstractRepo $this
      */
@@ -335,6 +366,8 @@ abstract class AbstractRepo
     }
 
     /**
+     * Check if a model belongs to this repo. Child classes are also accepted
+     *
      * @param  AbstractModel            $name
      * @throws InvalidArgumentException If model not part of repo
      */
@@ -372,8 +405,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  Harp\Validate\Asserts\AbstractAssert[] $asserts
-     * @return AbstractRepo                           $this
+     * @param  \Harp\Validate\Asserts\AbstractAssert[] $asserts
+     * @return AbstractRepo                            $this
      */
     public function addAsserts(array $asserts)
     {
@@ -395,8 +428,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @param  Harp\Serializer\AbstractSerializer[] $serializers
-     * @return AbstractRepo                         $this
+     * @param  \Harp\Serializer\AbstractSerializer[] $serializers
+     * @return AbstractRepo                          $this
      */
     public function addSerializers(array $serializers)
     {
@@ -474,6 +507,11 @@ abstract class AbstractRepo
         return $this->modelReflection->newInstance($fields, State::VOID);
     }
 
+    /**
+     * Clear IdentityMap and LinkMap
+     *
+     * @return AbstractRepo $this
+     */
     public function clear()
     {
         $this->identityMap->clear();
@@ -499,6 +537,10 @@ abstract class AbstractRepo
         return $this->initialized;
     }
 
+    /**
+     * Call "initialize" method only once,
+     * this is determined by the "initialized" property.
+     */
     public function initializeOnce()
     {
         if (! $this->initialized) {

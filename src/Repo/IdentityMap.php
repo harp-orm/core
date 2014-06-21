@@ -4,7 +4,11 @@ namespace Harp\Core\Repo;
 
 use Harp\Core\Model\AbstractModel;
 
-/*
+/**
+ * Each loaded model is passed through the IdentityMap. If another model with the same ID is already present,
+ * then that model is returned. This means that you will retrieve the same object each time you load models
+ * with the same ID.
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
@@ -43,6 +47,9 @@ class IdentityMap
     }
 
     /**
+     * If a model with the same key already exist in the identity map return that model.
+     * Only handle 'saved' models.
+     *
      * @param  AbstractModel $model
      * @return AbstractModel
      */
@@ -71,6 +78,8 @@ class IdentityMap
     }
 
     /**
+     * Call the "get" method for a whole array of models
+     *
      * @param  AbstractModel[] $models
      * @return AbstractModel[]
      */

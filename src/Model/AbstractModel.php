@@ -8,7 +8,16 @@ use Harp\Core\Repo\LinkOne;
 use Harp\Core\Repo\Event;
 use LogicException;
 
-/*
+/**
+ * The class that all models should extend.
+ * Some of its generic functionality has been extracted to traits so it can be added to other classes
+ *
+ * Each model should be able to reference its repo, thats why you will need to implement getRepo method.
+ *
+ * Each model has several different "states". State::PENDING, State::DELETED, State::SAVED are used in the
+ * model's persistence lifesycle. State::VOID is a special state signifying a non-existant "Null" model.
+ * Its useful as void models cannot be saved, but retain all of their functionality.
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
@@ -35,6 +44,8 @@ abstract class AbstractModel
     private $errors;
 
     /**
+     * Set properties / state, unserialize properties and set original properties.
+     *
      * @param array $properties
      * @param int   $state
      */
@@ -58,6 +69,8 @@ abstract class AbstractModel
     }
 
     /**
+     * Shortcut method to Repo's loadLink
+     *
      * @param  string $name
      * @return AbstractLink
      */
@@ -67,8 +80,11 @@ abstract class AbstractModel
     }
 
     /**
+     * Shortcut method to Repo's loadLink. Throws LogicException if the link is void
+     *
      * @param  string $name
      * @return AbstractLink
+     * @throws LogicException If link is void
      */
     public function getLinkOrError($name)
     {
@@ -84,6 +100,8 @@ abstract class AbstractModel
     }
 
     /**
+     * Default state of models with "id" is State::SAVED, otherwise - State::PENDING
+     *
      * @return int
      */
     public function getDefaultState()
@@ -118,6 +136,8 @@ abstract class AbstractModel
     }
 
     /**
+     * Void models will not be saved.
+     *
      * @return AbstractModel $this
      */
     public function setStateVoid()
@@ -128,6 +148,7 @@ abstract class AbstractModel
     }
 
     /**
+     * @param  int           $state
      * @return AbstractModel $this
      */
     public function setState($state)
@@ -178,6 +199,8 @@ abstract class AbstractModel
     }
 
     /**
+     * This method will be overwridden by SoftDeleteTrait
+     *
      * @return boolean
      */
     public function isSoftDeleted()
@@ -198,7 +221,7 @@ abstract class AbstractModel
     /**
      * Set property defined by Repo Primary Key
      *
-     * @param mixed
+     * @param  mixed
      * @return AbstractModel $this
      */
     public function setId($id)
@@ -239,10 +262,7 @@ abstract class AbstractModel
     }
 
     /**
-     * Call execute on Repo's Assertions for this model
-     * Use only changes and unmapped
-     *
-     * @return boolean is empty errors
+     * @return boolean
      */
     public function validate()
     {

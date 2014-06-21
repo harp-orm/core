@@ -5,6 +5,8 @@ namespace Harp\Core\Repo;
 use Harp\Core\Model\AbstractModel;
 
 /**
+ * Events in the lifecycle of models. Before and After events are separate.
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt

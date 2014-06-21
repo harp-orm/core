@@ -3,6 +3,9 @@
 namespace Harp\Core\Model;
 
 /**
+ * This will add ability to check if public properties of an object have been "changed".
+ * It is important to "setOriginals" early in the objects lifesycle (constructor).
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt

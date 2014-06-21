@@ -8,6 +8,10 @@ use Harp\Core\Repo\AbstractRepo;
 use Closure;
 
 /**
+ * The base class for all the relations. Actual relations should extend AbstractRelMany or AbstractRelOne.
+ * The main idea is to load all the models associated with a given set of models.
+ * That way eager loading works out of the box.
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
@@ -35,10 +39,14 @@ abstract class AbstractRel
     abstract public function newLinkFrom(AbstractModel $model, array $links);
 
     /**
-     * @param string       $name
+     * Foreign repo is used to allow you to correctly return "void" models.
+     * Even if your relation is polymorphic and can link to different repos, you should
+     * provide a default repo.
+     *
+     * @param string       $name        Unique repo name
      * @param AbstractRepo $repo
      * @param AbstractRepo $foreignRepo
-     * @param array        $properties
+     * @param array        $properties   Added as is to the rel's properties.
      */
     public function __construct(
         $name,
@@ -94,6 +102,14 @@ abstract class AbstractRel
         }
     }
 
+    /**
+     * Iterate models and foreign models one by one and and assign links based on the areLinked method
+     * Yeild the resulted links one by one for further processing.
+     *
+     * @param  Models  $models
+     * @param  Models  $foreign
+     * @param  Closure $yield   call for each link
+     */
     public function linkModels(Models $models, Models $foreign, Closure $yield)
     {
         foreach ($models as $model) {

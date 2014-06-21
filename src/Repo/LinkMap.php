@@ -6,7 +6,10 @@ use Harp\Core\Model\AbstractModel;
 use SplObjectStorage;
 use InvalidArgumentException;
 
-/*
+/**
+ * Hold all the links between models. It is useful to hold this information outside of the models
+ * themselves (in SplObjectStorage), So that the models' footprint remain as small as possible.
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
@@ -23,12 +26,18 @@ class LinkMap
      */
     private $repo;
 
+    /**
+     * @param AbstractRepo $repo
+     */
     public function __construct(AbstractRepo $repo)
     {
         $this->map = new SplObjectStorage();
         $this->repo = $repo;
     }
 
+    /**
+     * @return AbstractRepo
+     */
     public function getRepo()
     {
         return $this->repo;

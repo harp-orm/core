@@ -8,7 +8,9 @@ use Harp\Core\Repo\Event;
 use Harp\Core\Repo\RepoModels;
 use InvalidArgumentException;
 
-/*
+/**
+ * This class provides a common interface for retrieving models.
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
@@ -73,6 +75,9 @@ abstract class AbstractFind
      */
     private $repo;
 
+    /**
+     * @param AbstractSaveRepo $repo
+     */
     public function __construct(AbstractSaveRepo $repo)
     {
         $this->repo = $repo;
@@ -87,6 +92,8 @@ abstract class AbstractFind
     }
 
     /**
+     * Use the Primary key for the "name" part of the where constraint
+     *
      * @param  mixed        $value
      * @return AbstractFind $this
      */
@@ -100,6 +107,8 @@ abstract class AbstractFind
     }
 
     /**
+     * Use the Primary key for the "name" part of the where constraint
+     *
      * @param  mixed        $values
      * @return AbstractFind $this
      */
@@ -112,6 +121,11 @@ abstract class AbstractFind
         return $this;
     }
 
+    /**
+     * Add a constrint not to return soft deleted models
+     *
+     * @return AbstractFind $this
+     */
     public function onlySaved()
     {
         $this->where('deletedAt', null);
@@ -119,6 +133,11 @@ abstract class AbstractFind
         return $this;
     }
 
+    /**
+     * Add a constrint to only return soft deleted models
+     *
+     * @return AbstractFind $this
+     */
     public function onlyDeleted()
     {
         $this->whereNot('deletedAt', null);
@@ -126,6 +145,13 @@ abstract class AbstractFind
         return $this;
     }
 
+    /**
+     * You can pass State::DELETED to retrieve only deleted
+     * and State::DELETED | State::SAVED to retrieve deleted + saved
+     *
+     * @param  int          $flags
+     * @return AbstractFind $this
+     */
     public function applyFlags($flags)
     {
         if ($this->getRepo()->getSoftDelete()) {
@@ -152,6 +178,8 @@ abstract class AbstractFind
     }
 
     /**
+     * Calls "loadRaw" and passes the result through an IdentityMap
+     *
      * @return RepoModels
      */
     public function load($flags = null)
@@ -166,6 +194,11 @@ abstract class AbstractFind
     }
 
     /**
+     * Eager load relations.
+     *
+     * Example:
+     *   ->loadWith(['user' => 'profile'])
+     *
      * @param  array  $rels
      * @return RepoModels
      */
@@ -195,6 +228,8 @@ abstract class AbstractFind
     }
 
     /**
+     * Will return a void model if no model is found.
+     *
      * @return AbstractModel
      */
     public function loadFirst($flags = null)

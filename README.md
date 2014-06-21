@@ -8,7 +8,9 @@ Harp Core Components
 [![Code Coverage](https://scrutinizer-ci.com/g/harp-orm/core/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/harp-orm/core/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/harp-orm/core/v/stable.svg)](https://packagist.org/packages/harp-orm/core)
 
-DataMapper style ORM Core Componenets
+DataMapper style ORM Core Components.
+
+The main documentation can be found at [Harp](http://github.com/harp-orm/harp). This package contains everything in harp that is not tied to a storage mechanism.
 
 ## License
 

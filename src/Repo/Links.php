@@ -6,6 +6,9 @@ use Harp\Core\Model\AbstractModel;
 use Harp\Core\Model\Models;
 
 /**
+ * A class holding all the links for a given model. LinkMap holds Links objects.
+ * Allows retrieving all the linked models recursively.
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt

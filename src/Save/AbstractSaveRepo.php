@@ -11,7 +11,10 @@ use Harp\Core\Repo\Event;
 use Harp\Util\Arr;
 use InvalidArgumentException;
 
-/*
+/**
+ * This is the second part of the repo core, and handles loading and saving models.
+ * It implements eager loading and handles model life-cycle event dispatching.
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
@@ -42,6 +45,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     abstract public function insert(Models $models);
 
     /**
+     * Find a model with a given ID, or return a void model if none is found
+     *
      * @param  string|id     $id
      * @return AbstractModel
      */
@@ -54,6 +59,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
+     * Find a model by its name key, or return a void model if none is found
+     *
      * @param  string        $id
      * @return AbstractModel
      */
@@ -66,6 +73,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
+     * Return a new "save" object so models from multiple repos can be saved simultaneously
+     *
      * @return Save
      */
     public function newSave()
@@ -74,6 +83,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
+     * Save the model using a Save object. This will save all the linked models as well
+     *
      * @param  AbstractModel            $model
      * @return AbstractSaveRepo         $this
      * @throws InvalidArgumentException If $model does not belong to repo
@@ -94,6 +105,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
+     * Add an already loaded link. Used in eager loading.
+     *
      * @param  AbstractLink             $link
      * @return AbstractSaveRepo         $this
      * @throws InvalidArgumentException If $model does not belong to repo
@@ -123,6 +136,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
+     * Load models for a given relation.
+     *
      * @param  Models                   $models
      * @param  string                   $relName
      * @return Models
@@ -142,6 +157,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
+     * Load all the models for the provided relations. This is the meat of the eager loading
+     *
      * @param  Models           $models
      * @param  array            $rels
      * @param  int              $state
@@ -164,6 +181,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
+     * Call all the events associated with model updates. Perform the update itself.
+     *
      * @param  Models           $models
      * @return AbstractSaveRepo $this
      */
@@ -196,6 +215,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
+     * Call all the events associated with model deletion. Perform the deletion itself.
+     *
      * @param  Models           $models
      * @return AbstractSaveRepo $this
      */
@@ -215,6 +236,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     }
 
     /**
+     * Call all the events associated with model insertion. Perform the insertion itself.
+     *
      * @param  Models           $models
      * @return AbstractSaveRepo $this
      */

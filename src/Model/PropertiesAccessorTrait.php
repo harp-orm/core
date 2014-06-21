@@ -3,6 +3,8 @@
 namespace Harp\Core\Model;
 
 /**
+ * Useful to get all public properties of an object
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt

@@ -3,12 +3,21 @@
 namespace Harp\Core\Model;
 
 /**
+ * Add deletedAt property and methods to work with soft deletion.
+ * Also overrides several getDefaultState, delete, isSoftDeleted to return appropriate values,
+ * if the model is "soft deleted"
+ *
  * @author     Ivan Kerin
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 trait SoftDeleteTrait
 {
+    /**
+     * @param int $state
+     */
+    abstract public function setState($state);
+
     /**
      * @var int
      */
