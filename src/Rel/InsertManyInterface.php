@@ -18,7 +18,7 @@ interface InsertManyInterface
      * Perform logic to preserve the link for newly inserted models.
      * Return a collection of new models
      *
-     * @param  LinkMany $link
+     * @param  LinkMany                     $link
      * @return \Harp\Core\Model\Models|null
      */
     public function insert(LinkMany $link);

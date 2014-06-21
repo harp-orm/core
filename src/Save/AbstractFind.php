@@ -4,7 +4,6 @@ namespace Harp\Core\Save;
 
 use Harp\Core\Model\AbstractModel;
 use Harp\Core\Model\State;
-use Harp\Core\Repo\Event;
 use Harp\Core\Repo\RepoModels;
 use InvalidArgumentException;
 

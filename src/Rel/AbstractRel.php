@@ -46,7 +46,7 @@ abstract class AbstractRel
      * @param string       $name        Unique repo name
      * @param AbstractRepo $repo
      * @param AbstractRepo $foreignRepo
-     * @param array        $properties   Added as is to the rel's properties.
+     * @param array        $properties  Added as is to the rel's properties.
      */
     public function __construct(
         $name,
@@ -106,9 +106,9 @@ abstract class AbstractRel
      * Iterate models and foreign models one by one and and assign links based on the areLinked method
      * Yeild the resulted links one by one for further processing.
      *
-     * @param  Models  $models
-     * @param  Models  $foreign
-     * @param  Closure $yield   call for each link
+     * @param Models  $models
+     * @param Models  $foreign
+     * @param Closure $yield   call for each link
      */
     public function linkModels(Models $models, Models $foreign, Closure $yield)
     {

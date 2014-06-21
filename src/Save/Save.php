@@ -86,7 +86,7 @@ class Save implements Countable
      * Add a model, traverse all the linked models recursively and add them too.
      *
      * @param AbstractModel $model
-     * @return AbstractModel
+     * @return Save
      */
     public function add(AbstractModel $model)
     {

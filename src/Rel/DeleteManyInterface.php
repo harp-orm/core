@@ -17,7 +17,7 @@ interface DeleteManyInterface
     /**
      * After deleting the models should return a collection of models, that have been deleted
      *
-     * @param  LinkMany $link
+     * @param  LinkMany                     $link
      * @return \Harp\Core\Model\Models|null
      */
     public function delete(LinkMany $link);

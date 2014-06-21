@@ -368,7 +368,7 @@ abstract class AbstractRepo implements RepoInterface
     /**
      * Check if a model belongs to this repo. Child classes are also accepted
      *
-     * @param  AbstractModel            $name
+     * @param  AbstractModel            $model
      * @throws InvalidArgumentException If model not part of repo
      */
     public function assertModel(AbstractModel $model)

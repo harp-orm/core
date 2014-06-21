@@ -69,7 +69,7 @@ abstract class AbstractModel
     /**
      * Shortcut method to Repo's loadLink
      *
-     * @param  string $name
+     * @param  string       $name
      * @return AbstractLink
      */
     public function getLink($name)
@@ -80,7 +80,7 @@ abstract class AbstractModel
     /**
      * Shortcut method to Repo's loadLink. Throws LogicException if the link is void
      *
-     * @param  string $name
+     * @param  string         $name
      * @return AbstractLink
      * @throws LogicException If link is void
      */

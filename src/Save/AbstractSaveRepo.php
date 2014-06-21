@@ -61,7 +61,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
     /**
      * Find a model by its name key, or return a void model if none is found
      *
-     * @param  string        $id
+     * @param  string        $name
+     * @param  int           $flags
      * @return AbstractModel
      */
     public function findByName($name, $flags = null)

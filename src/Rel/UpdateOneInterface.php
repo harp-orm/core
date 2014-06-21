@@ -17,7 +17,7 @@ interface UpdateOneInterface
      * Perform logic to preserve the link after the update is done
      * Return a collection of new models
      *
-     * @param  LinkOne $link
+     * @param  LinkOne                      $link
      * @return \Harp\Core\Model\Models|null
      */
     public function update(LinkOne $link);

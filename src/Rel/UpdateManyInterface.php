@@ -17,7 +17,7 @@ interface UpdateManyInterface
      * Perform logic to preserve the link after the update is done
      * Return a collection of new models
      *
-     * @param  LinkMany $link
+     * @param  LinkMany                     $link
      * @return \Harp\Core\Model\Models|null
      */
     public function update(LinkMany $link);

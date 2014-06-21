@@ -65,6 +65,7 @@ abstract class AbstractRelMany extends AbstractRel
 
         if ($this->linkClass) {
             $class = $this->linkClass;
+
             return new $class($model, $this, $linked);
         } else {
             return new LinkMany($model, $this, $linked);

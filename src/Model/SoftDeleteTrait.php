@@ -20,6 +20,11 @@ trait SoftDeleteTrait
     abstract public function setState($state);
 
     /**
+     * @return boolean
+     */
+    abstract public function isDeleted();
+
+    /**
      * @var int
      */
     public $deletedAt;

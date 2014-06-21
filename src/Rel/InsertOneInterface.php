@@ -18,7 +18,7 @@ interface InsertOneInterface
      * Perform logic to preserve the link for newly inserted models.
      * Return a collection of new models
      *
-     * @param  LinkOne $link
+     * @param  LinkOne                      $link
      * @return \Harp\Core\Model\Models|null
      */
     public function insert(LinkOne $link);

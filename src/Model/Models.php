@@ -163,7 +163,7 @@ class Models implements Countable, Iterator
      * Call "validate" method on all the models, throw a LogicException if any of them has validation errors.
      *
      * @throws LogicException If a model is invalid
-     * @return Models $this
+     * @return Models         $this
      */
     public function assertValid()
     {

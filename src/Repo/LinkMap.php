@@ -67,8 +67,8 @@ class LinkMap
     }
 
     /**
-     * @param AbstractLink $link
-     * @return LinkMap $this
+     * @param  AbstractLink $link
+     * @return LinkMap      $this
      */
     public function addLink(AbstractLink $link)
     {
