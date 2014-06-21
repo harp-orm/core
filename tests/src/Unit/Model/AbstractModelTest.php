@@ -34,7 +34,9 @@ class AbstractModelTest extends AbstractTestCase
         $this->assertEquals(State::SAVED, $model->getState());
         $this->assertEquals(10, $model->id);
         $this->assertEquals('name1', $model->name);
-        $this->assertEquals(['id' => 10, 'name' => 'name1', 'class' => __NAMESPACE__.'\Model'], $model->getOriginals());
+        $this->assertEquals(['id' => 10, 'name' => 'name1', 'class' => __NAMESPACE__.'\Model', 'afterConstructCalled' => false], $model->getOriginals());
+
+        $this->assertTrue($model->afterConstructCalled);
     }
 
     /**
@@ -115,7 +117,7 @@ class AbstractModelTest extends AbstractTestCase
     {
         $model = new Model(['id' => 1, 'name' => 'test 2']);
 
-        $expected = ['id' => 1, 'name' => 'test 2', 'class' => __NAMESPACE__.'\Model'];
+        $expected = ['id' => 1, 'name' => 'test 2', 'class' => __NAMESPACE__.'\Model', 'afterConstructCalled' => false];
 
         $model->name = 'test 3';
         $model->id = 4;
@@ -124,7 +126,7 @@ class AbstractModelTest extends AbstractTestCase
 
         $model->resetOriginals();
 
-        $expected = ['id' => 4, 'name' => 'test 3', 'class' => __NAMESPACE__.'\Model'];
+        $expected = ['id' => 4, 'name' => 'test 3', 'class' => __NAMESPACE__.'\Model', 'afterConstructCalled' => true];
 
         $this->assertEquals($expected, $model->getOriginals());
     }

@@ -275,54 +275,6 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers ::getEventListeners
-     * @covers ::addEventBeforeDelete
-     * @covers ::addEventBeforeSave
-     * @covers ::addEventBeforeInsert
-     * @covers ::addEventBeforeUpdate
-     * @covers ::addEventAfterDelete
-     * @covers ::addEventAfterSave
-     * @covers ::addEventAfterInsert
-     * @covers ::addEventAfterUpdate
-     * @covers ::addEventAfterLoad
-     */
-    public function testEventListeners()
-    {
-        $repo = $this->getRepoInitialized(true);
-
-        $this->assertInstanceof('Harp\Core\Repo\EventListeners', $repo->getEventListeners());
-
-        $repo
-            ->addEventBeforeDelete('before delete callback')
-            ->addEventBeforeSave('before save callback')
-            ->addEventBeforeInsert('before insert callback')
-            ->addEventBeforeUpdate('before update callback')
-            ->addEventAfterDelete('after delete callback')
-            ->addEventAfterSave('after save callback')
-            ->addEventAfterInsert('after insert callback')
-            ->addEventAfterUpdate('after update callback')
-            ->addEventAfterLoad('after load callback');
-
-        $expectedBefore = [
-          Event::DELETE => ['before delete callback'],
-          Event::SAVE   => ['before save callback'],
-          Event::INSERT => ['before insert callback'],
-          Event::UPDATE => ['before update callback'],
-        ];
-
-        $expectedAfter = [
-          Event::DELETE => ['after delete callback'],
-          Event::SAVE   => ['after save callback'],
-          Event::INSERT => ['after insert callback'],
-          Event::UPDATE => ['after update callback'],
-          Event::LOAD   => ['after load callback'],
-        ];
-
-        $this->assertEquals($expectedBefore, $repo->getEventListeners()->getBefore());
-        $this->assertEquals($expectedAfter, $repo->getEventListeners()->getAfter());
-    }
-
-    /**
      * @covers ::getAsserts
      * @covers ::addAsserts
      */
@@ -361,6 +313,36 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::getEventListeners
+     * @covers ::addEventBefore
+     * @covers ::addEventAfter
+     */
+    public function testEventListeners()
+    {
+        $repo = $this->getRepoInitialized(true);
+
+        $this->assertInstanceof('Harp\Core\Repo\EventListeners', $repo->getEventListeners());
+
+        $repo
+            ->addEventBefore(Event::SAVE, 'before save callback')
+            ->addEventBefore(Event::INSERT, 'before insert callback')
+            ->addEventAfter(Event::DELETE, 'after delete callback');
+
+        $expectedBefore = [
+          Event::SAVE   => ['before save callback'],
+          Event::INSERT => ['before insert callback'],
+        ];
+
+        $expectedAfter = [
+          Event::DELETE => ['after delete callback'],
+        ];
+
+        $this->assertEquals($expectedBefore, $repo->getEventListeners()->getBefore());
+        $this->assertEquals($expectedAfter, $repo->getEventListeners()->getAfter());
+    }
+
+
+    /**
      * @covers ::hasBeforeEvent
      * @covers ::hasAfterEvent
      * @covers ::dispatchBeforeEvent
@@ -390,30 +372,30 @@ class AbstractRepoTest extends AbstractRepoTestCase
         $eventListener
             ->expects($this->once())
             ->method('dispatchBeforeEvent')
-            ->with($this->identicalTo($model), $this->equalTo(Event::LOAD));
+            ->with($this->identicalTo($model), $this->equalTo(Event::SAVE));
 
-        $repo->dispatchBeforeEvent($model, Event::LOAD);
+        $repo->dispatchBeforeEvent($model, Event::SAVE);
 
         $eventListener
             ->expects($this->once())
             ->method('dispatchAfterEvent')
-            ->with($this->identicalTo($model), $this->equalTo(Event::LOAD));
+            ->with($this->identicalTo($model), $this->equalTo(Event::SAVE));
 
-        $repo->dispatchAfterEvent($model, Event::LOAD);
+        $repo->dispatchAfterEvent($model, Event::SAVE);
 
         $eventListener
             ->expects($this->once())
             ->method('hasBeforeEvent')
-            ->with($this->equalTo(Event::LOAD));
+            ->with($this->equalTo(Event::SAVE));
 
-        $repo->hasBeforeEvent(Event::LOAD);
+        $repo->hasBeforeEvent(Event::SAVE);
 
         $eventListener
             ->expects($this->once())
             ->method('hasAfterEvent')
-            ->with($this->equalTo(Event::LOAD));
+            ->with($this->equalTo(Event::SAVE));
 
-        $repo->hasAfterEvent(Event::LOAD);
+        $repo->hasAfterEvent(Event::SAVE);
     }
 
     /**

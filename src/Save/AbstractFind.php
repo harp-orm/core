@@ -148,10 +148,6 @@ abstract class AbstractFind
     {
         $models = $this->applyFlags($flags)->execute();
 
-        foreach ($models as $model) {
-            $this->getRepo()->dispatchAfterEvent($model, Event::LOAD);
-        }
-
         return $models;
     }
 

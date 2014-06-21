@@ -12,7 +12,7 @@ class EventTest extends AbstractRepoTestCase
     public function testConstruct()
     {
         $events = [
-            Event::LOAD,
+            Event::CONSTRUCT,
             Event::INSERT,
             Event::UPDATE,
             Event::DELETE,

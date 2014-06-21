@@ -9,7 +9,7 @@ namespace Harp\Core\Repo;
  */
 class Event
 {
-    const LOAD = 1;
+    const CONSTRUCT = 1;
     const INSERT = 2;
     const UPDATE = 3;
     const DELETE = 4;

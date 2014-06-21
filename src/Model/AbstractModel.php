@@ -5,6 +5,7 @@ namespace Harp\Core\Model;
 use Harp\Validate\Errors;
 use Harp\Core\Repo\AbstractLink;
 use Harp\Core\Repo\LinkOne;
+use Harp\Core\Repo\Event;
 use LogicException;
 
 /*
@@ -52,6 +53,8 @@ abstract class AbstractModel
         $this->getRepo()->getSerializers()->unserialize($this);
 
         $this->resetOriginals();
+
+        $this->getRepo()->dispatchAfterEvent($this, Event::CONSTRUCT);
     }
 
     /**

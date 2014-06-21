@@ -408,100 +408,25 @@ abstract class AbstractRepo implements RepoInterface
     }
 
     /**
+     * @param  integer              $event
      * @param  Closure|string|array $callback
      * @return AbstractRepo         $this
      */
-    public function addEventBeforeDelete($callback)
+    public function addEventBefore($event, $callback)
     {
-        $this->getEventListeners()->addBefore(Event::DELETE, $callback);
+        $this->getEventListeners()->addBefore($event, $callback);
 
         return $this;
     }
 
     /**
+     * @param  integer              $event
      * @param  Closure|string|array $callback
      * @return AbstractRepo         $this
      */
-    public function addEventAfterDelete($callback)
+    public function addEventAfter($event, $callback)
     {
-        $this->getEventListeners()->addAfter(Event::DELETE, $callback);
-
-        return $this;
-    }
-
-    /**
-     * @param  Closure|string|array $callback
-     * @return AbstractRepo         $this
-     */
-    public function addEventBeforeSave($callback)
-    {
-        $this->getEventListeners()->addBefore(Event::SAVE, $callback);
-
-        return $this;
-    }
-
-    /**
-     * @param  Closure|string|array $callback
-     * @return AbstractRepo         $this
-     */
-    public function addEventAfterSave($callback)
-    {
-        $this->getEventListeners()->addAfter(Event::SAVE, $callback);
-
-        return $this;
-    }
-
-    /**
-     * @param  Closure|string|array $callback
-     * @return AbstractRepo         $this
-     */
-    public function addEventBeforeInsert($callback)
-    {
-        $this->getEventListeners()->addBefore(Event::INSERT, $callback);
-
-        return $this;
-    }
-
-    /**
-     * @param  Closure|string|array $callback
-     * @return AbstractRepo         $this
-     */
-    public function addEventAfterInsert($callback)
-    {
-        $this->getEventListeners()->addAfter(Event::INSERT, $callback);
-
-        return $this;
-    }
-
-    /**
-     * @param  Closure|string|array $callback
-     * @return AbstractRepo         $this
-     */
-    public function addEventBeforeUpdate($callback)
-    {
-        $this->getEventListeners()->addBefore(Event::UPDATE, $callback);
-
-        return $this;
-    }
-
-    /**
-     * @param  Closure|string|array $callback
-     * @return AbstractRepo         $this
-     */
-    public function addEventAfterUpdate($callback)
-    {
-        $this->getEventListeners()->addAfter(Event::UPDATE, $callback);
-
-        return $this;
-    }
-
-    /**
-     * @param  Closure|string|array $callback
-     * @return AbstractRepo         $this
-     */
-    public function addEventAfterLoad($callback)
-    {
-        $this->getEventListeners()->addAfter(Event::LOAD, $callback);
+        $this->getEventListeners()->addAfter($event, $callback);
 
         return $this;
     }
