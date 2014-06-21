@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "harp-orm/validate": "dev-master",
-        "harp-orm/serializer": "dev-master",
+        "harp-orm/validate": "~0.1.1",
+        "harp-orm/serializer": "~0.1.0",
         "harp-orm/util": "~0.2.0"
     },
     "require-dev": {
