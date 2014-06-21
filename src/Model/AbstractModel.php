@@ -172,17 +172,17 @@ abstract class AbstractModel
     /**
      * @return boolean
      */
-    public function isSoftDeleted()
+    public function isVoid()
     {
-        return false;
+        return $this->state === State::VOID;
     }
 
     /**
      * @return boolean
      */
-    public function isVoid()
+    public function isSoftDeleted()
     {
-        return $this->state === State::VOID;
+        return false;
     }
 
     /**
