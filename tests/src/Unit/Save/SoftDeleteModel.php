@@ -7,6 +7,8 @@ use Harp\Core\Model\SoftDeleteTrait;
 
 class SoftDeleteModel extends AbstractModel
 {
+    const REPO = 'Harp\Core\Test\Unit\Save\SoftDeleteRepo';
+
     use SoftDeleteTrait;
 
     public $id;
@@ -15,6 +17,6 @@ class SoftDeleteModel extends AbstractModel
 
     public function getRepo()
     {
-        return $this->repo ?: SoftDeleteRepo::get();
+        return $this->repo ?: parent::getRepo();
     }
 }

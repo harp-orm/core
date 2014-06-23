@@ -15,10 +15,7 @@ class User extends AbstractModel {
 
     use SoftDeleteTrait;
 
-    public function getRepo()
-    {
-        return Repo\User::get();
-    }
+    const REPO = 'Harp\Core\Test\Repo\User';
 
     public $id;
     public $name;

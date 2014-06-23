@@ -12,10 +12,7 @@ use Harp\Core\Test\Repo;
  */
 class Address extends AbstractModel {
 
-    public function getRepo()
-    {
-        return Repo\Address::get();
-    }
+    const REPO = 'Harp\Core\Test\Repo\Address';
 
     public $id;
     public $name;

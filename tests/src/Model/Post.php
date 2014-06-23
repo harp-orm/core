@@ -13,12 +13,9 @@ use Harp\Core\Test\Repo;
  */
 class Post extends AbstractModel
 {
-    use InheritedTrait;
+    const REPO = 'Harp\Core\Test\Repo\Post';
 
-    public function getRepo()
-    {
-        return Repo\Post::get();
-    }
+    use InheritedTrait;
 
     public $id;
     public $name;

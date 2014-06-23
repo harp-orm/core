@@ -4,6 +4,7 @@ namespace Harp\Core\Model;
 
 use Harp\Validate\Errors;
 use Harp\Core\Repo\AbstractLink;
+use Harp\Core\Repo\AbstractRepo;
 use Harp\Core\Repo\LinkOne;
 use Harp\Core\Repo\Event;
 use LogicException;
@@ -29,9 +30,12 @@ abstract class AbstractModel
     use PropertiesAccessorTrait;
 
     /**
-     * @return \Harp\Core\Repo\AbstractRepo
+     * @return AbstractRepo
      */
-    abstract public function getRepo();
+    public function getRepo()
+    {
+        return AbstractRepo::getInstance(static::REPO);
+    }
 
     /**
      * @var int

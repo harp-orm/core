@@ -7,10 +7,7 @@ use Harp\Core\Model\InheritedTrait;
 
 class InheritedModelBad extends AbstractModel
 {
-    use InheritedTrait;
+    const REPO = 'Harp\Core\Test\Unit\Model\InheritedRepoBad';
 
-    public function getRepo()
-    {
-        return InheritedRepoBad::get();
-    }
+    use InheritedTrait;
 }

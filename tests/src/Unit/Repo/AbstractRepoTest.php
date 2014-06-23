@@ -21,6 +21,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
 {
     /**
      * @covers ::get
+     * @covers ::getInstance
      */
     public function testGet()
     {

@@ -43,10 +43,18 @@ abstract class AbstractRepo
      */
     public static function get()
     {
-        $class = get_called_class();
+        return self::getInstance(get_called_class());
+    }
 
+    /**
+     * Get a new singleton repo for a class name
+     * @param  string $class
+     * @return AbstractRepo
+     */
+    public static function getInstance($class)
+    {
         if (! isset(self::$instances[$class])) {
-            self::$instances[$class] = new static();
+            self::$instances[$class] = new $class();
         }
 
         return self::$instances[$class];

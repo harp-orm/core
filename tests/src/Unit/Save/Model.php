@@ -6,12 +6,14 @@ use Harp\Core\Model\AbstractModel;
 
 class Model extends AbstractModel
 {
+    const REPO = 'Harp\Core\Test\Unit\Save\Repo';
+
     public $id;
     public $name = 'test';
     public $repo;
 
     public function getRepo()
     {
-        return $this->repo ?: Repo::get();
+        return $this->repo ?: parent::getRepo();
     }
 }
