@@ -533,6 +533,8 @@ abstract class AbstractRepo
      */
     public function clear()
     {
+        $this->initializeOnce();
+
         $this->identityMap->clear();
         $this->linkMap->clear();
 
