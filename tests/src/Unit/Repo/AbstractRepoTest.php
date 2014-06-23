@@ -426,6 +426,8 @@ class AbstractRepoTest extends AbstractRepoTestCase
     /**
      * @covers ::getInitialized
      * @covers ::initializeOnce
+     * @covers ::beforeInitialize
+     * @covers ::afterInitialize
      */
     public function testGetInitialized()
     {
@@ -462,7 +464,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
-     * @covers ::initializeOnce
+     * @covers ::afterInitialize
      * @expectedException LogicException
      * @expectedExceptionMessage Repo Harp\Core\Test\Unit\Repo\RepoOther3 did not set modelClass
      */

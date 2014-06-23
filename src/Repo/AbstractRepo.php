@@ -557,6 +557,35 @@ abstract class AbstractRepo
     }
 
     /**
+     * This is a distinct method so it can be easily extended
+     */
+    public function beforeInitialize()
+    {
+        $this->eventListeners = new EventListeners();
+        $this->serializers = new Serializers();
+        $this->asserts = new Asserts();
+        $this->identityMap = new IdentityMap($this);
+        $this->linkMap = new LinkMap($this);
+
+        $class = explode('\\', get_class($this));
+        $this->name = end($class);
+    }
+
+    /**
+     * This is a distinct method so it can be easily extended
+     */
+    public function afterInitialize()
+    {
+        if (! $this->modelClass) {
+            throw new LogicException(
+                sprintf('Repo %s did not set modelClass', get_class($this))
+            );
+        }
+
+        $this->modelReflection = new ReflectionClass($this->modelClass);
+    }
+
+    /**
      * Call "initialize" method only once,
      * this is determined by the "initialized" property.
      */
@@ -564,24 +593,10 @@ abstract class AbstractRepo
     {
         if (! $this->initialized) {
             $this->initialized = true;
-            $this->eventListeners = new EventListeners();
-            $this->serializers = new Serializers();
-            $this->asserts = new Asserts();
-            $this->identityMap = new IdentityMap($this);
-            $this->linkMap = new LinkMap($this);
 
-            $class = explode('\\', get_class($this));
-            $this->name = end($class);
-
+            $this->beforeInitialize();
             $this->initialize();
-
-            if (! $this->modelClass) {
-                throw new LogicException(
-                    sprintf('Repo %s did not set modelClass', get_class($this))
-                );
-            }
-
-            $this->modelReflection = new ReflectionClass($this->modelClass);
+            $this->afterInitialize();
         }
     }
 }
