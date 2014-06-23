@@ -44,11 +44,7 @@ class AbstractModelTest extends AbstractTestCase
      */
     public function testGetLink()
     {
-        $repo = $this->getMock(
-            __NAMESPACE__.'\Repo',
-            ['loadLink'],
-            [__NAMESPACE__.'\Model']
-        );
+        $repo = $this->getMock(__NAMESPACE__.'\Repo', ['loadLink']);
 
         $model = $this->getMock(
             __NAMESPACE__.'\Model',
@@ -91,7 +87,7 @@ class AbstractModelTest extends AbstractTestCase
         $other = new Model();
         $otherVoid = new Model([], State::VOID);
 
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo();
 
         $linkOne = new LinkOne($model, new RelOne('one', $repo, $repo), $other);
         $linkMany = new LinkMany($model, new RelMany('many', $repo, $repo), []);

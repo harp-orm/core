@@ -14,6 +14,18 @@ abstract class AbstractTestRepo extends AbstractSaveRepo
 {
     private $file;
 
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile($file)
+    {
+        $this->file = __DIR__.'/../../repos/'.$file;
+
+        return $this;
+    }
+
     public function findAll()
     {
         return new Find($this);
@@ -73,12 +85,5 @@ abstract class AbstractTestRepo extends AbstractSaveRepo
         $this->setContents($contents);
 
         return $this;
-    }
-
-    public function __construct($modelClass, $file)
-    {
-        parent::__construct($modelClass);
-
-        $this->file = __DIR__.'/../../repos/'.$file;
     }
 }

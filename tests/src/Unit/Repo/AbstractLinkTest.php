@@ -15,8 +15,8 @@ class AbstractRelTest extends AbstractRepoTestCase
     public function testConstruct()
     {
         $model = new Model();
-        $repo1 = new Repo(__NAMESPACE__.'\Model');
-        $repo2 = new Repo(__NAMESPACE__.'\Model');
+        $repo1 = new Repo();
+        $repo2 = new Repo();
         $rel = new RelOne('test', $repo1, $repo2);
 
         $link = $this->getMockForAbstractClass('Harp\Core\Repo\AbstractLink', [$model, $rel]);

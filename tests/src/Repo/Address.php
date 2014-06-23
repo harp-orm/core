@@ -13,14 +13,11 @@ use Harp\Validate\Assert;
  */
 class Address extends AbstractTestRepo {
 
-    public static function newInstance()
-    {
-        return new Address('Harp\Core\Test\Model\Address', 'Address.json');
-    }
-
     public function initialize()
     {
         $this
+            ->setModelClass('Harp\Core\Test\Model\Address')
+            ->setFile('Address.json')
             ->addRels([
                 new Rel\One('user', $this, Address::get()),
             ]);

@@ -24,42 +24,10 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testGet()
     {
-        $repo = new Repo2(__NAMESPACE__.'\Model');
+        $repo1 = Repo2::get();
+        $repo2 = Repo2::get();
 
-        Repo2::$instance = $repo;
-
-        $result = Repo2::get();
-
-        $this->assertSame($repo, $result);
-
-        $result = Repo2::get();
-
-        $this->assertSame($repo, $result);
-    }
-
-    public function getRepoInitialized($initialized)
-    {
-        $repo = $this->getMockForAbstractClass(
-            'Harp\Core\Repo\AbstractRepo',
-            [__NAMESPACE__.'\Model']
-        );
-
-        $repo
-            ->expects($initialized ? $this->once() : $this->never())
-            ->method('initialize');
-
-        return $repo;
-    }
-
-    /**
-     * @covers ::__construct
-     * @covers ::getModelClass
-     */
-    public function testConstruct()
-    {
-        $repo = new Repo(__NAMESPACE__.'\Model');
-
-        $this->assertEquals(__NAMESPACE__.'\Model', $repo->getModelClass());
+        $this->assertSame($repo1, $repo2);
     }
 
     /**
@@ -67,9 +35,9 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testGetName()
     {
-        $repo = $this->getRepoInitialized(false);
+        $repo = new Repo();
 
-        $this->assertEquals('Model', $repo->getName());
+        $this->assertEquals('Repo', $repo->getName());
     }
 
     /**
@@ -78,7 +46,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testPrimaryKey()
     {
-        $repo = $this->getRepoInitialized(true);
+        $repo = new Repo();
 
         $this->assertEquals('id', $repo->getPrimaryKey());
 
@@ -93,7 +61,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testRootRepo()
     {
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo();
 
         $this->assertSame($repo, $repo->getRootRepo());
 
@@ -121,7 +89,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testRootRepoError2()
     {
-        $repo = new RepoOther(__NAMESPACE__.'\ModelOther');
+        $repo = new RepoOther();
 
         $repo->setRootRepo(Repo::get());
     }
@@ -132,7 +100,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testNameKey()
     {
-        $repo = $this->getRepoInitialized(true);
+        $repo = new Repo();
 
         $this->assertEquals('name', $repo->getNameKey());
 
@@ -147,7 +115,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testSoftDelete()
     {
-        $repo = $this->getRepoInitialized(true);
+        $repo = new Repo();
 
         $this->assertEquals(false, $repo->getSoftDelete());
 
@@ -157,12 +125,27 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::getModelClass
+     * @covers ::setModelClass
+     */
+    public function testModelClass()
+    {
+        $repo = new Repo();
+
+        $this->assertEquals(__NAMESPACE__.'\Model', $repo->getModelClass());
+
+        $repo->setModelClass(__NAMESPACE__.'\ModelOther');
+
+        $this->assertEquals(__NAMESPACE__.'\ModelOther', $repo->getModelClass());
+    }
+
+    /**
      * @covers ::getInherited
      * @covers ::setInherited
      */
     public function testInherited()
     {
-        $repo = $this->getRepoInitialized(true);
+        $repo = new RepoOther();
 
         $this->assertEquals(false, $repo->getInherited());
 
@@ -176,7 +159,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testGetLinkMap()
     {
-        $repo = $this->getRepoInitialized(false);
+        $repo = new Repo();
 
         $this->assertInstanceof('Harp\Core\Repo\LinkMap', $repo->getLinkMap());
     }
@@ -186,7 +169,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testGetIdentityMap()
     {
-        $repo = $this->getRepoInitialized(false);
+        $repo = new Repo();
 
         $this->assertInstanceof('Harp\Core\Repo\IdentityMap', $repo->getIdentityMap());
     }
@@ -196,7 +179,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testGetModelReflection()
     {
-        $repo = $this->getRepoInitialized(false);
+        $repo = new Repo();
 
         $this->assertInstanceof('ReflectionClass', $repo->getModelReflection());
         $this->assertEquals(__NAMESPACE__.'\Model', $repo->getModelReflection()->getName());
@@ -227,7 +210,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testAssertModel()
     {
-        $repo = $this->getRepoInitialized(true);
+        $repo = new Repo();
         $model = new Model();
         $other = new ModelOther();
 
@@ -249,7 +232,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testRels()
     {
-        $repo = $this->getRepoInitialized(true);
+        $repo = new Repo();
 
         $this->assertSame([], $repo->getRels());
 
@@ -280,7 +263,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testAsserts()
     {
-        $repo = $this->getRepoInitialized(true);
+        $repo = new Repo();
 
         $this->assertInstanceof('Harp\Validate\Asserts', $repo->getAsserts());
 
@@ -299,7 +282,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testSerializers()
     {
-        $repo = $this->getRepoInitialized(true);
+        $repo = new Repo();
 
         $this->assertInstanceof('Harp\Serializer\Serializers', $repo->getSerializers());
 
@@ -319,7 +302,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testEventListeners()
     {
-        $repo = $this->getRepoInitialized(true);
+        $repo = new Repo();
 
         $this->assertInstanceof('Harp\Core\Repo\EventListeners', $repo->getEventListeners());
 
@@ -354,7 +337,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
         $repo = $this->getMockForAbstractClass(
             'Harp\Core\Repo\AbstractRepo',
-            [__NAMESPACE__.'\Model'],
+            [],
             '',
             true,
             true,
@@ -387,7 +370,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testNewModel()
     {
-        $repo = $this->getRepoInitialized(false);
+        $repo = new Repo();
 
         $model = $repo->newModel();
 
@@ -406,7 +389,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testNewVoidModel()
     {
-        $repo = $this->getRepoInitialized(false);
+        $repo = new Repo();
 
         $model = $repo->newVoidModel();
 
@@ -422,7 +405,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
     public function testClear()
     {
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo();
         $model = new Model(['id' => 1], State::SAVED);
         $rel = new RelOne('one', $repo, $repo);
         $repo->addRel($rel);
@@ -445,7 +428,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testGetInitialized()
     {
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo();
 
         $this->assertFalse($repo->getInitialized());
 
@@ -464,7 +447,7 @@ class AbstractRepoTest extends AbstractRepoTestCase
      */
     public function testInitialize()
     {
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo();
 
         $this->assertFalse($repo->initializeCalled);
         $this->assertFalse($repo->initialize1TraitCalled);
@@ -475,5 +458,17 @@ class AbstractRepoTest extends AbstractRepoTestCase
         $this->assertTrue($repo->initializeCalled);
         $this->assertTrue($repo->initialize1TraitCalled);
         $this->assertTrue($repo->initialize2TraitCalled);
+    }
+
+    /**
+     * @covers ::initializeOnce
+     * @expectedException LogicException
+     * @expectedExceptionMessage Repo Harp\Core\Test\Unit\Repo\RepoOther3 did not set modelClass
+     */
+    public function testInitializeWithoutModelClass()
+    {
+        $repo = new RepoOther3();
+
+        $repo->initializeOnce();
     }
 }

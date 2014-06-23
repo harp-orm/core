@@ -17,7 +17,7 @@ class IdentityMapTest extends AbstractRepoTestCase
      */
     public function testConstruct()
     {
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo();
         $map = new IdentityMap($repo);
 
         $this->assertSame($repo, $map->getRepo());

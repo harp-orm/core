@@ -122,7 +122,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadRawInvalidArguments()
     {
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo();
         $repo->setSoftDelete(true);
 
         $find = new Find($repo);
@@ -166,7 +166,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadWith()
     {
-        $repo = $this->getMock(__NAMESPACE__.'\Repo', ['loadAllRelsFor'], [__NAMESPACE__.'\Model']);
+        $repo = $this->getMock(__NAMESPACE__.'\Repo', ['loadAllRelsFor']);
         $find = $this->getMock(__NAMESPACE__.'\Find', ['load'], [$repo]);
 
         $rels = ['one' => 'many'];
@@ -245,7 +245,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadFirst()
     {
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo();
         $find = $this->getMock(__NAMESPACE__.'\Find', ['limit', 'load'], [$repo]);
 
         $model = new Model(['id' => 300, 'repo' => $repo]);

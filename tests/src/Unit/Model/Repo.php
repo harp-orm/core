@@ -8,14 +8,10 @@ use Harp\Validate\Assert\Present;
 
 class Repo extends AbstractRepo
 {
-    public static function newInstance()
-    {
-        return new Repo(__NAMESPACE__.'\Model', 'Model.json');;
-    }
-
     public function initialize()
     {
         $this
+            ->setModelClass(__NAMESPACE__.'\Model')
             ->addAsserts([
                 new Present('name'),
                 new Present('other'),

@@ -12,16 +12,12 @@ use Harp\Core\Test\Rel;
  */
 class BlogPost extends Post {
 
-    public static function newInstance()
-    {
-        return new BlogPost('Harp\Core\Test\Model\BlogPost', 'Post.json');
-    }
-
     public function initialize()
     {
         parent::initialize();
 
         $this
+            ->setModelClass('Harp\Core\Test\Model\BlogPost')
             ->setRootRepo(Post::get())
             ->addRels([
                 new Rel\One('address', $this, Address::get()),

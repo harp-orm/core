@@ -6,14 +6,10 @@ use Harp\Core\Repo\AbstractRepo;
 
 class SoftDeleteRepo extends AbstractRepo
 {
-    public static function newInstance()
-    {
-        return new SoftDeleteRepo(__NAMESPACE__.'\SoftDeleteModel');
-    }
-
     public function initialize()
     {
         $this
+            ->setModelClass(__NAMESPACE__.'\SoftDeleteModel')
             ->setSoftDelete(true);
     }
 }

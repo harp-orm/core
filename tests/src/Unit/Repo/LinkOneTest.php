@@ -38,7 +38,7 @@ class LinkOneTest extends AbstractRepoTestCase
         $rel = $this->getMock(
             __NAMESPACE__.'\RelOne',
             ['delete'],
-            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+            ['test', new Repo(), new Repo()]
         );
 
         $link = new LinkOne($model, $rel, $model);
@@ -62,7 +62,7 @@ class LinkOneTest extends AbstractRepoTestCase
     {
         $rel = $this->getMockForAbstractClass(
             'Harp\Core\Rel\AbstractRelOne',
-            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+            ['test', new Repo(), new Repo()]
         );
 
         $model = new Model();
@@ -83,7 +83,7 @@ class LinkOneTest extends AbstractRepoTestCase
         $rel = $this->getMock(
             __NAMESPACE__.'\RelOne',
             ['insert'],
-            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+            ['test', new Repo(), new Repo()]
         );
 
         $link = new LinkOne($model, $rel, $model);
@@ -107,7 +107,7 @@ class LinkOneTest extends AbstractRepoTestCase
     {
         $rel = $this->getMockForAbstractClass(
             'Harp\Core\Rel\AbstractRelOne',
-            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+            ['test', new Repo(), new Repo()]
         );
 
         $model = new Model();
@@ -128,7 +128,7 @@ class LinkOneTest extends AbstractRepoTestCase
         $rel = $this->getMock(
             __NAMESPACE__.'\RelOne',
             ['update'],
-            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+            ['test', new Repo(), new Repo()]
         );
 
         $link = new LinkOne($model, $rel, $model);
@@ -153,7 +153,7 @@ class LinkOneTest extends AbstractRepoTestCase
     {
         $rel = $this->getMockForAbstractClass(
             'Harp\Core\Rel\AbstractRelOne',
-            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+            ['test', new Repo(), new Repo()]
         );
 
         $model = new Model();

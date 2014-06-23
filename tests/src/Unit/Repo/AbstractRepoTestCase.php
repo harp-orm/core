@@ -10,16 +10,16 @@ abstract class AbstractRepoTestCase extends AbstractTestCase
 {
     public function getRelMany()
     {
-        $repo1 = new Repo(__NAMESPACE__.'\Model');
-        $repo2 = new Repo(__NAMESPACE__.'\Model');
+        $repo1 = new Repo();
+        $repo2 = new Repo();
 
         return new RelMany('many', $repo1, $repo2);
     }
 
     public function getRelOne()
     {
-        $repo1 = new Repo(__NAMESPACE__.'\Model');
-        $repo2 = new Repo(__NAMESPACE__.'\Model');
+        $repo1 = new Repo();
+        $repo2 = new Repo();
 
         return new RelOne('one', $repo1, $repo2);
     }

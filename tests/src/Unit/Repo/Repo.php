@@ -11,14 +11,11 @@ class Repo extends AbstractRepo
     use Repo1Trait;
     use Repo2Trait;
 
-    public static function newInstance()
-    {
-        return new Repo(__NAMESPACE__.'\Model');
-    }
-
     public function initialize()
     {
-        $this->setInherited(true);
+        $this
+            ->setModelClass(__NAMESPACE__.'\Model')
+            ->setInherited(true);
 
         $this->initializeCalled = true;
 

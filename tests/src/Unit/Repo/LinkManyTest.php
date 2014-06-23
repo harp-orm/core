@@ -51,7 +51,7 @@ class LinkManyTest extends AbstractRepoTestCase
         $rel = $this->getMock(
             __NAMESPACE__.'\RelMany',
             ['delete'],
-            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+            ['test', new Repo(), new Repo()]
         );
 
         $model = new Model();
@@ -75,7 +75,7 @@ class LinkManyTest extends AbstractRepoTestCase
     {
         $rel = $this->getMockForAbstractClass(
             'Harp\Core\Rel\AbstractRelMany',
-            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+            ['test', new Repo(), new Repo()]
         );
 
         $model = new Model();
@@ -94,7 +94,7 @@ class LinkManyTest extends AbstractRepoTestCase
         $rel = $this->getMock(
             __NAMESPACE__.'\RelMany',
             ['insert'],
-            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+            ['test', new Repo(), new Repo()]
         );
 
         $model = new Model();
@@ -118,7 +118,7 @@ class LinkManyTest extends AbstractRepoTestCase
     {
         $rel = $this->getMockForAbstractClass(
             'Harp\Core\Rel\AbstractRelMany',
-            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+            ['test', new Repo(), new Repo()]
         );
 
         $model = new Model();
@@ -137,7 +137,7 @@ class LinkManyTest extends AbstractRepoTestCase
         $rel = $this->getMock(
             __NAMESPACE__.'\RelMany',
             ['update'],
-            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+            ['test', new Repo(), new Repo()]
         );
 
         $model = new Model();
@@ -162,7 +162,7 @@ class LinkManyTest extends AbstractRepoTestCase
     {
         $rel = $this->getMockForAbstractClass(
             'Harp\Core\Rel\AbstractRelMany',
-            ['test', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')]
+            ['test', new Repo(), new Repo()]
         );
 
         $model = new Model();

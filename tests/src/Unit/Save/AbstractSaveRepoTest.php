@@ -21,7 +21,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         parent::setUp();
 
-        $this->repo = $this->getMock(__NAMESPACE__.'\Repo', ['findAll', 'newSave', 'loadRelFor'], [__NAMESPACE__.'\Model']);
+        $this->repo = $this->getMock(__NAMESPACE__.'\Repo', ['findAll', 'newSave', 'loadRelFor']);
         $this->find = $this->getMock(__NAMESPACE__.'\Find', ['where', 'limit', 'execute'], [$this->repo]);
 
         $this->repo
@@ -188,7 +188,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
      */
     public function testLoadRelFor()
     {
-        $repo = new Repo(__NAMESPACE__.'\Model');
+        $repo = new Repo();
 
         $modelsSource = [new Model(['repo' => $repo]), new Model(['repo' => $repo])];
         $foreignSource = [new Model(['repo' => $repo]), new Model(['repo' => $repo])];
@@ -238,9 +238,9 @@ class AbstractSaveRepoTest extends AbstractTestCase
      */
     public function testLoadAllRelsFor()
     {
-        $repo1 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor'], [__NAMESPACE__.'\Model']);
-        $repo2 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor'], [__NAMESPACE__.'\Model']);
-        $repo3 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor'], [__NAMESPACE__.'\Model']);
+        $repo1 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor']);
+        $repo2 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor']);
+        $repo3 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor']);
 
         $repo1->addRel(new RelOne('one', $repo1, $repo2));
         $repo2->addRel(new RelMany('many', $repo2, $repo3));
@@ -271,8 +271,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         $repo = $this->getMock(
             __NAMESPACE__.'\Repo',
-            ['update', 'dispatchBeforeEvent', 'dispatchAfterEvent'],
-            [__NAMESPACE__.'\Model']
+            ['update', 'dispatchBeforeEvent', 'dispatchAfterEvent']
         );
 
         $models = [
@@ -327,8 +326,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         $repo = $this->getMock(
             __NAMESPACE__.'\Repo',
-            ['delete', 'dispatchBeforeEvent', 'dispatchAfterEvent'],
-            [__NAMESPACE__.'\Model']
+            ['delete', 'dispatchBeforeEvent', 'dispatchAfterEvent']
         );
 
         $models = [new Model(null, State::DELETED), new Model(null, State::DELETED)];
@@ -369,8 +367,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         $repo = $this->getMock(
             __NAMESPACE__.'\Repo',
-            ['insert', 'dispatchBeforeEvent', 'dispatchAfterEvent'],
-            [__NAMESPACE__.'\Model']
+            ['insert', 'dispatchBeforeEvent', 'dispatchAfterEvent']
         );
 
         $models = [new Model(), new Model()];

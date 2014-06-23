@@ -13,14 +13,11 @@ use Harp\Validate\Assert;
  */
 class Post extends AbstractTestRepo {
 
-    public static function newInstance()
-    {
-        return new Post('Harp\Core\Test\Model\Post', 'Post.json');
-    }
-
     public function initialize()
     {
         $this
+            ->setModelClass('Harp\Core\Test\Model\Post')
+            ->setFile('Post.json')
             ->setInherited(true)
             ->addRels([
                 new Rel\One('user', $this, User::get()),

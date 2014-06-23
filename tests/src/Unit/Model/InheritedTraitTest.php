@@ -23,7 +23,7 @@ class InheritedTraitTest extends AbstractTestCase
     /**
      * @covers ::updateInheritanceClass
      * @expectedException LogicException
-     * @expectedExceptionMessage Repo InheritedModelBad must be "inherited"
+     * @expectedExceptionMessage Repo InheritedRepoBad must be "inherited"
      */
     public function testUpdateInheritanceClassError()
     {

@@ -14,14 +14,11 @@ use Harp\Serializer;
  */
 class User extends AbstractTestRepo {
 
-    public static function newInstance()
-    {
-        return new User('Harp\Core\Test\Model\User', 'User.json');
-    }
-
     public function initialize()
     {
         $this
+            ->setModelClass('Harp\Core\Test\Model\User')
+            ->setFile('User.json')
             ->addRels([
                 new Rel\One('address', $this, Address::get()),
                 (new Rel\Many('posts', $this, Post::get()))

@@ -6,12 +6,10 @@ use Harp\Core\Repo\AbstractRepo;
 use Harp\Core\Model\Models;
 use BadMethodCallException;
 
-class RepoOther extends AbstractRepo
+class RepoOther3 extends AbstractRepo
 {
     public function initialize()
     {
-        $this
-            ->setModelClass(__NAMESPACE__.'\ModelOther');
     }
 
     public function findAll()

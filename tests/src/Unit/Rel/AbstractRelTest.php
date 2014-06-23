@@ -21,8 +21,8 @@ class AbstractRelTest extends AbstractTestCase
      */
     public function testConstruct()
     {
-        $repo1 = new Repo(__NAMESPACE__.'\Model');
-        $repo2 = new Repo(__NAMESPACE__.'\Model');
+        $repo1 = new Repo();
+        $repo2 = new Repo();
         $name = 'test name';
 
         $rel = $this->getMockForAbstractClass(
@@ -41,8 +41,8 @@ class AbstractRelTest extends AbstractTestCase
      */
     public function testLoadForeignModels()
     {
-        $repo1 = new Repo(__NAMESPACE__.'\Model');
-        $repo2 = new Repo(__NAMESPACE__.'\Model');
+        $repo1 = new Repo();
+        $repo2 = new Repo();
         $name = 'test name';
 
         $rel = $this->getMockForAbstractClass(
@@ -95,7 +95,7 @@ class AbstractRelTest extends AbstractTestCase
 
         $rel = $this->getMockForAbstractClass(
             'Harp\Core\Rel\AbstractRelMany',
-            ['test name', new Repo(__NAMESPACE__.'\Model'), new Repo(__NAMESPACE__.'\Model')],
+            ['test name', new Repo(), new Repo()],
             '',
             true,
             true,

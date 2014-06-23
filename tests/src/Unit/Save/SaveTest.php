@@ -286,8 +286,7 @@ class SaveTest extends AbstractTestCase
 
         $repo1 = $this->getMock(
             __NAMESPACE__.'\Repo',
-            ['deleteModels', 'insertModels', 'updateModels', 'get'],
-            [__NAMESPACE__.'\Model']
+            ['deleteModels', 'insertModels', 'updateModels', 'get']
         );
 
         $repo1
@@ -297,8 +296,7 @@ class SaveTest extends AbstractTestCase
 
         $repo2 = $this->getMock(
             __NAMESPACE__.'\SoftDeleteRepo',
-            ['deleteModels', 'insertModels', 'updateModels', 'get'],
-            [__NAMESPACE__.'\SoftDeleteModel']
+            ['deleteModels', 'insertModels', 'updateModels', 'get']
         );
 
         $repo2

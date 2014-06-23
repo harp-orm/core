@@ -26,7 +26,7 @@ use InvalidArgumentException;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
-abstract class AbstractRepo implements RepoInterface
+abstract class AbstractRepo
 {
     /**
      * Holds all the singleton repo instances.
@@ -46,13 +46,18 @@ abstract class AbstractRepo implements RepoInterface
         $class = get_called_class();
 
         if (! isset(self::$instances[$class])) {
-            self::$instances[$class] = static::newInstance();
+            self::$instances[$class] = new static();
         }
 
         return self::$instances[$class];
     }
 
     abstract public function initialize();
+
+    /**
+     * @var string
+     */
+    private $name;
 
     /**
      * @var string
@@ -125,25 +130,13 @@ abstract class AbstractRepo implements RepoInterface
     private $rootRepo;
 
     /**
-     * @param string $modelClass
-     */
-    public function __construct($modelClass)
-    {
-        $this->modelClass = $modelClass;
-        $this->linkMap = new LinkMap($this);
-        $this->eventListeners = new EventListeners();
-        $this->serializers = new Serializers();
-        $this->asserts = new Asserts();
-        $this->modelReflection = new ReflectionClass($modelClass);
-        $this->identityMap = new IdentityMap($this);
-    }
-
-    /**
      * @return string
      */
     public function getName()
     {
-        return $this->modelReflection->getShortName();
+        $this->initializeOnce();
+
+        return $this->name;
     }
 
     /**
@@ -151,6 +144,8 @@ abstract class AbstractRepo implements RepoInterface
      */
     public function getIdentityMap()
     {
+        $this->initializeOnce();
+
         return $this->identityMap;
     }
 
@@ -159,6 +154,8 @@ abstract class AbstractRepo implements RepoInterface
      */
     public function getLinkMap()
     {
+        $this->initializeOnce();
+
         return $this->linkMap;
     }
 
@@ -167,7 +164,19 @@ abstract class AbstractRepo implements RepoInterface
      */
     public function getModelClass()
     {
+        $this->initializeOnce();
+
         return $this->modelClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function setModelClass($modelClass)
+    {
+        $this->modelClass = $modelClass;
+
+        return $this;
     }
 
     /**
@@ -208,6 +217,8 @@ abstract class AbstractRepo implements RepoInterface
      */
     public function getModelReflection()
     {
+        $this->initializeOnce();
+
         return $this->modelReflection;
     }
 
@@ -495,7 +506,7 @@ abstract class AbstractRepo implements RepoInterface
      */
     public function newModel($fields = null, $state = State::PENDING)
     {
-        return $this->modelReflection->newInstance($fields, $state);
+        return $this->getModelReflection()->newInstance($fields, $state);
     }
 
     /**
@@ -504,7 +515,7 @@ abstract class AbstractRepo implements RepoInterface
      */
     public function newVoidModel($fields = null)
     {
-        return $this->modelReflection->newInstance($fields, State::VOID);
+        return $this->getModelReflection()->newInstance($fields, State::VOID);
     }
 
     /**
@@ -545,7 +556,24 @@ abstract class AbstractRepo implements RepoInterface
     {
         if (! $this->initialized) {
             $this->initialized = true;
+            $this->eventListeners = new EventListeners();
+            $this->serializers = new Serializers();
+            $this->asserts = new Asserts();
+            $this->identityMap = new IdentityMap($this);
+            $this->linkMap = new LinkMap($this);
+
+            $class = explode('\\', get_class($this));
+            $this->name = end($class);
+
             $this->initialize();
+
+            if (! $this->modelClass) {
+                throw new LogicException(
+                    sprintf('Repo %s did not set modelClass', get_class($this))
+                );
+            }
+
+            $this->modelReflection = new ReflectionClass($this->modelClass);
         }
     }
 }
