@@ -54,7 +54,7 @@ abstract class AbstractRepo
     public static function getInstance($class)
     {
         if (! isset(self::$instances[$class])) {
-            self::$instances[$class] = new $class();
+            self::$instances[$class] = new $class($class);
         }
 
         return self::$instances[$class];
