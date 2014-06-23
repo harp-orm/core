@@ -25,6 +25,6 @@ class SerializerTest extends AbstractIntegrationTestCase
 
         $contents = Repo\User::get()->getContents();
 
-        $this->assertEquals(array('firstName' => 'new', 'lastName' => 'user'), $contents[1]['profile']);
+        $this->assertEquals('{"firstName":"new","lastName":"user"}', $contents[1]['profile']);
     }
 }

@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7c4e3a5dbde8d857cc86e66e3d34e3c7",
+    "hash": "0ad028a2035b8fcc60cd0d886085ab29",
     "packages": [
         {
             "name": "harp-orm/serializer",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/harp-orm/serializer.git",
-                "reference": "e9cbdf5903a223916f01e8184aa584cd5f136966"
+                "reference": "1cbef206aa54cfc79dc4051d8bdc62d15681db93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/harp-orm/serializer/zipball/e9cbdf5903a223916f01e8184aa584cd5f136966",
-                "reference": "e9cbdf5903a223916f01e8184aa584cd5f136966",
+                "url": "https://api.github.com/repos/harp-orm/serializer/zipball/1cbef206aa54cfc79dc4051d8bdc62d15681db93",
+                "reference": "1cbef206aa54cfc79dc4051d8bdc62d15681db93",
                 "shasum": ""
             },
             "type": "library",
@@ -39,7 +39,7 @@
                 }
             ],
             "description": "Serialize object properties",
-            "time": "2014-06-19 13:03:14"
+            "time": "2014-06-21 17:01:33"
         },
         {
             "name": "harp-orm/util",
@@ -78,16 +78,16 @@
         },
         {
             "name": "harp-orm/validate",
-            "version": "dev-master",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/harp-orm/validate.git",
-                "reference": "db2f10f46a0a822526e1dcbc9c6a4ae413a8537e"
+                "reference": "5e110e9d195bb3ea36910c99c05a33320c8b7326"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/harp-orm/validate/zipball/db2f10f46a0a822526e1dcbc9c6a4ae413a8537e",
-                "reference": "db2f10f46a0a822526e1dcbc9c6a4ae413a8537e",
+                "url": "https://api.github.com/repos/harp-orm/validate/zipball/5e110e9d195bb3ea36910c99c05a33320c8b7326",
+                "reference": "5e110e9d195bb3ea36910c99c05a33320c8b7326",
                 "shasum": ""
             },
             "type": "library",
@@ -96,7 +96,6 @@
                     "Harp\\Validate\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -104,12 +103,15 @@
                 {
                     "name": "Ivan Kerin",
                     "email": "ikerin@gmail.com",
-                    "homepage": "http://www.openbuildings.com",
                     "role": "Author"
                 }
             ],
             "description": "Object validaiton library",
-            "time": "2014-06-17 14:10:40"
+            "support": {
+                "source": "https://github.com/harp-orm/validate/tree/0.2.0",
+                "issues": "https://github.com/harp-orm/validate/issues"
+            },
+            "time": "2014-06-21 19:53:49"
         }
     ],
     "packages-dev": [
@@ -189,8 +191,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "harp-orm/validate": 20,
-        "harp-orm/serializer": 20,
         "clippings/phpunit-extensions": 20
     },
     "platform": {

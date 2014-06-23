@@ -106,7 +106,7 @@ class SaveTest extends AbstractIntegrationTestCase
                 'addressId' => $this->equalTo(1),
                 'deletedAt' => $this->equalTo($user1->deletedAt),
                 'isBlocked' => $this->equalTo(true),
-                'profile'   => $this->equalTo(array('firstName'   => 'tester')),
+                'profile'   => $this->equalTo('{"firstName":"tester"}'),
             ],
             $contents[1]
         );
