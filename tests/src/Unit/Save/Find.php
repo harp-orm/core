@@ -5,6 +5,11 @@ namespace Harp\Core\Test\Unit\Save;
 use Harp\Core\Save\AbstractFind;
 use BadMethodCallException;
 
+/**
+ * @author     Ivan Kerin <ikerin@gmail.com>
+ * @copyright  (c) 2014 Clippings Ltd.
+ * @license    http://www.opensource.org/licenses/isc-license.txt
+ */
 class Find extends AbstractFind
 {
     public function where($property, $value)

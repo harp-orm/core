@@ -8,6 +8,11 @@ use Harp\Core\Model\Models;
 use Harp\Core\Repo\LinkMany;
 use BadMethodCallException;
 
+/**
+ * @author     Ivan Kerin <ikerin@gmail.com>
+ * @copyright  (c) 2014 Clippings Ltd.
+ * @license    http://www.opensource.org/licenses/isc-license.txt
+ */
 class RelMany extends AbstractRelMany
 {
     public function areLinked(AbstractModel $model, AbstractModel $foreign)

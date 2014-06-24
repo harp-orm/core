@@ -7,6 +7,10 @@ use Harp\Core\Repo\LinkOne;
 
 /**
  * @coversDefaultClass Harp\Core\Repo\LinkMap
+ *
+ * @author     Ivan Kerin <ikerin@gmail.com>
+ * @copyright  (c) 2014 Clippings Ltd.
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 class LinkMapTest extends AbstractRepoTestCase
 {

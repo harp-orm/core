@@ -11,6 +11,10 @@ use Harp\Core\Repo\LinkMany;
 
 /**
  * @coversDefaultClass Harp\Core\Model\RepoConnectionTrait
+ *
+ * @author     Ivan Kerin <ikerin@gmail.com>
+ * @copyright  (c) 2014 Clippings Ltd.
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 class RepoConnectionTraitTest extends AbstractTestCase
 {

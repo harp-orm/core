@@ -6,6 +6,10 @@ use Harp\Core\Repo\Links;
 
 /**
  * @coversDefaultClass Harp\Core\Repo\Links
+ *
+ * @author     Ivan Kerin <ikerin@gmail.com>
+ * @copyright  (c) 2014 Clippings Ltd.
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 class LinksTest extends AbstractRepoTestCase
 {

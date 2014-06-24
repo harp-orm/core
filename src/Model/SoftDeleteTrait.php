@@ -8,7 +8,7 @@ namespace Harp\Core\Model;
  * if the model is "soft deleted"
  * You need to call setSoftDelete(true) on the corresponding repo
  *
- * @author     Ivan Kerin
+ * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */

@@ -10,7 +10,7 @@ use LogicException;
  * Gives the model methods for accessing the corresponding repo
  * As well as a static interface for loading / saving models
  *
- * @author     Ivan Kerin
+ * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */

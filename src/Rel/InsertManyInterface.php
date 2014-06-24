@@ -8,7 +8,7 @@ use Harp\Core\Repo\LinkMany;
  * This interface is used by relations that will add new foreign models
  * (e.g. when there is a link "through" model)
  *
- * @author     Ivan Kerin
+ * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */

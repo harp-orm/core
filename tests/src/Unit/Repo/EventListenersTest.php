@@ -7,6 +7,10 @@ use Harp\Core\Repo\Event;
 
 /**
  * @coversDefaultClass Harp\Core\Repo\EventListeners
+ *
+ * @author     Ivan Kerin <ikerin@gmail.com>
+ * @copyright  (c) 2014 Clippings Ltd.
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 class EventListenersTest extends AbstractRepoTestCase
 {

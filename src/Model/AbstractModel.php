@@ -16,7 +16,7 @@ use LogicException;
  * model's persistence lifesycle. State::VOID is a special state signifying a non-existant "Null" model.
  * Its useful as void models cannot be saved, but retain all of their functionality.
  *
- * @author     Ivan Kerin
+ * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */

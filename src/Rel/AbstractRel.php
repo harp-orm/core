@@ -12,7 +12,7 @@ use Closure;
  * The main idea is to load all the models associated with a given set of models.
  * That way eager loading works out of the box.
  *
- * @author     Ivan Kerin
+ * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */

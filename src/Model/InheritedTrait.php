@@ -8,7 +8,7 @@ use LogicException;
  * Add class property and methods to work with inheritence.
  * You need to call setInherited(true) on the corresponding repo
  *
- * @author     Ivan Kerin
+ * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */

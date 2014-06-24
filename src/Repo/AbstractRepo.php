@@ -22,7 +22,7 @@ use InvalidArgumentException;
  * requesting a single "repo" could trigger the constructors of all the other repos, associated with it,
  * and their related repo's too. Thats why we need "initialize" method, which will lazy load all the relations.
  *
- * @author     Ivan Kerin
+ * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */

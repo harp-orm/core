@@ -15,7 +15,7 @@ use InvalidArgumentException;
  * This is the second part of the repo core, and handles loading and saving models.
  * It implements eager loading and handles model life-cycle event dispatching.
  *
- * @author     Ivan Kerin
+ * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */

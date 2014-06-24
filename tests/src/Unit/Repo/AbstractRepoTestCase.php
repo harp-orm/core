@@ -6,6 +6,11 @@ use Harp\Core\Repo\LinkMany;
 use Harp\Core\Repo\LinkOne;
 use Harp\Core\Test\AbstractTestCase;
 
+/**
+ * @author     Ivan Kerin <ikerin@gmail.com>
+ * @copyright  (c) 2014 Clippings Ltd.
+ * @license    http://www.opensource.org/licenses/isc-license.txt
+ */
 abstract class AbstractRepoTestCase extends AbstractTestCase
 {
     public function getRelMany()

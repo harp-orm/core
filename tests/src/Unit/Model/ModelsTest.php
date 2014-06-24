@@ -9,6 +9,10 @@ use Harp\Core\Test\AbstractTestCase;
 
 /**
  * @coversDefaultClass Harp\Core\Model\Models
+ *
+ * @author     Ivan Kerin <ikerin@gmail.com>
+ * @copyright  (c) 2014 Clippings Ltd.
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 class ModelsTest extends AbstractTestCase
 {

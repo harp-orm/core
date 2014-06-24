@@ -6,27 +6,19 @@ use Harp\Core\Model\InheritedTrait;
 use Harp\Core\Test\AbstractTestCase;
 
 /**
- * @coversDefaultClass Harp\Core\Model\InheritedTrait
+ * @author     Ivan Kerin <ikerin@gmail.com>
+ * @copyright  (c) 2014 Clippings Ltd.
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 class InheritedTraitTest extends AbstractTestCase
 {
     /**
-     * @covers ::updateInheritanceClass
+     * @covers Harp\Core\Model\InheritedTrait
      */
     public function testUpdateInheritanceClass()
     {
         $model = new InheritedModel();
 
         $this->assertEquals('Harp\Core\Test\Unit\Model\InheritedModel', $model->class);
-    }
-
-    /**
-     * @covers ::updateInheritanceClass
-     * @expectedException LogicException
-     * @expectedExceptionMessage Repo InheritedRepoBad must be "inherited"
-     */
-    public function testUpdateInheritanceClassError()
-    {
-        $model = new InheritedModelBad();
     }
 }

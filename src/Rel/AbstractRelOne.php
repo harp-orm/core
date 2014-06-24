@@ -10,7 +10,7 @@ use Harp\Core\Repo\LinkOne;
  * A "one" relation will always return a LinkOne result with a model. If a model cannot be loaded,
  * a "void model will be created for the foreign repo.
  *
- * @author     Ivan Kerin
+ * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */

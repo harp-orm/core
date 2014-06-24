@@ -11,7 +11,7 @@ use InvalidArgumentException;
  * Will throw exceptions if you try to add models from a different repo.
  * Also getNext() and getFirst() methods will return void models, instead of nulls
  *
- * @author     Ivan Kerin
+ * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */

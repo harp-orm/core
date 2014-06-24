@@ -10,6 +10,10 @@ use Harp\Core\Save\Save;
  * @group integration
  * @group integration.save
  * @coversNothing
+ *
+ * @author     Ivan Kerin <ikerin@gmail.com>
+ * @copyright  (c) 2014 Clippings Ltd.
+ * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 class SaveTest extends AbstractIntegrationTestCase
 {

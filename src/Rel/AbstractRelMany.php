@@ -11,7 +11,7 @@ use InvalidArgumentException;
  * As result of the link is a LinkMany object. You can provide your own class that extends LinkMany,
  * giving the result more functionality.
  *
- * @author     Ivan Kerin
+ * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
