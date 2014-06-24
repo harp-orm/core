@@ -51,13 +51,9 @@ abstract class AbstractModel
             $this->setProperties($properties);
         }
 
-        $this->getRepo()->getSerializers()->unserialize($this);
+        $this->getRepo()->initializeModel($this);
 
-        $this
-            ->updateInheritanceClass()
-            ->resetOriginals();
-
-        $this->getRepo()->dispatchAfterEvent($this, Event::CONSTRUCT);
+        $this->resetOriginals();
     }
 
     /**

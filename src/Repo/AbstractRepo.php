@@ -527,6 +527,23 @@ abstract class AbstractRepo
     }
 
     /**
+     * @param  AbstractModel $model
+     * @return AbstractRepo $this
+     */
+    public function initializeModel(AbstractModel $model)
+    {
+        $this->initializeOnce();
+
+        $this->serializers->unserialize($model);
+
+        if ($this->inherited) {
+            $model->class = $this->modelClass;
+        }
+
+        $this->dispatchAfterEvent($model, Event::CONSTRUCT);
+    }
+
+    /**
      * Clear IdentityMap and LinkMap
      *
      * @return AbstractRepo $this

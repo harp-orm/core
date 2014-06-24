@@ -57,6 +57,34 @@ class AbstractRepoTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::initializeModel
+     */
+    public function testInitializeModel()
+    {
+        $repo = new Repo();
+        $repo
+            ->setInherited(true)
+            ->addSerializers([new Json('name')])
+            ->addEventAfter(Event::CONSTRUCT, function($model) {
+                $model->constructCalled = true;
+            });
+
+        $model = $this->getMockForAbstractClass(
+            __NAMESPACE__.'\Model',
+            [],
+            '',
+            false
+        );
+
+        $model->name = '{"test":"test2"}';
+
+        $repo->initializeModel($model);
+
+        $this->assertEquals('Harp\Core\Test\Unit\Repo\Model', $model->class);
+        $this->assertEquals(['test' => 'test2'], $model->name);
+    }
+
+    /**
      * @covers ::getRootRepo
      * @covers ::setRootRepo
      */

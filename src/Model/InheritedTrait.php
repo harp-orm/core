@@ -23,23 +23,4 @@ trait InheritedTrait
      * @var string
      */
     public $class;
-
-    /**
-     * Set the class property to the actual class
-     * @throws LogicException If repo is not inherited
-     */
-    public function updateInheritanceClass()
-    {
-        $repo = $this->getRepo();
-
-        if (! $repo->getInherited()) {
-            throw new LogicException(
-                sprintf('Repo %s must be "inherited"', $repo->getName())
-            );
-        }
-
-        $this->class = $repo->getModelClass();
-
-        return $this;
-    }
 }
