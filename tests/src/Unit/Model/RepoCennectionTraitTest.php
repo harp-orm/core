@@ -22,6 +22,7 @@ class RepoConnectionTraitTest extends AbstractTestCase
      * @covers ::find
      * @covers ::findByName
      * @covers ::findAll
+     * @covers ::save
      * @covers ::onlySaved
      * @covers ::onlyDeleted
      */
