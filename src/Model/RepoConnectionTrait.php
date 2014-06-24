@@ -42,7 +42,7 @@ trait RepoConnectionTrait
     }
 
     /**
-     * @param  mixed $id
+     * @param  string $name
      * @return AbstractModel
      */
     public static function findByName($name)
@@ -59,7 +59,7 @@ trait RepoConnectionTrait
     }
 
     /**
-     * @param  mixed $id
+     * @param  AbstractModel $model
      * @return AbstractRepo
      */
     public static function save(AbstractModel $model)
@@ -68,7 +68,14 @@ trait RepoConnectionTrait
     }
 
     /**
-     * @param  mixed $id
+     * @return \Harp\Core\Save\Save
+     */
+    public static function newSave()
+    {
+        return static::getRepoStatic()->newSave();
+    }
+
+    /**
      * @return AbstractRepo
      */
     public static function onlyDeleted()
@@ -77,7 +84,6 @@ trait RepoConnectionTrait
     }
 
     /**
-     * @param  mixed $id
      * @return AbstractRepo
      */
     public static function onlySaved()

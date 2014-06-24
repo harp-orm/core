@@ -23,6 +23,7 @@ class RepoConnectionTraitTest extends AbstractTestCase
      * @covers ::findByName
      * @covers ::findAll
      * @covers ::save
+     * @covers ::newSave
      * @covers ::onlySaved
      * @covers ::onlyDeleted
      */
@@ -35,6 +36,7 @@ class RepoConnectionTraitTest extends AbstractTestCase
                 'findAll',
                 'findByName',
                 'save',
+                'newSave',
                 'onlyDeleted',
                 'onlySaved',
             ]
@@ -75,6 +77,11 @@ class RepoConnectionTraitTest extends AbstractTestCase
             ->with($this->identicalTo($model))
             ->will($this->returnSelf());
 
+        $repo
+            ->expects($this->once())
+            ->method('newSave')
+            ->will($this->returnValue('save'));
+
         $find
             ->expects($this->once())
             ->method('onlyDeleted')
@@ -89,6 +96,7 @@ class RepoConnectionTraitTest extends AbstractTestCase
         $this->assertSame($model, ModelMock::findByName(5));
         $this->assertSame($find, ModelMock::findAll());
         $this->assertSame($repo, ModelMock::save($model));
+        $this->assertSame('save', ModelMock::newSave());
         $this->assertSame($find, ModelMock::onlyDeleted());
         $this->assertSame($find, ModelMock::onlySaved());
     }
