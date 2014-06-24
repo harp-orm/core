@@ -15,7 +15,7 @@ class SaveTest extends AbstractIntegrationTestCase
 {
     public function testTest()
     {
-        $user1 = Repo\User::get()->find(1);
+        $user1 = Model\User::find(1);
 
         $user1->name = 'changed name';
 
@@ -39,7 +39,7 @@ class SaveTest extends AbstractIntegrationTestCase
             ->add($user2)
             ->execute();
 
-        Repo\Address::get()->save($address);
+        Model\Address::save($address);
 
         $expectedAddressContent = [
             1 => [

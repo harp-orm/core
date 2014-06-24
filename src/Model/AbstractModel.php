@@ -3,9 +3,6 @@
 namespace Harp\Core\Model;
 
 use Harp\Validate\Errors;
-use Harp\Core\Repo\AbstractLink;
-use Harp\Core\Repo\AbstractRepo;
-use Harp\Core\Repo\LinkOne;
 use Harp\Core\Repo\Event;
 use LogicException;
 
@@ -28,14 +25,7 @@ abstract class AbstractModel
     use DirtyTrackingTrait;
     use UnmappedPropertiesTrait;
     use PropertiesAccessorTrait;
-
-    /**
-     * @return AbstractRepo
-     */
-    public function getRepo()
-    {
-        return AbstractRepo::getInstance(static::REPO);
-    }
+    use RepoConnectionTrait;
 
     /**
      * @var int
@@ -68,37 +58,6 @@ abstract class AbstractModel
             ->resetOriginals();
 
         $this->getRepo()->dispatchAfterEvent($this, Event::CONSTRUCT);
-    }
-
-    /**
-     * Shortcut method to Repo's loadLink
-     *
-     * @param  string       $name
-     * @return AbstractLink
-     */
-    public function getLink($name)
-    {
-        return $this->getRepo()->loadLink($this, $name);
-    }
-
-    /**
-     * Shortcut method to Repo's loadLink. Throws LogicException if the link is void
-     *
-     * @param  string         $name
-     * @return AbstractLink
-     * @throws LogicException If link is void
-     */
-    public function getLinkOrError($name)
-    {
-        $link = $this->getLink($name);
-
-        if ($link instanceof LinkOne and $link->get()->isVoid()) {
-            throw new LogicException(
-                sprintf('Link for rel %s should not be void', $name)
-            );
-        }
-
-        return $link;
     }
 
     /**
@@ -217,29 +176,6 @@ abstract class AbstractModel
      */
     public function updateInheritanceClass()
     {
-        return $this;
-    }
-
-    /**
-     * Property defined by Repo Primary Key
-     *
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->{$this->getRepo()->getPrimaryKey()};
-    }
-
-    /**
-     * Set property defined by Repo Primary Key
-     *
-     * @param  mixed
-     * @return AbstractModel $this
-     */
-    public function setId($id)
-    {
-        $this->{$this->getRepo()->getPrimaryKey()} = $id;
-
         return $this;
     }
 

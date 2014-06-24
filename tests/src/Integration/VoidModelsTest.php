@@ -2,7 +2,7 @@
 
 namespace Harp\Core\Test\Integration;
 
-use Harp\Core\Test\Repo;
+use Harp\Core\Test\Model;
 
 /**
  * @group integration
@@ -13,7 +13,7 @@ class VoidModelsTest extends AbstractIntegrationTestCase
 {
     public function testRels()
     {
-        $user = Repo\User::get()->find(1231421);
+        $user = Model\User::find(1231421);
 
         $this->assertInstanceOf('Harp\Core\Test\Model\User', $user);
         $this->assertTrue($user->isVoid());

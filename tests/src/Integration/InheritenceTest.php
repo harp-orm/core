@@ -2,7 +2,7 @@
 
 namespace Harp\Core\Test\Integration;
 
-use Harp\Core\Test\Repo;
+use Harp\Core\Test\Model;
 
 /**
  * @group integration
@@ -13,8 +13,8 @@ class InheritenceTest extends AbstractIntegrationTestCase
 {
     public function testInheritence()
     {
-        $post1 = Repo\Post::get()->find(1);
-        $post2 = Repo\BlogPost::get()->find(1);
+        $post1 = Model\Post::find(1);
+        $post2 = Model\BlogPost::find(1);
 
         $this->assertSame($post1, $post2);
     }

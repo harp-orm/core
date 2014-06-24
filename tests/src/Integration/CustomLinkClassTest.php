@@ -2,7 +2,7 @@
 
 namespace Harp\Core\Test\Integration;
 
-use Harp\Core\Test\Repo;
+use Harp\Core\Test\Model;
 
 /**
  * @group integration
@@ -13,7 +13,7 @@ class CustomLinkClassTest extends AbstractIntegrationTestCase
 {
     public function testTest()
     {
-        $user1 = Repo\User::get()->find(1);
+        $user1 = Model\User::find(1);
 
         $posts = $user1->getPosts();
 

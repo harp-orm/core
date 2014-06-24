@@ -40,73 +40,6 @@ class AbstractModelTest extends AbstractTestCase
     }
 
     /**
-     * @covers ::getLink
-     */
-    public function testGetLink()
-    {
-        $repo = $this->getMock(__NAMESPACE__.'\Repo', ['loadLink']);
-
-        $model = $this->getMock(
-            __NAMESPACE__.'\Model',
-            ['getRepo'],
-            [],
-            '',
-            false
-        );
-
-        $link = new stdClass();
-
-        $model
-            ->expects($this->once())
-            ->method('getRepo')
-            ->will($this->returnValue($repo));
-
-        $repo
-            ->expects($this->once())
-            ->method('loadLink')
-            ->with($this->identicalTo($model), $this->equalTo('test'))
-            ->will($this->returnValue($link));
-
-        $result = $model->getLink('test');
-
-        $this->assertSame($link, $result);
-    }
-
-    /**
-     * @covers ::getLinkOrError
-     */
-    public function testGetLinkOrError()
-    {
-        $model = $this->getMock(
-            __NAMESPACE__.'\Model',
-            ['getLink'],
-            [],
-            '',
-            false
-        );
-        $other = new Model();
-        $otherVoid = new Model([], State::VOID);
-
-        $repo = new Repo();
-
-        $linkOne = new LinkOne($model, new RelOne('one', $repo, $repo), $other);
-        $linkMany = new LinkMany($model, new RelMany('many', $repo, $repo), []);
-        $linkOneVoid = new LinkOne($model, new RelOne('one', $repo, $repo), $otherVoid);
-
-        $model
-            ->expects($this->exactly(3))
-            ->method('getLink')
-            ->will($this->onConsecutiveCalls($linkOne, $linkMany, $linkOneVoid));
-
-        $this->assertSame($linkOne, $model->getLinkOrError('test'));
-        $this->assertSame($linkMany, $model->getLinkOrError('test'));
-
-        $this->setExpectedException('LogicException', 'Link for rel test should not be void');
-
-        $this->assertSame($linkOne, $model->getLinkOrError('test'));
-    }
-
-    /**
      * @covers ::resetOriginals
      */
     public function testResetOriginals()
@@ -270,26 +203,6 @@ class AbstractModelTest extends AbstractTestCase
         $model = new Model(null, State::PENDING);
 
         $model->delete();
-    }
-
-    /**
-     * @covers ::getId
-     * @covers ::setId
-     */
-    public function testGetId()
-    {
-        $model = new Model();
-
-        $this->assertEquals(null, $model->getId());
-
-        $model->id = 20;
-
-        $this->assertEquals(20, $model->getId());
-
-        $model->setId(30);
-
-        $this->assertEquals(30, $model->id);
-        $this->assertEquals(30, $model->getId());
     }
 
     /**

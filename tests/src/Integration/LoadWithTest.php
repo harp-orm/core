@@ -3,8 +3,6 @@
 namespace Harp\Core\Test\Integration;
 
 use Harp\Core\Test\Model;
-use Harp\Core\Test\Repo;
-use Harp\Core\Save\Save;
 
 /**
  * @group integration
@@ -15,8 +13,7 @@ class LoadWithTest extends AbstractIntegrationTestCase
 {
     public function testTest()
     {
-        $users = Repo\User::get()
-            ->findAll()
+        $users = Model\User::findAll()
             ->loadWith(['posts']);
     }
 }

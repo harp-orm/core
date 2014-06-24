@@ -2,7 +2,7 @@
 
 namespace Harp\Core\Test\Integration;
 
-use Harp\Core\Test\Repo;
+use Harp\Core\Test\Model;
 
 /**
  * @group integration
@@ -13,7 +13,7 @@ class UnmappedTest extends AbstractIntegrationTestCase
 {
     public function testTest()
     {
-        $user = Repo\User::get()->find(1);
+        $user = Model\User::find(1);
 
         $this->assertEmpty($user->getUnmapped());
 

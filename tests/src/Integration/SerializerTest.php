@@ -15,13 +15,13 @@ class SerializerTest extends AbstractIntegrationTestCase
 {
     public function testTest()
     {
-        $user = Repo\User::get()->find(1);
+        $user = Model\User::find(1);
 
         $this->assertEquals(array('firstName' => 'tester'), $user->profile);
 
         $user->profile = array('firstName' => 'new', 'lastName' => 'user');
 
-        Repo\User::get()->save($user);
+        Model\User::save($user);
 
         $contents = Repo\User::get()->getContents();
 
