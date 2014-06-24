@@ -166,16 +166,6 @@ abstract class AbstractModel
     }
 
     /**
-     * A no-op, will be overridden by InheritedTrait
-     *
-     * @return AbstractModel $this
-     */
-    public function updateInheritanceClass()
-    {
-        return $this;
-    }
-
-    /**
      * Set state as deleted (You need to save it to delete it from the repo)
      *
      * @return AbstractModel $this
