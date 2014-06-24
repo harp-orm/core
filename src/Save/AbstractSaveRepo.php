@@ -92,14 +92,30 @@ abstract class AbstractSaveRepo extends AbstractRepo
      */
     public function save(AbstractModel $model)
     {
-        if (! $this->isModel($model)) {
-            throw new InvalidArgumentException(
-                sprintf('Model must be %s, was %s', $this->getModelClass(), get_class($model))
-            );
-        }
+        $this->assertModel($model);
 
         $this->newSave()
             ->add($model)
+            ->execute();
+
+        return $this;
+    }
+
+    /**
+     * Save the models using a Save object. This will save all the linked models as well
+     *
+     * @param  AbstractModel[]          $models
+     * @return AbstractSaveRepo         $this
+     * @throws InvalidArgumentException If one of $models does not belong to repo
+     */
+    public function saveArray(array $models)
+    {
+        foreach ($models as $model) {
+            $this->assertModel($model);
+        }
+
+        $this->newSave()
+            ->addArray($models)
             ->execute();
 
         return $this;

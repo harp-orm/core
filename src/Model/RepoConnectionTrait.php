@@ -68,11 +68,12 @@ trait RepoConnectionTrait
     }
 
     /**
-     * @return \Harp\Core\Save\Save
+     * @param  AbstractModel[] $models
+     * @return AbstractRepo
      */
-    public static function newSave()
+    public static function saveArray(array $models)
     {
-        return static::getRepoStatic()->newSave();
+        return static::getRepoStatic()->saveArray($models);
     }
 
     /**

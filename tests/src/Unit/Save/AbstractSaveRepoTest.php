@@ -136,6 +136,33 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
+     * @covers ::saveArray
+     */
+    public function testSaveArray()
+    {
+        $save = $this->getMock('Harp\Core\Save\Save', ['execute', 'addArray']);
+        $models = [new Model()];
+
+        $save
+            ->expects($this->once())
+            ->method('addArray')
+            ->with($this->identicalTo($models))
+            ->will($this->returnSelf());
+
+        $save
+            ->expects($this->once())
+            ->method('execute')
+            ->will($this->returnSelf());
+
+        $this->repo
+            ->expects($this->once())
+            ->method('newSave')
+            ->will($this->returnValue($save));
+
+        $this->repo->saveArray($models);
+    }
+
+    /**
      * @covers ::save
      * @expectedException InvalidArgumentException
      */
@@ -144,6 +171,17 @@ class AbstractSaveRepoTest extends AbstractTestCase
         $otherModel = new SoftDeleteModel();
 
         $this->repo->save($otherModel);
+    }
+
+    /**
+     * @covers ::saveArray
+     * @expectedException InvalidArgumentException
+     */
+    public function testSaveArrayOtherModel()
+    {
+        $models = [new Model(), new SoftDeleteModel()];
+
+        $this->repo->saveArray($models);
     }
 
     /**
