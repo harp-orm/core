@@ -195,8 +195,7 @@ abstract class AbstractFind
     }
 
     /**
-     * You can pass State::DELETED to retrieve only deleted
-     * and State::DELETED | State::SAVED to retrieve deleted + saved
+     * Apply the previously set flags
      *
      * @param  int          $flags
      * @return AbstractFind $this
