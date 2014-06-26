@@ -73,7 +73,6 @@ class AbstractFindTest extends AbstractTestCase
         $find
             ->expects($this->once())
             ->method('applyFlags')
-            ->with($this->equalTo(State::DELETED | State::SAVED))
             ->will($this->returnSelf());
 
         $find
@@ -81,16 +80,13 @@ class AbstractFindTest extends AbstractTestCase
             ->method('execute')
             ->will($this->returnValue($models));
 
-        $result = $find->loadRaw(State::DELETED | State::SAVED);
+        $result = $find->loadRaw();
 
         $this->assertSame($models, $result);
     }
 
     /**
      * @covers ::applyFlags
-     * @covers ::onlySaved
-     * @covers ::onlyDeleted
-     * @expectedException InvalidArgumentException
      */
     public function testApplyFlags()
     {
@@ -106,32 +102,67 @@ class AbstractFindTest extends AbstractTestCase
         $find
             ->expects($this->at(0))
             ->method('where')
-            ->with($this->equalTo('deletedAt'), null);
+            ->with($this->equalTo('deletedAt'), $this->identicalTo(null));
 
         $find
-            ->expects($this->at(2))
+            ->expects($this->at(1))
             ->method('whereNot')
-            ->with($this->equalTo('deletedAt'), null);
+            ->with($this->equalTo('deletedAt'), $this->identicalTo(null));
 
-        $find->applyFlags(null);
-        $find->applyFlags(State::DELETED);
-        $find->applyFlags(State::DELETED | State::SAVED);
-
-        $find->applyFlags(State::VOID);
+        $find->setFlags(State::SAVED)->applyFlags();
+        $find->setFlags(State::DELETED)->applyFlags();
+        $find->setFlags(State::DELETED | State::SAVED)->applyFlags();
     }
 
     /**
-     * @covers ::loadRaw
-     * @expectedException InvalidArgumentException
+     * @covers ::setFlags
+     * @covers ::getFlags
      */
-    public function testLoadRawInvalidArguments()
+    public function testFlags()
     {
         $repo = new Repo();
         $repo->setSoftDelete(true);
 
         $find = new Find($repo);
 
-        $find->loadRaw(State::PENDING);
+        $this->assertSame(State::SAVED, $find->getFlags());
+
+        $find->setFlags(State::DELETED);
+
+        $this->assertSame(State::DELETED, $find->getFlags());
+
+        $find->setFlags(State::DELETED | State::SAVED);
+
+        $this->assertSame(State::DELETED | State::SAVED, $find->getFlags());
+
+        $this->setExpectedException('InvalidArgumentException', 'Flags were 1, but need to be State::SAVED, State::DELETED or State::DELETED | State::SAVED');
+
+        $find->setFlags(State::PENDING);
+    }
+
+    /**
+     * @covers ::onlyDeleted
+     * @covers ::onlySaved
+     * @covers ::deletedAndSaved
+     */
+    public function testFlagSetters()
+    {
+        $repo = new Repo();
+        $repo->setSoftDelete(true);
+
+        $find = new Find($repo);
+
+        $find->onlyDeleted();
+
+        $this->assertSame(State::DELETED, $find->getFlags());
+
+        $find->onlySaved();
+
+        $this->assertSame(State::SAVED, $find->getFlags());
+
+        $find->deletedAndSaved();
+
+        $this->assertSame(State::DELETED | State::SAVED, $find->getFlags());
     }
 
     /**
@@ -151,15 +182,14 @@ class AbstractFindTest extends AbstractTestCase
         $find
             ->expects($this->exactly(2))
             ->method('loadRaw')
-            ->with($this->equalTo(State::DELETED | State::SAVED))
             ->will($this->onConsecutiveCalls([$model1, $model3], [$model2, $model4]));
 
-        $loaded = $find->load(State::DELETED | State::SAVED);
+        $loaded = $find->load();
         $this->assertInstanceOf('Harp\Core\Model\Models', $loaded);
 
         $this->assertSame([$model1, $model3], $loaded->toArray());
 
-        $loaded = $find->load(State::DELETED | State::SAVED);
+        $loaded = $find->load();
         $this->assertInstanceOf('Harp\Core\Model\Models', $loaded);
 
         $this->assertSame([$model1, $model3], $loaded->toArray());
@@ -180,7 +210,6 @@ class AbstractFindTest extends AbstractTestCase
         $find
             ->expects($this->once())
             ->method('load')
-            ->with($this->equalTo(State::DELETED))
             ->will($this->returnValue($models));
 
         $repo
@@ -188,7 +217,7 @@ class AbstractFindTest extends AbstractTestCase
             ->method('loadAllRelsFor')
             ->with($this->identicalTo($models), $this->equalTo($rels), $this->equalTo(State::DELETED));
 
-        $result = $find->loadWith($rels, State::DELETED);
+        $result = $find->setFlags(State::DELETED)->loadWith($rels);
 
         $this->assertSame($models, $result);
     }
@@ -209,12 +238,11 @@ class AbstractFindTest extends AbstractTestCase
         $find
             ->expects($this->once())
             ->method('load')
-            ->with($this->equalTo(State::DELETED))
             ->will($this->returnValue($models));
 
         $expected = [4, 98, 100];
 
-        $result = $find->loadIds(State::DELETED);
+        $result = $find->loadIds();
 
         $this->assertSame($expected, $result);
     }
@@ -235,10 +263,9 @@ class AbstractFindTest extends AbstractTestCase
         $find
             ->expects($this->once())
             ->method('loadRaw')
-            ->with($this->equalTo(State::DELETED))
             ->will($this->returnValue($models));
 
-        $result = $find->loadCount(State::DELETED);
+        $result = $find->loadCount();
 
         $this->assertEquals(3, $result);
     }
@@ -265,14 +292,13 @@ class AbstractFindTest extends AbstractTestCase
         $find
             ->expects($this->exactly(2))
             ->method('load')
-            ->with($this->equalTo(State::DELETED))
             ->will($this->onConsecutiveCalls($models, $emptyModels));
 
-        $result = $find->loadFirst(State::DELETED);
+        $result = $find->loadFirst();
 
         $this->assertSame($model, $result);
 
-        $result = $find->loadFirst(State::DELETED);
+        $result = $find->loadFirst();
 
         $this->assertInstanceOf(__NAMESPACE__.'\Model', $result);
         $this->assertTrue($result->isVoid());

@@ -24,8 +24,6 @@ class RepoConnectionTraitTest extends AbstractTestCase
      * @covers ::findAll
      * @covers ::save
      * @covers ::saveArray
-     * @covers ::onlySaved
-     * @covers ::onlyDeleted
      */
     public function testFind()
     {
@@ -37,8 +35,6 @@ class RepoConnectionTraitTest extends AbstractTestCase
                 'findByName',
                 'save',
                 'saveArray',
-                'onlyDeleted',
-                'onlySaved',
             ]
         );
 
@@ -62,7 +58,7 @@ class RepoConnectionTraitTest extends AbstractTestCase
             ->will($this->returnValue($model));
 
         $repo
-            ->expects($this->exactly(3))
+            ->expects($this->once())
             ->method('findAll')
             ->will($this->returnValue($find));
 
@@ -84,23 +80,11 @@ class RepoConnectionTraitTest extends AbstractTestCase
             ->with($this->identicalTo($models))
             ->will($this->returnSelf());
 
-        $find
-            ->expects($this->once())
-            ->method('onlyDeleted')
-            ->will($this->returnSelf());
-
-        $find
-            ->expects($this->once())
-            ->method('onlySaved')
-            ->will($this->returnSelf());
-
         $this->assertSame($model, ModelMock::find(3, State::SAVED | State::DELETED));
         $this->assertSame($model, ModelMock::findByName('name', State::SAVED | State::DELETED));
         $this->assertSame($find, ModelMock::findAll());
         $this->assertSame($repo, ModelMock::save($model));
         $this->assertSame($repo, ModelMock::saveArray($models));
-        $this->assertSame($find, ModelMock::onlyDeleted());
-        $this->assertSame($find, ModelMock::onlySaved());
     }
 
     /**

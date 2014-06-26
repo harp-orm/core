@@ -42,7 +42,8 @@ class One extends AbstractRelOne implements UpdateOneInterface
         return $this->getForeignRepo()
             ->findAll()
             ->whereIn('id', $keys)
-            ->loadRaw($flags);
+            ->setFlags($flags)
+            ->loadRaw();
     }
 
     public function update(LinkOne $link)

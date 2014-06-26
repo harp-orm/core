@@ -79,22 +79,6 @@ trait RepoConnectionTrait
     }
 
     /**
-     * @return AbstractRepo
-     */
-    public static function onlyDeleted()
-    {
-        return static::getRepoStatic()->findAll()->onlyDeleted();
-    }
-
-    /**
-     * @return AbstractRepo
-     */
-    public static function onlySaved()
-    {
-        return static::getRepoStatic()->findAll()->onlySaved();
-    }
-
-    /**
      * Property defined by Repo Primary Key
      *
      * @return mixed

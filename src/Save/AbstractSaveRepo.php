@@ -55,7 +55,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
         return $this
             ->findAll()
             ->where($this->getPrimaryKey(), $id)
-            ->loadFirst($flags);
+            ->setFlags($flags)
+            ->loadFirst();
     }
 
     /**
@@ -70,7 +71,8 @@ abstract class AbstractSaveRepo extends AbstractRepo
         return $this
             ->findAll()
             ->where($this->getNameKey(), $name)
-            ->loadFirst($flags);
+            ->setFlags($flags)
+            ->loadFirst();
     }
 
     /**
@@ -178,19 +180,19 @@ abstract class AbstractSaveRepo extends AbstractRepo
      *
      * @param  Models           $models
      * @param  array            $rels
-     * @param  int              $state
+     * @param  int              $flags
      * @return AbstractSaveRepo $this
      */
-    public function loadAllRelsFor(Models $models, array $rels, $state = null)
+    public function loadAllRelsFor(Models $models, array $rels, $flags = null)
     {
         $rels = Arr::toAssoc($rels);
 
         foreach ($rels as $relName => $childRels) {
-            $foreign = $this->loadRelFor($models, $relName, $state);
+            $foreign = $this->loadRelFor($models, $relName, $flags);
 
             if ($childRels) {
                 $rel = $this->getRel($relName);
-                $rel->getForeignRepo()->loadAllRelsFor($foreign, $childRels, $state);
+                $rel->getForeignRepo()->loadAllRelsFor($foreign, $childRels, $flags);
             }
         }
 

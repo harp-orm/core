@@ -42,7 +42,8 @@ class Many extends AbstractRelMany implements UpdateManyInterface
         return $this->getForeignRepo()
             ->findAll()
             ->whereIn($this->key, $keys)
-            ->loadRaw($flags);
+            ->setFlags($flags)
+            ->loadRaw();
     }
 
     public function update(LinkMany $link)
