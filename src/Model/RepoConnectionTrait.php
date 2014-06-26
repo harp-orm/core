@@ -34,20 +34,22 @@ trait RepoConnectionTrait
 
     /**
      * @param  mixed $id
+     * @param  int   $flags
      * @return AbstractModel
      */
-    public static function find($id)
+    public static function find($id, $flags = null)
     {
-        return static::getRepoStatic()->find($id);
+        return static::getRepoStatic()->find($id, $flags);
     }
 
     /**
      * @param  string $name
+     * @param  int    $flags
      * @return AbstractModel
      */
-    public static function findByName($name)
+    public static function findByName($name, $flags = null)
     {
-        return static::getRepoStatic()->findByName($name);
+        return static::getRepoStatic()->findByName($name, $flags);
     }
 
     /**
