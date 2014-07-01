@@ -26,18 +26,18 @@ class User extends AbstractModel {
 
     public function getAddress()
     {
-        return $this->getLink('address')->get();
+        return $this->getLinkedModel('address');
     }
 
     public function setAddress(Address $address)
     {
-        $this->getLink('address')->set($address);
+        $this->setLinkedModel('address', $address);
 
         return $this;
     }
 
     public function getPosts()
     {
-        return $this->getLink('posts');
+        return $this->getLinkMany('posts');
     }
 }

@@ -4,6 +4,7 @@ namespace Harp\Core\Model;
 
 use Harp\Core\Repo\AbstractRepo;
 use Harp\Core\Repo\LinkOne;
+use Harp\Core\Repo\LinkMany;
 use LogicException;
 
 /**
@@ -112,19 +113,53 @@ trait RepoConnectionTrait
     }
 
     /**
-     * Shortcut method to Repo's loadLink. Throws LogicException if the link is void
-     *
-     * @param  string         $name
-     * @return \Harp\Core\Repo\AbstractLink
-     * @throws LogicException If link is void
+     * @param  string $name
+     * @return LinkOne
      */
-    public function getLinkOrError($name)
+    public function getLinkOne($name)
     {
         $link = $this->getLink($name);
 
-        if ($link instanceof LinkOne and $link->get()->isVoid()) {
+        if (! $link instanceof LinkOne) {
             throw new LogicException(
-                sprintf('Link for rel %s should not be void', $name)
+                sprintf('Rel %s for %s must be a valid RelOne', $name, get_class($this))
+            );
+        }
+
+        return $link;
+    }
+
+    /**
+     * @param  string $name
+     * @return AbstractModel
+     */
+    public function getLinkedModel($name)
+    {
+        return $this->getLinkOne($name)->get();
+    }
+
+    /**
+     * @param string $name
+     * @param AbstractModel $model
+     */
+    public function setLinkedModel($name, $model)
+    {
+        $this->getLinkOne($name)->set($model);
+
+        return $this;
+    }
+
+    /**
+     * @param  string $name
+     * @return LinkMany
+     */
+    public function getLinkMany($name)
+    {
+        $link = $this->getLink($name);
+
+        if (! $link instanceof LinkMany) {
+            throw new LogicException(
+                sprintf('Rel %s for %s must be a valid RelMany', $name, get_class($this))
             );
         }
 

@@ -153,37 +153,65 @@ class RepoConnectionTraitTest extends AbstractTestCase
     }
 
     /**
-     * @covers ::getLinkOrError
+     * @covers ::getLinkOne
+     * @covers ::getLinkedModel
+     * @covers ::setLinkedModel
      */
-    public function testGetLinkOrError()
+    public function testGetLinkOne()
     {
-        $model = $this->getMock(
-            __NAMESPACE__.'\Model',
-            ['getLink'],
-            [],
-            '',
-            false
-        );
-        $other = new Model();
-        $otherVoid = new Model([], State::VOID);
+        $model2 = new Model();
+        $model3 = new Model();
+        $model = $this->getMock(__NAMESPACE__.'\Model', ['getLink'], [], 'MockLinkOne');
 
-        $repo = new Repo();
-
-        $linkOne = new LinkOne($model, new RelOne('one', $repo, $repo), $other);
-        $linkMany = new LinkMany($model, new RelMany('many', $repo, $repo), []);
-        $linkOneVoid = new LinkOne($model, new RelOne('one', $repo, $repo), $otherVoid);
+        $link1 = new LinkOne($model, new RelOne('test', Repo::get(), Repo::get()), $model2);
+        $link2 = new LinkMany($model, new RelMany('test', Repo::get(), Repo::get()), []);
 
         $model
-            ->expects($this->exactly(3))
+            ->expects($this->exactly(4))
             ->method('getLink')
-            ->will($this->onConsecutiveCalls($linkOne, $linkMany, $linkOneVoid));
+            ->with($this->equalTo('test'))
+            ->will($this->onConsecutiveCalls($link1, $link1, $link1, $link2));
 
-        $this->assertSame($linkOne, $model->getLinkOrError('test'));
-        $this->assertSame($linkMany, $model->getLinkOrError('test'));
+        $result = $model->getLinkOne('test');
 
-        $this->setExpectedException('LogicException', 'Link for rel test should not be void');
+        $this->assertSame($link1, $result);
 
-        $this->assertSame($linkOne, $model->getLinkOrError('test'));
+        $result = $model->getLinkedModel('test');
+
+        $this->assertSame($model2, $result);
+
+        $model->setLinkedModel('test', $model3);
+
+        $this->assertSame($model3, $link1->get());
+
+        $this->setExpectedException('LogicException', 'Rel test for MockLinkOne must be a valid RelOne');
+
+        $model->getLinkOne('test');
     }
 
+    /**
+     * @covers ::getLinkMany
+     */
+    public function testGetLinkMany()
+    {
+        $model2 = new Model();
+        $model = $this->getMock(__NAMESPACE__.'\Model', ['getLink'], [], 'MockLinkMany');
+
+        $link1 = new LinkMany($model, new RelMany('test', Repo::get(), Repo::get()), []);
+        $link2 = new LinkOne($model, new RelOne('test', Repo::get(), Repo::get()), $model2);
+
+        $model
+            ->expects($this->exactly(2))
+            ->method('getLink')
+            ->with($this->equalTo('test'))
+            ->will($this->onConsecutiveCalls($link1, $link2));
+
+        $result = $model->getLinkMany('test');
+
+        $this->assertSame($link1, $result);
+
+        $this->setExpectedException('LogicException', 'Rel test for MockLinkMany must be a valid RelMany');
+
+        $model->getLinkMany('test');
+    }
 }
