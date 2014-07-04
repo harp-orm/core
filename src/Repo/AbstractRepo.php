@@ -122,8 +122,6 @@ abstract class AbstractRepo
      */
     public function getName()
     {
-        $this->initializeOnce();
-
         return $this->name;
     }
 
@@ -132,8 +130,6 @@ abstract class AbstractRepo
      */
     public function getIdentityMap()
     {
-        $this->initializeOnce();
-
         return $this->identityMap;
     }
 
@@ -142,8 +138,6 @@ abstract class AbstractRepo
      */
     public function getLinkMap()
     {
-        $this->initializeOnce();
-
         return $this->linkMap;
     }
 
@@ -152,20 +146,7 @@ abstract class AbstractRepo
      */
     public function getModelClass()
     {
-        $this->initializeOnce();
-
         return $this->modelClass;
-    }
-
-    /**
-     * @param  string $modelClass
-     * @return AbstractRepo $this
-     */
-    public function setModelClass($modelClass)
-    {
-        $this->modelClass = $modelClass;
-
-        return $this;
     }
 
     /**
@@ -206,8 +187,6 @@ abstract class AbstractRepo
      */
     public function getModelReflection()
     {
-        $this->initializeOnce();
-
         return $this->modelReflection;
     }
 

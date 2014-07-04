@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0ad028a2035b8fcc60cd0d886085ab29",
+    "hash": "a51a49100fab1f1bb2d045e03282fba8",
     "packages": [
         {
             "name": "harp-orm/serializer",

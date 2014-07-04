@@ -147,17 +147,12 @@ class AbstractRepoTest extends AbstractRepoTestCase
 
     /**
      * @covers ::getModelClass
-     * @covers ::setModelClass
      */
     public function testModelClass()
     {
         $repo = new Repo(__NAMESPACE__.'\Model');
 
         $this->assertEquals(__NAMESPACE__.'\Model', $repo->getModelClass());
-
-        $repo->setModelClass(__NAMESPACE__.'\ModelOther');
-
-        $this->assertEquals(__NAMESPACE__.'\ModelOther', $repo->getModelClass());
     }
 
     /**
