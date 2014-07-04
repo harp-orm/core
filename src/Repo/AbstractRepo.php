@@ -565,8 +565,9 @@ abstract class AbstractRepo
         if (! $this->initialized) {
             $this->initialized = true;
 
-            $class = $this->modelClass;
-            $class::initialize($this);
+            if ($this->modelReflection->hasMethod('initialize')) {
+                $this->modelReflection->getMethod('initialize')->invoke(null, $this);
+            }
         }
     }
 }

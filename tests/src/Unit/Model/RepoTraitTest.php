@@ -40,16 +40,6 @@ class RepoTraitTest extends AbstractIntegrationTestCase
     }
 
     /**
-     * @covers ::initialize
-     */
-    public function testInitialize()
-    {
-        $repo = new TestRepo(__NAMESPACE__.'\Model');
-
-        AbstractModel::initialize($repo);
-    }
-
-    /**
      * @covers ::getPrimaryKey
      */
     public function testGetPrimaryKey()

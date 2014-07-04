@@ -28,16 +28,6 @@ trait RepoTrait
     }
 
     /**
-     * Override this method to initialize the model repo
-     *
-     * @param  AbstractRepo $repo
-     */
-    public static function initialize(AbstractRepo $repo)
-    {
-        return $repo;
-    }
-
-    /**
      * Get the primaryKey from the repo
      *
      * @return string
