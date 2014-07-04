@@ -413,6 +413,46 @@ class LinkManyTest extends AbstractRepoTestCase
     }
 
     /**
+     * @covers ::filter
+     */
+    public function testFilter()
+    {
+        $link = $this->getLinkMany();
+
+        $result = $link->filter(function ($item) {
+            return $item->id == 10;
+        });
+
+        $this->assertSame([$link->getFirst()], $result->toArray());
+    }
+
+    /**
+     * @covers ::map
+     */
+    public function testMap()
+    {
+        $link = $this->getLinkMany();
+
+        $result = $link->map(function ($item) {
+            return $item->id;
+        });
+
+        $this->assertSame([10, 20], $result);
+    }
+
+    /**
+     * @covers ::invoke
+     */
+    public function testInvoke()
+    {
+        $link = $this->getLinkMany();
+
+        $result = $link->invoke('getId');
+
+        $this->assertSame([10, 20], $result);
+    }
+
+    /**
      * @covers ::count
      */
     public function testCountable()

@@ -9,6 +9,7 @@ use Harp\Core\Rel\UpdateManyInterface;
 use Harp\Core\Model\AbstractModel;
 use Harp\Core\Model\Models;
 use Countable;
+use Closure;
 use Iterator;
 
 /**
@@ -245,6 +246,40 @@ class LinkMany extends AbstractLink implements Countable, Iterator
     public function has(AbstractModel $model)
     {
         return $this->current->has($model);
+    }
+
+    /**
+     * Return a new Models object with only the models that pass the filter callback
+     * (Filter callback returned true).
+     *
+     * @param  Closure $filter must return true for each item
+     * @return Models  Filtered models
+     */
+    public function filter(Closure $filter)
+    {
+        return $this->current->filter($filter);
+    }
+
+    /**
+     * Call a method on each of the models, return the results as an array
+     *
+     * @param  string $methodName
+     * @return array
+     */
+    public function invoke($methodName)
+    {
+        return $this->current->invoke($methodName);
+    }
+
+    /**
+     * Call a closure for each model, return the results as an array
+     *
+     * @param  Closure $closure
+     * @return array
+     */
+    public function map(Closure $closure)
+    {
+        return $this->current->map($closure);
     }
 
     /**
