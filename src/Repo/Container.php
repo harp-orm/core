@@ -2,8 +2,6 @@
 
 namespace Harp\Core\Repo;
 
-use LogicException;
-
 /**
  * A dependancy injection container for Repo objects
  *
@@ -22,6 +20,7 @@ class Container
     private static $repos;
 
     /**
+     * @param  string       $class
      * @return AbstractRepo
      */
     public static function get($class)
@@ -53,6 +52,6 @@ class Container
 
     public static function clear()
     {
-        self::$repos = null;
+        self::$repos = [];
     }
 }

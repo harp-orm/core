@@ -158,7 +158,8 @@ abstract class AbstractRepo
     }
 
     /**
-     * @return string
+     * @param  string $modelClass
+     * @return AbstractRepo $this
      */
     public function setModelClass($modelClass)
     {

@@ -197,7 +197,6 @@ abstract class AbstractFind
     /**
      * Apply the previously set flags
      *
-     * @param  int          $flags
      * @return AbstractFind $this
      */
     public function applyFlags()

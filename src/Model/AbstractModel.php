@@ -3,7 +3,6 @@
 namespace Harp\Core\Model;
 
 use Harp\Validate\Errors;
-use Harp\Core\Repo\Event;
 use LogicException;
 
 /**

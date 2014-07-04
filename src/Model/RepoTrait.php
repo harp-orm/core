@@ -27,22 +27,42 @@ trait RepoTrait
         return Container::get(get_called_class());
     }
 
+    /**
+     * Override this method to initialize the model repo
+     *
+     * @param  AbstractRepo $repo
+     */
     public static function initialize(AbstractRepo $repo)
     {
         return $repo;
     }
 
+    /**
+     * Get the primaryKey from the repo
+     *
+     * @return string
+     */
     public static function getPrimaryKey()
     {
         return self::getRepo()->getPrimaryKey();
     }
 
+    /**
+     * Get the nameKey from the repo
+     *
+     * @return string
+     */
     public static function getNameKey()
     {
         return self::getRepo()->getNameKey();
     }
 
-    static public function find($id, $flags = null)
+    /**
+     * @param  string|int    $id
+     * @param  int           $flags
+     * @return AbstractModel
+     */
+    public static function find($id, $flags = null)
     {
         return static::findAll()
             ->where(self::getPrimaryKey(), $id)
@@ -50,6 +70,11 @@ trait RepoTrait
             ->loadFirst();
     }
 
+    /**
+     * @param  string        $name
+     * @param  int           $flags
+     * @return AbstractModel
+     */
     public static function findByName($name, $flags = null)
     {
         return static::findAll()
@@ -58,16 +83,26 @@ trait RepoTrait
             ->loadFirst();
     }
 
+    /**
+     * Persist the model in the database
+     *
+     * @param  AbstractModel $model
+     */
     public static function save(AbstractModel $model)
     {
-        return (new Save())
+        (new Save())
             ->add($model)
             ->execute();
     }
 
+    /**
+     * Persist an array of models in the database
+     *
+     * @param  AbstractModel[] $models
+     */
     public static function saveArray(array $models)
     {
-        return (new Save())
+        (new Save())
             ->addArray($models)
             ->execute();
     }
@@ -97,7 +132,7 @@ trait RepoTrait
     /**
      * Shortcut method to Repo's loadLink
      *
-     * @param  string       $name
+     * @param  string                       $name
      * @return \Harp\Core\Repo\AbstractLink
      */
     public function getLink($name)
@@ -106,7 +141,7 @@ trait RepoTrait
     }
 
     /**
-     * @param  string $name
+     * @param  string  $name
      * @return LinkOne
      */
     public function getLinkOne($name)
@@ -123,7 +158,7 @@ trait RepoTrait
     }
 
     /**
-     * @param  string $name
+     * @param  string        $name
      * @return AbstractModel
      */
     public function get($name)
@@ -132,7 +167,7 @@ trait RepoTrait
     }
 
     /**
-     * @param string $name
+     * @param string        $name
      * @param AbstractModel $model
      */
     public function set($name, $model)
@@ -143,7 +178,7 @@ trait RepoTrait
     }
 
     /**
-     * @param  string $name
+     * @param  string   $name
      * @return LinkMany
      */
     public function all($name)

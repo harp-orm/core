@@ -12,7 +12,7 @@ namespace Harp\Core\Model;
 trait PropertiesAccessorTrait
 {
     /**
-     * @param PropertiesAccessorTrait $object
+     * @param  PropertiesAccessorTrait $object
      * @return array
      */
     public static function getPublicPropertiesOf($object)
