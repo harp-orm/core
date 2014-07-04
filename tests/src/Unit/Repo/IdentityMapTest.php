@@ -21,7 +21,7 @@ class IdentityMapTest extends AbstractRepoTestCase
      */
     public function testConstruct()
     {
-        $repo = new Repo();
+        $repo = new Repo(__NAMESPACE__.'\Model');
         $map = new IdentityMap($repo);
 
         $this->assertSame($repo, $map->getRepo());
@@ -33,7 +33,7 @@ class IdentityMapTest extends AbstractRepoTestCase
      */
     public function testGet()
     {
-        $map = Repo::get()->getIdentityMap()->clear();
+        $map = Model::getRepo()->getIdentityMap()->clear();
 
         $model1 = new Model(['id' => 1], State::SAVED);
         $model2 = new Model(['id' => 1], State::SAVED);
@@ -49,7 +49,7 @@ class IdentityMapTest extends AbstractRepoTestCase
      */
     public function testGetArray()
     {
-        $map = Repo::get()->getIdentityMap()->clear();
+        $map = Model::getRepo()->getIdentityMap()->clear();
 
         $model1 = new Model(['id' => 1], State::SAVED);
         $model2 = new Model(['id' => 2], State::SAVED);
@@ -72,7 +72,7 @@ class IdentityMapTest extends AbstractRepoTestCase
      */
     public function testHas()
     {
-        $map = Repo::get()->getIdentityMap()->clear();
+        $map = Model::getRepo()->getIdentityMap()->clear();
 
         $model = new Model(['id' => 1], State::SAVED);
 
@@ -88,7 +88,7 @@ class IdentityMapTest extends AbstractRepoTestCase
      */
     public function testClear()
     {
-        $map = Repo::get()->getIdentityMap()->clear();
+        $map = Model::getRepo()->getIdentityMap()->clear();
 
         $map->get(new Model(['id' => 1], State::SAVED));
         $this->assertCount(1, $map->getModels());

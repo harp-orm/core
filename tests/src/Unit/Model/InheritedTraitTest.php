@@ -2,7 +2,6 @@
 
 namespace Harp\Core\Test\Unit\Model;
 
-use Harp\Core\Model\InheritedTrait;
 use Harp\Core\Test\AbstractTestCase;
 
 /**
@@ -20,5 +19,9 @@ class InheritedTraitTest extends AbstractTestCase
         $model = new InheritedModel();
 
         $this->assertEquals('Harp\Core\Test\Unit\Model\InheritedModel', $model->class);
+
+        $model = new InheritedModelBad();
+
+        $this->assertNull($model->class);
     }
 }

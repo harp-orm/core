@@ -6,6 +6,7 @@ use Harp\Core\Rel\AbstractRel;
 use Harp\Core\Rel\AbstractRelMany;
 use Harp\Core\Model\Models;
 use Harp\Core\Repo\LinkMany;
+use Harp\Core\Test\Repo\TestRepo;
 use Harp\Core\Test\AbstractTestCase;
 
 /**
@@ -25,8 +26,8 @@ class AbstractRelTest extends AbstractTestCase
      */
     public function testConstruct()
     {
-        $repo1 = new Repo();
-        $repo2 = new Repo();
+        $repo1 = new TestRepo(__NAMESPACE__.'\Model');
+        $repo2 = new TestRepo(__NAMESPACE__.'\Model');
         $name = 'test name';
 
         $rel = $this->getMockForAbstractClass(
@@ -45,8 +46,8 @@ class AbstractRelTest extends AbstractTestCase
      */
     public function testLoadForeignModels()
     {
-        $repo1 = new Repo();
-        $repo2 = new Repo();
+        $repo1 = new TestRepo(__NAMESPACE__.'\Model');
+        $repo2 = new TestRepo(__NAMESPACE__.'\Model');
         $name = 'test name';
 
         $rel = $this->getMockForAbstractClass(
@@ -99,7 +100,7 @@ class AbstractRelTest extends AbstractTestCase
 
         $rel = $this->getMockForAbstractClass(
             'Harp\Core\Rel\AbstractRelMany',
-            ['test name', new Repo(), new Repo()],
+            ['test name', new TestRepo(__NAMESPACE__.'\Model'), new TestRepo(__NAMESPACE__.'\Model')],
             '',
             true,
             true,

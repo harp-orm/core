@@ -23,7 +23,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testConstruct()
     {
-        $repo = Repo::get();
+        $repo = Model::getRepo();
         $find = new Find($repo);
 
         $this->assertSame($repo, $find->getRepo());
@@ -34,7 +34,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testWhereKey()
     {
-        $find = $this->getMock(__NAMESPACE__.'\Find', ['where'], [Repo::get()]);
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['where'], [Model::getRepo()]);
 
         $find
             ->expects($this->once())
@@ -49,7 +49,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testWhereKeys()
     {
-        $find = $this->getMock(__NAMESPACE__.'\Find', ['whereIn'], [Repo::get()]);
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['whereIn'], [Model::getRepo()]);
 
         $find
             ->expects($this->once())
@@ -120,7 +120,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testFlags()
     {
-        $repo = new Repo();
+        $repo = new Repo(__NAMESPACE__.'\Model');
         $repo->setSoftDelete(true);
 
         $find = new Find($repo);
@@ -147,7 +147,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testFlagSetters()
     {
-        $repo = new Repo();
+        $repo = new Repo(__NAMESPACE__.'\Model');
         $repo->setSoftDelete(true);
 
         $find = new Find($repo);
@@ -170,7 +170,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoad()
     {
-        $repo = Repo::get();
+        $repo = Model::getRepo();
 
         $model1 = new Model(['id' => 10], State::SAVED);
         $model2 = new Model(['id' => 10], State::SAVED);
@@ -200,7 +200,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadWith()
     {
-        $repo = $this->getMock(__NAMESPACE__.'\Repo', ['loadAllRelsFor']);
+        $repo = $this->getMock(__NAMESPACE__.'\Repo', ['loadAllRelsFor'], [__NAMESPACE__.'\Model']);
         $find = $this->getMock(__NAMESPACE__.'\Find', ['load'], [$repo]);
 
         $rels = ['one' => 'many'];
@@ -227,7 +227,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadIds()
     {
-        $find = $this->getMock(__NAMESPACE__.'\Find', ['load'], [Repo::get()]);
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['load'], [Model::getRepo()]);
 
         $models = new Models([
             new Model(['id' => 4]),
@@ -252,7 +252,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadCount()
     {
-        $find = $this->getMock(__NAMESPACE__.'\Find', ['loadRaw'], [Repo::get()]);
+        $find = $this->getMock(__NAMESPACE__.'\Find', ['loadRaw'], [Model::getRepo()]);
 
         $models = [
             new Model(['id' => 4]),
@@ -276,7 +276,7 @@ class AbstractFindTest extends AbstractTestCase
      */
     public function testLoadFirst()
     {
-        $repo = new Repo();
+        $repo = new Repo(__NAMESPACE__.'\Model');
         $find = $this->getMock(__NAMESPACE__.'\Find', ['limit', 'load'], [$repo]);
 
         $model = new Model(['id' => 300, 'repo' => $repo]);

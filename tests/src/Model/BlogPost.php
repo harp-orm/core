@@ -2,7 +2,8 @@
 
 namespace Harp\Core\Test\Model;
 
-use Harp\Core\Test\Repo;
+use Harp\Core\Test\Rel;
+use Harp\Core\Repo\AbstractRepo;
 
 /**
  * @author     Ivan Kerin <ikerin@gmail.com>
@@ -11,18 +12,27 @@ use Harp\Core\Test\Repo;
  */
 class BlogPost extends Post {
 
-    const REPO = 'Harp\Core\Test\Repo\BlogPost';
+    public static function initialize(AbstractRepo $repo)
+    {
+        parent::initialize($repo);
+
+        $repo
+            ->setRootRepo(Post::getRepo())
+            ->addRels([
+                new Rel\One('address', $repo, Address::getRepo()),
+            ]);
+    }
 
     public $url;
 
     public function getAddress()
     {
-        return $this->getLinkedModel('address');
+        return $this->get('address');
     }
 
     public function setAddress(Address $address)
     {
-        $this->setLinkedModel('address', $address);
+        $this->set('address', $address);
 
         return $this;
     }

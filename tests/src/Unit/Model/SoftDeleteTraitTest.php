@@ -17,6 +17,7 @@ class SoftDeleteTraitTest extends AbstractTestCase
 {
     /**
      * @covers ::delete
+     * @covers ::initialize
      */
     public function testDelete()
     {

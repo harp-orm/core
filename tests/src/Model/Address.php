@@ -2,17 +2,24 @@
 
 namespace Harp\Core\Test\Model;
 
-use Harp\Core\Model\AbstractModel;
-use Harp\Core\Test\Repo;
+use Harp\Core\Test\Rel;
+use Harp\Core\Repo\AbstractRepo;
 
 /**
  * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-class Address extends AbstractModel {
+class Address extends AbstractTestModel {
 
-    const REPO = 'Harp\Core\Test\Repo\Address';
+    public static function initialize(AbstractRepo $repo)
+    {
+        $repo
+            ->setFile('Address.json')
+            ->addRels([
+                new Rel\One('user', $repo, User::getRepo()),
+            ]);
+    }
 
     public $id;
     public $name;
@@ -20,12 +27,12 @@ class Address extends AbstractModel {
 
     public function getUser()
     {
-        return $this->getLinkedModel('user');
+        return $this->get('user');
     }
 
-    public function setUser(Address $user)
+    public function setUser(User $user)
     {
-        $this->setLinkedModel('user', $user);
+        $this->set('user', $user);
 
         return $this;
     }

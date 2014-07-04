@@ -4,7 +4,6 @@ namespace Harp\Core\Test\Integration;
 
 use CL\EnvBackup\Env;
 use CL\EnvBackup\DirectoryParam;
-use Harp\Core\Test\Repo;
 use Harp\Core\Test\AbstractTestCase;
 use CL\PHPUnitExtensions\ConstrainArrayTrait;
 
@@ -82,11 +81,6 @@ abstract class AbstractIntegrationTestCase extends AbstractTestCase
         ]);
 
         $this->env->apply();
-
-        Repo\User::get()->getIdentityMap()->clear();
-        Repo\Address::get()->getIdentityMap()->clear();
-        Repo\Post::get()->getIdentityMap()->clear();
-        Repo\BlogPost::get()->getIdentityMap()->clear();
     }
 
     public function tearDown()

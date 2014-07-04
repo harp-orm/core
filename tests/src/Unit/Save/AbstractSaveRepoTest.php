@@ -25,7 +25,7 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         parent::setUp();
 
-        $this->repo = $this->getMock(__NAMESPACE__.'\Repo', ['findAll', 'newSave', 'loadRelFor']);
+        $this->repo = $this->getMock(__NAMESPACE__.'\Repo', ['findAll', 'loadRelFor'], [__NAMESPACE__.'\Model']);
         $this->find = $this->getMock(__NAMESPACE__.'\Find', ['where', 'limit', 'execute'], [$this->repo]);
 
         $this->repo
@@ -35,153 +35,16 @@ class AbstractSaveRepoTest extends AbstractTestCase
     }
 
     /**
-     * @covers ::find
+     * @covers ::findAll
      */
-    public function testFind()
+    public function testFindAll()
     {
-        $model = new Model();
+        $repo = Model::getRepo();
 
-        $this->find
-            ->expects($this->exactly(2))
-            ->method('where')
-            ->with($this->equalTo('id'), $this->equalTo(4))
-            ->will($this->returnSelf());
+        $find = $repo->findAll();
 
-        $this->find
-            ->expects($this->exactly(2))
-            ->method('limit')
-            ->with($this->equalTo(1))
-            ->will($this->returnSelf());
-
-        $this->find
-            ->expects($this->exactly(2))
-            ->method('execute')
-            ->will($this->onConsecutiveCalls([$model], []));
-
-        $result = $this->repo->find(4);
-        $this->assertSame($model, $result);
-
-        $result = $this->repo->find(4);
-        $this->assertInstanceOf(__NAMESPACE__.'\Model', $result);
-        $this->assertTrue($result->isVoid());
-    }
-
-    /**
-     * @covers ::findByName
-     */
-    public function testfindByName()
-    {
-        $model = new Model();
-
-        $this->find
-            ->expects($this->exactly(2))
-            ->method('where')
-            ->with($this->equalTo('name'), $this->equalTo('test'))
-            ->will($this->returnSelf());
-
-        $this->find
-            ->expects($this->exactly(2))
-            ->method('limit')
-            ->with($this->equalTo(1))
-            ->will($this->returnSelf());
-
-        $this->find
-            ->expects($this->exactly(2))
-            ->method('execute')
-            ->will($this->onConsecutiveCalls([$model], []));
-
-        $result = $this->repo->findByName('test');
-        $this->assertSame($model, $result);
-
-        $result = $this->repo->findByName('test');
-        $this->assertInstanceOf(__NAMESPACE__.'\Model', $result);
-        $this->assertTrue($result->isVoid());
-    }
-
-    /**
-     * @covers ::newSave
-     */
-    public function testNewSave()
-    {
-        $save = Repo::get()->newSave();
-
-        $this->assertInstanceOf('Harp\Core\Save\Save', $save);
-    }
-
-    /**
-     * @covers ::save
-     */
-    public function testSave()
-    {
-        $save = $this->getMock('Harp\Core\Save\Save', ['execute', 'add']);
-        $model = new Model();
-
-        $save
-            ->expects($this->once())
-            ->method('add')
-            ->with($this->identicalTo($model))
-            ->will($this->returnSelf());
-
-        $save
-            ->expects($this->once())
-            ->method('execute')
-            ->will($this->returnSelf());
-
-        $this->repo
-            ->expects($this->once())
-            ->method('newSave')
-            ->will($this->returnValue($save));
-
-        $this->repo->save($model);
-    }
-
-    /**
-     * @covers ::saveArray
-     */
-    public function testSaveArray()
-    {
-        $save = $this->getMock('Harp\Core\Save\Save', ['execute', 'addArray']);
-        $models = [new Model()];
-
-        $save
-            ->expects($this->once())
-            ->method('addArray')
-            ->with($this->identicalTo($models))
-            ->will($this->returnSelf());
-
-        $save
-            ->expects($this->once())
-            ->method('execute')
-            ->will($this->returnSelf());
-
-        $this->repo
-            ->expects($this->once())
-            ->method('newSave')
-            ->will($this->returnValue($save));
-
-        $this->repo->saveArray($models);
-    }
-
-    /**
-     * @covers ::save
-     * @expectedException InvalidArgumentException
-     */
-    public function testSaveOtherModel()
-    {
-        $otherModel = new SoftDeleteModel();
-
-        $this->repo->save($otherModel);
-    }
-
-    /**
-     * @covers ::saveArray
-     * @expectedException InvalidArgumentException
-     */
-    public function testSaveArrayOtherModel()
-    {
-        $models = [new Model(), new SoftDeleteModel()];
-
-        $this->repo->saveArray($models);
+        $this->assertInstanceOf('Harp\Core\Test\Repo\Find', $find);
+        $this->assertSame($repo, $find->getRepo());
     }
 
     /**
@@ -192,11 +55,11 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         $model = new Model();
         $foreign = new Model();
-        $link = new LinkOne($model, Repo::get()->getRel('one'), $foreign);
+        $link = new LinkOne($model, Model::getRepo()->getRel('one'), $foreign);
 
-        Repo::get()->addLink($link);
+        Model::getRepo()->addLink($link);
 
-        $this->assertSame($link, Repo::get()->loadLink($model, 'one'));
+        $this->assertSame($link, Model::getRepo()->loadLink($model, 'one'));
     }
 
     /**
@@ -224,16 +87,16 @@ class AbstractSaveRepoTest extends AbstractTestCase
         $this->repo->loadLink($model, 'test', State::DELETED);
     }
 
-
     /**
      * @covers ::loadRelFor
      */
     public function testLoadRelFor()
     {
-        $repo = new Repo();
+        $repo = new Repo(__NAMESPACE__.'\Model');
+        Model::$repo = $repo;
 
-        $modelsSource = [new Model(['repo' => $repo]), new Model(['repo' => $repo])];
-        $foreignSource = [new Model(['repo' => $repo]), new Model(['repo' => $repo])];
+        $modelsSource = [new Model(), new Model()];
+        $foreignSource = [new Model(), new Model()];
 
         $models = new Models($modelsSource);
         $foreign = new Models($foreignSource);
@@ -273,6 +136,8 @@ class AbstractSaveRepoTest extends AbstractTestCase
 
         $this->assertSame($foreignSource[0], $link1->get());
         $this->assertSame($foreignSource[1], $link2->get());
+
+        Model::$repo = null;
     }
 
     /**
@@ -280,9 +145,9 @@ class AbstractSaveRepoTest extends AbstractTestCase
      */
     public function testLoadAllRelsFor()
     {
-        $repo1 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor']);
-        $repo2 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor']);
-        $repo3 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor']);
+        $repo1 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor'], [__NAMESPACE__.'\Model']);
+        $repo2 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor'], [__NAMESPACE__.'\Model']);
+        $repo3 = $this->getMock(__NAMESPACE__.'\Repo', ['loadRelFor'], [__NAMESPACE__.'\Model']);
 
         $repo1->addRel(new RelOne('one', $repo1, $repo2));
         $repo2->addRel(new RelMany('many', $repo2, $repo3));
@@ -313,7 +178,8 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         $repo = $this->getMock(
             __NAMESPACE__.'\Repo',
-            ['update', 'dispatchBeforeEvent', 'dispatchAfterEvent']
+            ['update', 'dispatchBeforeEvent', 'dispatchAfterEvent'],
+            [__NAMESPACE__.'\Model']
         );
 
         $models = [
@@ -368,7 +234,8 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         $repo = $this->getMock(
             __NAMESPACE__.'\Repo',
-            ['delete', 'dispatchBeforeEvent', 'dispatchAfterEvent']
+            ['delete', 'dispatchBeforeEvent', 'dispatchAfterEvent'],
+            [__NAMESPACE__.'\Model']
         );
 
         $models = [new Model(null, State::DELETED), new Model(null, State::DELETED)];
@@ -409,7 +276,8 @@ class AbstractSaveRepoTest extends AbstractTestCase
     {
         $repo = $this->getMock(
             __NAMESPACE__.'\Repo',
-            ['insert', 'dispatchBeforeEvent', 'dispatchAfterEvent']
+            ['insert', 'dispatchBeforeEvent', 'dispatchAfterEvent'],
+            [__NAMESPACE__.'\Model']
         );
 
         $models = [new Model(), new Model()];

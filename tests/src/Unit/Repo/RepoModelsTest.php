@@ -22,7 +22,7 @@ class ModelsTest extends AbstractTestCase
     public function testConstruct()
     {
         $source = [new Model(), new Model()];
-        $repo = Repo::get();
+        $repo = Model::getRepo();
 
         $models = new RepoModels($repo, $source);
 
@@ -36,12 +36,12 @@ class ModelsTest extends AbstractTestCase
     public function testClone()
     {
         $source = [new Model(), new Model()];
-        $models = new RepoModels(Repo::get(), $source);
+        $models = new RepoModels(Model::getRepo(), $source);
 
         $clone = clone $models;
 
         $this->assertSame($source, $clone->toArray());
-        $this->assertSame(Repo::get(), $clone->getRepo());
+        $this->assertSame(Model::getRepo(), $clone->getRepo());
         $this->assertEquals($models->all(), $clone->all());
         $this->assertNotSame($models->all(), $clone->all());
     }
@@ -54,7 +54,7 @@ class ModelsTest extends AbstractTestCase
         $model1 = new Model();
         $model2 = new Model();
 
-        $models = new RepoModels(Repo::get(), [$model1, $model2]);
+        $models = new RepoModels(Model::getRepo(), [$model1, $model2]);
 
         $this->assertSame($model1, $models->getFirst());
 
@@ -75,7 +75,7 @@ class ModelsTest extends AbstractTestCase
         $model2 = new Model();
         $model3 = new Model();
 
-        $models = new RepoModels(Repo::get(), [$model1, $model2, $model3]);
+        $models = new RepoModels(Model::getRepo(), [$model1, $model2, $model3]);
 
         $models->getFirst();
 
@@ -94,7 +94,7 @@ class ModelsTest extends AbstractTestCase
      */
     public function testAdd()
     {
-        $models = new RepoModels(Repo::get());
+        $models = new RepoModels(Model::getRepo());
 
         $model = new Model();
 
@@ -109,7 +109,7 @@ class ModelsTest extends AbstractTestCase
      */
     public function testAddInvalid()
     {
-        $models = new RepoModels(RepoOther::get());
+        $models = new RepoModels(ModelOther::getRepo());
 
         $models->add(new Model());
     }

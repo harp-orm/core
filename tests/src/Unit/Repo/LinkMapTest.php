@@ -23,11 +23,11 @@ class LinkMapTest extends AbstractRepoTestCase
      */
     public function testTest()
     {
-        $map = new LinkMap(Repo::get());
+        $map = new LinkMap(Model::getRepo());
         $model = new Model();
 
         $this->assertFalse($map->has($model));
-        $this->assertSame(Repo::get(), $map->getRepo());
+        $this->assertSame(Model::getRepo(), $map->getRepo());
         $this->assertTrue($map->isEmpty($model));
 
         $links = $map->get($model);
@@ -54,9 +54,9 @@ class LinkMapTest extends AbstractRepoTestCase
     {
         $model = new Model();
         $foreign = new Model();
-        $link = new LinkOne($model, new RelOne('one', Repo::get(), Repo::get()), $foreign);
+        $link = new LinkOne($model, new RelOne('one', Model::getRepo(), Model::getRepo()), $foreign);
 
-        $map = new LinkMap(Repo::get());
+        $map = new LinkMap(Model::getRepo());
 
         $map->addLink($link);
 
@@ -69,7 +69,7 @@ class LinkMapTest extends AbstractRepoTestCase
      */
     public function testInvalidModel()
     {
-        $map = new LinkMap(Repo::get());
+        $map = new LinkMap(Model::getRepo());
         $model = new ModelOther();
 
         $map->get($model);

@@ -104,13 +104,13 @@ class SaveTest extends AbstractTestCase
             new Model(),
         ];
 
-        $link1 = new LinkOne($models[0], Repo::get()->getRel('one'), $models[1]);
+        $link1 = new LinkOne($models[0], Model::getRepo()->getRel('one'), $models[1]);
         $link1->set($models[5]);
-        $link2 = new LinkMany($models[1], Repo::get()->getRel('many'), [$models[2], $models[3]]);
+        $link2 = new LinkMany($models[1], Model::getRepo()->getRel('many'), [$models[2], $models[3]]);
         $link2->remove($models[3]);
         $link2->add($models[4]);
 
-        Repo::get()
+        Model::getRepo()
             ->addLink($link1)
             ->addLink($link2);
 
@@ -199,10 +199,10 @@ class SaveTest extends AbstractTestCase
         $model2 = new Model();
         $model3 = new Model();
 
-        $link1 = new LinkOne($model1, Repo::get()->getRel('one'), $model2);
-        $link2 = new LinkMany($model2, Repo::get()->getRel('many'), []);
+        $link1 = new LinkOne($model1, Model::getRepo()->getRel('one'), $model2);
+        $link2 = new LinkMany($model2, Model::getRepo()->getRel('many'), []);
 
-        Repo::get()
+        Model::getRepo()
             ->addLink($link1)
             ->addLink($link2);
 
@@ -254,14 +254,14 @@ class SaveTest extends AbstractTestCase
         $rel1 = $this->getMock(
             __NAMESPACE__.'\RelOne',
             [$method],
-            ['test', Repo::get(), Repo::get()]
+            ['test', Model::getRepo(), Model::getRepo()]
         );
-        $rel2 = Repo::get()->getRel('one');
+        $rel2 = Model::getRepo()->getRel('one');
 
         $link1 = new LinkOne($model1, $rel1, $model3);
         $link2 = new LinkOne($model2, $rel2, $model4);
 
-        Repo::get()
+        Model::getRepo()
             ->addRels([$rel1])
             ->addLink($link1)
             ->addLink($link2);
@@ -290,7 +290,8 @@ class SaveTest extends AbstractTestCase
 
         $repo1 = $this->getMock(
             __NAMESPACE__.'\Repo',
-            ['deleteModels', 'insertModels', 'updateModels', 'get']
+            ['deleteModels', 'insertModels', 'updateModels', 'get'],
+            [__NAMESPACE__.'\Model']
         );
 
         $repo1
@@ -299,8 +300,9 @@ class SaveTest extends AbstractTestCase
             ->will($this->returnValue($repo1));
 
         $repo2 = $this->getMock(
-            __NAMESPACE__.'\SoftDeleteRepo',
-            ['deleteModels', 'insertModels', 'updateModels', 'get']
+            __NAMESPACE__.'\Repo',
+            ['deleteModels', 'insertModels', 'updateModels', 'get'],
+            [__NAMESPACE__.'\SoftDeleteModel']
         );
 
         $repo2
@@ -308,16 +310,19 @@ class SaveTest extends AbstractTestCase
             ->method('get')
             ->will($this->returnValue($repo2));
 
+        Model::$repo = $repo1;
+        SoftDeleteModel::$repo = $repo2;
+
         $models = [
-            1 => (new Model(['id' => 1, 'repo' => $repo1], State::SAVED))->setProperties(['name' => 'changed']),
-            2 => new Model(['id' => 2, 'repo' => $repo1], State::VOID),
-            3 => new Model(['id' => 3, 'repo' => $repo1], State::PENDING),
-            4 => new Model(['id' => 4, 'repo' => $repo1], State::DELETED),
-            5 => (new SoftDeleteModel(['id' => 5, 'repo' => $repo2], State::DELETED))->setProperties(['deletedAt' => time()]),
-            6 => new SoftDeleteModel(['id' => 6, 'repo' => $repo2], State::SAVED),
-            7 => new SoftDeleteModel(['id' => 7, 'repo' => $repo2], State::PENDING),
-            8 => new SoftDeleteModel(['id' => 8, 'repo' => $repo2], State::DELETED),
-            9 => (new SoftDeleteModel(['id' => 9, 'repo' => $repo2], State::SAVED))->setProperties(['name' => 'changed']),
+            1 => (new Model(['id' => 1], State::SAVED))->setProperties(['name' => 'changed']),
+            2 => new Model(['id' => 2], State::VOID),
+            3 => new Model(['id' => 3], State::PENDING),
+            4 => new Model(['id' => 4], State::DELETED),
+            5 => (new SoftDeleteModel(['id' => 5], State::DELETED))->setProperties(['deletedAt' => time()]),
+            6 => new SoftDeleteModel(['id' => 6], State::SAVED),
+            7 => new SoftDeleteModel(['id' => 7], State::PENDING),
+            8 => new SoftDeleteModel(['id' => 8], State::DELETED),
+            9 => (new SoftDeleteModel(['id' => 9], State::SAVED))->setProperties(['name' => 'changed']),
         ];
 
         $save = new Save();

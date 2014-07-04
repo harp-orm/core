@@ -2,7 +2,8 @@
 
 namespace Harp\Core\Test\Unit\Save;
 
-use Harp\Core\Model\AbstractModel;
+use Harp\Core\Test\Model\AbstractTestModel;
+use Harp\Core\Repo\AbstractRepo;
 use Harp\Core\Model\SoftDeleteTrait;
 
 /**
@@ -10,18 +11,28 @@ use Harp\Core\Model\SoftDeleteTrait;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-class SoftDeleteModel extends AbstractModel
+class SoftDeleteModel extends AbstractTestModel
 {
-    const REPO = 'Harp\Core\Test\Unit\Save\SoftDeleteRepo';
-
     use SoftDeleteTrait;
+
+    public static function initialize(AbstractRepo $repo)
+    {
+        SoftDeleteTrait::initialize($repo);
+
+        $repo
+            ->addRels([
+                new RelOne('one', $repo, Model::getRepo()),
+                new RelMany('many', $repo, Model::getRepo()),
+            ]);
+    }
+
 
     public $id;
     public $name = 'test';
-    public $repo;
+    public static $repo;
 
-    public function getRepo()
+    public static function getRepo()
     {
-        return $this->repo ?: parent::getRepo();
+        return self::$repo ?: parent::getRepo();
     }
 }

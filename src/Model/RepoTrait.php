@@ -5,6 +5,8 @@ namespace Harp\Core\Model;
 use Harp\Core\Repo\AbstractRepo;
 use Harp\Core\Repo\LinkOne;
 use Harp\Core\Repo\LinkMany;
+use Harp\Core\Repo\Container;
+use Harp\Core\Save\Save;
 use LogicException;
 
 /**
@@ -15,68 +17,59 @@ use LogicException;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-trait RepoConnectionTrait
+trait RepoTrait
 {
     /**
      * @return AbstractRepo
      */
-    public static function getRepoStatic()
+    public static function getRepo()
     {
-        return AbstractRepo::getInstance(static::REPO);
+        return Container::get(get_called_class());
     }
 
-    /**
-     * @return AbstractRepo
-     */
-    public function getRepo()
+    public static function initialize(AbstractRepo $repo)
     {
-        return AbstractRepo::getInstance(static::REPO);
+        return $repo;
     }
 
-    /**
-     * @param  mixed $id
-     * @param  int   $flags
-     * @return AbstractModel
-     */
-    public static function find($id, $flags = null)
+    public static function getPrimaryKey()
     {
-        return static::getRepoStatic()->find($id, $flags);
+        return self::getRepo()->getPrimaryKey();
     }
 
-    /**
-     * @param  string $name
-     * @param  int    $flags
-     * @return AbstractModel
-     */
+    public static function getNameKey()
+    {
+        return self::getRepo()->getNameKey();
+    }
+
+    static public function find($id, $flags = null)
+    {
+        return static::findAll()
+            ->where(self::getPrimaryKey(), $id)
+            ->setFlags($flags)
+            ->loadFirst();
+    }
+
     public static function findByName($name, $flags = null)
     {
-        return static::getRepoStatic()->findByName($name, $flags);
+        return static::findAll()
+            ->where(self::getNameKey(), $name)
+            ->setFlags($flags)
+            ->loadFirst();
     }
 
-    /**
-     * @return \Harp\Core\Save\AbstractFind
-     */
-    public static function findAll()
-    {
-        return static::getRepoStatic()->findAll();
-    }
-
-    /**
-     * @param  AbstractModel $model
-     * @return AbstractRepo
-     */
     public static function save(AbstractModel $model)
     {
-        return static::getRepoStatic()->save($model);
+        return (new Save())
+            ->add($model)
+            ->execute();
     }
 
-    /**
-     * @param  AbstractModel[] $models
-     * @return AbstractRepo
-     */
     public static function saveArray(array $models)
     {
-        return static::getRepoStatic()->saveArray($models);
+        return (new Save())
+            ->addArray($models)
+            ->execute();
     }
 
     /**
@@ -86,7 +79,7 @@ trait RepoConnectionTrait
      */
     public function getId()
     {
-        return $this->{$this->getRepo()->getPrimaryKey()};
+        return $this->{self::getPrimaryKey()};
     }
 
     /**
@@ -96,7 +89,7 @@ trait RepoConnectionTrait
      */
     public function setId($id)
     {
-        $this->{$this->getRepo()->getPrimaryKey()} = $id;
+        $this->{self::getPrimaryKey()} = $id;
 
         return $this;
     }
@@ -109,7 +102,7 @@ trait RepoConnectionTrait
      */
     public function getLink($name)
     {
-        return $this->getRepo()->loadLink($this, $name);
+        return self::getRepo()->loadLink($this, $name);
     }
 
     /**
@@ -133,7 +126,7 @@ trait RepoConnectionTrait
      * @param  string $name
      * @return AbstractModel
      */
-    public function getLinkedModel($name)
+    public function get($name)
     {
         return $this->getLinkOne($name)->get();
     }
@@ -142,7 +135,7 @@ trait RepoConnectionTrait
      * @param string $name
      * @param AbstractModel $model
      */
-    public function setLinkedModel($name, $model)
+    public function set($name, $model)
     {
         $this->getLinkOne($name)->set($model);
 
@@ -153,7 +146,7 @@ trait RepoConnectionTrait
      * @param  string $name
      * @return LinkMany
      */
-    public function getLinkMany($name)
+    public function all($name)
     {
         $link = $this->getLink($name);
 

@@ -13,17 +13,6 @@ use BadMethodCallException;
  */
 class RepoOther extends AbstractRepo
 {
-    public function initialize()
-    {
-        $this
-            ->setModelClass(__NAMESPACE__.'\ModelOther');
-    }
-
-    public function findAll()
-    {
-        throw new BadMethodCallException('Test Repo: cannot call findAll');
-    }
-
     public function update(Models $models)
     {
         throw new BadMethodCallException('Test Repo: cannot call update');

@@ -3,6 +3,7 @@
 namespace Harp\Core\Test\Unit\Rel;
 
 use Harp\Core\Test\AbstractTestCase;
+use Harp\Core\Test\Repo\TestRepo;
 use Harp\Core\Repo\LinkOne;
 use Harp\Core\Model\Models;
 use Harp\Util\Objects;
@@ -21,7 +22,7 @@ class AbstractRelOneTest extends AbstractTestCase
     {
         return $this->getMockForAbstractClass(
             'Harp\Core\Rel\AbstractRelOne',
-            ['test name', new Repo(), new Repo()]
+            ['test name', new TestRepo(__NAMESPACE__.'\Model'), new TestRepo(__NAMESPACE__.'\Model')]
         );
     }
 

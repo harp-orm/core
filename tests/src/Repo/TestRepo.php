@@ -10,7 +10,7 @@ use Harp\Core\Model\Models;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-abstract class AbstractTestRepo extends AbstractSaveRepo
+class TestRepo extends AbstractSaveRepo
 {
     private $file;
 
@@ -24,11 +24,6 @@ abstract class AbstractTestRepo extends AbstractSaveRepo
         $this->file = __DIR__.'/../../repos/'.$file;
 
         return $this;
-    }
-
-    public function findAll()
-    {
-        return new Find($this);
     }
 
     public function getContents()

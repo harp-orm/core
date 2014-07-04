@@ -20,12 +20,12 @@ use LogicException;
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-abstract class AbstractModel
+abstract class AbstractModel implements RepoInterface
 {
     use DirtyTrackingTrait;
     use UnmappedPropertiesTrait;
     use PropertiesAccessorTrait;
-    use RepoConnectionTrait;
+    use RepoTrait;
 
     /**
      * @var int

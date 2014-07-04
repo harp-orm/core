@@ -13,26 +13,6 @@ use BadMethodCallException;
  */
 class Repo extends AbstractRepo
 {
-    use Repo1Trait;
-    use Repo2Trait;
-
-    public function initialize()
-    {
-        $this
-            ->setModelClass(__NAMESPACE__.'\Model')
-            ->setInherited(true);
-
-        $this->initializeCalled = true;
-
-        $this->initialize1Trait();
-        $this->initialize2Trait();
-    }
-
-    public $test;
-    public $initializeCalled = false;
-    public $initialize1TraitCalled = false;
-    public $initialize2TraitCalled = false;
-
     public function findAll()
     {
         throw new BadMethodCallException('Test Repo: cannot call findAll');
