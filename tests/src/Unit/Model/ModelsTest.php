@@ -286,8 +286,8 @@ class ModelsTest extends AbstractTestCase
         $models = new Models($source);
 
         $expected = [
-            [Repo::get(), [$source[0], $source[1], $source[3]]],
-            [SoftDeleteRepo::get(), [$source[2], $source[4]]],
+            [Model::getRepo(), [$source[0], $source[1], $source[3]]],
+            [SoftDeleteModel::getRepo(), [$source[2], $source[4]]],
         ];
 
         $i = 0;

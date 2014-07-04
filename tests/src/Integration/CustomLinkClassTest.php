@@ -21,6 +21,6 @@ class CustomLinkClassTest extends AbstractIntegrationTestCase
 
         $posts = $user1->getPosts();
 
-        $this->assertInstanceOf('Harp\Core\Test\Repo\LinkManyPosts', $posts);
+        $this->assertInstanceOf('Harp\Core\Test\Model\LinkManyPosts', $posts);
     }
 }

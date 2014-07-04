@@ -29,40 +29,6 @@ use InvalidArgumentException;
 abstract class AbstractRepo
 {
     /**
-     * Holds all the singleton repo instances.
-     * Use the name of the class as array key.
-     *
-     * @var array
-     */
-    private static $instances;
-
-    /**
-     * Implement singleton pattern for repos.
-     *
-     * @return AbstractRepo
-     */
-    public static function get()
-    {
-        return self::getInstance(get_called_class());
-    }
-
-    /**
-     * Get a new singleton repo for a class name
-     * @param  string $class
-     * @return AbstractRepo
-     */
-    public static function getInstance($class)
-    {
-        if (! isset(self::$instances[$class])) {
-            self::$instances[$class] = new $class();
-        }
-
-        return self::$instances[$class];
-    }
-
-    abstract public function initialize();
-
-    /**
      * @var string
      */
     private $name;
@@ -136,6 +102,20 @@ abstract class AbstractRepo
      * @var AbstractRepo
      */
     private $rootRepo;
+
+    public function __construct($class)
+    {
+        $this->modelClass = $class;
+        $this->modelReflection = new ReflectionClass($class);
+        $this->eventListeners = new EventListeners();
+        $this->serializers = new Serializers();
+        $this->asserts = new Asserts();
+        $this->identityMap = new IdentityMap($this);
+        $this->linkMap = new LinkMap($this);
+
+        $class = explode('\\', $class);
+        $this->name = end($class);
+    }
 
     /**
      * @return string
@@ -576,35 +556,6 @@ abstract class AbstractRepo
     }
 
     /**
-     * This is a distinct method so it can be easily extended
-     */
-    public function beforeInitialize()
-    {
-        $this->eventListeners = new EventListeners();
-        $this->serializers = new Serializers();
-        $this->asserts = new Asserts();
-        $this->identityMap = new IdentityMap($this);
-        $this->linkMap = new LinkMap($this);
-
-        $class = explode('\\', get_class($this));
-        $this->name = end($class);
-    }
-
-    /**
-     * This is a distinct method so it can be easily extended
-     */
-    public function afterInitialize()
-    {
-        if (! $this->modelClass) {
-            throw new LogicException(
-                sprintf('Repo %s did not set modelClass', get_class($this))
-            );
-        }
-
-        $this->modelReflection = new ReflectionClass($this->modelClass);
-    }
-
-    /**
      * Call "initialize" method only once,
      * this is determined by the "initialized" property.
      */
@@ -613,9 +564,8 @@ abstract class AbstractRepo
         if (! $this->initialized) {
             $this->initialized = true;
 
-            $this->beforeInitialize();
-            $this->initialize();
-            $this->afterInitialize();
+            $class = $this->modelClass;
+            $class::initialize($this);
         }
     }
 }

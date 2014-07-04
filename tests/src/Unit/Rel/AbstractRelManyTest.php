@@ -3,6 +3,7 @@
 namespace Harp\Core\Test\Unit\Rel;
 
 use Harp\Core\Rel\AbstractRelMany;
+use Harp\Core\Test\Repo\TestRepo;
 use Harp\Core\Repo\LinkMany;
 use Harp\Core\Test\AbstractTestCase;
 use Harp\Core\Model\Models;
@@ -21,7 +22,7 @@ class AbstractRelManyTest extends AbstractTestCase
     {
         return $this->getMockForAbstractClass(
             'Harp\Core\Rel\AbstractRelMany',
-            ['test name', new Repo(), new Repo()]
+            ['test name', new TestRepo(__NAMESPACE__.'\Model'), new TestRepo(__NAMESPACE__.'\Model')]
         );
     }
 

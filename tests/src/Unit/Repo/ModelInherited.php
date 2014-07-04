@@ -2,6 +2,9 @@
 
 namespace Harp\Core\Test\Unit\Repo;
 
+use Harp\Core\Model\InheritedTrait;
+use Harp\Core\Repo\AbstractRepo;
+
 /**
  * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
@@ -9,5 +12,11 @@ namespace Harp\Core\Test\Unit\Repo;
  */
 class ModelInherited extends Model
 {
-    const REPO = 'Harp\Core\Test\Unit\Repo\RepoInherited';
+    public static function initialize(AbstractRepo $repo)
+    {
+        parent::initialize($repo);
+
+        $repo
+            ->setRootRepo(Model::getRepo());
+    }
 }

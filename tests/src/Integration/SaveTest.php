@@ -38,11 +38,7 @@ class SaveTest extends AbstractIntegrationTestCase
 
         $user3 = new Model\User(['name' => 'new name', 'password' => 'test']);
 
-        (new Save())
-            ->add($user1)
-            ->add($user2)
-            ->execute();
-
+        Model\User::saveArray([$user1, $user2]);
         Model\Address::save($address);
 
         $expectedAddressContent = [
@@ -63,7 +59,7 @@ class SaveTest extends AbstractIntegrationTestCase
             ],
         ];
 
-        $this->assertEquals($expectedAddressContent, Repo\Address::get()->getContents());
+        $this->assertEquals($expectedAddressContent, Model\Address::getRepo()->getContents());
 
         $expectedPostContent = [
             1 => [
@@ -98,9 +94,9 @@ class SaveTest extends AbstractIntegrationTestCase
             ],
         ];
 
-        $this->assertEquals($expectedPostContent, Repo\Post::get()->getContents());
+        $this->assertEquals($expectedPostContent, Model\Post::getRepo()->getContents());
 
-        $contents = Repo\User::get()->getContents();
+        $contents = Model\User::getRepo()->getContents();
 
         $this->assertArrayConstrained(
             [

@@ -2,23 +2,32 @@
 
 namespace Harp\Core\Test\Unit\Save;
 
-use Harp\Core\Model\AbstractModel;
+use Harp\Core\Test\Model\AbstractTestModel;
+use Harp\Core\Repo\AbstractRepo;
 
 /**
  * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-class Model extends AbstractModel
+class Model extends AbstractTestModel
 {
-    const REPO = 'Harp\Core\Test\Unit\Save\Repo';
+    public static function initialize(AbstractRepo $repo)
+    {
+        $repo
+            ->addRels([
+                new RelOne('one', $repo, Model::getRepo()),
+                new RelMany('many', $repo, Model::getRepo()),
+            ]);
+    }
 
     public $id;
     public $name = 'test';
-    public $repo;
 
-    public function getRepo()
+    public static $repo;
+
+    public static function getRepo()
     {
-        return $this->repo ?: parent::getRepo();
+        return self::$repo ?: parent::getRepo();
     }
 }

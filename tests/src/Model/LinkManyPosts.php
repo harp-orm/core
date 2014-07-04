@@ -1,6 +1,6 @@
 <?php
 
-namespace Harp\Core\Test\Repo;
+namespace Harp\Core\Test\Model;
 
 use Harp\Core\Repo\LinkMany;
 

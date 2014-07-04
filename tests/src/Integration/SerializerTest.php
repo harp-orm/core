@@ -27,7 +27,7 @@ class SerializerTest extends AbstractIntegrationTestCase
 
         Model\User::save($user);
 
-        $contents = Repo\User::get()->getContents();
+        $contents = Model\User::getRepo()->getContents();
 
         $this->assertEquals('{"firstName":"new","lastName":"user"}', $contents[1]['profile']);
     }

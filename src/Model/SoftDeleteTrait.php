@@ -2,6 +2,8 @@
 
 namespace Harp\Core\Model;
 
+use Harp\Core\Repo\AbstractRepo;
+
 /**
  * Add deletedAt property and methods to work with soft deletion.
  * Also overrides several getDefaultState, delete, isSoftDeleted to return appropriate values,
@@ -14,6 +16,11 @@ namespace Harp\Core\Model;
  */
 trait SoftDeleteTrait
 {
+    public static function initialize(AbstractRepo $repo)
+    {
+        $repo->setSoftDelete(true);
+    }
+
     /**
      * @param int $state
      */

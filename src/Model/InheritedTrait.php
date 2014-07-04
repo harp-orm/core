@@ -2,7 +2,7 @@
 
 namespace Harp\Core\Model;
 
-use LogicException;
+use Harp\Core\Repo\AbstractRepo;
 
 /**
  * Add class property and methods to work with inheritence.
@@ -14,10 +14,10 @@ use LogicException;
  */
 trait InheritedTrait
 {
-    /**
-     * @return \Harp\Core\Repo\AbstractRepo
-     */
-    abstract public function getRepo();
+    public static function initialize(AbstractRepo $repo)
+    {
+        $repo->setInherited(true);
+    }
 
     /**
      * @var string

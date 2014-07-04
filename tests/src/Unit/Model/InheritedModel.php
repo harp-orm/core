@@ -2,17 +2,21 @@
 
 namespace Harp\Core\Test\Unit\Model;
 
-use Harp\Core\Model\AbstractModel;
+use Harp\Core\Repo\AbstractRepo;
 use Harp\Core\Model\InheritedTrait;
+use Harp\Core\Test\Model\AbstractTestModel;
 
 /**
  * @author     Ivan Kerin <ikerin@gmail.com>
  * @copyright  (c) 2014 Clippings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-class InheritedModel extends AbstractModel
+class InheritedModel extends AbstractTestModel
 {
-    const REPO = 'Harp\Core\Test\Unit\Model\InheritedRepo';
-
     use InheritedTrait;
+
+    public static function initialize(AbstractRepo $repo)
+    {
+        InheritedTrait::initialize($repo);
+    }
 }

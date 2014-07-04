@@ -22,11 +22,6 @@ use InvalidArgumentException;
 abstract class AbstractSaveRepo extends AbstractRepo
 {
     /**
-     * @return AbstractFind
-     */
-    abstract public function findAll();
-
-    /**
      * @param  Models           $models
      * @return AbstractSaveRepo $this
      */
@@ -44,83 +39,11 @@ abstract class AbstractSaveRepo extends AbstractRepo
      */
     abstract public function insert(Models $models);
 
-    /**
-     * Find a model with a given ID, or return a void model if none is found
-     *
-     * @param  string|id     $id
-     * @return AbstractModel
-     */
-    public function find($id, $flags = null)
+    public function findAll()
     {
-        return $this
-            ->findAll()
-            ->where($this->getPrimaryKey(), $id)
-            ->setFlags($flags)
-            ->loadFirst();
-    }
+        $class = $this->getModelClass();
 
-    /**
-     * Find a model by its name key, or return a void model if none is found
-     *
-     * @param  string        $name
-     * @param  int           $flags
-     * @return AbstractModel
-     */
-    public function findByName($name, $flags = null)
-    {
-        return $this
-            ->findAll()
-            ->where($this->getNameKey(), $name)
-            ->setFlags($flags)
-            ->loadFirst();
-    }
-
-    /**
-     * Return a new "save" object so models from multiple repos can be saved simultaneously
-     *
-     * @return Save
-     */
-    public function newSave()
-    {
-        return new Save();
-    }
-
-    /**
-     * Save the model using a Save object. This will save all the linked models as well
-     *
-     * @param  AbstractModel            $model
-     * @return AbstractSaveRepo         $this
-     * @throws InvalidArgumentException If $model does not belong to repo
-     */
-    public function save(AbstractModel $model)
-    {
-        $this->assertModel($model);
-
-        $this->newSave()
-            ->add($model)
-            ->execute();
-
-        return $this;
-    }
-
-    /**
-     * Save the models using a Save object. This will save all the linked models as well
-     *
-     * @param  AbstractModel[]          $models
-     * @return AbstractSaveRepo         $this
-     * @throws InvalidArgumentException If one of $models does not belong to repo
-     */
-    public function saveArray(array $models)
-    {
-        foreach ($models as $model) {
-            $this->assertModel($model);
-        }
-
-        $this->newSave()
-            ->addArray($models)
-            ->execute();
-
-        return $this;
+        return $class::findAll();
     }
 
     /**

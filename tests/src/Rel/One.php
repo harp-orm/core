@@ -2,7 +2,7 @@
 
 namespace Harp\Core\Test\Rel;
 
-use Harp\Core\Test\Repo\AbstractTestRepo;
+use Harp\Core\Test\Repo\TestRepo;
 use Harp\Core\Rel\AbstractRelOne;
 use Harp\Core\Rel\UpdateOneInterface;
 use Harp\Core\Model\AbstractModel;
@@ -18,7 +18,7 @@ class One extends AbstractRelOne implements UpdateOneInterface
 {
     private $key;
 
-    public function __construct($name, AbstractTestRepo $repo, AbstractTestRepo $foreignRepo, array $options = array())
+    public function __construct($name, TestRepo $repo, TestRepo $foreignRepo, array $options = array())
     {
         $this->key = lcfirst($foreignRepo->getName()).'Id';
 

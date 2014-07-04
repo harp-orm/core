@@ -13,21 +13,6 @@ use BadMethodCallException;
  */
 class Repo extends AbstractSaveRepo
 {
-    public function initialize()
-    {
-        $this
-            ->setModelClass(__NAMESPACE__.'\Model')
-            ->addRels([
-                new RelOne('one', $this, Repo::get()),
-                new RelMany('many', $this, Repo::get()),
-            ]);
-    }
-
-    public function findAll()
-    {
-        throw new BadMethodCallException('Test Repo: cannot call findAll');
-    }
-
     public function update(Models $models)
     {
         throw new BadMethodCallException('Test Repo: cannot call update');
