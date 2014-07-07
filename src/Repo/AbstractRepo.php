@@ -488,7 +488,7 @@ abstract class AbstractRepo
 
     /**
      * @param  AbstractModel $model
-     * @return AbstractRepo $this
+     * @return AbstractRepo  $this
      */
     public function initializeModel(AbstractModel $model)
     {

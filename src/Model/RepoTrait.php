@@ -76,7 +76,7 @@ trait RepoTrait
     /**
      * Persist the model in the database
      *
-     * @param  AbstractModel $model
+     * @param AbstractModel $model
      */
     public static function save(AbstractModel $model)
     {
@@ -88,7 +88,7 @@ trait RepoTrait
     /**
      * Persist an array of models in the database
      *
-     * @param  AbstractModel[] $models
+     * @param AbstractModel[] $models
      */
     public static function saveArray(array $models)
     {
