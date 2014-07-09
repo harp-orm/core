@@ -160,7 +160,7 @@ trait RepoTrait
      * @param string        $name
      * @param AbstractModel $model
      */
-    public function set($name, $model)
+    public function set($name, AbstractModel $model)
     {
         $this->getLinkOne($name)->set($model);
 
